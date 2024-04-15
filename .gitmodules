@@ -1,0 +1,186 @@
+[submodule "packages/s"]
+	path = packages/s
+	url = https://github.com/magnars/s.el.git
+[submodule "packages/f"]
+	path = packages/f
+	url = https://github.com/rejeep/f.el.git
+[submodule "packages/evil"]
+	path = packages/evil
+	url = https://github.com/emacs-evil/evil.git
+[submodule "packages/evil-collection"]
+	path = packages/evil-collection
+	url = https://github.com/emacs-evil/evil-collection.git
+[submodule "packages/annalist.el"]
+	path = packages/annalist.el
+	url = https://github.com/noctuid/annalist.el.git
+[submodule "packages/annalist"]
+	path = packages/annalist
+	url = https://github.com/noctuid/annalist.el.git
+[submodule "packages/dash"]
+	path = packages/dash
+	url = https://github.com/magnars/dash.el.git
+[submodule "packages/evil-escape"]
+	path = packages/evil-escape
+	url = https://github.com/syl20bnr/evil-escape.git
+[submodule "packages/vertico"]
+	path = packages/vertico
+	url = https://github.com/minad/vertico.git
+[submodule "packages/orderless"]
+	path = packages/orderless
+	url = https://github.com/oantolin/orderless.git
+[submodule "packages/compat"]
+	path = packages/compat
+	url = https://github.com/emacs-compat/compat.git
+[submodule "packages/marginalia"]
+	path = packages/marginalia
+	url = https://github.com/minad/marginalia
+[submodule "packages/embark"]
+	path = packages/embark
+	url = https://github.com/oantolin/embark
+[submodule "packages/consult"]
+	path = packages/consult
+	url = https://github.com/minad/consult.git
+[submodule "packages/doom-themes"]
+	path = packages/doom-themes
+	url = https://github.com/doomemacs/themes.git
+[submodule "packages/doom-modeline"]
+	path = packages/doom-modeline
+	url = https://github.com/seagle0128/doom-modeline.git
+[submodule "packages/nerd-icons"]
+	path = packages/nerd-icons
+	url = https://github.com/rainstormstudio/nerd-icons.el.git
+[submodule "packages/shrink-path"]
+	path = packages/shrink-path
+	url = https://github.com/emacsmirror/shrink-path.git
+[submodule "packages/corfu"]
+	path = packages/corfu
+	url = https://github.com/minad/corfu.git
+[submodule "packages/evil-nerd-commenter"]
+	path = packages/evil-nerd-commenter
+	url = https://github.com/redguardtoo/evil-nerd-commenter.git
+[submodule "packages/evil-surround"]
+	path = packages/evil-surround
+	url = https://github.com/emacs-evil/evil-surround.git
+[submodule "packages/undo-tree"]
+	path = packages/undo-tree
+	url = https://github.com/emacsmirror/undo-tree.git
+[submodule "packages/use-package"]
+	path = packages/use-package
+	url = https://github.com/jwiegley/use-package.git
+[submodule "packages/popper"]
+	path = packages/popper
+	url = https://github.com/karthink/popper.git
+[submodule "evil-visualstar"]
+	path = evil-visualstar
+	url = https://github.com/bling/evil-visualstar.git
+[submodule "packages/evil-visualstar"]
+	path = packages/evil-visualstar
+	url = https://github.com/bling/evil-visualstar.git
+[submodule "packages/exato"]
+	path = packages/exato
+	url = https://github.com/ninrod/exato.git
+[submodule "packages/hl-todo"]
+	path = packages/hl-todo
+	url = https://github.com/tarsius/hl-todo.git
+[submodule "packages/emacsql"]
+	path = packages/emacsql
+	url = https://github.com/magit/emacsql.git
+[submodule "packages/transient"]
+	path = packages/transient
+	url = https://github.com/magit/transient.git
+[submodule "packages/with-editor"]
+	path = packages/with-editor
+	url = https://github.com/magit/with-editor.git
+[submodule "packages/wakatime-mode"]
+	path = packages/wakatime-mode
+	url = https://github.com/wakatime/wakatime-mode.git
+[submodule "packages/magit"]
+	path = packages/magit
+	url = https://github.com/magit/magit.git
+[submodule "packages/filenotify-recursive"]
+	path = packages/filenotify-recursive
+	url = https://github.com/jethrokuan/filenotify-recursive.git
+[submodule "packages/org-roam"]
+	path = packages/org-roam
+	url = https://github.com/org-roam/org-roam.git
+[submodule "packages/diredfl"]
+	path = packages/diredfl
+	url = https://github.com/purcell/diredfl.git
+[submodule "packages/nerd-icons-dired"]
+	path = packages/nerd-icons-dired
+	url = https://github.com/rainstormstudio/nerd-icons-dired.git
+[submodule "packages/diminish"]
+	path = packages/diminish
+	url = https://github.com/myrjola/diminish.el
+[submodule "packages/org-modern"]
+	path = packages/org-modern
+	url = https://github.com/minad/org-modern.git
+[submodule "packages/org-rich-yank"]
+	path = packages/org-rich-yank
+	url = https://github.com/unhammer/org-rich-yank.git
+[submodule "packages/sis"]
+	path = packages/sis
+	url = https://github.com/laishulu/emacs-smart-input-source.git
+[submodule "packages/writeroom-mode"]
+	path = packages/writeroom-mode
+	url = https://github.com/joostkremers/writeroom-mode.git
+[submodule "packages/visual-fill-column"]
+	path = packages/visual-fill-column
+	url = https://codeberg.org/joostkremers/visual-fill-column.git
+[submodule "packages/ns-auto-titlebar"]
+	path = packages/ns-auto-titlebar
+	url = https://github.com/purcell/ns-auto-titlebar.git
+[submodule "packages/diff-hl"]
+	path = packages/diff-hl
+	url = https://github.com/dgutov/diff-hl.git
+[submodule "packages/helpful"]
+	path = packages/helpful
+	url = https://github.com/Wilfred/helpful.git
+[submodule "packages/elisp-refs"]
+	path = packages/elisp-refs
+	url = https://github.com/Wilfred/elisp-refs.git
+[submodule "packages/rainbow-mode"]
+	path = packages/rainbow-mode
+	url = https://github.com/emacsmirror/rainbow-mode.git
+[submodule "packages/emacs-everywhere"]
+	path = packages/emacs-everywhere
+	url = https://github.com/tecosaur/emacs-everywhere.git
+[submodule "packages/yaml-mode"]
+	path = packages/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
+[submodule "packages/evil-anzu"]
+	path = packages/evil-anzu
+	url = https://github.com/emacsorphanage/evil-anzu.git
+[submodule "packages/anzu"]
+	path = packages/anzu
+	url = https://github.com/emacsorphanage/anzu.git
+[submodule "packages/deadgrep"]
+	path = packages/deadgrep
+	url = https://github.com/Wilfred/deadgrep.git
+[submodule "packages/spinner"]
+	path = packages/spinner
+	url = https://github.com/Malabarba/spinner.el.git
+[submodule "packages/evil-replace-with-register"]
+	path = packages/evil-replace-with-register
+	url = https://github.com/emacsmirror/evil-replace-with-register.git
+[submodule "packages/flycheck"]
+	path = packages/flycheck
+	url = https://github.com/flycheck/flycheck.git
+[submodule "packages/consult-flycheck"]
+	path = packages/consult-flycheck
+	url = https://github.com/minad/consult-flycheck.git
+[submodule "packages/tempel"]
+	path = packages/tempel
+	url = https://github.com/minad/tempel.git
+[submodule "packages/ht"]
+	path = packages/ht
+	url = https://github.com/Wilfred/ht.el.git
+[submodule "packages/sideline"]
+	path = packages/sideline
+	url = https://github.com/emacs-sideline/sideline.git
+[submodule "packages/sideline-flycheck"]
+	path = packages/sideline-flycheck
+	url = https://github.com/emacs-sideline/sideline-flycheck.git
+[submodule "packages/mixed-pitch"]
+	path = packages/mixed-pitch
+	url = https://github.com/emacsmirror/mixed-pitch.git
