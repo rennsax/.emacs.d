@@ -12,10 +12,17 @@
   "Open celeste init file."
   (interactive)
   (find-file celeste-init-file))
+
 (defun celeste/reload-init-file ()
   "Reload celeste init file."
   (interactive)
   (load-file celeste-init-file))
+
+;; Show init time after configurations are fully loaded.
+(add-hook 'emacs-startup-hook
+          (lambda () (message
+                      (format "Init time: %s."
+                              (emacs-init-time)))))
 
 
 (provide 'init-func)

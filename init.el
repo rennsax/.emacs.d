@@ -1,15 +1,16 @@
 ;;; -*- lexical-binding: t -*-
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
 ;;; Constants
 (require 'init-const)
 
+(setq custom-file celeste-custom-file)
+;; `load-file' vs `load': the previous one just execute the Lisp code in the
+;; given file. The latter one does more things: try to add suffix, search
+;; `load-path', ...
+(load-file custom-file)
+
 ;;; Personal functions 🤠
 (require 'init-func)
-
-;;; Customization 🌷
-(require 'init-custom)
 
 ;;; Package manager (in my case, w/ git submodules) and well-known deps 📦
 (require 'init-package)

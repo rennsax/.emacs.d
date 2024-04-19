@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+;;; Customization 🌷
+(require 'init-custom)
 
 ;; PERF: if `file-name-handler-alist' is non-nil, Emacs use regex to match each
 ;; file for upcomming I/O operators. During the startup process, we eliminate
@@ -45,19 +49,7 @@
       scroll-bar-mode nil)
 
 ;; Set alpha of the frame.
-(push '(alpha . 97)                default-frame-alist)
-
-;; TODO
-;; (add-hook 'after-init-hook #'(lambda () (set-frame-font "MonaspiceAr Nerd Font 14" nil t)))
-;; (add-hook 'server-after-make-frame-hook #'(lambda () (set-frame-font "MonaspiceAr Nerd Font 14" nil t)))
-;; (set-frame-font "MonaspiceAr Nerd Font 14" nil t)
-;; Set different font for CJK characters.
-;; (defun +set-cjk-font()
-;;   (dolist (charset '(kana han cjk-misc symbol bopomofo))
-;;     (set-fontset-font t charset (font-spec :family "LXGW WenKai"))))
-
-;; (add-hook 'after-setting-font-hook #'+set-cjk-font)
-
+(push '(alpha . 98) default-frame-alist)
 
 
 ;;; Font settings.
@@ -67,19 +59,21 @@
 ;; `text-scale-mode-hook': TODO
 ;; `after-setting-font-hook': after the frame font is *changed*.
 
-(defvar celeste-font-name "MonaspiceAr Nerd Font")
-(defvar celeste-font-size 14)
-
 (create-fontset-from-fontset-spec
-    "-*-MonaspiceAr Nerd Font-regular-normal-normal-*-14-*-*-*-p-0-fontset-celeste")
+ (format  "-*-%s-regular-normal-normal-*-%d-*-*-*-p-0-fontset-celeste"
+          celeste-default-font-name celeste-font-size))
 
 ;; This workaround is found at https://emacs-china.org/t/doom-emacs/23513
 ;; See the variable `char-script-table'.
 (defun +fontset-setup-cjk (&optional fontset)
   "Setup special CJK fonts for FONTSET."
   (dolist (charset '(kana han cjk-misc bopomofo symbol))
-    (set-fontset-font fontset charset (font-spec :family "LXGW WenKai"))))
+    (set-fontset-font fontset charset (font-spec :family celeste-cjk-font-name))))
 
+(add-hook 'after-setting-font-hook #'+fontset-setup-cjk)
+
+;; `after-setting-font-hook' isn't triggered since the font of the initial frame
+;; is never *changed*.
 (+fontset-setup-cjk "fontset-celeste")
 
 (push '(font . "fontset-celeste") default-frame-alist)

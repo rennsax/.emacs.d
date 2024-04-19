@@ -69,13 +69,12 @@ ARGS are passed to `autoload' as the remaining arguments."
   (let ((file (concat celeste-autoload-dir (symbol-name feature))))
     `(autoload ,function ,file ,@args)))
 
-;; (defmacro celeste/autoload (feature &rest functions)
-;;   (declare (indent 1))
-;;   (let ((func (make-symbol "func"))
-;;         (file (concat celeste-autoload-dir (symbol-name feature))))
-;;     `(dolist (,func (list ,@functions))
-;;        (autoload ,func ,file))))
-
+(defmacro celeste/add-mode-hook (mode-list function)
+  "Add FUNCTION to MODE-hook for each MODE in MODE-LIST."
+  (declare (indent 2))
+  (let ((mode (make-symbol "mode")))
+    `(dolist (,mode ,mode-list)
+       (add-hook (intern (concat (symbol-name ,mode) "-hook")) ,function))))
 
 
 (provide 'init-const)

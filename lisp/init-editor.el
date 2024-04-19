@@ -3,7 +3,10 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
+
+(require 'init-custom)
 
 ;; Typed text replaces the selection. Does not mean too much in `evil-mode'.
 (delete-selection-mode)
@@ -24,25 +27,35 @@
       ;; we need to manually remove such Paleolithic backups. They are useless
       ;; most of the time, so I'd like to make the number small.
       kept-old-versions 2
-      backup-directory-alist `(("." . ,(expand-file-name "backup" celeste-cache-dir)))
-      tramp-backup-directory-alist backup-directory-alist ; Also backup remote file locally
-      )
+      backup-directory-alist `(("." . ,(expand-file-name "backup" celeste-cache-dir))))
 
 ;; TODO: `text-scale-mode'
 ;; (setq-default text-scale-mode-step -1)
 
+;;; Useful functions.
 (defun +reload-file ()
   "Reload current file."
   (interactive)
   (let ((file (buffer-file-name)))
     (if file
-        (progn (kill-current-buffer)
-               (find-file file))
+        (progn (when (y-or-n-p (format "Reload %s?" file))
+                 (kill-current-buffer)
+                 (find-file file)))
       (message "The current buffer has no corresponding file!"))))
 
 (keymap-set global-map "s-r" #'+reload-file)
 
-;; TODO: auto revert
+(celeste/require s)
+(defun +byte-compile-current-file ()
+  "Byte compile current file."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (if (and file (s-suffix? "el" file))
+        (byte-compile-file file)
+      (message "Cannot compile current \"file\"!"))))
+
+;;; Builtin packages.
+
 (use-package recentf
   :hook (after-init . recentf-mode)
   :init
@@ -79,34 +92,38 @@
 ;; `simple' declares `size-indication-mode', `visual-line-mode',
 ;; `auto-fill-mode'
 (use-package simple
-  :hook ((after-init . size-indication-mode)
-         ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
-  :init
-  (defvar celeste-visual-line-mode-list
-    '(message-mode
-      text-mode
-      debugger-mode
-      magit-process-mode)
-    "List of modes when `visual-line-mode' should be enabled.")
-  (defvar celeste-auto-fill-mode-list
-    '(org-mode)
-    "List of modes when `auto-fill-mode' should be enabled.")
+  :hook (after-init . size-indication-mode)
+  :config
+
+  ;; Set different fonts for those special modes, so I can be awared of different contexts.
+  (celeste/add-mode-hook '(special-mode eshell-mode)
+      (defun +buffer-set-other-font ()
+        "Setup another font for the current buffer."
+        (setq-local buffer-face-mode-face (list :family celeste-other-font-name))
+        (buffer-face-mode)))
 
   ;; Show column number at the modeline.
   (setq column-number-mode t
         line-number-mode nil)
-  (defun enable-trailing-whitespace ()
-    "Show trailing spaces and delete on saving."
-    (setq show-trailing-whitespace t)
-    (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-  :config
-  (dolist (mode celeste-visual-line-mode-list)
-    (add-hook
-     (intern (concat (symbol-name mode) "-hook")) #'visual-line-mode))
-  (dolist (mode celeste-auto-fill-mode-list)
-    (add-hook
-     (intern (concat (symbol-name mode) "-hook")) #'auto-fill-mode))
+
+  (celeste/add-mode-hook '(prog-mode markdown-mode conf-mode)
+      (defun enable-trailing-whitespace ()
+        "Show trailing spaces and delete on saving."
+        (setq show-trailing-whitespace t)
+        (add-hook 'before-save-hook #'delete-trailing-whitespace nil 'local)))
+  (celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
+  (celeste/add-mode-hook celeste-auto-fill-mode-list #'auto-fill-mode)
+
+  ;; HACK: the "*Message*" buffer has been created before, so `add-hook' to
+  ;; `message-mode-hook' does not help.
+  (with-current-buffer "*Messages*"
+    (visual-line-mode))
   )
+
+(use-package tramp
+  :config
+  ;; Also backup remote file locally
+  (setq tramp-backup-directory-alist backup-directory-alist))
 
 ;;; Format 💅🏻
 

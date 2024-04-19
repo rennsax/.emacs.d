@@ -8,6 +8,7 @@
 
 ;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
 (celeste/use-package magit
+  :defines magit-mode-map
   :init
   ;;; Add deps
   ;; compat
@@ -19,7 +20,10 @@
   (celeste/use-package with-editor
     :load-path "packages/with-editor/lisp")
   :load-path "packages/magit/lisp"
-  :demand t)
+  :demand t
+  :config
+  (keymap-set magit-mode-map "s-r" 'magit-refresh)
+  )
 
 ;; diff-hl: better git-diff integration
 ;; TODO: find-dired

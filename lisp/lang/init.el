@@ -59,6 +59,7 @@
   )
 
 (require 'init-yaml)
+(require 'init-go)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

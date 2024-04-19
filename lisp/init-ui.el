@@ -35,10 +35,6 @@
 ;; Highlight the current line. This is achived by putting an overlay.
 (global-hl-line-mode)
 
-;; Display relative line numbers.
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
-
 ;; Show matched parentheses.
 (show-paren-mode)
 
@@ -47,6 +43,12 @@
 ;; TODO: how to tell whether `auto-fill-mode' is enabled?
 (add-hook 'auto-fill-mode-hook
           (lambda () (display-fill-column-indicator-mode 'toggle)))
+
+(use-package display-line-numbers
+  ;; Display relative line numbers.
+  :hook ((prog-mode text-mode) . display-line-numbers-mode)
+  :config
+  (setq display-line-numbers-type 'relative))
 
 ;; `popper': show annoying windows such as `help-mode' in a dedicated POP
 ;; window, so they won't clobber the original window layout.
@@ -63,11 +65,14 @@
           "Output\\*$"
           "\\*Async Shell Command\\*"
           "\\*evil-jumps\\*"
+          "\\*Compile-Log\\*"
+          "\\*compilation\\*"
           help-mode
           helpful-mode ; `helpful' package
           debugger-mode))
-  (require 'popper-echo)
-  (popper-echo-mode))
+  (use-package popper-echo
+    :commands popper-echo-mode
+    :hook (popper-mode . popper-echo-mode)))
 
 (celeste/use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
@@ -103,8 +108,7 @@
 
 (celeste/use-package doom-themes
   :demand t
-  :config
-  (load-theme 'doom-cobalt2))
+  :hook (after-init . (lambda () (load-theme 'doom-cobalt2))))
 
 (celeste/use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
@@ -136,6 +140,11 @@
   ;; background color.
   (add-hook 'rainbow-mode-hook
             (lambda () (hl-line-mode (if rainbow-mode -1 +1)))))
+
+;; Rainbow delimiters.
+(celeste/use-package rainbow-delimiters
+  ;; Start automatically in most programming languages.
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 
 (provide 'init-ui)

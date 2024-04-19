@@ -3,10 +3,25 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
+
+;; Silence `evil-collection' warnings.
+(eval-when-compile
+  (celeste/require annalist)
+  (defvar evil-want-keybinding nil))
 
 (celeste/use-package evil
   :demand t
+
+  :init
+  ;; BUG: how to silence the byte-compiler warnings w/ :defines and :functions?
+  (eval-when-compile
+    (declare-function evil-define-key* "evil")
+    (declare-function evil-emacs-state "evil"))
+
+  ;; Toggle "Evil-Local mode" mode in *all* buffers.
+  :hook (after-init . evil-mode)
 
   ;; Since `evil' is eagerly required, it doesn't matter that we put these
   ;; `setq's in the init section.
@@ -23,7 +38,7 @@
         evil-ex-interactive-search-highlight 'selected-window
         ;; Innocuous BOL and EOL errors shouldn't abort macro.
         evil-kbd-macro-suppress-motion-error t
-        evil-undo-system 'undo-redo ; TODO: is it reliable?
+        evil-undo-system 'undo-redo
         ;; PERF: Stop copying the selection to the clipboard each time the cursor
         ;; moves in visual mode.
         evil-visual-update-x-selection-p nil
@@ -31,9 +46,6 @@
         evil-search-module 'evil-search)
 
   :config
-  ;; Toggle "Evil-Local mode" mode in *all* buffers.
-  (evil-mode)
-
   ;; Start help-with-tutorial in emacs state
   (advice-add #'help-with-tutorial
               :after (lambda (&rest _) (evil-emacs-state +1)))
@@ -60,7 +72,7 @@
   (setcdr evil-insert-state-map nil)
   ;; But keep [escape] as a valid mapping, otherwise we cannot quit insert state
   ;; normally!
-  (keymap-set evil-insert-state-map "<escape>" #'evil-normal-state)
+  (keymap-set evil-insert-state-map "<escape>" 'evil-normal-state)
 
   ;; TODO: hello orphan
   (keymap-unset global-map "C-x <escape> <escape>")
@@ -70,67 +82,72 @@
 
     ;; Visually move up and down. Useful when (soft) line wrap is enabled.
     (evil-define-key* 'normal 'global
-      [up] #'evil-previous-visual-line
-      [down] #'evil-next-visual-line)
+      [up] 'evil-previous-visual-line
+      [down] 'evil-next-visual-line)
 
     ;; In minibuffer, use "C-u" to clear the line.
-    (keymap-set minibuffer-mode-map "C-u" #'evil-delete-back-to-indentation)
+    (keymap-set minibuffer-mode-map "C-u" 'evil-delete-back-to-indentation)
 
     ;; In insert-state, move the window.
-    (keymap-set evil-insert-state-map "C-w h" #'evil-window-left)
-    (keymap-set evil-insert-state-map "C-w j" #'evil-window-down)
-    (keymap-set evil-insert-state-map "C-w k" #'evil-window-up)
-    (keymap-set evil-insert-state-map "C-w l" #'evil-window-right)
-    (keymap-set evil-insert-state-map "C-w c" #'evil-window-delete)
-    (keymap-set evil-insert-state-map "C-w o" #'delete-other-windows)
+    (keymap-set evil-insert-state-map "C-w h" 'evil-window-left)
+    (keymap-set evil-insert-state-map "C-w j" 'evil-window-down)
+    (keymap-set evil-insert-state-map "C-w k" 'evil-window-up)
+    (keymap-set evil-insert-state-map "C-w l" 'evil-window-right)
+    (keymap-set evil-insert-state-map "C-w c" 'evil-window-delete)
+    (keymap-set evil-insert-state-map "C-w o" 'delete-other-windows)
+    (keymap-set evil-insert-state-map "C-w p" 'evil-window-mru)
+    (keymap-set evil-insert-state-map "C-w n" 'evil-window-new)
+
+    ;; Switch to the recent buffer even in insert-state.
+    (keymap-set evil-insert-state-map "C-6" 'evil-switch-to-windows-last-buffer)
 
     ;; Leader mappings.
     (define-prefix-command 'celeste-leader-map)
+    (defvar celeste-leader-map) ; silence byte-compiler
     (keymap-set evil-motion-state-map leader-key 'celeste-leader-map)
     (keymap-set evil-normal-state-map leader-key 'celeste-leader-map)
 
     (evil-define-key* nil celeste-leader-map
-      "n" #'evil-ex-nohighlight
-      "rg" #'deadgrep
-      "s." #'consult-recent-file
-      "sf" #'consult-fd
-      "so" #'consult-outline
+      "n"   'evil-ex-nohighlight
+      "rg"  'deadgrep
+      "s."  'consult-recent-file
+      "sf"  'consult-fd
+      "so"  'consult-outline
       ;; Search Diagnostic
-      "sd" #'consult-flycheck
+      "sd"  'consult-flycheck
 
-      (kbd celeste-leader-key) #'consult-buffer
+      (kbd celeste-leader-key) 'consult-buffer
 
-      "bx" #'kill-current-buffer
-      "bs" #'scratch-buffer
-      "be" #'eshell
+      "bx"  'kill-current-buffer
+      "bs"  'scratch-buffer
+      "be"  'eshell
 
-      "oA" #'org-agenda
-      "orn" #'org-roam-node-find
+      "oA"  'org-agenda
+      "orn" 'org-roam-node-find
 
-      "gsh" #'diff-hl-show-hunk
+      "gg"  'magit-status
+      "gsh" 'diff-hl-show-hunk
       ;; [e]dit git[i]gnore
-      "gei" #'magit-gitignore-in-topdir
+      "gei" 'magit-gitignore-in-topdir
 
-      "ie" #'emoji-search
-      "iE" #'emoji-insert
+      "ie"  'emoji-search
+      "iE"  'emoji-insert
 
-      "zz" #'writeroom-mode))
+      "zz"  'writeroom-mode))
   )
 
 ;;; Evil extensions
 
 ;; A bunch of community evil key bindings => use evil almost everywhere!
 (celeste/use-package evil-collection
-  :demand t
-  :after evil
+  :hook (evil-mode . evil-collection-init)
   :config
   ;; Protect some keys - they should never be mapped!
   (setq evil-collection-key-blacklist
         (append (list celeste-leader-key)
                 '("[" "]" "<escape>")
                 ;; `evil-replace-with-register'
-                '("g r")))
-  (evil-collection-init))
+                '("g r"))))
 
 ;; Comment line/block with `gc'!
 (celeste/use-package evil-nerd-commenter
@@ -144,8 +161,7 @@
 
 ;; Escape insert state with key sequence.
 (celeste/use-package evil-escape
-  :demand t
-  :after evil
+  :hook (evil-mode . evil-escape-mode)
   :init
   (setq evil-escape-key-sequence "jj"
         evil-escape-delay 1.0
@@ -157,10 +173,7 @@
 
 ;; Port of vim.surround.
 (celeste/use-package evil-surround
-  :demand t
-  :after evil
-  :config
-  (global-evil-surround-mode))
+  :hook (evil-mode . global-evil-surround-mode))
 
 ;; * and # in `evil-visual-state' search the selected pattern.
 (celeste/use-package evil-visualstar
@@ -179,21 +192,18 @@
   :demand t)
 
 ;; Show search result counts.
+(celeste/use-package anzu)
 (celeste/use-package evil-anzu
   :after evil
-  :init
-  (celeste/use-package anzu)
-  :diminish
   :demand t
+  :diminish
   :config
-  (global-anzu-mode +1))
+  (add-hook 'evil-mode-hook 'global-anzu-mode))
 
 (celeste/use-package evil-replace-with-register
-  :after evil
-  :demand t
+  :hook (evil-mode . evil-replace-with-register-install)
   :config
-  (setq evil-replace-with-register-key (kbd "gr"))
-  (evil-replace-with-register-install))
+  (setq evil-replace-with-register-key (kbd "gr")))
 
 
 (provide 'init-evil)

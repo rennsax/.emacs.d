@@ -184,3 +184,9 @@
 [submodule "packages/mixed-pitch"]
 	path = packages/mixed-pitch
 	url = https://github.com/emacsmirror/mixed-pitch.git
+[submodule "packages/rainbow-delimiters"]
+	path = packages/rainbow-delimiters
+	url = https://github.com/Fanael/rainbow-delimiters.git
+[submodule "packages/go-mode"]
+	path = packages/go-mode
+	url = https://github.com/dominikh/go-mode.el.git
