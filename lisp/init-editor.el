@@ -115,6 +115,7 @@ or file path may exist now."
 ;; `load-path', ...
 (load-file custom-file)
 
+(setq initial-buffer-choice t)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

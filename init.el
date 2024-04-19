@@ -49,9 +49,6 @@
 ;;; Key bindings! ⌨️
 (require 'init-keybinding)
 
-;; TODO
-(setq initial-buffer-choice celeste-init-file)
-
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
