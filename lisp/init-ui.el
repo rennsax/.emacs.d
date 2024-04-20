@@ -176,6 +176,18 @@
   ;; Start automatically in most programming languages.
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Oh, the venilla dired is boring! I want more colors.
+(celeste/use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
+;; Icons are also important!
+(celeste/use-package nerd-icons-dired
+  :diminish
+  :custom-face
+  ;; TODO doc
+  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+  :hook (dired-mode . nerd-icons-dired-mode))
+
 
 (provide 'init-ui)
 ;;; init-ui.el ends here

@@ -3,10 +3,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
-
-(require 'init-custom)
+  (require 'init-const))
 
 ;; Typed text replaces the selection. Does not mean too much in `evil-mode'.
 (delete-selection-mode)
@@ -32,104 +29,9 @@
 ;; TODO: `text-scale-mode'
 ;; (setq-default text-scale-mode-step -1)
 
-;;; Useful functions.
-(defun +reload-file ()
-  "Reload current file."
-  (interactive)
-  (let ((file (buffer-file-name)))
-    (if file
-        (progn (when (y-or-n-p (format "Reload %s?" file))
-                 (kill-current-buffer)
-                 (find-file file)))
-      (message "The current buffer has no corresponding file!"))))
-
-(keymap-set global-map "s-r" #'+reload-file)
-
-(celeste/require s)
-(defun +byte-compile-current-file ()
-  "Byte compile current file."
-  (interactive)
-  (let ((file (buffer-file-name)))
-    (if (and file (s-suffix? "el" file))
-        (byte-compile-file file)
-      (message "Cannot compile current \"file\"!"))))
-
-;;; Builtin packages.
-
-(use-package recentf
-  :hook (after-init . recentf-mode)
-  :init
-  (setq recentf-max-saved-items 240) ; just because I like this number
-  (setq recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-                "^/tmp/" "^/var/folders/.+$" "/persp-confs/"))
-  :custom
-  (recentf-save-file (concat celeste-cache-dir "recentf"))
-  :config
-  (add-to-list 'recentf-exclude
-	       (concat "^" (regexp-quote (or (getenv "XDG_RUNTIME_DIR")
-					     "/run"))))
-  (add-to-list 'recentf-exclude
-	       (expand-file-name recentf-save-file))
-  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
-
-(use-package savehist
-  :custom (savehist-file (concat celeste-cache-dir "savehist"))
-  :init (setq enable-recursive-minibuffers t ; Allow commands inminibuffers
-              history-length 1000
-              savehist-additional-variables '(mark-ring
-                                              global-mark-ring
-                                              search-ring
-                                              regexp-search-ring
-                                              extended-command-history)
-              savehist-autosave-interval 300))
-
-(use-package saveplace
-  :custom (save-place-file (concat celeste-cache-dir "saveplace"))
-  :hook (after-init . save-place-mode))
-
-;; `simple' declares `size-indication-mode', `visual-line-mode',
-;; `auto-fill-mode'
-(use-package simple
-  :hook (after-init . size-indication-mode)
-  :config
-
-  ;; Show column number at the modeline.
-  (setq column-number-mode t
-        line-number-mode nil)
-
-  (celeste/add-mode-hook '(prog-mode markdown-mode conf-mode)
-      (defun enable-trailing-whitespace ()
-        "Show trailing spaces and delete on saving."
-        (setq show-trailing-whitespace t)
-        (add-hook 'before-save-hook #'delete-trailing-whitespace nil 'local)))
-  (celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
-  (celeste/add-mode-hook celeste-auto-fill-mode-list #'auto-fill-mode)
-
-  ;; HACK: the "*Message*" buffer has been created before, so `add-hook' to
-  ;; `message-mode-hook' does not help.
-  (with-current-buffer "*Messages*"
-    (visual-line-mode))
-  )
-
-(use-package tramp
-  :config
-  ;; Also backup remote file locally
-  (setq tramp-backup-directory-alist backup-directory-alist))
-
-;;; Format 💅🏻
-
-;; Make `tabify' and `untabify' only affect indentation. Not tabs/spaces in the
-;; middle of a line.
-(use-package tabify
-  :config
-  (setq tabify-regexp "^\t* [ \t]+"))
-
 (setq-default tab-always-indent nil ; tab can indent or insert literal indentation
               indent-tabs-mode nil ; don't insert tabs when indentation
-              tab-width 4
-              )
+              tab-width 4)
 
 ;; Show the non-prettified version of a symbol when point is on it.
 (setq prettify-symbols-unprettify-at-point t)
@@ -180,7 +82,6 @@
       auto-save-include-big-deletions t
       ;; Keep it out of `doom-emacs-dir' or the local directory.
       auto-save-list-file-prefix (concat celeste-cache-dir "autosave/")
-      tramp-auto-save-directory  (concat celeste-cache-dir "tramp-autosave/")
       auto-save-file-name-transforms
       (list (list "\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
                   ;; Prefix tramp autosaves to prevent conflicts with local ones

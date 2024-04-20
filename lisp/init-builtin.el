@@ -6,6 +6,78 @@
 (eval-when-compile
   (require 'init-const))
 
+(require 'init-package)
+(require 'init-custom)
+
+;;; Editor basis
+(use-package recentf
+  :hook (after-init . recentf-mode)
+  :init
+  (setq recentf-max-saved-items 240) ; just because I like this number
+  (setq recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+                "^/tmp/" "^/var/folders/.+$" "/persp-confs/"))
+  :custom
+  (recentf-save-file (concat celeste-cache-dir "recentf"))
+  :config
+  (add-to-list 'recentf-exclude
+	       (concat "^" (regexp-quote (or (getenv "XDG_RUNTIME_DIR")
+					     "/run"))))
+  (add-to-list 'recentf-exclude
+	       (expand-file-name recentf-save-file))
+  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
+
+(use-package savehist
+  :custom (savehist-file (concat celeste-cache-dir "savehist"))
+  :init (setq enable-recursive-minibuffers t ; Allow commands inminibuffers
+              history-length 1000
+              savehist-additional-variables '(mark-ring
+                                              global-mark-ring
+                                              search-ring
+                                              regexp-search-ring
+                                              extended-command-history)
+              savehist-autosave-interval 300))
+
+(use-package saveplace
+  :custom (save-place-file (concat celeste-cache-dir "saveplace"))
+  :hook (after-init . save-place-mode))
+
+;; `simple' declares `size-indication-mode', `visual-line-mode',
+;; `auto-fill-mode'
+(use-package simple
+  :hook (after-init . size-indication-mode)
+  :config
+
+  ;; Show column number at the modeline.
+  (setq column-number-mode t
+        line-number-mode nil)
+
+  (celeste/add-mode-hook '(prog-mode markdown-mode conf-mode)
+      (defun enable-trailing-whitespace ()
+        "Show trailing spaces and delete on saving."
+        (setq show-trailing-whitespace t)
+        (add-hook 'before-save-hook #'delete-trailing-whitespace nil 'local)))
+  (celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
+  (celeste/add-mode-hook celeste-auto-fill-mode-list #'auto-fill-mode)
+
+  ;; HACK: the "*Message*" buffer has been created before, so `add-hook' to
+  ;; `message-mode-hook' does not help.
+  (with-current-buffer "*Messages*"
+    (visual-line-mode)))
+
+(use-package tramp
+  :config
+  ;; Also backup remote file locally
+  (setq tramp-backup-directory-alist backup-directory-alist
+        tramp-auto-save-directory  (concat celeste-cache-dir "tramp-autosave/")))
+
+;; Make `tabify' and `untabify' only affect indentation. Not tabs/spaces in the
+;; middle of a line.
+(use-package tabify
+  :config
+  (setq tabify-regexp "^\t* [ \t]+"))
+
 ;;; Emacs shell - wow, such a versatile and powerful shell, seamlessly
 ;;; integrated with Emacs itself! 🐚
 (use-package eshell
@@ -29,17 +101,16 @@
       (kbd "C-u") #'+eshell-kill-whole-input
       (kbd "C-a") #'+eshell-input-bol))
 
-  (add-hook 'eshell-first-time-mode-hook '+eshell-setup-keys)
+  (add-hook 'eshell-first-time-mode-hook '+eshell-setup-keys))
 
-  ;; To most programs, eshell is dumb terminal. Therefore we need to tell Eshell
-  ;; to open up visual commands in a dedicated terminal emulator.
-  (use-package em-term
-    :config
-    (setq eshell-visual-subcommands
-          '(("git" "log" "ls" "diff" "difftool" "show")))
-    (add-to-list 'eshell-visual-commands "nvim"))
+;; To most programs, eshell is dumb terminal. Therefore we need to tell Eshell
+;; to open up visual commands in a dedicated terminal emulator.
+(use-package em-term
+  :config
+  (setq eshell-visual-subcommands
+        '(("git" "log" "ls" "diff" "difftool" "show")))
+  (add-to-list 'eshell-visual-commands "nvim"))
 
-  )
 
 ;;; Emacs dired - practical file explorer 📂
 (use-package dired
@@ -71,10 +142,9 @@
         (setq dired-use-ls-dired nil)
         (setq dired-listing-switches "-alh")))))
 
-;; Extra functionality (builtin)
+;; Extra functionality for dired.
 ;; Open file with system utilities, hide files, etc.
 (use-package dired-x
-  :demand t
   :config
   (let ((cmd (cond (sys/mac-x-p "open")
                    (sys/linux-x-p "xdg-open")
@@ -102,18 +172,6 @@
 (use-package gamegrid
   :init
   (setq gamegrid-user-score-file-directory (concat celeste-data-dir "games")))
-
-;; Oh, the venilla dired is boring! I want more colors.
-(celeste/use-package diredfl
-  :hook (dired-mode . diredfl-mode))
-
-;; Icons are also important!
-(celeste/use-package nerd-icons-dired
-  :diminish
-  :custom-face
-  ;; TODO
-  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-  :hook (dired-mode . nerd-icons-dired-mode))
 
 
 (provide 'init-builtin)
