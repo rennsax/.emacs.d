@@ -196,3 +196,9 @@
 [submodule "packages/flycheck-golangci-lint"]
 	path = packages/flycheck-golangci-lint
 	url = https://github.com/weijiangan/flycheck-golangci-lint.git
+[submodule "packages/markdown-mode"]
+	path = packages/markdown-mode
+	url = https://github.com/jrblevin/markdown-mode.git
+[submodule "packages/markdown-toc"]
+	path = packages/markdown-toc
+	url = https://github.com/ardumont/markdown-toc.git

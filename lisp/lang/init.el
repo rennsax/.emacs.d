@@ -80,6 +80,7 @@ immediately."
 
 (require 'init-yaml)
 (require 'init-go)
+(require 'init-markdown)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
