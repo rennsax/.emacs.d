@@ -9,7 +9,6 @@
 ;;; Emacs shell - wow, such a versatile and powerful shell, seamlessly
 ;;; integrated with Emacs itself! 🐚
 (use-package eshell
-  :hook (eshell-mode . visual-line-mode) ; soft line wrap
   :config
 
   (setq eshell-scroll-to-bottom-on-input t)

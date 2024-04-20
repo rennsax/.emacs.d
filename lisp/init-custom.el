@@ -24,6 +24,7 @@
     text-mode
     debugger-mode
     compilation-mode
+    eshell-mode
     magit-process-mode)
   "List of modes when `visual-line-mode' should be enabled."
   :group 'celeste
