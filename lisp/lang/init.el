@@ -1,15 +1,18 @@
-;;; -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (when load-file-name
   (add-to-list 'load-path (file-name-directory load-file-name)))
 
 (celeste/use-package flycheck
-  :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
   :config
-  ;; Rerunning checks on every newline is a mote excessive.
-  (delq 'new-line flycheck-check-syntax-automatically)
+  ;; Check syntax when: the file is saved, a short time
+  ;; (`flycheck-idle-change-delay') after the last change, and immediately after
+  ;; `flycheck-mode' is enabled.
+  ;; Of course, use `flycheck-buffer' to manually check the syntax.
+  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   ;; And don't recheck on idle as often
-  (setq flycheck-idle-change-delay 1.0)
+  (setq flycheck-idle-change-delay 2.0)
 
   ;; For the above functionality, check syntax in a buffer that you switched to
   ;; only briefly. This allows "refreshing" the syntax check state for several
@@ -45,9 +48,11 @@
         sideline-display-backend-name t
         sideline-display-backend-format "[%s]")
 
-  ;; TODO sideline is a pretty package, but it's too young, and I've discovered some bugs:
+  ;; TODO sideline is a pretty package, but it's too young, and I've discovered
+  ;; some bugs:
   ;; 1. `sideline-delay' is not respected
-  ;; 2. when sideline is show, then `revert-buffer', the sideline will freeze there.
+  ;; 2. when sideline is show, then `revert-buffer', the sideline will freeze
+  ;; there.
   )
 
 (celeste/use-package sideline-flycheck
