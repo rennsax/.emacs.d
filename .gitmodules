@@ -202,3 +202,6 @@
 [submodule "packages/markdown-toc"]
 	path = packages/markdown-toc
 	url = https://github.com/ardumont/markdown-toc.git
+[submodule "packages/perspective"]
+	path = packages/perspective
+	url = https://github.com/nex3/perspective-el.git
