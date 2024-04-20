@@ -190,3 +190,6 @@
 [submodule "packages/go-mode"]
 	path = packages/go-mode
 	url = https://github.com/dominikh/go-mode.el.git
+[submodule "packages/exec-path-from-shell"]
+	path = packages/exec-path-from-shell
+	url = https://github.com/purcell/exec-path-from-shell.git
