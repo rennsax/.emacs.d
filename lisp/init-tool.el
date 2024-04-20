@@ -16,8 +16,8 @@
   ;; (evil-set-initial-state 'deadgrep-mode 'motion)
   ;; Move across matched files.
   (evil-define-key* 'normal deadgrep-mode-map
-    (kbd "C-P") #'deadgrep-backward-filename
-    (kbd "C-N") #'deadgrep-forward-filename))
+    (kbd "C-k") #'deadgrep-backward-filename
+    (kbd "C-j") #'deadgrep-forward-filename))
 
 
 (provide 'init-tool)
