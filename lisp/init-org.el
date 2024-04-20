@@ -50,6 +50,14 @@
     (kbd "<return>") #'+org/dwim-at-point)
   )
 
+(use-package org-goto
+  :config
+  ;; `org-goto' is a convenient way to navigate an org buffer. However, it
+  ;; conflicts with `evil-mode'.
+  (advice-add 'org-goto :around
+              (lambda (oldfun &rest r)
+                (evil-with-state emacs (apply oldfun r)))))
+
 (use-package org-id
   :init
   (setq org-id-locations-file (file-name-concat org-directory ".org-id-locations")))
