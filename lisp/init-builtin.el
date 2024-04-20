@@ -4,7 +4,6 @@
 
 
 (eval-when-compile
-  (require 'init-centaur-const)
   (require 'init-const))
 
 ;;; Emacs shell - wow, such a versatile and powerful shell, seamlessly

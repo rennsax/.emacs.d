@@ -3,7 +3,6 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-centaur-const)
   (require 'init-const))
 
 (require 'init-custom)
