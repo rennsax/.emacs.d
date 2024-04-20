@@ -99,6 +99,10 @@
         (concat dired-omit-files
                 "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
 
+(use-package gamegrid
+  :init
+  (setq gamegrid-user-score-file-directory (concat celeste-data-dir "games")))
+
 ;; Oh, the venilla dired is boring! I want more colors.
 (celeste/use-package diredfl
   :hook (dired-mode . diredfl-mode))
