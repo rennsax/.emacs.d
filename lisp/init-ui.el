@@ -46,7 +46,7 @@
           (lambda () (display-fill-column-indicator-mode 'toggle)))
 
 ;; Set different fonts for those special modes, so I can be awared of different contexts.
-(celeste/add-mode-hook '(special-mode eshell-mode Custom-mode)
+(celeste/add-mode-hook celeste-other-font-mode-list
     (defun +buffer-set-other-font ()
       "Setup another font for the current buffer."
       (setq-local buffer-face-mode-face (list :family celeste-other-font-name))

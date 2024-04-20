@@ -29,6 +29,12 @@
   :group 'celeste
   :type '(list (symbol)))
 
+(defcustom celeste-other-font-mode-list
+  '(special-mode eshell-mode Custom-mode)
+  "List of modes that should use another font."
+  :group 'celeste
+  :type '(list (symbol)))
+
 (defcustom celeste-default-font-name "MonaspiceRn Nerd Font"
   "The default font of Celeste Emacs."
   :group 'celeste
