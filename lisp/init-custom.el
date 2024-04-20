@@ -13,6 +13,12 @@
   :group 'celeste
   :type 'directory)
 
+(defcustom celeste-default-theme
+  'doom-cobalt2
+  "The default theme name."
+  :group 'celeste
+  :type 'symbol)
+
 (defcustom celeste-visual-line-mode-list
   '(message-mode
     text-mode

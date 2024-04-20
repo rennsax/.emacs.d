@@ -116,7 +116,29 @@
 
 (celeste/use-package doom-themes
   :demand t
-  :hook (after-init . (lambda () (load-theme 'doom-cobalt2))))
+  :preface
+  (defun +load-default-theme ()
+    "Load the default theme."
+    (interactive)
+    (load-theme celeste-default-theme 'no-comfirm))
+
+  :hook (after-init . (lambda () (+load-default-theme) (+doom-themes-custom)))
+  :config
+  (defun +custom-doom-themes (&rest args)
+    "Wrapper for `custom-set-faces'. ARGS are transfered before passed."
+    (apply #'custom-set-faces
+           (mapcar (lambda (arg)
+                     `(,(car arg) ((t . (,@(cdr arg)))))) args)))
+
+  (defun +doom-themes-custom ()
+    "Extra customization for doom themes."
+    (+custom-doom-themes
+     `(magit-branch-remote :box (:line-width (-1 . -1)) :weight bold)
+     `(magit-section-heading :foreground ,(doom-color 'yellow))
+     `(magit-branch-current :box (:line-width (-1 . -1)) :weight bold
+                            :foreground ,(doom-color 'dark-red))
+     ))
+  )
 
 (celeste/use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
