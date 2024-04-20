@@ -1,14 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-;;; Constants
-(require 'init-const)
-
-(setq custom-file celeste-custom-file)
-;; `load-file' vs `load': the previous one just execute the Lisp code in the
-;; given file. The latter one does more things: try to add suffix, search
-;; `load-path', ...
-(load-file custom-file)
-
 ;;; Personal functions 🤠
 (require 'init-func)
 
