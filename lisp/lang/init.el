@@ -86,6 +86,7 @@ immediately."
 (require 'init-yaml)
 (require 'init-go)
 (require 'init-markdown)
+(require 'init-lua)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
