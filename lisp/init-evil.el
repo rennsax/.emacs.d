@@ -71,6 +71,10 @@
   ;; normally!
   (keymap-set evil-insert-state-map "<escape>" 'evil-normal-state)
 
+  ;; Also use Emacs's style bindings in ":" command line.
+  (keymap-unset evil-command-line-map "C-f")
+  (keymap-set evil-command-line-map "C-b" #'backward-char)
+
   )
 
 ;;; Evil extensions
