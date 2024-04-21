@@ -26,7 +26,7 @@
   ;; That's because I'm using EVIL 😈.
   (setq persp-suppress-no-prefix-key-warning t)
   ;; Ignore some buffers with `persp-switch-to-buffer*'
-  (setq ido-ignore-buffers `("\\` " "\\*helpful command: .*\\*"))
+  (setq ido-ignore-buffers `("\\` " "\\*helpful.*\\*"))
   (setq persp-state-default-file (concat celeste-data-dir "last-perspective"))
 
   (keymap-set global-map "C-x x" 'perspective-map)
