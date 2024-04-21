@@ -188,7 +188,9 @@
   :custom-face
   ;; TODO doc
   (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-  :hook (dired-mode . nerd-icons-dired-mode))
+  :commands (nerd-icons-dired-mode)
+  ;; :hook (dired-mode . nerd-icons-dired-mode)
+  )
 
 
 (provide 'init-ui)
