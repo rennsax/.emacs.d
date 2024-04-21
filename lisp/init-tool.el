@@ -3,6 +3,11 @@
 ;;; Code:
 
 
+(eval-when-compile
+  (require 'init-const))
+
+(require 'init-package)
+
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
 (celeste/use-package emacs-everywhere
   :commands emacs-everywhere)
