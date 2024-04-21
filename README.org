@@ -1,0 +1,129 @@
+#+title: Celeste Emacs
+#+startup: overview
+
+* Roadmap
+:PROPERTIES:
+:VISIBILITY: all
+:END:
+
+** New Packages
+
+- [ ] bookmark (builtin)
+
+- [ ] [[https://projectile.mx/][projectile]]
+
+- [ ] [[https://github.com/magit/forge.git][magit forge]]
+
+- [ ] [[https://github.com/manateelazycat/lsp-bridge.git][lsp-bridge]]
+
+  Recommended thread: [[https://www.reddit.com/r/emacs/comments/1c0v28k/lspmode_vs_lspbridge_vs_lspce_vs_eglot/][lsp-mode vs. lsp-bridge vs. lspce vs. eglot : r/emacs]].
+
+** Fix
+
+- [X] ~org-goto~ and ~evil-mode~. The command ~org-goto~ is convenient for
+  navigating the org doc.
+
+  It's solved by adding an advice around ~org-goto~
+  (4deb7308d220a9af3800a130fa5724dabead5d98).
+
+** Try
+
+- [ ] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
+
+  Emacs-eat is a relatively-newer package that aims to provide experience much
+  more like a terminal emulator with better integration with Emacs Lisp. The
+  most attractive feature is the ~eshell-eat-mode~, which turns Eshell to a
+  (semi-finished) terminal emulator, which provides the functionality like
+  ~eshell-visual-command-mode~ without leaving the Eshell window.
+
+  However, emacs-eat seems to be premature. It's still buggy, and I found no
+  lucky when I try to integrate my Zsh with it.
+
+- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+
+** Features
+
+- [ ] convert markdown-style link to org-style link.
+
+  #+begin_src emacs-lisp
+  (defun my/md-link-to-org ()
+    ;; Can also be adapted to use the region, but one would need to add
+    ;; a marker and region-end.  Remember to remove marker at end.
+    (interactive)
+    (let ((markdown-regex-link-inline
+           ;; from http://jblevins.org/git/markdown-mode.git/tree/markdown-mode.el
+           "\\(!\\)?\\(\\[\\)\\([^]^][^]]*\\|\\)\\(\\]\\)\\((\\)\\([^)]*?\\)\\(?:\\s-+\\(\"[^\"]*\"\\)\\)?\\()\\)"))
+      (while (search-forward-regexp markdown-regex-link-inline (point-max) t)
+        (replace-match "[[\\6][\\3]]"))))
+#+end_src
+
+- [ ] Repect the true line numbers (folded lines also counts) in commands
+  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
+
+  These commands do not know if some regions are folded, which is prevalent in
+  org-mode and markdown-mode.
+
+* Known Bugs
+
+** Handling windows with popper and evil
+
+How to reproduce: open Emacs, =C-h f= and then search for any callable
+functions, open the help buffer (in popper window). Click any link that targets
+to a file in the help buffer, the file appears at the right of the orginal
+window. Then =C-w x= (~evil-window-exchange~), an error like this occurs:
+
+#+begin_quote
+Window #<window 7 on *helpful function: url-user*> has same side bottom as
+window #<window 9 on *helpful function: url-user*> but no common parent
+#+end_quote
+
+* Knowledge
+
+** ~use-package~: ~:init~ or ~:config~?
+
+Code annotated by ~:init~ runs *before* the package is loaded, and code
+annotated by ~:config~ run *after* the package is loaded. Where should the
+~setq~ expression be put?
+
+The doom guy /hlissner/ answered [[https://www.reddit.com/r/emacs/comments/f3vncl/comment/fhmbf68/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button][in a Reddit thread]]. The main standpoint, which
+describes which kinds of variables should be set *before the package is loaded*.
+
+- Read the documentation. Some variables need to be set before the package is
+  loaded. For instance, ~evil-respect-visual-line-mode~.
+- Read the source code. Some variables have setters. For this kind of variables,
+  it should be set before the package is loaded in my case. (Other techniques
+  such as using doom's ~setq!~ or using the customization interface are
+  inpractical.)
+- For file/path variables, it's recommended to set them before the package is
+  loaded.
+
+Other variables should be set after the package is loaded when possible, which
+can speedup the startup procedure.
+
+** How does minor mode acts?
+
+Use =C-h f define-minor-mode=.
+
+** ~setq~ VS ~setopt~
+
+~setopt~ is a new function introduced in Emacs 29.1. Currently most of the users
+use ~setq~ to set variables. 
+
+Comparison:
+1. ~setq~ is more performance, of course, because it does less stuff and it's a
+   simple Lispy interface to bind some values to some symbols.
+
+** How to Set Frame Fonts?
+
+The most efficient way (in =early-init.el=, i.e. before the initial frame is
+created.
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist
+             `(font . ,(format "%s %d" my-font-name my-font-size)))
+#+end_src
+
+So that newly-created window-system frames can use the font arguments.
+
+Of course, after the GUI frame is drawn, the function ~set-frame-font~ can
+change the font.
