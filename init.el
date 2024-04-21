@@ -18,7 +18,7 @@
 ;; before he succumbs to the dark side.
 (require 'init-evil)
 
-;;;; Emacs awesome builtins. 🐂
+;;; Emacs awesome builtins. 🐂
 (require 'init-builtin)
 
 ;;; Magical completion support 🧙🏻

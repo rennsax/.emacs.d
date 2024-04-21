@@ -42,9 +42,7 @@
 
 ;; Show init time after configurations are fully loaded.
 (add-hook 'emacs-startup-hook
-          (lambda () (message
-                      (format "Init time: %s."
-                              (emacs-init-time)))))
+          (lambda () (message (format "Init time: %s." (emacs-init-time)))))
 
 (provide 'init-func)
 ;;; init-func.el ends here
