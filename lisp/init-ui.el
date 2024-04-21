@@ -46,12 +46,15 @@
 (add-hook 'auto-fill-mode-hook
           (lambda () (display-fill-column-indicator-mode 'toggle)))
 
+
+(defun +buffer-set-other-font ()
+  "Setup another font for the current buffer."
+  (interactive)
+  (setq-local buffer-face-mode-face (list :family celeste-other-font-name))
+  (buffer-face-mode))
+
 ;; Set different fonts for those special modes, so I can be awared of different contexts.
-(celeste/add-mode-hook celeste-other-font-mode-list
-    (defun +buffer-set-other-font ()
-      "Setup another font for the current buffer."
-      (setq-local buffer-face-mode-face (list :family celeste-other-font-name))
-      (buffer-face-mode)))
+(celeste/add-mode-hook celeste-other-font-mode-list #'+buffer-set-other-font)
 
 (use-package display-line-numbers
   ;; Display relative line numbers.
