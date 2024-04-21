@@ -95,7 +95,9 @@
         org-roam-db-location (concat celeste-data-dir "org-roam.db"))
 
   :commands (org-roam-node-find)
-  )
+  :config
+  ;; Necessary for automatical `org-roam-complete-link-at-point'
+  (org-roam-db-autosync-enable))
 
 (use-package org-agenda
   :after org
