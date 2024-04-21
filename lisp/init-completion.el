@@ -4,59 +4,62 @@
 
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
 
 ;; VERTical Interactive COmpletion
 (celeste/use-package vertico
   :hook ((after-init . vertico-mode))
-
+  :defines (vertico-map)
   :config
   ;; Vertico extensions
-  (add-to-list 'load-path (concat celeste-package-dir "vertico/extensions/"))
+  (eval-and-compile
+    (add-to-list 'load-path (concat celeste-package-dir "vertico/extensions/")))
 
   ;; DEL and M-DEL will delete a part of the path (divided by /) when possible.
-  (require 'vertico-directory)
-  (keymap-set vertico-map "DEL" #'vertico-directory-delete-char)
-  (keymap-set vertico-map "M-DEL" #'vertico-directory-delete-word)
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy) ; TODO: what's `rfn-eshadow-update-overlay'?
+  (use-package vertico-directory
+    :hook (rfn-eshadow-update-overlay . vertico-directory-tidy) ; TODO: what's `rfn-eshadow-update-overlay'?
+    :bind (:map vertico-map
+                ("DEL" . vertico-directory-delete-char)
+                ("M-DEL" . vertico-directory-delete-word)))
 
-  (require 'vertico-multiform)
-  (add-hook 'vertico-mode-hook #'vertico-multiform-mode)
+  (use-package vertico-multiform
+    :hook (vertico-mode . vertico-multiform-mode)
+    :config
+    ;; From https://github.com/minad/vertico/wiki#candidate-display-transformations-custom-candidate-highlighting
+    ;; Show different colors for directories/enabled modes in vertico.
+    (defvar +vertico-transform-functions nil)
 
-  ;; From https://github.com/minad/vertico/wiki#candidate-display-transformations-custom-candidate-highlighting
-  ;; Show different colors for directories/enabled modes in vertico.
-  (defvar +vertico-transform-functions nil)
+    (cl-defmethod vertico--format-candidate :around
+      (cand prefix suffix index start &context ((not +vertico-transform-functions) null))
+      (dolist (fun (ensure-list +vertico-transform-functions))
+        (setq cand (funcall fun cand)))
+      (cl-call-next-method cand prefix suffix index start))
 
-  (cl-defmethod vertico--format-candidate :around
-    (cand prefix suffix index start &context ((not +vertico-transform-functions) null))
-    (dolist (fun (ensure-list +vertico-transform-functions))
-      (setq cand (funcall fun cand)))
-    (cl-call-next-method cand prefix suffix index start))
+    (defun +vertico-highlight-directory (file)
+      "If FILE ends with a slash, highlight it as a directory."
+      (when (string-suffix-p "/" file)
+        (add-face-text-property 0 (length file) 'marginalia-file-priv-dir 'append file))
+      file)
 
-  (defun +vertico-highlight-directory (file)
-    "If FILE ends with a slash, highlight it as a directory."
-    (when (string-suffix-p "/" file)
-      (add-face-text-property 0 (length file) 'marginalia-file-priv-dir 'append file))
-    file)
-
-  (defun +vertico-highlight-enabled-mode (cmd)
-    "If MODE is enabled, highlight it as font-lock-constant-face."
-    (let ((sym (intern cmd)))
-      (with-current-buffer (nth 1 (buffer-list))
-      (if (or (eq sym major-mode)
-              (and
-               (memq sym minor-mode-list)
-               (boundp sym)
-               (symbol-value sym)))
-          (add-face-text-property 0 (length cmd) 'font-lock-constant-face 'append cmd)))
+    (defun +vertico-highlight-enabled-mode (cmd)
+      "If MODE is enabled, highlight it as font-lock-constant-face."
+      (let ((sym (intern cmd)))
+        (with-current-buffer (nth 1 (buffer-list))
+          (if (or (eq sym major-mode)
+                  (and
+                   (memq sym minor-mode-list)
+                   (boundp sym)
+                   (symbol-value sym)))
+              (add-face-text-property 0 (length cmd) 'font-lock-constant-face 'append cmd)))
         cmd))
 
-  (add-to-list 'vertico-multiform-categories
-               '(file
-                 (+vertico-transform-functions . +vertico-highlight-directory)))
-  (add-to-list 'vertico-multiform-commands
-               '(execute-extended-command
-                 (+vertico-transform-functions . +vertico-highlight-enabled-mode)))
+    (add-to-list 'vertico-multiform-categories
+                 '(file
+                   (+vertico-transform-functions . +vertico-highlight-directory)))
+    (add-to-list 'vertico-multiform-commands
+                 '(execute-extended-command
+                   (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
   )
 
 ;; Marginalia (n. marginal notes) in the minibuffer.
@@ -90,13 +93,16 @@
       (consult-info "vertico" "consult" "marginalia" "orderless" "embark"
                     "corfu" "cape" "tempel"))
     :commands consult-info)
+
+  (eval-when-compile
+    (celeste/use-package flycheck))
   (celeste/use-package consult-flycheck
     :after flycheck
     :commands consult-flycheck))
 
 ;; Lightweight completion engine.
 (celeste/use-package corfu
-  ;; :disabled t
+  :commands corfu-quit
   :config
   (setq corfu-auto t
         corfu-auto-prefix 3
@@ -149,7 +155,7 @@
                       completion-at-point-functions))
     (tempel-abbrev-mode))
   :hook ((conf-mode prog-mode text-mode) . tempel-setup-capf)
-  :commands (tempel-expand tempel-abbrev-mode)
+  :commands (tempel-expand tempel-abbrev-mode tempel-complete)
   :config
   (setq tempel-trigger-prefix "<t<")
   )

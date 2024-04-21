@@ -4,18 +4,17 @@
 
 
 (eval-when-compile
-  (require 'init-const))
-
-(require 'init-package)
+  (require 'init-const)
+  (require 'init-package))
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
 (celeste/use-package emacs-everywhere
   :commands emacs-everywhere)
 
 ;; Yet another great "ripgrep" frontend!
+(celeste/use-package spinner)
 (celeste/use-package deadgrep
   ;; Fancy progress-bars in mode-line.
-  :init (celeste/use-package spinner)
   :commands deadgrep)
 
 ;; Powerful and convenient *workspace* manager.

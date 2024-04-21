@@ -1,10 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
+(require 'init-const)
+
 ;;; Personal functions 🤠
 (require 'init-func)
-
-;;; Package manager (in my case, w/ git submodules) and well-known deps 📦
-(require 'init-package)
 
 ;;; Basic editor features 📝
 (require 'init-editor)

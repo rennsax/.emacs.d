@@ -4,12 +4,20 @@
 
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
 
 ;; There is also a builtin `transient' package.
 ;; However we use the submodule one.
 (use-package transient
   :load-path "packages/transient/lisp"
+  :defines (transient-levels-file
+            transient-values-file
+            transient-history-file
+            transient-default-level
+            transient-display-buffer-action
+            transient-map)
+  :commands transient-quit-one
   :init
   ;; Set transient directories.
   (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
@@ -21,14 +29,21 @@
         transient-display-buffer-action '(display-buffer-below-selected))
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
+;; Also depends on `compat' and `dash'.
+(celeste/use-package with-editor
+  :load-path "packages/with-editor/lisp")
+
 ;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
 (celeste/use-package magit
   :load-path "packages/magit/lisp"
   :demand t ; The killer feature of Emacs! Load it immediately!
-  :init
-  ;; Also depends on `compat' and `dash'.
-  (celeste/use-package with-editor
-    :load-path "packages/with-editor/lisp")
+  :defines (magit-diff-refine-hunk
+            magit-save-repository-buffers
+            magit-mode-map
+            magit-revision-show-gravatars
+            magit-bury-buffer-function
+            magit-display-buffer-function)
+  :commands magit-mode-quit-window
   :config
   (setq magit-diff-refine-hunk t ; show granular diffs in selected hunk
         ;; Just trust the user, instead of saving files before running magit
@@ -61,7 +76,9 @@
 
 ;; diff-hl: better git-diff integration
 ;; TODO: find-dired
-(add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
+(eval-and-compile
+  (add-to-list 'load-path (concat celeste-package-dir "diff-hl")))
+
 (use-package diff-hl
   ;; `find-file-hook': after a buffer is loaded from a file
   :hook ((find-file . diff-hl-mode)

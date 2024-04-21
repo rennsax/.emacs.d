@@ -3,7 +3,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
 
 (require 'init-custom)
 
@@ -83,8 +84,9 @@
     :hook (popper-mode . popper-echo-mode)))
 
 (celeste/use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
-  :hook (yaml-mode . hl-todo-mode)
+  :hook ((prog-mode yaml-mode) . hl-todo-mode)
+  :defines (hl-todo-highlight-punctuation
+            hl-todo-keyword-faces)
   :config
   ;; Copied from doom
   (setq hl-todo-highlight-punctuation ":"

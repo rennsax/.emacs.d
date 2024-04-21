@@ -18,7 +18,7 @@
     (sis-global-respect-mode 'toggle)
     ;; Use different cursor colors for different IME.
     (sis-global-cursor-color-mode 'toggle))
-  :commands (sis-context-mode sis-global-respect-mode)
+  :commands (sis-context-mode sis-global-respect-mode sis-global-cursor-color-mode)
   :config
   (setq sis-english-source "com.apple.keylayout.US"
         sis-other-source "com.sogou.inputmethod.sogou.pinyin")

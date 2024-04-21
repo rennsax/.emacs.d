@@ -4,9 +4,9 @@
 
 
 (eval-when-compile
-  (require 'init-const))
+  (require 'init-const)
+  (require 'init-package))
 
-(require 'init-package)
 (require 'init-custom)
 
 ;;; Editor basis
@@ -81,6 +81,11 @@
 ;;; Emacs shell - wow, such a versatile and powerful shell, seamlessly
 ;;; integrated with Emacs itself! 🐚
 (use-package eshell
+  :defines (eshell-scroll-to-bottom-on-input
+            eshell-history-size
+            eshell-prompt-function
+            eshell-mode-map)
+
   :config
 
   (setq eshell-scroll-to-bottom-on-input t)
@@ -107,6 +112,7 @@
   ;; TODO
   ;; :bind (:map dired-mode-map
   ;;        ("C-c C-p" . wdired-change-to-wdired-mode))
+  ;; :defines ls-lisp-use-insert-directory-program
   :config
   ;; Use the dir in another dired window as the default dir rather than the
   ;; current one.

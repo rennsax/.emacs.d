@@ -3,9 +3,8 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const))
-
-;;; -*- lexical-binding: t; -*-
+  (require 'init-const)
+  (require 'init-package))
 
 ;; NOTE: on macOS, the menu bar must be disabled after the frame is created,
 ;; namely, after early-init.el.
@@ -21,8 +20,8 @@
 ;; borders will match the enabled theme.
 (and (or (daemonp)
          (display-graphic-p))
-     (celeste/require ns-auto-titlebar)
-     (ns-auto-titlebar-mode +1))
+     (celeste/use-package ns-auto-titlebar
+       :hook (after-init . ns-auto-titlebar-mode)))
 
 ;; Interactive calles to `delete-file' and `delete-directory' and the Dired
 ;; deletion commands use `move-file-to-trash'.
