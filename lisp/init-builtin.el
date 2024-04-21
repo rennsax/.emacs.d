@@ -91,17 +91,7 @@
   (setq eshell-prompt-function '+eshell-default-prompt-fn)
 
   (celeste/autoload '+eshell-input-bol eshell)
-  (celeste/autoload '+eshell-kill-whole-input eshell)
-
-  (defun +eshell-setup-keys ()
-    ;; TODO Shell-like C-d
-    (evil-define-key* 'insert eshell-mode-map
-      (kbd "C-p") #'eshell-previous-input
-      (kbd "C-n") #'eshell-next-input
-      (kbd "C-u") #'+eshell-kill-whole-input
-      (kbd "C-a") #'+eshell-input-bol))
-
-  (add-hook 'eshell-first-time-mode-hook '+eshell-setup-keys))
+  (celeste/autoload '+eshell-kill-whole-input eshell))
 
 ;; To most programs, eshell is dumb terminal. Therefore we need to tell Eshell
 ;; to open up visual commands in a dedicated terminal emulator.

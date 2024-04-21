@@ -11,13 +11,7 @@
 (celeste/use-package deadgrep
   ;; Fancy progress-bars in mode-line.
   :init (celeste/use-package spinner)
-  :commands deadgrep
-  :config
-  ;; (evil-set-initial-state 'deadgrep-mode 'motion)
-  ;; Move across matched files.
-  (evil-define-key* 'normal deadgrep-mode-map
-    (kbd "C-k") #'deadgrep-backward-filename
-    (kbd "C-j") #'deadgrep-forward-filename))
+  :commands deadgrep)
 
 ;; Powerful and convenient *workspace* manager.
 (celeste/use-package perspective
@@ -35,7 +29,6 @@
   (setq ido-ignore-buffers `("\\` " "\\*helpful command: .*\\*"))
   (setq persp-state-default-file (concat celeste-data-dir "last-perspective"))
 
-  (evil-define-key* nil celeste-leader-map "p" 'perspective-map)
   (keymap-set global-map "C-x x" 'perspective-map)
   )
 

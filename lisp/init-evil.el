@@ -3,8 +3,9 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
+  (require 'init-const))
+
+(require 'init-package)
 
 ;; Silence `evil-collection' warnings.
 (eval-when-compile
@@ -13,12 +14,8 @@
 
 (celeste/use-package evil
   :demand t
-
-  :init
-  ;; BUG: how to silence the byte-compiler warnings w/ :defines and :functions?
-  (eval-when-compile
-    (declare-function evil-define-key* "evil")
-    (declare-function evil-emacs-state "evil"))
+  :commands (evil-emacs-state)
+  ;; TODO :when custom
 
   ;; Toggle "Evil-Local mode" mode in *all* buffers.
   :hook (after-init . evil-mode)
@@ -74,73 +71,14 @@
   ;; normally!
   (keymap-set evil-insert-state-map "<escape>" 'evil-normal-state)
 
-  ;; TODO: hello orphan
-  (keymap-unset global-map "C-x <escape> <escape>")
-
-  ;; Evil key bindinds!
-  (let ((leader-key celeste-leader-key))
-
-    ;; Visually move up and down. Useful when (soft) line wrap is enabled.
-    (evil-define-key* 'normal 'global
-      [up] 'evil-previous-visual-line
-      [down] 'evil-next-visual-line)
-
-    ;; In minibuffer, use "C-u" to clear the line.
-    (keymap-set minibuffer-mode-map "C-u" 'evil-delete-back-to-indentation)
-
-    ;; In insert-state, move the window.
-    (keymap-set evil-insert-state-map "C-w h" 'evil-window-left)
-    (keymap-set evil-insert-state-map "C-w j" 'evil-window-down)
-    (keymap-set evil-insert-state-map "C-w k" 'evil-window-up)
-    (keymap-set evil-insert-state-map "C-w l" 'evil-window-right)
-    (keymap-set evil-insert-state-map "C-w c" 'evil-window-delete)
-    (keymap-set evil-insert-state-map "C-w o" 'delete-other-windows)
-    (keymap-set evil-insert-state-map "C-w p" 'evil-window-mru)
-    (keymap-set evil-insert-state-map "C-w n" 'evil-window-new)
-
-    ;; Switch to the recent buffer even in insert-state.
-    (keymap-set evil-insert-state-map "C-6" 'evil-switch-to-windows-last-buffer)
-
-    ;; Leader mappings.
-    (define-prefix-command 'celeste-leader-map)
-    (defvar celeste-leader-map) ; silence byte-compiler
-    (keymap-set evil-motion-state-map leader-key 'celeste-leader-map)
-    (keymap-set evil-normal-state-map leader-key 'celeste-leader-map)
-
-    (evil-define-key* nil celeste-leader-map
-      "n"   'evil-ex-nohighlight
-      "rg"  'deadgrep
-      "s."  'consult-recent-file
-      "sf"  'consult-fd
-      "so"  'consult-outline
-      ;; Search Diagnostic
-      "sd"  'consult-flycheck
-
-      (kbd celeste-leader-key) 'consult-buffer
-
-      "bx"  'kill-current-buffer
-      "bs"  'scratch-buffer
-      "be"  'eshell
-
-      "oA"  'org-agenda
-      "orn" 'org-roam-node-find
-
-      "gg"  'magit-status
-      "gsh" 'diff-hl-show-hunk
-      ;; [e]dit git[i]gnore
-      "gei" 'magit-gitignore-in-topdir
-
-      "ie"  'emoji-search
-      "iE"  'emoji-insert
-
-      "zz"  'writeroom-mode))
   )
 
 ;;; Evil extensions
 
 ;; A bunch of community evil key bindings => use evil almost everywhere!
 (celeste/use-package evil-collection
-  :hook (evil-mode . evil-collection-init)
+  :commands evil-collection-init
+  :init
   :config
   ;; Protect some keys - they should never be mapped!
   (setq evil-collection-key-blacklist
@@ -179,11 +117,7 @@
 (celeste/use-package evil-visualstar
   :commands (evil-visualstar/begin-search
              evil-visualstar/begin-search-forward
-             evil-visualstar/begin-search-backward)
-  :init
-  (evil-define-key* 'visual 'global
-    "*" #'evil-visualstar/begin-search-forward
-    "#" #'evil-visualstar/begin-search-backward))
+             evil-visualstar/begin-search-backward))
 
 ;; Provide "x" text object to manipulate html/xml tag attributes
 (celeste/use-package exato

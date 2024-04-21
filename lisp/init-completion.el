@@ -65,9 +65,13 @@
 
 ;; Like Telescope in Neovim.
 (celeste/use-package consult
-  :bind (("C-x b" . consult-buffer))
   :demand t
+  :commands consult-fd
   :config
+  (defun +consult-emacs-configurations ()
+    "Search Emacs configurations files."
+    (interactive)
+    (consult-fd user-emacs-directory "lisp/"))
   (use-package consult-info
     :init
     (defun consult-info-emacs ()

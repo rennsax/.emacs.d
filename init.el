@@ -46,6 +46,9 @@
 ;;; Language extensions
 (load (concat celeste-lisp-dir "lang/init"))
 
+;;; Key bindings! ⌨️
+(require 'init-keybinding)
+
 ;; TODO
 (setq initial-buffer-choice celeste-init-file)
 
