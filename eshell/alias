@@ -1,0 +1,4 @@
+alias ll ls -lah $*
+alias l ls -lAh $*
+alias ff find-file $1
+alias d dired $1
