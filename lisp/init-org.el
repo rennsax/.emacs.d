@@ -42,11 +42,7 @@
   (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)" "CANCEL(c)"))
         org-todo-keyword-faces '(("CANCEL" . error)))
 
-  (celeste/autoload '+org-cycle-only-current-subtree-h org)
-  (add-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h)
-
-  (celeste/autoload '+org/dwim-at-point org nil t)
-  )
+  (celeste/autoload '+org/dwim-at-point org nil t))
 
 (use-package org-goto
   :config
