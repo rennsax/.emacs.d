@@ -121,6 +121,15 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
   )
 
 
+;; Eglot is the Emacs builtin LSP client.
+(use-package eglot
+  :commands (eglot eglot-ensure))
+
+;; So these two can work together.
+(celeste/use-package flycheck-eglot
+  :after (eglot flycheck)
+  :commands flycheck-eglot-mode)
+
 (require 'init-yaml)
 (require 'init-go)
 (require 'init-markdown)

@@ -211,3 +211,6 @@
 [submodule "packages/treesit-auto"]
 	path = packages/treesit-auto
 	url = https://github.com/renzmann/treesit-auto.git
+[submodule "packages/flycheck-eglot"]
+	path = packages/flycheck-eglot
+	url = https://github.com/flycheck/flycheck-eglot.git
