@@ -36,6 +36,42 @@
   (keymap-set global-map "C-x x" 'perspective-map)
   )
 
+;; Enchanted spell checker.
+(celeste/use-package jinx
+  :commands jinx-mode
+  :bind (:map jinx-overlay-map
+              ("C-c j c" . jinx-correct))
+  :config
+  (setq jinx-languages "en_US")
+  ;; Exclude Chinese characters. This should be a universal setting, so I put it
+  ;; here (instead of init-cjk.el)
+  (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
+
+  :init
+  (defconst jinx-mode-dict-alist
+    '((emacs-lisp-mode ("el"))
+      (python-mode ("numpy")))
+    "Mode-local dictionaries.")
+
+  (defconst jinx-enable-mode-list
+    '(emacs-lisp-mode org-mode)
+    "Modes that jinx should be enabled.")
+
+  ;; Manually setup mode-local words and enable jinx in specified modes.
+  (mapc (lambda (mode)
+          (let ((hook (intern (concat (symbol-name mode) "-hook"))))
+            (if-let* ((lang-dict (seq-find (lambda (lang-dict) (eq (car lang-dict) mode))
+                                           jinx-mode-dict-alist))
+                      (word-list (cadr lang-dict)))
+              (add-hook hook
+                        #'(lambda ()
+                            (setq jinx-local-words (mapconcat #'identity word-list " "))
+                            (jinx-mode)))
+              (add-hook hook #'jinx-mode))))
+        jinx-enable-mode-list)
+  )
+
+
 
 (provide 'init-tool)
 ;;; init-tool.el ends here

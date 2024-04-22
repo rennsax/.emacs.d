@@ -26,6 +26,12 @@
   (use-package vertico-multiform
     :hook (vertico-mode . vertico-multiform-mode)
     :config
+
+    ;; Use grid view for `jinx-correct' completion menu. Recommended by minad himself.
+    (require 'vertico-grid)
+    (add-to-list 'vertico-multiform-categories
+                 '(jinx grid (vertico-grid-annotate . 20)))
+
     ;; From https://github.com/minad/vertico/wiki#candidate-display-transformations-custom-candidate-highlighting
     ;; Show different colors for directories/enabled modes in vertico.
     (defvar +vertico-transform-functions nil)
