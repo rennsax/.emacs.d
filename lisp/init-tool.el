@@ -58,17 +58,16 @@
     "Modes that jinx should be enabled.")
 
   ;; Manually setup mode-local words and enable jinx in specified modes.
-  (mapc (lambda (mode)
-          (let ((hook (intern (concat (symbol-name mode) "-hook"))))
-            (if-let* ((lang-dict (seq-find (lambda (lang-dict) (eq (car lang-dict) mode))
-                                           jinx-mode-dict-alist))
-                      (word-list (cadr lang-dict)))
-              (add-hook hook
-                        #'(lambda ()
-                            (setq jinx-local-words (mapconcat #'identity word-list " "))
-                            (jinx-mode)))
-              (add-hook hook #'jinx-mode))))
-        jinx-enable-mode-list)
+  (mapc (lambda (mode-word-list)
+          (let ((mode (car mode-word-list))
+                (word-list (cadr mode-word-list)))
+            (add-hook (intern (concat (symbol-name mode) "-hook"))
+                      #'(lambda ()
+                          (setq jinx-local-words
+                                (mapconcat #'identity word-list " "))))))
+        jinx-mode-dict-alist)
+  ;; Must *after* setting `jinx-local-words'.
+  (celeste/add-mode-hook jinx-enable-mode-list #'jinx-mode)
   )
 
 ;; In-Emacs terminal emulator.
