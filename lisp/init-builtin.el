@@ -176,6 +176,10 @@
   :init
   (setq gamegrid-user-score-file-directory (concat celeste-data-dir "games")))
 
+(use-package bookmark
+  :init
+  (setq bookmark-default-file (concat celeste-data-dir "bookmarks")))
+
 
 (provide 'init-builtin)
 ;;; init-builtin.el ends here
