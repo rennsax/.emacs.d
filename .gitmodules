@@ -220,3 +220,6 @@
 [submodule "packages/vterm"]
 	path = packages/vterm
 	url = https://github.com/akermu/emacs-libvterm.git
+[submodule "packages/edit-indirect"]
+	path = packages/edit-indirect
+	url = https://github.com/Fanael/edit-indirect.git

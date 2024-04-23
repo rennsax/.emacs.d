@@ -21,6 +21,7 @@
         ;; Fontify code in code blocks using the native major mode.
         markdown-fontify-code-blocks-natively t)
 
+  (celeste/use-package edit-indirect)
   )
 
 (celeste/use-package markdown-toc
