@@ -15,18 +15,25 @@
   :init
   (setq recentf-max-saved-items 240) ; just because I like this number
   (setq recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+                "\\.\\(?:gz\\|gif\\|svg\\|png\\|PNG\\|jpe?g\\|JPE?G\\|bmp\\|xpm\\)$"
                 "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
                 "^/tmp/" "^/var/folders/.+$" "/persp-confs/"))
   :custom
   (recentf-save-file (concat celeste-cache-dir "recentf"))
   :config
+  ;; Auto-cleanup recentf after shutdown.
+  (setq recentf-auto-cleanup (if (daemonp) 300))
+  (add-hook 'kill-emacs-hook #'recentf-cleanup)
+
   (add-to-list 'recentf-exclude
 	       (concat "^" (regexp-quote (or (getenv "XDG_RUNTIME_DIR")
 					     "/run"))))
-  (add-to-list 'recentf-exclude
-	       (expand-file-name recentf-save-file))
-  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
+  ;; Filenames are shortened.
+  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
+  ;; Text properties inflate the size of recentf's files, and there is
+  ;; no purpose in persisting them (Must be first in the list!)
+  (add-to-list 'recentf-filename-handlers #'substring-no-properties)
+  )
 
 (use-package savehist
   :custom (savehist-file (concat celeste-cache-dir "savehist"))
