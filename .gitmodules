@@ -232,3 +232,6 @@
 [submodule "packages/evil-goggles"]
 	path = packages/evil-goggles
 	url = https://github.com/edkolev/evil-goggles.git
+[submodule "packages/projectile"]
+	path = packages/projectile
+	url = https://github.com/bbatsov/projectile.git
