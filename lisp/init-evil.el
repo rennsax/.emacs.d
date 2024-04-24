@@ -143,6 +143,17 @@
   :config
   (setq evil-replace-with-register-key (kbd "gr")))
 
+;; Display visual hint on evil edit operations. Even better than Vim!
+(celeste/use-package evil-goggles
+  :hook (evil-mode . evil-goggles-mode)
+  :init
+  (setq evil-goggles-enable-delete nil
+        evil-goggles-enable-change nil
+        evil-goggles-enable-nerd-commenter nil)
+  :config
+  (setq evil-goggles-duration 0.3)
+  )
+
 
 (provide 'init-evil)
 ;;; init-evil.el ends here
