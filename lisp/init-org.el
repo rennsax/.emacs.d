@@ -12,7 +12,7 @@
   :init
   (setq org-modules nil) ; Speedup startup.
   (setq org-directory celeste-org-dir)
-  (setq org-agenda-files (list org-directory))
+  (setq org-agenda-files (list (concat org-directory "agenda")))
   :config
 
   (setq org-edit-src-content-indentation 0
@@ -60,12 +60,8 @@
 (celeste/use-package org-modern
   :after org
   :hook ((org-mode . org-modern-mode)
-         (org-agenda-finalize . org-modern-agenda))
-  :config
-  ;; Do not hide leading stars of titles. Consequently there are visually
-  ;; indentation in the org doc, which indicates the outline levels, making
-  ;; the doc more readable.
-  (setq org-modern-hide-stars nil))
+         ;; Also prettify the agenda buffer.
+         (org-agenda-finalize . org-modern-agenda)))
 
 ;; TODO: ob-xx
 
