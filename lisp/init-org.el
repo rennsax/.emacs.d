@@ -44,14 +44,6 @@
 
   (celeste/autoload '+org/dwim-at-point org nil t))
 
-(use-package org-goto
-  :config
-  ;; `org-goto' is a convenient way to navigate an org buffer. However, it
-  ;; conflicts with `evil-mode'.
-  (advice-add 'org-goto :around
-              (lambda (oldfun &rest r)
-                (evil-with-state emacs (apply oldfun r)))))
-
 (use-package org-id
   :init
   (setq org-id-locations-file (file-name-concat org-directory ".org-id-locations")))
@@ -78,6 +70,9 @@
 ;; TODO: ob-xx
 
 (celeste/use-package org-roam
+  :defines (org-roam-directory
+            org-roam-db-location)
+  :functions org-roam-db-autosync-enable
   :init
 ;;; BEGIN Dependencies of `org-roam' 8<
   ;; `dash'
@@ -117,11 +112,12 @@
   (celeste/require ts)
   ;; Emacs hashtable library.
   (celeste/require ht)
+  ;; Supercharge the org-agenda!
   (celeste/require org-super-agenda)
   ;; Global minor mode. From now on, `org-agenda-list' respects a series of
   ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
+  (declare-function org-super-agenda-mode 'org-super-agenda)
   (org-super-agenda-mode)
-
   )
 
 

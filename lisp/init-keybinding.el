@@ -97,5 +97,12 @@ breaks the load order and is unpredictable."
       (kbd "C-u") #'+eshell-kill-whole-input
       (kbd "C-a") #'+eshell-input-bol)))
 
+(with-eval-after-load 'org-goto
+  ;; `org-goto' is a convenient way to navigate an org buffer. However, it
+  ;; conflicts with `evil-mode'.
+  (advice-add 'org-goto :around
+              (lambda (oldfun &rest r)
+                (evil-with-state emacs (apply oldfun r)))))
+
 (provide 'init-keybinding)
 ;;; init-keybinding.el ends here
