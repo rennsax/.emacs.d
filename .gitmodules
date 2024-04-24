@@ -223,3 +223,9 @@
 [submodule "packages/edit-indirect"]
 	path = packages/edit-indirect
 	url = https://github.com/Fanael/edit-indirect.git
+[submodule "packages/ts"]
+	path = packages/ts
+	url = https://github.com/alphapapa/ts.el
+[submodule "packages/org-super-agenda"]
+	path = packages/org-super-agenda
+	url = https://github.com/alphapapa/org-super-agenda

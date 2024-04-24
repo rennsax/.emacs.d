@@ -112,6 +112,16 @@
   ;; TODO: move to init-keybinding.el.
   (evil-define-key* 'motion evil-org-agenda-mode-map
     (kbd celeste-leader-key) #'celeste-leader-map)
+
+  ;; Emacs timestamp and date-time library.
+  (celeste/require ts)
+  ;; Emacs hashtable library.
+  (celeste/require ht)
+  (celeste/require org-super-agenda)
+  ;; Global minor mode. From now on, `org-agenda-list' respects a series of
+  ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
+  (org-super-agenda-mode)
+
   )
 
 
