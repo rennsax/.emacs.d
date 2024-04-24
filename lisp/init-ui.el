@@ -47,11 +47,18 @@
           (lambda () (display-fill-column-indicator-mode 'toggle)))
 
 
-(defun +buffer-set-other-font ()
-  "Setup another font for the current buffer."
-  (interactive)
-  (setq-local buffer-face-mode-face (list :family celeste-other-font-name))
-  (buffer-face-mode))
+(defun +buffer-set-other-font (&optional font-family)
+  "Setup another font for the current buffer.
+
+If FONT-FAMILY is non-nil, use the specified font. Otherwise,
+`celeste-other-font-name' is used."
+  (interactive "MFont family: ")
+  (let ((font-family (or font-family celeste-other-font-name)))
+    (if (string= font-family celeste-default-font-name)
+        (buffer-face-mode -1)
+      (progn
+        (setq-local buffer-face-mode-face `(:family ,font-family))
+        (buffer-face-mode +1)))))
 
 ;; Set different fonts for those special modes, so I can be awared of different contexts.
 (celeste/add-mode-hook celeste-other-font-mode-list #'+buffer-set-other-font)
