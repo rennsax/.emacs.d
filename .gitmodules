@@ -235,3 +235,6 @@
 [submodule "packages/projectile"]
 	path = packages/projectile
 	url = https://github.com/bbatsov/projectile.git
+[submodule "packages/gptel"]
+	path = packages/gptel
+	url = https://github.com/karthink/gptel.git
