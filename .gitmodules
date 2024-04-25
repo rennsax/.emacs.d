@@ -244,3 +244,9 @@
 [submodule "packages/json-snatcher"]
 	path = packages/json-snatcher
 	url = https://github.com/Sterlingg/json-snatcher.git
+[submodule "packages/yasnippet"]
+	path = packages/yasnippet
+	url = https://github.com/joaotavora/yasnippet.git
+[submodule "packages/lsp-bridge"]
+	path = packages/lsp-bridge
+	url = https://github.com/manateelazycat/lsp-bridge.git
