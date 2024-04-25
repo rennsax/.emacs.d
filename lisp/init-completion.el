@@ -108,6 +108,8 @@
 
 ;; Lightweight completion engine.
 (celeste/use-package corfu
+  ;; Replaced by acm in lsp-bridge
+  :disabled t
   :commands corfu-quit
   :config
   (setq corfu-auto t
