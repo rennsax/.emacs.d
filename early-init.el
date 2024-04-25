@@ -70,7 +70,7 @@
   (dolist (charset '(kana han cjk-misc bopomofo symbol))
     (set-fontset-font fontset charset (font-spec :family celeste-cjk-font-name))))
 
-(add-hook 'after-setting-font-hook #'+fontset-setup-cjk)
+(add-hook 'celeste-buffer-face-mode-hook #'+fontset-setup-cjk)
 
 ;; `after-setting-font-hook' isn't triggered since the font of the initial frame
 ;; is never *changed*.
