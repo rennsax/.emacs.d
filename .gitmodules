@@ -238,3 +238,9 @@
 [submodule "packages/gptel"]
 	path = packages/gptel
 	url = https://github.com/karthink/gptel.git
+[submodule "packages/json-mode"]
+	path = packages/json-mode
+	url = https://github.com/json-emacs/json-mode.git
+[submodule "packages/json-snatcher"]
+	path = packages/json-snatcher
+	url = https://github.com/Sterlingg/json-snatcher.git
