@@ -86,7 +86,12 @@ If FONT-FAMILY is non-nil, use the specified font. Otherwise,
           "\\*evil-jumps\\*"
           "\\*Compile-Log\\*"
           "\\*compilation\\*"
-          help-mode
+          ;; Exclude "*Org Help*" buffer in `org-goto'. If not, `org-goto'
+          ;; firstly focuses on the popper window, which is annoying.
+          (lambda (buf)
+            (with-current-buffer buf
+              (and (derived-mode-p 'help-mode)
+                   (not (string= (buffer-name) "*Org Help*")))))
           helpful-mode ; `helpful' package
           debugger-mode))
   (use-package popper-echo
