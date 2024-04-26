@@ -128,6 +128,8 @@
   )
 
 
+(celeste/use-package mwim
+  :commands mwim-beginning mwim-end)
 
 
 (provide 'init-tool)

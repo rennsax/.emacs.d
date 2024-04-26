@@ -104,5 +104,12 @@ breaks the load order and is unpredictable."
               (lambda (oldfun &rest r)
                 (evil-with-state emacs (apply oldfun r)))))
 
+(with-eval-after-load 'mwim
+  (evil-define-key 'insert 'global
+    ;; BOL or indent.
+    (kbd "C-a") #'mwim-beginning
+    ;; Skip comments.
+    (kbd "C-e") #'mwim-end))
+
 (provide 'init-keybinding)
 ;;; init-keybinding.el ends here

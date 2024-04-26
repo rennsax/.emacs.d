@@ -247,3 +247,6 @@
 [submodule "packages/lsp-bridge"]
 	path = packages/lsp-bridge
 	url = https://github.com/manateelazycat/lsp-bridge.git
+[submodule "packages/mwim"]
+	path = packages/mwim
+	url = https://github.com/alezost/mwim.el.git
