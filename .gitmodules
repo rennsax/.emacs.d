@@ -250,3 +250,6 @@
 [submodule "packages/mwim"]
 	path = packages/mwim
 	url = https://github.com/alezost/mwim.el.git
+[submodule "packages/elisp-demos"]
+	path = packages/elisp-demos
+	url = https://github.com/xuchunyang/elisp-demos.git
