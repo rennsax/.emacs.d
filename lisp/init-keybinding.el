@@ -88,6 +88,16 @@ breaks the load order and is unpredictable."
   (evil-define-key* 'normal org-mode-map
     (kbd "<return>") #'+org/dwim-at-point))
 
+(with-eval-after-load 'image-mode
+  (evil-define-key* 'normal image-mode-map
+    "n" #'image-next-file
+    "p" #'image-previous-file))
+
+(with-eval-after-load 'doc-view
+  (evil-define-key* 'normal doc-view-mode-map
+    "n" #'doc-view-next-page
+    "p" #'doc-view-previous-page))
+
 (add-hook 'eshell-first-time-mode-hook
   (defun +eshell-setup-keys ()
     ;; TODO Shell-like C-d
