@@ -106,11 +106,10 @@
     :after flycheck
     :commands consult-flycheck))
 
-;; Lightweight completion engine.
+;; Lightweight completion engine, powered by capf.
+;; Now only used by eshell and emacs-lisp-mode.
 (celeste/use-package corfu
-  ;; Replaced by acm in lsp-bridge
-  :disabled t
-  :commands corfu-quit
+  :commands corfu-quit corfu-mode
   :config
   (setq corfu-auto t
         corfu-auto-prefix 3
@@ -128,10 +127,11 @@
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
   ;; Toggle corfu in all buffers
-  :hook ((after-init . global-corfu-mode)
-         ;; In `eshell-mode', do not automatically toggle corfu prompt.
+  :hook (;; In `eshell-mode', do not automatically toggle corfu prompt.
          (eshell-mode . (lambda ()
-                          (setq-local corfu-auto nil)))))
+                          (corfu-mode)
+                          (setq-local corfu-auto nil)))
+         (emacs-lisp-mode . corfu-mode)))
 
 
 ;; Fuzzy finder
