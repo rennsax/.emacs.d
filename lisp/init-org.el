@@ -88,7 +88,7 @@
 
   :commands (org-roam-node-find)
   :config
-  ;; Necessary for automatical `org-roam-complete-link-at-point'
+  ;; Necessary for automatic `org-roam-complete-link-at-point'
   (org-roam-db-autosync-enable))
 
 (use-package org-agenda
