@@ -17,7 +17,7 @@
   (setq recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
                 "\\.\\(?:gz\\|gif\\|svg\\|png\\|PNG\\|jpe?g\\|JPE?G\\|bmp\\|xpm\\)$"
                 "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-                "^/tmp/" "^/var/folders/.+$" "/persp-confs/"))
+                "^/tmp/" "^/var/folders/.+$" "/persp-confs/" "HELLO"))
   :custom
   (recentf-save-file (concat celeste-cache-dir "recentf"))
   :config
