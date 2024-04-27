@@ -19,9 +19,6 @@
 [submodule "packages/dash"]
 	path = packages/dash
 	url = https://github.com/magnars/dash.el.git
-[submodule "packages/evil-escape"]
-	path = packages/evil-escape
-	url = https://github.com/syl20bnr/evil-escape.git
 [submodule "packages/vertico"]
 	path = packages/vertico
 	url = https://github.com/minad/vertico.git

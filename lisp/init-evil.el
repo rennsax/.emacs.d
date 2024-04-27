@@ -101,18 +101,6 @@
              evilnc-inner-comment
              evilnc-outer-commenter))
 
-;; Escape insert state with key sequence.
-(celeste/use-package evil-escape
-  :hook (evil-mode . evil-escape-mode)
-  :init
-  (setq evil-escape-key-sequence "jj"
-        evil-escape-delay 1.0
-        evil-escape-excluded-states '(normal visual multiedit emacs motion))
-  :config
-  (evil-escape-mode)
-  (add-hook 'evil-escape-inhibit-functions
-            'minibufferp))
-
 ;; Port of vim.surround.
 (celeste/use-package evil-surround
   :hook (evil-mode . global-evil-surround-mode))
