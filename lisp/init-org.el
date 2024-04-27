@@ -33,6 +33,9 @@
         ;; 3. These visual indentation is dropped after export.
         ;; org-startup-indented t
 
+        ;; Place tags directly after headline text, with only one space in between.
+        org-tags-column 0
+
         ;; Leave a blank line before a new heading. Try C-c RET.
         org-blank-before-new-entry '((heading . always) (plain-list-item . auto))
         ;; Do not use the actual size when inlining the image, i.e. respect
@@ -115,6 +118,11 @@
   ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
   (declare-function org-super-agenda-mode 'org-super-agenda)
   (org-super-agenda-mode)
+
+  ;; Do not destroy my window layout!!!
+  (if (featurep 'popper)
+      (setq org-agenda-window-setup 'other-window)
+    (setq org-agenda-window-setup 'current-window))
   )
 
 
