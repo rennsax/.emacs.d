@@ -6,7 +6,8 @@
   (require 'init-const))
 
 (celeste/use-package go-mode
-  :mode ("\\.go\\'" . go-mode)
+  :mode (("\\.go\\'" . go-mode)
+         ("go\\.mod$" . go-dot-mod-mode))
   :init
   (defvar go-mode-go-path)
   :config
