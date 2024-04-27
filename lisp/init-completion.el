@@ -116,8 +116,9 @@
   ;; Toggle corfu in all buffers
   :hook (;; In `eshell-mode', do not automatically toggle corfu prompt.
          (eshell-mode . (lambda ()
-                          (corfu-mode)
-                          (setq-local corfu-auto nil)))
+                          ;; Must before `corfu-mode' is turned on.
+                          (setq-local corfu-auto nil)
+                          (corfu-mode)))
          (emacs-lisp-mode . corfu-mode)))
 
 
