@@ -98,6 +98,11 @@
                                  (when (featurep 'evil-escape)
                                    (evil-escape-mode -1)))))
 
+(celeste/use-package multi-vterm
+  :commands (multi-vterm
+             multi-vterm-dedicated-toggle
+             multi-vterm-dedicated-open))
+
 (celeste/use-package projectile
   ;; Global minor mode to enable projectile functionalities.
   :hook (after-init . projectile-mode)
