@@ -81,30 +81,17 @@
     "Search Emacs configurations files."
     (interactive)
     (consult-fd user-emacs-directory "lisp/"))
-  (use-package consult-info
-    :init
-    (defun consult-info-emacs ()
-      "Search through Emacs info pages."
-      (interactive)
-      (consult-info "emacs" "efaq" "elisp" "cl" "compat"))
 
-    (defun consult-info-org ()
-      "Search through the Org info page."
-      (interactive)
-      (consult-info "org"))
+  ;; `consult-org-heading' and `consult-org-agenda'
+  ;; Alternatives for `org-goto'.
+  (with-eval-after-load 'org
+    (require 'consult-org))
 
-    (defun consult-info-completion ()
-      "Search through completion info pages."
-      (interactive)
-      (consult-info "vertico" "consult" "marginalia" "orderless" "embark"
-                    "corfu" "cape" "tempel"))
-    :commands consult-info)
-
-  (eval-when-compile
-    (celeste/use-package flycheck))
-  (celeste/use-package consult-flycheck
-    :after flycheck
-    :commands consult-flycheck))
+  ;; `consult-flycheck'
+  (with-eval-after-load 'flycheck
+    (celeste/use-package consult-flycheck
+      :after flycheck
+      :commands consult-flycheck)))
 
 ;; Lightweight completion engine, powered by capf.
 ;; Now only used by eshell and emacs-lisp-mode.
