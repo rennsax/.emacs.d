@@ -216,10 +216,8 @@ If NO-HOOK is non-nil, by passing the execution of
   ;; :hook (dired-mode . nerd-icons-dired-mode)
   )
 
-(celeste/use-package eshell-syntax-highlighting
-  :after esh-mode
-  :commands eshell-syntax-highlighting-global-mode
-  :config
+(with-eval-after-load 'esh-mode
+  (celeste/require eshell-syntax-highlighting)
   (eshell-syntax-highlighting-global-mode +1))
 
 
