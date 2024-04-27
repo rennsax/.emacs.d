@@ -1,7 +1,7 @@
 ;;; From doom. Big thanks!!
 ;; TODO: a) use autoload, b) fork Somelauw/evil-org-mode
 
-(defun +org--toggle-inline-images-in-subtree (&optional beg end refresh)
+(defun +org-toggle-inline-images-in-subtree (&optional beg end refresh)
   "Refresh inline image previews in the current heading/tree.
 
 If BEG and END is nil, by default [BEG, END] refers to the
@@ -9,6 +9,7 @@ current subtree.
 
 If REFERSH is non-nil, always refresh the inline images. By
 default inline images are toggled."
+  (interactive)
   (let* ((beg (or beg
                   (if (org-before-first-heading-p)
                       (save-excursion (point-min))
@@ -40,10 +41,13 @@ default inline images are toggled."
 (defun +org/dwim-at-point (&optional arg)
   "Do-what-I-mean at point.
 
+If ARG is non-nil, display information verbosely.
+
 If on a:
+- checkbox list item or todo heading: toggle it.
 - link: follow it
-  - inline image: toggle display
-"
+- inline image: toggle display"
+
   (interactive "P")
   (let* ((context (org-element-context))
          (type (org-element-type context)))
@@ -55,12 +59,20 @@ If on a:
          (if (or (equal (org-element-property :type context) "img")
                  ;; Or Emacs has native support for displaying the image.
                  (and path (image-supported-file-p path)))
-             (+org--toggle-inline-images-in-subtree
+             (+org-toggle-inline-images-in-subtree
               ;; Only display the current image.
               (org-element-property :begin context)
               (org-element-property :end context))
            ;; Not an image, just open it.
-           (org-open-at-point arg)))))))
+           (org-open-at-point arg))))
+      ;; Checkbox.
+      ((guard (org-element-property :checkbox (org-element-lineage context '(item) t)))
+       (org-toggle-checkbox))
+      (_
+       (if arg
+           (message "Unknown context: %s" context)
+         (message "Undefined dwim action."))
+       ))))
 
 ;;; doomelpa/evil-org-mode
 

@@ -42,6 +42,7 @@
   (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)" "CANCEL(c)"))
         org-todo-keyword-faces '(("CANCEL" . error)))
 
+  (celeste/autoload '+org-toggle-inline-images-in-subtree org nil t)
   (celeste/autoload '+org/dwim-at-point org nil t))
 
 (use-package org-id
