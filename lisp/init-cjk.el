@@ -10,16 +10,18 @@
 (celeste/use-package sis
   :preface
   ;; `sis-context-mode' and `sis-global-respect-mode' are recommended.
-  (defun +toggle-sis-mode ()
+  (defun +sis-global-mode ()
     (interactive)
     ;; Auto-switch IME according to the characters in the context.
-    (sis-context-mode 'toggle)
+    (sis-global-context-mode 'toggle)
     ;; Respect C-x, C-h, C-c, and so on.
     (sis-global-respect-mode 'toggle)
     ;; Use different cursor colors for different IME.
     (sis-global-cursor-color-mode 'toggle))
-  :commands (sis-context-mode sis-global-respect-mode sis-global-cursor-color-mode)
+  :hook (after-init . +sis-global-mode)
+  :commands sis-global-context-mode
   :config
+  ;; Make sure your input sources are these two (hint: use macism)
   (setq sis-english-source "com.apple.keylayout.US"
         sis-other-source "com.sogou.inputmethod.sogou.pinyin")
   (delete "C-h" sis-prefix-override-keys)
