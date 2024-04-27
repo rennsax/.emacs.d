@@ -116,10 +116,6 @@
 
 ;;; Emacs dired - practical file explorer 📂
 (use-package dired
-  ;; TODO
-  ;; :bind (:map dired-mode-map
-  ;;        ("C-c C-p" . wdired-change-to-wdired-mode))
-  ;; :defines ls-lisp-use-insert-directory-program
   :config
   ;; Use the dir in another dired window as the default dir rather than the
   ;; current one.
@@ -131,19 +127,18 @@
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first")
 
-  ;; On macOS, try to use GNU ls. If not found, use its own ls instead, and
-  ;; modify `dired-listing-switches' for compatibility.
+  ;; On macOS, try to use GNU ls. If not found, use the builtin `ls-lisp',
+  ;; TODO: MS Windows?
   (when sys/macp
     (if (executable-find "gls")
         (progn
           ;; Use GNU ls as `gls' from `coreutils' if available.
-          (setq insert-directory-program "gls")
-          ;; Using `insert-directory-program'
-          (setq ls-lisp-use-insert-directory-program t))
+          (setq insert-directory-program "gls"))
       (progn
-        ;; Suppress the warning: `ls does not support --dired'.
-        (setq dired-use-ls-dired nil)
-        (setq dired-listing-switches "-alh")))))
+        (defvar ls-lisp-support-shell-wildcards nil)
+        ;; The package advices `insert-directory' to implement it directly from
+        ;; Emacs Lisp, w/o running ls in a subprocess.
+        (require 'ls-lisp)))))
 
 ;; Extra functionality for dired.
 ;; Open file with system utilities, hide files, etc.
