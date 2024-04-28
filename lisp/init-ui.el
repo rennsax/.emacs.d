@@ -40,6 +40,13 @@
 ;; Show matched parentheses.
 (show-paren-mode)
 
+;; Do not allow splitting a window vertically.
+(setq split-height-threshold nil)
+
+;; Allowing breaking after CJK characters and improves the word-wrapping for CJK
+;; text mixed with Latin text.
+(setq word-wrap-by-category t)
+
 ;; Toggle `display-fill-column-indicator-mode' along with `auto-fill-mode'.
 ;; Show vertical line at the column of `fill-column'.
 ;; TODO: how to tell whether `auto-fill-mode' is enabled?
