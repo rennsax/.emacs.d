@@ -96,17 +96,7 @@
 
 (use-package org-agenda
   :after org
-  :init
-  :hook (org-agenda-mode . evil-org-agenda-mode)
   :config
-  ;; `evil-org-agenda-set-keys' is loaded, `evil-org-agenda-mode' is also
-  ;; declared.
-  (celeste/autoload 'evil-org-agenda-set-keys org)
-  (evil-org-agenda-set-keys)
-  ;; Protect the leader key.
-  ;; TODO: move to init-keybinding.el.
-  (evil-define-key* 'motion evil-org-agenda-mode-map
-    (kbd celeste-leader-key) #'celeste-leader-map)
 
   ;; Emacs timestamp and date-time library.
   (celeste/require ts)

@@ -8,15 +8,6 @@
 ;;; Basic editor features 📝
 (require 'init-editor)
 
-;;; `evil-mode': the dark side of Emacs. 😈
-;; Evil should be loaded very early, so other packages can define extra evil key
-;; mappings.
-;; Apograph from doom:
-;; It is a story as old as time. A stubborn, shell-dwelling, and melodramatic
-;; vimmer—envious of the features of modern text editors—spirals into despair
-;; before he succumbs to the dark side.
-(require 'init-evil)
-
 ;;; Emacs awesome builtins. 🐂
 (require 'init-builtin)
 
@@ -45,8 +36,6 @@
 ;;; Language extensions
 (load (concat celeste-lisp-dir "lang/init"))
 
-;;; Key bindings! ⌨️
-(require 'init-keybinding)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
