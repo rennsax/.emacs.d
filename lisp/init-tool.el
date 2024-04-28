@@ -134,6 +134,8 @@
 
 
 (celeste/use-package mwim
+  :bind (("C-a" . mwim-beginning)
+         ("C-e" . mwim-end))
   :commands mwim-beginning mwim-end)
 
 (celeste/use-package elisp-demos
