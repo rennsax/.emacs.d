@@ -84,7 +84,19 @@
   :hook ((find-file . diff-hl-mode)
          (vc-dir-mode . diff-hl-dir-mode)
          (magit-pre-refresh . diff-hl-magit-pre-refresh)
-         (magit-post-refresh . diff-hl-magit-post-refresh)))
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  ;; `diff-hl-update' will use `make-thread' to create a new thread and update
+  ;; diff info asynchronously.
+  ;; (setq diff-hl-update-async t)
+  ;; REVIEW: I found the async way may have some bugs, for example a) slow, even
+  ;; slower than mono-thread, b) `save-buffer' sometimes suck, I need to press
+  ;; the shortcut for multiple times.
+
+  ;; Do not show stage changes. This is similar to most of prevalent editors.
+  (setq diff-hl-show-staged-changes nil)
+  )
+
 (use-package diff-hl-flydiff
   :hook (diff-hl-mode . diff-hl-flydiff-mode))
 (use-package diff-hl-show-hunk
