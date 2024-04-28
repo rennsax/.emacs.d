@@ -33,6 +33,10 @@
   ;; Text properties inflate the size of recentf's files, and there is
   ;; no purpose in persisting them (Must be first in the list!)
   (add-to-list 'recentf-filename-handlers #'substring-no-properties)
+
+  ;; Always keeps my "remote" files on the OrbStack VM. By default, They become unreachable
+  ;; when I turn down the VM, and are removed from the recentf list.
+  (add-to-list 'recentf-keep "^/ssh:orb:")
   )
 
 (use-package savehist
