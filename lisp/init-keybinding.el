@@ -15,7 +15,8 @@ breaks the load order and is unpredictable."
   (evil-collection-init (list module)))
 
 ;; BUG: `evil-collection-init' is here.
-(evil-collection-init)
+(ignore-errors
+  (evil-collection-init))
 
 (evil-define-key* 'visual 'global
   "*" #'evil-visualstar/begin-search-forward
@@ -54,14 +55,17 @@ breaks the load order and is unpredictable."
   "sd"            #'consult-flycheck ; Search Diagnostic
   "sb"            #'consult-buffer
   "sc"            #'+consult-emacs-configurations
+  "sw"            #'consult-ripgrep
 
   (kbd celeste-leader-key) #'persp-switch-to-buffer*
 
   "bx"            #'kill-current-buffer
   "bs"            #'scratch-buffer
   "be"            #'eshell
+  "bt"            #'vterm
 
   "oA"            #'org-agenda
+  "oa"            #'org-agenda-list
   "orn"           #'org-roam-node-find
 
   "gg"            #'magit-status
@@ -69,6 +73,7 @@ breaks the load order and is unpredictable."
   "gei"           #'magit-gitignore-in-topdir ; [e]dit git[i]gnore
   "gma"           #'magit-submodule-add ; sub[m]odule [a]dd
   "gmr"           #'magit-submodule-remove ; sub[m]odule [r]emove
+  "gmc"           #'magit-clone
 
   "ie"            #'emoji-search
   "iE"            #'emoji-insert
@@ -98,6 +103,11 @@ breaks the load order and is unpredictable."
     "n" #'doc-view-next-page
     "p" #'doc-view-previous-page))
 
+;; C-w is mapped to `vterm--self-insert' by `evil-collection'
+(with-eval-after-load 'vterm
+    (evil-define-key* 'insert vterm-mode-map
+      (kbd "C-w") #'evil-window-map))
+
 (add-hook 'eshell-first-time-mode-hook
   (defun +eshell-setup-keys ()
     ;; TODO Shell-like C-d
@@ -107,12 +117,28 @@ breaks the load order and is unpredictable."
       (kbd "C-u") #'+eshell-kill-whole-input
       (kbd "C-a") #'+eshell-input-bol)))
 
+(with-eval-after-load 'dired
+  (evil-define-key* 'normal dired-mode-map
+    (kbd "s-r") #'revert-buffer))
+
 (with-eval-after-load 'org-goto
   ;; `org-goto' is a convenient way to navigate an org buffer. However, it
   ;; conflicts with `evil-mode'.
   (advice-add 'org-goto :around
               (lambda (oldfun &rest r)
                 (evil-with-state emacs (apply oldfun r)))))
+
+(with-eval-after-load 'gptel
+  ;; Questions have leading "###", so it's useful to travel around the same level.
+  (evil-define-key* 'normal gptel-mode-map
+    "]]" #'markdown-forward-same-level
+    "[[" #'markdown-backward-same-level))
+
+(with-eval-after-load 'lsp-bridge
+  (evil-define-key* 'normal lsp-bridge-mode-map
+    "gd" #'lsp-bridge-find-def
+    (kbd "<f2>")  #'lsp-bridge-rename
+    ))
 
 (with-eval-after-load 'mwim
   (evil-define-key 'insert 'global

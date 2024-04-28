@@ -75,6 +75,13 @@
   (keymap-unset evil-command-line-map "C-f")
   (keymap-set evil-command-line-map "C-b" #'backward-char)
 
+  ;; BUG: if begins from the first line, there is something wrong.
+  ;; Keep the current line at the center of the screen while page down/up.
+  ;; This implements the same behavior of "noremap <c-d> <c-d>zz" in Vim.
+  ;; (defun +evil-scroll-to-center-a (&rest _)
+  ;;   (evil-scroll-line-to-center nil))
+  ;; (advice-add #'evil-scroll-down :after #'+evil-scroll-to-center-a)
+  ;; (advice-add #'evil-scroll-up :after #'+evil-scroll-to-center-a)
   )
 
 ;;; Evil extensions
@@ -82,7 +89,6 @@
 ;; A bunch of community evil key bindings => use evil almost everywhere!
 (celeste/use-package evil-collection
   :commands evil-collection-init
-  :init
   :config
   ;; Protect some keys - they should never be mapped!
   (setq evil-collection-key-blacklist
