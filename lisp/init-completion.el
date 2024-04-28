@@ -149,7 +149,7 @@
   :hook ((conf-mode prog-mode text-mode) . tempel-setup-capf)
   :commands (tempel-expand tempel-abbrev-mode tempel-complete)
   :config
-  (setq tempel-trigger-prefix "<t<")
+  (setq tempel-trigger-prefix "t|")
   )
 
 
