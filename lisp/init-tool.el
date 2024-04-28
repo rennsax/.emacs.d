@@ -50,14 +50,20 @@
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
 
   :init
-  (defconst jinx-mode-dict-alist
+  (defcustom jinx-mode-dict-alist
     '((emacs-lisp-mode ("el"))
-      (python-mode ("numpy")))
-    "Mode-local dictionaries.")
+      (python-mode ("numpy"))
+      (go-mode ("fmt")))
+    "Mode-local dictionaries."
+    :group 'jinx
+    ;; TODO type?
+    :type '(list (symbol (list string))))
 
-  (defconst jinx-enable-mode-list
-    '(emacs-lisp-mode org-mode)
-    "Modes that jinx should be enabled.")
+  (defcustom jinx-enable-mode-list
+    '(prog-mode text-mode)
+    "Modes that jinx should be enabled."
+    :group 'jinx
+    :type '(list (symbol)))
 
   ;; Manually setup mode-local words and enable jinx in specified modes.
   (mapc (lambda (mode-word-list)
@@ -66,7 +72,8 @@
             (add-hook (intern (concat (symbol-name mode) "-hook"))
                       #'(lambda ()
                           (setq jinx-local-words
-                                (mapconcat #'identity word-list " "))))))
+                                (mapconcat #'identity word-list " "))
+                          (jinx-mode +1)))))
         jinx-mode-dict-alist)
   ;; Must *after* setting `jinx-local-words'.
   (celeste/add-mode-hook jinx-enable-mode-list #'jinx-mode)
