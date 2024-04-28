@@ -107,10 +107,6 @@
   ;; Disable RET -> `corfu-insert'. I prefer primitive RET - just `newline'.
   (keymap-unset corfu-map "RET")
 
-  ;; Use "C-SPC" to toggle corfu completion popup.
-  (keymap-set global-map "C-SPC" #'completion-at-point)
-  (keymap-set corfu-map "C-SPC" #'corfu-quit)
-
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
   ;; Toggle corfu in all buffers
