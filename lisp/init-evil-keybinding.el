@@ -1,4 +1,4 @@
-;;; init-keybinding.el -- Global key bindings. -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; init-evil-keybinding.el -- Global key bindings for evil-mode. -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -147,5 +147,5 @@ breaks the load order and is unpredictable."
     ;; Skip comments.
     (kbd "C-e") #'mwim-end))
 
-(provide 'init-keybinding)
-;;; init-keybinding.el ends here
+(provide 'init-evil-keybinding)
+;;; init-evil-keybinding.el ends here
