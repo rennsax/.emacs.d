@@ -99,5 +99,16 @@ poem,...)."
   :type 'hook
   :risky t)
 
+(defcustom celeste-modal-editing nil
+  "Which kind of modal editing is used. If nil, use vanilla Emacs.
+
+One of meow, evil and nil."
+  :group 'celeste
+  :type 'symbol)
+
 (provide 'init-custom)
 ;;; init-custom.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

@@ -1,15 +1,6 @@
-;;; init-ui.el -- UI tweaks. -*- lexical-binding: t -*-
+;;; init-ui.el -- UI tweaks. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
-
-(require 'init-custom)
-
-;; Prefer simpler "y" or "n" over "yes" or "no".
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Scrolling behavior.
 (setq hscroll-step 1
@@ -28,8 +19,7 @@
       )
 
 ;; New feature in Emacs 29.1! Smooth scrolling!
-(when emacs/>=29p
-  (pixel-scroll-precision-mode +1))
+(pixel-scroll-precision-mode +1)
 
 ;; Disable the cute blinking cursor.
 (blink-cursor-mode -1)
@@ -43,47 +33,12 @@
 ;; Do not allow splitting a window vertically.
 (setq split-height-threshold nil)
 
-;; Allowing breaking after CJK characters and improves the word-wrapping for CJK
-;; text mixed with Latin text.
-(setq word-wrap-by-category t)
-
-;; Toggle `display-fill-column-indicator-mode' along with `auto-fill-mode'.
-;; Show vertical line at the column of `fill-column'.
-;; TODO: how to tell whether `auto-fill-mode' is enabled?
-(add-hook 'auto-fill-mode-hook
-          (lambda () (display-fill-column-indicator-mode 'toggle)))
-
-
-(defun celeste/buffer-set-other-font (&optional font-family no-hook)
-  "Setup another font for the current buffer.
-
-If FONT-FAMILY is non-nil, use the specified font. Otherwise,
-`celeste-other-font-name' is used.
-
-If NO-HOOK is non-nil, by passing the execution of
-`celeste-buffer-face-mode-hook'."
-  (interactive "MFont family: ")
-  (let ((font-family (or font-family celeste-other-font-name)))
-    (if (string= font-family celeste-default-font-name)
-        (buffer-face-mode -1)
-      (progn
-        (setq-local buffer-face-mode-face `(:family ,font-family))
-        (buffer-face-mode +1)
-        (unless no-hook
-            (run-hooks 'celeste-buffer-face-mode-hook))))))
-
-;; Set different fonts for those special modes, so I can distinguish from
-;; different contexts.
-(celeste/add-mode-hook celeste-other-font-mode-list #'celeste/buffer-set-other-font)
-
-(celeste/add-mode-hook celeste-cjk-font-mode-list
-    #'(lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))
-
 (use-package display-line-numbers
   ;; Display relative line numbers.
   :hook ((prog-mode text-mode) . display-line-numbers-mode)
   :config
-  (setq display-line-numbers-type 'relative))
+  )
+(setq display-line-numbers-type 'relative)
 
 ;; `popper': show annoying windows such as `help-mode' in a dedicated POP
 ;; window, so they won't clobber the original window layout.
@@ -223,10 +178,10 @@ If NO-HOOK is non-nil, by passing the execution of
   ;; :hook (dired-mode . nerd-icons-dired-mode)
   )
 
-(with-eval-after-load 'esh-mode
-  (celeste/require eshell-syntax-highlighting)
-  (eshell-syntax-highlighting-global-mode +1))
-
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

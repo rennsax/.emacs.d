@@ -8,7 +8,7 @@
 (require 'init-custom)
 
 ;; PERF: if `file-name-handler-alist' is non-nil, Emacs use regex to match each
-;; file for upcomming I/O operators. During the startup process, we eliminate
+;; file for upcoming I/O operators. During the startup process, we eliminate
 ;; the feature. The value is put into another place so that we can restore it
 ;; later.
 (defvar last-file-name-handler-alist file-name-handler-alist)
@@ -21,17 +21,16 @@
                               ;; ignored"?
 ;; However, after startup, it is important to set these to reasonable defaults.
 (add-hook 'emacs-startup-hook
-  (lambda () (setq gc-cons-threshold 16777216 ; (* 16 1024 1024)
-        gc-cons-percentage 0.1
-        file-name-handler-alist last-file-name-handler-alist)))
+          (lambda () (setq gc-cons-threshold 16777216 ; (* 16 1024 1024)
+                           gc-cons-percentage 0.1
+                           file-name-handler-alist last-file-name-handler-alist)))
 
 ;; PERF: Emacs calls `package-activate-all' right after this file is loaded. Set
 ;; this value to nil to prevent that, since I just do not use a package manager!
 (setq package-enable-at-startup nil)
 
-;; Set to `t' means the frame size never changes
-;; implicitly when there’s no window system support.
-;; Namely, inhibit resizing frame.
+;; Set to `t' means the frame size never changes implicitly when there’s no
+;; window system support. Namely, inhibit resizing frame.
 (setq frame-inhibit-implied-resize t)
 
 ;;; From doom-start.el
@@ -70,6 +69,7 @@
   (dolist (charset '(kana han cjk-misc bopomofo symbol))
     (set-fontset-font fontset charset (font-spec :family celeste-cjk-font-name))))
 
+;; Patch the fontset after `buffer-face-mode' is enabled.
 (add-hook 'celeste-buffer-face-mode-hook #'+fontset-setup-cjk)
 
 ;; `after-setting-font-hook' isn't triggered since the font of the initial frame

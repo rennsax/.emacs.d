@@ -1,11 +1,6 @@
-;;; init-org.el -- Org: brilliant note-taking system. -*- lexical-binding: t -*-
+;;; init-org.el -- Org: brilliant note-taking system. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
-
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-custom))
 
 ;; Use the builtin `org'
 (use-package org
@@ -99,11 +94,11 @@
   :config
 
   ;; Emacs timestamp and date-time library.
-  (celeste/require ts)
+  (celeste/require 'ts)
   ;; Emacs hashtable library.
-  (celeste/require ht)
+  (celeste/require 'ht)
   ;; Supercharge the org-agenda!
-  (celeste/require org-super-agenda)
+  (celeste/require 'org-super-agenda)
   ;; Global minor mode. From now on, `org-agenda-list' respects a series of
   ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
   (declare-function org-super-agenda-mode 'org-super-agenda)
@@ -118,3 +113,7 @@
 
 (provide 'init-org)
 ;;; init-org.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

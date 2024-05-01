@@ -1,11 +1,7 @@
-;;; init-vc.el -- Version control tools. -*- lexical-binding: t -*-
+;;; init-vc.el -- Version control tools. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
 
 ;; There is also a builtin `transient' package.
 ;; However we use the submodule one.
@@ -106,3 +102,7 @@
 
 (provide 'init-vc)
 ;;; init-vc.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

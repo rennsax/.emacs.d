@@ -1,14 +1,7 @@
-;;; init-func.el -- Useful interactive functions. -*- lexical-binding: t -*-
+;;; init-func.el -- Useful interactive functions. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-
-;;; -*- lexical-binding: t -*-
-
-(eval-when-compile
-  (require 'init-const))
-
-(celeste/require s)
 
 (defun celeste/open-init-file ()
   "Open celeste init file."
@@ -46,3 +39,7 @@
 
 (provide 'init-func)
 ;;; init-func.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

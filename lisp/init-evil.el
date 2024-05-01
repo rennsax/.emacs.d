@@ -9,7 +9,7 @@
 
 ;; Silence `evil-collection' warnings.
 (eval-when-compile
-  (celeste/require annalist)
+  (celeste/require 'annalist)
   (defvar evil-want-keybinding nil))
 
 (celeste/use-package evil
@@ -151,3 +151,7 @@
 
 (provide 'init-evil)
 ;;; init-evil.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

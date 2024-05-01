@@ -1,11 +1,7 @@
-;;; init-tool.el -- Tools integration. -*- lexical-binding: t -*-
+;;; init-tool.el -- Tools integration. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
 (celeste/use-package emacs-everywhere
@@ -27,7 +23,7 @@
    (kill-emacs . persp-state-save))
   :config
   ;; I don't set `persp-mode-prefix-key' - I manually map `perspective-map'.
-  ;; That's because I'm using EVIL 😈.
+  ;; That's because I used to be an EVIL user 😈.
   (setq persp-suppress-no-prefix-key-warning t)
   ;; Ignore some buffers with `persp-switch-to-buffer*'
   (setq ido-ignore-buffers `("\\` " "\\*helpful.*\\*"))
@@ -79,37 +75,6 @@
   (celeste/add-mode-hook jinx-enable-mode-list #'jinx-mode)
   )
 
-;; In-Emacs terminal emulator.
-(celeste/use-package vterm
-  ;; TODO: tell whether current Emacs support dynamic-modules.
-  :when (bound-and-true-p module-file-suffix)
-  :commands vterm
-  :config
-  ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
-  ;;      the package is loaded, this is necessary to prevent it when
-  ;;      byte-compiling this file (`use-package' blocks eagerly loads packages
-  ;;      when compiled).
-  (when noninteractive
-    (advice-add #'vterm-module-compile :override #'ignore)
-    (provide 'vterm-module))
-
-  ;; Kill the vterm immediately once vterm is dead.
-  (setq vterm-kill-buffer-on-exit t)
-
-  ;; Add a zero after the default value.
-  (setq vterm-max-scrollback 10000)
-
-  ;; The horizontal margin is useless.
-  (add-hook 'vterm-mode-hook #'(lambda ()
-                                 (setq-local hscroll-margin 0)
-                                 (when (featurep 'evil-escape)
-                                   (evil-escape-mode -1)))))
-
-(celeste/use-package multi-vterm
-  :commands (multi-vterm
-             multi-vterm-dedicated-toggle
-             multi-vterm-dedicated-open))
-
 (celeste/use-package projectile
   ;; Global minor mode to enable projectile functionalities.
   :hook (after-init . projectile-mode)
@@ -139,6 +104,12 @@
         projectile-current-project-on-switch 'move-to-end)
   )
 
+;; Use "C-;" to ease your life!
+(celeste/use-package embark
+  :bind (("C-;" . embark-act))
+  :commands embark-prefix-help-command
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command))
 
 (celeste/use-package mwim
   :bind (("C-a" . mwim-beginning)
@@ -156,3 +127,7 @@
 
 (provide 'init-tool)
 ;;; init-tool.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

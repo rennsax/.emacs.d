@@ -1,10 +1,6 @@
-;;; init-ai.el -- LLM supports. -*- lexical-binding: t -*-
+;;; init-ai.el -- LLM supports. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
-
-(eval-when-compile
-  (require 'init-package)
-  (require 'init-const))
 
 (celeste/use-package gptel
   :commands (gptel
@@ -18,3 +14,7 @@
 
 (provide 'init-ai)
 ;;; init-ai.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

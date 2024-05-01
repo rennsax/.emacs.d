@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(celeste/require cmake-mode)
+(celeste/require 'cmake-mode)
 
 (provide 'init-cmake)
 ;;; init-cmake.el ends here

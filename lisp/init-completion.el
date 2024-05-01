@@ -1,12 +1,8 @@
-;;; init-completion.el -- Completion setups. -*- lexical-binding: t -*-
+;;; init-completion.el -- Completion setups. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
-
+
 ;; VERTical Interactive COmpletion
 (celeste/use-package vertico
   :hook ((after-init . vertico-mode))
@@ -72,10 +68,10 @@
 (celeste/use-package marginalia
   :hook (after-init . marginalia-mode))
 
+
 ;; Like Telescope in Neovim.
 (celeste/use-package consult
   :demand t
-  :commands consult-fd
   :config
   (defun +consult-emacs-configurations ()
     "Search Emacs configurations files."
@@ -93,65 +89,17 @@
       :after flycheck
       :commands consult-flycheck)))
 
-;; Lightweight completion engine, powered by capf.
-;; Now only used by eshell and emacs-lisp-mode.
-(celeste/use-package corfu
-  :commands corfu-quit corfu-mode
-  :config
-  (setq corfu-auto t
-        corfu-auto-prefix 3
-        ;; Do not do anything (such as the default "insert") on exact match. So
-        ;; a manual TAB is always needed for completion.
-        corfu-on-exact-match nil
-        )
-  ;; Disable RET -> `corfu-insert'. I prefer primitive RET - just `newline'.
-  (keymap-unset corfu-map "RET")
-
-  :custom-face
-  (corfu-border ((t (:inherit region :background unspecified))))
-  ;; Toggle corfu in all buffers
-  :hook (;; In `eshell-mode', do not automatically toggle corfu prompt.
-         (eshell-mode . (lambda ()
-                          ;; Must before `corfu-mode' is turned on.
-                          (setq-local corfu-auto nil)
-                          (corfu-mode)))
-         (emacs-lisp-mode . corfu-mode)))
-
-
+
 ;; Fuzzy finder
 (celeste/use-package orderless
   :demand t
-  :custom
-  (completion-styles '(orderless basic)))
-
-;; Minibuffer actions. Use "C-;" to ease your life!
-(celeste/use-package embark
-  :bind (("C-;" . embark-act))
-  :commands embark-prefix-help-command
-  :init
-  (setq prefix-help-command #'embark-prefix-help-command))
-
-;; Lightweight templates.
-(celeste/use-package tempel
-  :preface
-  (defun tempel-setup-capf ()
-    ;; Add the Tempel Capf to `completion-at-point-functions'.
-    ;; `tempel-expand' only triggers on exact matches. Alternatively use
-    ;; `tempel-complete' if you want to see all matches, but then you
-    ;; should also configure `tempel-trigger-prefix', such that Tempel
-    ;; does not trigger too often when you don't expect it. NOTE: We add
-    ;; `tempel-expand' *before* the main programming mode Capf, such
-    ;; that it will be tried first.
-    (setq-local completion-at-point-functions
-                (cons #'tempel-complete
-                      completion-at-point-functions))
-    (tempel-abbrev-mode))
-  :hook ((conf-mode prog-mode text-mode) . tempel-setup-capf)
-  :commands (tempel-expand tempel-abbrev-mode tempel-complete)
   :config
-  (setq tempel-trigger-prefix "t|")
-  )
+  (setq completion-styles '(orderless basic)))
 
 
 (provide 'init-completion)
 ;;; init-completion.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

@@ -1,31 +1,40 @@
-;;; init-cjk.el -- Better CJK supports. -*- lexical-binding: t -*-
+;;; init-cjk.el -- Better CJK supports. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-
-(eval-when-compile
-  (require 'init-const))
+;; Allowing breaking after CJK characters and improves the word-wrapping for CJK
+;; text mixed with Latin text.
+(setq word-wrap-by-category t)
 
 ;; Smart input source.
 (celeste/use-package sis
-  :preface
-  ;; `sis-context-mode' and `sis-global-respect-mode' are recommended.
-  (defun +sis-global-mode ()
-    (interactive)
-    ;; Auto-switch IME according to the characters in the context.
-    (sis-global-context-mode 'toggle)
-    ;; Respect C-x, C-h, C-c, and so on.
-    (sis-global-respect-mode 'toggle)
-    ;; Use different cursor colors for different IME.
-    (sis-global-cursor-color-mode 'toggle))
-  :hook (after-init . +sis-global-mode)
-  :commands sis-global-context-mode
+  :demand t
   :config
   ;; Make sure your input sources are these two (hint: use macism)
   (setq sis-english-source "com.apple.keylayout.US"
         sis-other-source "com.sogou.inputmethod.sogou.pinyin")
-  (delete "C-h" sis-prefix-override-keys)
-  )
+  (pcase celeste-modal-editing
+    ('evil
+     (with-eval-after-load 'evil
+       ;; Auto-switch IME according to the characters in the context.
+       (sis-global-context-mode +1)
+       ;; Respect C-x, C-h, C-c, and so on.
+       (sis-global-respect-mode +1)
+       ;; Use different cursor colors for different IME.
+       (sis-global-cursor-color-mode +1)))
+    ('meow
+     (with-eval-after-load 'meow
+       (add-hook 'meow-insert-exit-hook #'sis-set-english)
+       (setq sis-context-hooks '(meow-insert-enter-hook))
+       (sis-global-context-mode +1)
+       (sis-global-cursor-color-mode +1)
+       (add-hook 'meow-insert-enter-hook #'(lambda () (sis-global-respect-mode +1)))
+       (add-hook 'meow-insert-exit-hook #'(lambda () (sis-global-respect-mode -1)))
+       ))
+    (_
+     (sis-global-context-mode +1)
+     (sis-global-respect-mode +1)
+     (sis-global-cursor-color-mode +1))))
 
 (use-package ox-latex
   :after org
@@ -67,3 +76,7 @@
 
 (provide 'init-cjk)
 ;;; init-cjk.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

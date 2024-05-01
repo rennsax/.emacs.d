@@ -1,10 +1,6 @@
-;;; init-osx.el -- OS X defaults. -*- lexical-binding: t -*-
+;;; init-osx.el -- OS X defaults. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
-
-(eval-when-compile
-  (require 'init-const)
-  (require 'init-package))
 
 ;; NOTE: on macOS, the menu bar must be disabled after the frame is created,
 ;; namely, after early-init.el.
@@ -29,3 +25,7 @@
 
 (provide 'init-osx)
 ;;; init-osx.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

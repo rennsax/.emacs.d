@@ -1,4 +1,4 @@
-;;; init-meow.el -- Yet another modal editing on Emacs / 猫态编辑 -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; init-meow.el -- Yet another modal editing on Emacs / 猫态编辑 -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -98,3 +98,7 @@
 
 (provide 'init-meow)
 ;;; init-meow.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
