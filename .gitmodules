@@ -61,9 +61,6 @@
 [submodule "packages/undo-tree"]
 	path = packages/undo-tree
 	url = https://github.com/emacsmirror/undo-tree.git
-[submodule "packages/use-package"]
-	path = packages/use-package
-	url = https://github.com/jwiegley/use-package.git
 [submodule "packages/popper"]
 	path = packages/popper
 	url = https://github.com/karthink/popper.git
