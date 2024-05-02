@@ -71,6 +71,12 @@
 
 ;; Like Telescope in Neovim.
 (celeste/use-package consult
+  :init
+  (progn
+    (keymap-global-set "C-c s ." #'consult-recent-file)
+    (keymap-global-set "C-c s f" #'consult-fd)
+    (keymap-global-set "C-c s o" #'consult-outline)
+    (keymap-global-set "C-c s b" #'consult-buffer))
   :demand t
   :config
   (defun +consult-emacs-configurations ()

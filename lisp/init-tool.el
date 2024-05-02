@@ -29,7 +29,7 @@
   (setq ido-ignore-buffers `("\\` " "\\*helpful.*\\*"))
   (setq persp-state-default-file (concat celeste-data-dir "last-perspective"))
 
-  (keymap-set global-map "C-x x" 'perspective-map)
+  (keymap-set global-map "C-c p" 'perspective-map)
 
   (add-to-list 'delete-frame-functions #'(lambda (_) (persp-state-save)))
   )
