@@ -8,17 +8,62 @@
 
 ** New Packages
 
-- [ ] bookmark (builtin)
+- [ ] [[https://github.com/Fanael/highlight-quoted][highlight-quoted]]
 
-- [ ] [[https://projectile.mx/][projectile]]
+- [ ] [[https://github.com/bbatsov/persp-projectile.git][persp-projectile]]
+
+- [ ] [[https://github.com/abo-abo/hydra][hydra]]
+
+- [ ] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]]
+
+- [ ] cspell integration
+
+  [[https://ztlevi.github.io/posts/Spell-checking-with-Cspell-in-Emacs/][A blog]]
+
+- [ ] multi-vterm, [[https://github.com/kyagi/shell-pop-el][shell-pop-el]], [[https://github.com/atomontage/xterm-color/tree/master][xterm-color]]
+
+  Reference: Centaur Emacs
+
+- [ ] [[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]]
 
 - [ ] [[https://github.com/magit/forge.git][magit forge]]
 
-- [ ] [[https://github.com/manateelazycat/lsp-bridge.git][lsp-bridge]]
+- [ ] [[https://github.com/kimim/chatu.git][chatu]]
+  
+- [X] [[https://github.com/Fanael/edit-indirect][edit-indirect]] as ~markdown-mode~ dep
+
+- [X] bookmark (builtin)
+
+- [X] [[https://github.com/alphapapa/org-super-agenda.git][org-super-agenda]]
+
+  Also read [[https://isamert.net/2021/01/25/how-i-do-keep-my-days-organized-with-org-mode-and-emacs.html][this blog]].
+
+- [X] [[https://github.com/minad/jinx][minad/jinx]]: enchanted spell checker (God minad)
+
+- [X] [[https://github.com/karthink/gptel][gptel]]
+
+- [X] [[https://projectile.mx/][projectile]] (keybindings)
+
+- [X] [[https://github.com/manateelazycat/lsp-bridge.git][lsp-bridge]]
 
   Recommended thread: [[https://www.reddit.com/r/emacs/comments/1c0v28k/lspmode_vs_lspbridge_vs_lspce_vs_eglot/][lsp-mode vs. lsp-bridge vs. lspce vs. eglot : r/emacs]].
 
+- [X] [[https://github.com/akreisher/eshell-syntax-highlighting][eshell-syntax-highlighting]]
+
+** Cleanup
+
+To be or not to be?
+
+- [ ] embark: it seems that I seldom use this package.
+
+  I misunderstand it. ~embark-action~ can be called everywhere, not only in the
+  minibuffer.
+
+  [[https://emacs-china.org/t/embark-hack/22205]] [[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
+
 ** Fix
+
+- [X] ~celeste/require~: the first argument should be a symbol!
 
 - [X] ~org-goto~ and ~evil-mode~. The command ~org-goto~ is convenient for
   navigating the org doc.
@@ -26,9 +71,37 @@
   It's solved by adding an advice around ~org-goto~
   (4deb7308d220a9af3800a130fa5724dabead5d98).
 
+- [X] Also keep tramp remote files in recentf
+
+  In fact, ~recentf-cleanup~ determines whether a file should be cleaned with
+  ~recentf-keep-default-predicate~ by default, which also handles the case of
+  remote files. Its source code is simple:
+
+  #+begin_src emacs-lisp
+  (defun recentf-keep-default-predicate (file)
+    "Return non-nil if FILE should be kept in the recent list.
+  It handles the case of remote files as well."
+    (cond
+     ((file-remote-p file nil t) (file-readable-p file))
+     ((file-remote-p file))
+     ((file-readable-p file))))
+#+end_src
+
+  So it cleans remote files that are not readable.
+
+  We can add regexps or predicates to ~recentf-keep~ to keep more files. For
+  example, my "remote" files on my OrbStack virtual machine become unreadable
+  when the virtual machine is turned down, so I add this configuration:
+
+  #+begin_src emacs-lisp
+  (add-to-list 'recentf-keep "^/ssh:orb:")
+#+end_src
+
 ** Try
 
-- [ ] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
+- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+
+- [X] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
 
   Emacs-eat is a relatively-newer package that aims to provide experience much
   more like a terminal emulator with better integration with Emacs Lisp. The
@@ -39,9 +112,25 @@
   However, emacs-eat seems to be premature. It's still buggy, and I found no
   lucky when I try to integrate my Zsh with it.
 
-- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+  2024/04/23: Vterm is better.
 
 ** Features
+
+- [ ] Improve reading UX
+
+  Set a new customizable variable ~celeste-reading-font-name~, which should be
+  set to a proportional font. It aims to be used in reading context.
+
+  Declare a minor mode ~celeste-reading-mode~.
+
+  [[https://emacs-china.org/t/topic/22639][【讨论】一种提升英文阅读体验的可能性]]
+
+  [[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
+
+- [ ] tweak ~org-clock~
+
+- [ ] ~doom-modeline~ tweak. How can I persist some important information (such as
+  org-clock) when the frame size is limited?
 
 - [ ] convert markdown-style link to org-style link.
 
@@ -57,11 +146,62 @@
         (replace-match "[[\\6][\\3]]"))))
 #+end_src
 
-- [ ] Repect the true line numbers (folded lines also counts) in commands
+- [ ] Respect the true line numbers (folded lines also counts) in commands
   ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
 
   These commands do not know if some regions are folded, which is prevalent in
   org-mode and markdown-mode.
+
+- [ ] Add default options in transient.
+
+- [ ] Customize org bold.
+
+- [ ] tweak bookmark
+
+- [X] How to make =diff-hl= do not display staged parts?
+  
+- [X] auto kill buffers
+
+  There is no need to implement such feature.
+
+** Performance
+
+- [X] Why is eshell loaded immediately after Emacs starts?
+
+  ~emacs -q~ and ~emacs -Q~, then ~(featurep 'eshell)~ => nil
+
+  Reason: the package exec-path-from-shell has ~require~-ed eshell.
+
+** Huge Projects
+
+- [ ] Package manager: autoload?
+
+- [ ] Learn about how popper.el works.
+
+  Popper.el does a good job in protecting my window layout. However some plugins
+  are special: org-agenda, gptel, ... They still destroy my window layout, which
+  makes me annoying.
+
+  Maybe I also need to learn more about window.el.
+
+- [ ] Tweaks emacs-everywhere for perspective.el
+
+  If I still want to keep emacs-everywhere.
+
+  The two do not cooperate well. When persp.el is enabled, the transient buffer
+  created by emacs-everywhere cannot be killed properly, and a confirmation
+  always pops out to ask "whether to kill the unsaved buffer anyway", which is
+  annoying.
+
+- [ ] Separate cobalt2 from doomemacs/themes
+
+  doom-themes is a good place to develop other themes, but it makes the
+  customization more complex. Try to separate my color definitions from that, or
+  read and understand its source code.
+
+  [[https://github.com/positron-solutions/transient-showcase][positron-solutions/transient-showcase: Example forms for transient UI's in Emacs]]
+
+- [X] Gradually get rid of evil...
 
 * Known Bugs
 
