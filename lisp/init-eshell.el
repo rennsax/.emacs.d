@@ -14,7 +14,9 @@
 
   (setq eshell-scroll-to-bottom-on-input t)
   ;; More history!
-  (setq eshell-history-size 10000)
+  (setq eshell-history-size 10000
+        ;; Duplicates are bad, bad, bad!
+        eshell-hist-ignoredups t)
 
   (load (concat celeste-autoload-dir "eshell-prompt"))
   (setq eshell-prompt-function '+eshell-default-prompt-fn)
