@@ -24,6 +24,10 @@
 
   ;; My load-path
   (setq flycheck-emacs-lisp-load-path 'inherit)
+
+  ;; Default is 400. If more than threshold, an annoying warning appears.
+  (setq flycheck-checker-error-threshold 1000)
+
   )
 
 ;; Show diagnostic information in the buffer.
