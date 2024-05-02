@@ -15,7 +15,6 @@
 (celeste/use-package evil
   :demand t
   :commands (evil-emacs-state)
-  ;; TODO :when custom
 
   ;; Toggle "Evil-Local mode" mode in *all* buffers.
   :hook (after-init . evil-mode)

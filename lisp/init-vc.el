@@ -71,9 +71,7 @@
   )
 
 ;; diff-hl: better git-diff integration
-;; TODO: find-dired
-(eval-and-compile
-  (add-to-list 'load-path (concat celeste-package-dir "diff-hl")))
+(add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
 
 (use-package diff-hl
   ;; `find-file-hook': after a buffer is loaded from a file

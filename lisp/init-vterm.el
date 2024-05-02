@@ -4,7 +4,6 @@
 
 ;; In-Emacs terminal emulator.
 (celeste/use-package vterm
-  ;; TODO: tell whether current Emacs support dynamic-modules.
   :when (bound-and-true-p module-file-suffix)
   :commands vterm
   :config
