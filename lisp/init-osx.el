@@ -23,6 +23,10 @@
 ;; deletion commands use `move-file-to-trash'.
 (setq delete-by-moving-to-trash t)
 
+;; C-z is mapped to `suspend-frame'. In macOS, it hides the frame (with the
+;; native Cocoa API) instead, which is useless.
+(keymap-global-unset "C-z")
+
 (provide 'init-osx)
 ;;; init-osx.el ends here
 
