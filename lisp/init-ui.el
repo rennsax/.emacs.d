@@ -99,8 +99,8 @@
           ("PERF" font-lock-keyword-face bold)
           ("XXX" font-lock-constant-face bold))))
 
-;; used by `doom-modeline'
-(celeste/use-package nerd-icons)
+
+;;; Theme
 
 (celeste/use-package doom-themes
   :demand t
@@ -110,8 +110,6 @@
     (interactive)
     (load-theme celeste-default-theme 'no-comfirm))
 
-  :hook (after-init . (lambda () (+load-default-theme) (+doom-themes-custom)))
-  :config
   (defun +custom-doom-themes (&rest args)
     "Wrapper for `custom-set-faces'. ARGS are transfered before passed."
     (apply #'custom-set-faces
@@ -119,15 +117,64 @@
                      `(,(car arg) ((t . (,@(cdr arg)))))) args)))
 
   (defun +doom-themes-custom ()
-    "Extra customization for doom themes."
-    (+custom-doom-themes
-     `(magit-branch-remote :box (:line-width (-1 . -1)) :weight bold)
-     `(magit-section-heading :foreground ,(doom-color 'yellow))
-     `(magit-branch-current :box (:line-width (-1 . -1)) :weight bold
-                            :foreground ,(doom-color 'dark-red))
-     ))
-  )
+    "Extra customization for doom themes.
 
+This should be called each time after the function definition is modified."
+    (let ((doc-font celeste-other-font-name)
+          (code-font celeste-default-font-name)
+          (yellow (doom-color 'yello)))
+      (+custom-doom-themes
+
+       ;; TODO: dream to use another font in vertico
+
+       ;; `magit-mode'
+       `(magit-branch-remote :box (:line-width (-1 . -1)) :weight bold)
+       `(magit-section-heading :foreground ,(doom-color 'yellow))
+       `(magit-branch-current :box (:line-width (-1 . -1)) :weight bold
+                              :foreground ,(doom-color 'dark-red))
+
+       ;; `org-mode'
+       `(org-block :family ,code-font)
+       `(org-code :family ,code-font)
+       `(org-verbatim :family ,code-font)
+       `(org-quote :family ,doc-font :italic nil :foreground ,(doom-color 'cyan))
+
+       ;; `markdown-mode'
+       `(markdown-inline-code-face :family ,code-font)
+       `(markdown-code-face :family ,code-font)
+       `(markdown-blockquote-face :foreground ,(doom-color 'cyan))
+       `(markdown-header-delimiter-face :foreground ,(doom-color 'dark-cyan))
+       `(markdown-header-face-1 :inherit outline-1)
+       `(markdown-header-face-2 :inherit outline-2)
+       `(markdown-header-face-3 :inherit outline-3)
+       `(markdown-header-face-4 :inherit outline-4)
+       `(markdown-header-face-5 :inherit outline-5)
+
+       ;; `show-paren-mode' TODO: if configured here, the box color is strange.
+       ;; use `(-1 . -1)' to avoid any increase in the character height or width
+       ;; `(show-paren-match :box (:line-width (-1 . -1)) :weight ultra-bold)
+
+       ;; `evil-goggles'
+       `(evil-goggles-default-face :background ,(doom-color 'yellow))
+
+       ;; `diredfl-mode'
+       `(diredfl-dir-name :foreground ,(doom-color 'cyan) :weight bold)
+       `(diredfl-symlink :foreground ,(doom-color 'red)))))
+  :hook (after-init . +load-default-theme))
+
+
+;;; Modeline
+
+;; Information that should be displayed in modeline:
+;; the size of the buffer
+(size-indication-mode +1)
+;; colum number
+(column-number-mode +1)
+;; NO line number
+(line-number-mode -1)
+
+;; used by `doom-modeline'
+(celeste/use-package nerd-icons)
 (celeste/use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
 
