@@ -16,6 +16,9 @@
 ;;; Personal functions 🤠
 (require 'init-func)
 
+;;; Editor feature enhancement.
+(require 'init-editor)
+
 ;;; Emacs awesome builtins. 🐂
 (require 'init-eshell)
 (require 'init-dired)

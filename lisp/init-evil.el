@@ -81,6 +81,12 @@
   ;;   (evil-scroll-line-to-center nil))
   ;; (advice-add #'evil-scroll-down :after #'+evil-scroll-to-center-a)
   ;; (advice-add #'evil-scroll-up :after #'+evil-scroll-to-center-a)
+
+  ;; Show search result counts.
+  (celeste/use-package evil-anzu
+    :demand t
+    :diminish)
+
   )
 
 ;;; Evil extensions
@@ -121,15 +127,6 @@
   :after evil
   ;; TODO It's not easy to lazy-load a textobject plugin.
   :demand t)
-
-;; Show search result counts.
-(celeste/use-package anzu)
-(celeste/use-package evil-anzu
-  :after evil
-  :demand t
-  :diminish
-  :config
-  (add-hook 'evil-mode-hook 'global-anzu-mode))
 
 (celeste/use-package evil-replace-with-register
   :hook (evil-mode . evil-replace-with-register-install)
