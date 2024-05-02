@@ -37,7 +37,7 @@
   :config
   (let ((cmd (cond (sys/mac "open")
                    (sys/linux "xdg-open")
-                   ;; (sys/win32p "start")
+                   (sys/win "start")
                    (t ""))))
     ;; Rules for suggested commands.
     ;; Take precedence over `dired-guess-shell-alist-default'.

@@ -27,6 +27,7 @@
 ;; Operating system.
 (defconst sys/mac (eq system-type 'darwin))
 (defconst sys/linux (eq system-type 'gnu/linux))
+(defconst sys/win (memq system-type '(ms-dos windows-nt)))
 
 (provide 'init-const)
 ;;; init-const.el ends here
