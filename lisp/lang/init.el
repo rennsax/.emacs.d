@@ -32,6 +32,7 @@
 
 ;; Show diagnostic information in the buffer.
 (celeste/use-package sideline
+  :diminish
   :init
   ;; The missing hash table library for Emacs.
   (celeste/use-package ht)

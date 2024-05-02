@@ -27,6 +27,16 @@
 (setq url-cookie-file (concat celeste-cache-dir "url/cookie"))
 
 
+;;; Diminished packages.
+
+(with-eval-after-load 'eldoc
+  (diminish 'eldoc-mode))
+(with-eval-after-load 'autorevert
+  (diminish 'auto-revert-mode))
+(with-eval-after-load 'face-remap
+  (diminish 'buffer-face-mode))
+
+
 ;;; Bootstrap custom file.
 (setq custom-file (locate-user-emacs-file "custom.el"))
 ;; `load-file' vs `load': the previous one just execute the Lisp code in the

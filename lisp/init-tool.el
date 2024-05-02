@@ -36,6 +36,7 @@
 
 ;; Enchanted spell checker.
 (celeste/use-package jinx
+  :diminish
   :commands jinx-mode
   :bind (:map jinx-overlay-map
               ("C-c j c" . jinx-correct))
@@ -78,6 +79,7 @@
 (celeste/use-package projectile
   ;; Global minor mode to enable projectile functionalities.
   :hook (after-init . projectile-mode)
+  :diminish
   :init
   (setq projectile-cache-file (concat celeste-cache-dir "projectile.cache")
         projectile-known-projects-file (concat celeste-data-dir "projectile-bookmarks.eld"))

@@ -4,6 +4,7 @@
 
 ;; `anzu.el' provides a minor mode which displays 'current match/total
 (celeste/use-package anzu
+  :diminish
   :hook (after-init . global-anzu-mode))
 
 ;; Rather convenient package that can serve as a complete alternative of Vim's
