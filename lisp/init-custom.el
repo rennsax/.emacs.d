@@ -106,6 +106,13 @@ One of meow, evil and nil."
   :group 'celeste
   :type 'symbol)
 
+(defcustom celeste-inherit-shell-env-list '()
+  "Environment variables that should be inherited from the default shell.
+
+Envs are obtained by `exec-path-from-shell'."
+  :group 'celeste
+  :type 'symbol)
+
 (provide 'init-custom)
 ;;; init-custom.el ends here
 

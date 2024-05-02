@@ -13,6 +13,9 @@
 (require 'init-mini)
 (require 'init-mini-extra)
 
+;; Fetch shell envs.
+(require 'init-env)
+
 ;;; Personal functions 🤠
 (require 'init-func)
 

@@ -25,3 +25,4 @@
 /custom.el
 /tree-sitter/
 .projectile
+/shell-env

@@ -68,26 +68,6 @@
   (setq sideline-backends-left '(sideline-flycheck))
   )
 
-;; Many language tools respect envs. In Emacs (GUI), we need to fetch envs from
-;; the shell.
-(celeste/use-package exec-path-from-shell
-  ;; :when (memq window-system '(mac ns))
-  :commands exec-path-from-shell-copy-envs
-  :init
-  (defun +getenv-shell (variable &optional frame always)
-    "Get the environment variable VARIABLE from shell.
-
-VARIABLE and FRAME is passed to `getenv'.
-
-If ALWAYS is non-nil, always try to copy env from shell.
-Otherwise, if `getenv' returns non-nil, the result is returned
-immediately."
-    (if always
-        (cdar (exec-path-from-shell-copy-envs (list variable)))
-      (or (getenv variable frame)
-          (cdar (exec-path-from-shell-copy-envs (list variable))))))
-  )
-
 (use-package treesit
   :config
   ;; Level = 4: the highest level, which fontifies almost everything with TS.
