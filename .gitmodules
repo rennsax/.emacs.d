@@ -259,3 +259,6 @@
 [submodule "packages/persp-projectile"]
 	path = packages/persp-projectile
 	url = https://github.com/bbatsov/persp-projectile.git
+[submodule "packages/avy"]
+	path = packages/avy
+	url = https://github.com/abo-abo/avy.git
