@@ -105,7 +105,35 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
                  nil)))))
   )
 
+
+;;; LSP
 
+;; Eglot is the builtin LSP client of Emacs. But its functionality is somehow
+;; limited, with poor performance (mainly because of the JSON parser).
+
+;; The package lsp-bridge is a blazing fast LSP client for Emacs, developed by
+;; the honored manateelazycat.
+
+;; Lazycat himself uses lsp-bridge everyday! And the wonderful package is in
+;; active development.
+
+(celeste/use-package lsp-bridge
+  :diminish lsp-bridge-mode
+  :preface
+  ;; lsp-bridge depends on yasnippet for snippet completion
+  (celeste/use-package yasnippet
+    :diminish yas-minor-mode
+    :config
+    (yas-global-mode +1))
+  :commands lsp-bridge-mode global-lsp-bridge-mode
+  :config
+  ;; Enable tempel.
+  (with-eval-after-load 'tempel
+    (setq acm-enable-tempel t))
+  ;; RET should just insert a newline, completion is done by TAB.
+  (mapc (lambda (key) (keymap-unset acm-mode-map key))
+        '("RET" "<remap> <next-line>" "<remap> <previous-line>"
+          "<remap> <beginning-of-buffer>")))
 
 (require 'init-yaml)
 (require 'init-go)
