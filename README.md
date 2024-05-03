@@ -2,7 +2,7 @@
 
 # Celeste Emacs
 
-<img src="https://www.celestegame.com/images/strawberry.png" alt="celeste strawberry"/>
+<img src="https://static.miraheze.org/celestewiki/a/ac/Strawberry_flap.gif" alt="celeste strawberry"/>
 
 Simple, lightweight and bespoked Emacs configurations.
 
@@ -60,3 +60,14 @@ effects. For example:
 ``` shell
 pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz
 ```
+
+## Copyright Notice
+
+The banner under the project name is a work from Celeste game asset, borrowed
+from [Celeste Wiki](https://github.com/laishulu/emacs-smart-input-source), and
+licensed under [CC BY-NC-SA 4.0
+License](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en). You may not
+use the material for commercial purposes.
+
+I use this banner just because I'm a huge fan of Celeste game. If my actions
+infringe on any copyrights, please contact me immediately. Thank a lot.
