@@ -3,10 +3,6 @@
 ;;; Code:
 
 
-;; Edit anything, everywhere, w/ an popped Emacs frame!
-(celeste/use-package emacs-everywhere
-  :commands emacs-everywhere)
-
 ;; Yet another great "ripgrep" frontend!
 (celeste/use-package spinner)
 (celeste/use-package deadgrep

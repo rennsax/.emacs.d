@@ -136,9 +136,6 @@
 [submodule "packages/rainbow-mode"]
 	path = packages/rainbow-mode
 	url = https://github.com/emacsmirror/rainbow-mode.git
-[submodule "packages/emacs-everywhere"]
-	path = packages/emacs-everywhere
-	url = https://github.com/tecosaur/emacs-everywhere.git
 [submodule "packages/yaml-mode"]
 	path = packages/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
