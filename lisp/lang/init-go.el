@@ -2,17 +2,14 @@
 ;;; Commentary:
 ;;; Code:
 
-(eval-when-compile
-  (require 'init-const))
 
 (celeste/use-package go-mode
   :mode (("\\.go\\'" . go-mode)
          ("go\\.mod$" . go-dot-mod-mode))
-  :init
-  (defvar go-mode-go-path)
   :config
 
-  (setq go-mode-go-path (+getenv-shell "GOPATH"))
+  (setenv "GO111MODULE" "on")
+  (setq go-mode-go-path (getenv "GOPATH"))
   (unless go-mode-go-path
     (user-error "Cannot configure GOPATH correctly. Make sure it's set in your shell!"))
 
@@ -32,12 +29,16 @@
 ;; for GoLang. It's recommended to install it as a single binary (not by go
 ;; install).
 (celeste/use-package flycheck-golangci-lint
+  :commands flycheck-golangci-lint-setup
+  :init
   ;; Add `golangci-lint' to `flycheck-checkers'.
-  :hook (go-mode . flycheck-golangci-lint-setup)
-  :config
-  (setenv "GO111MODULE" "on")
-  )
+  (with-eval-after-load 'go-mode
+    (flycheck-golangci-lint-setup)))
 
 
 (provide 'init-go)
 ;;; init-go.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

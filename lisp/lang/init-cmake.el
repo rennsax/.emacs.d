@@ -1,8 +1,14 @@
-;;; init-cmake.el -- CMake support. -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; init-cmake.el -- CMake support. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-(celeste/require 'cmake-mode)
+(celeste/use-package cmake-mode
+  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'" . cmake-mode)))
 
 (provide 'init-cmake)
 ;;; init-cmake.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:

@@ -1,8 +1,16 @@
-;;; -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; lang/init.el -- Entrypoint for language specified configuration. -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 
+
+;; When the file is loaded, add its parent directory to `load-path'.
 (when load-file-name
   (add-to-list 'load-path (file-name-directory load-file-name)))
 
+
+;;; Syntax checker.
+
+;; flycheck: successor of the builtin flymake.
 (celeste/use-package flycheck
   :hook (prog-mode . flycheck-mode)
   :config
@@ -33,11 +41,10 @@
 ;; Show diagnostic information in the buffer.
 (celeste/use-package sideline
   :diminish
-  :init
+  :preface
   ;; The missing hash table library for Emacs.
   (celeste/use-package ht)
 
-  ;; :commands sideline-mode
   :config
   (setq sideline-backends-left-skip-current-line t
         ;; Allow right sideline at the current line
@@ -67,6 +74,9 @@
   ;; (setq sideline-backends-right '(sideline-flycheck))
   (setq sideline-backends-left '(sideline-flycheck))
   )
+
+
+;;; Treesitter: another Rust winner for syntax highlighting.
 
 (use-package treesit
   :config
@@ -135,11 +145,25 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
           "<remap> <beginning-of-buffer>")))
 
+
+;;; Programming Languages.
+
+;; Markup.
 (require 'init-yaml)
-(require 'init-go)
 (require 'init-markdown)
+;; (require 'init-json) TODO
+
+;; General-purpose.
+(require 'init-go)
 (require 'init-lua)
+
+;; DSL.
+(require 'init-cmake)
+(require 'init-protobuf)
+
+;;; lang/init.el ends here
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; no-byte-compile: t
 ;; End:

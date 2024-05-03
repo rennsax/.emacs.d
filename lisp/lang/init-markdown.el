@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(eval-when-compile
-  (require 'init-const))
 
 ;; For further usage, read https://github.com/jrblevin/markdown-mode#usage.
 (celeste/use-package markdown-mode
@@ -21,6 +19,7 @@
         ;; Fontify code in code blocks using the native major mode.
         markdown-fontify-code-blocks-natively t)
 
+  ;; Dependency for editing code blocks in markdown-mode.
   (celeste/use-package edit-indirect)
   )
 
@@ -29,3 +28,7 @@
 
 (provide 'init-markdown)
 ;;; init-markdown.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
