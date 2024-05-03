@@ -26,3 +26,5 @@
 /tree-sitter/
 .projectile
 /shell-env
+/.venv/
+/lsp-bridge/
