@@ -256,3 +256,6 @@
 [submodule "packages/expand-region"]
 	path = packages/expand-region
 	url = https://github.com/magnars/expand-region.el.git
+[submodule "packages/persp-projectile"]
+	path = packages/persp-projectile
+	url = https://github.com/bbatsov/persp-projectile.git
