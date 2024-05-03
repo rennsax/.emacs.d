@@ -34,6 +34,9 @@
 ;;; Version control settings 🐱
 (require 'init-vc)
 
+;;; Project management.
+(require 'init-project)
+
 ;;; Virtual terminal.
 (require 'init-vterm)
 
