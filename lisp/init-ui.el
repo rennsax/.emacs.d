@@ -120,6 +120,7 @@
     "Extra customization for doom themes.
 
 This should be called each time after the function definition is modified."
+    (interactive)
     (let ((doc-font celeste-other-font-name)
           (code-font celeste-default-font-name)
           (yellow (doom-color 'yello)))
@@ -192,10 +193,10 @@ This should be called each time after the function definition is modified."
 (celeste/use-package elisp-refs) ; dep
 (celeste/use-package helpful
   :hook (helpful-mode . visual-line-mode) ; turn on word wrap
-  :bind (("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)
-         ("C-h x" . helpful-command)))
+  :bind (("C-h f" . helpful-callable) ; `describe-function'
+         ("C-h v" . helpful-variable) ; `describe-variable'
+         ("C-h k" . helpful-key)      ; `describe-key'
+         ("C-h x" . helpful-command)))  ; `describe-command'
 
 ;; Show colors in the buffer as the background, for example, white red.
 (celeste/use-package rainbow-mode

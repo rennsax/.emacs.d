@@ -2,36 +2,29 @@
 ;;; Commentary:
 ;;; Code:
 
+
+;;; Magit
 
-;; There is also a builtin `transient' package.
-;; However we use the submodule one.
-(use-package transient
-  :load-path "packages/transient/lisp"
-  :defines (transient-levels-file
-            transient-values-file
-            transient-history-file
-            transient-default-level
-            transient-display-buffer-action
-            transient-map)
-  :commands transient-quit-one
-  :init
+;; Transient is a builtin package for implementing keyboard-driven menus (mainly
+;; used for Magit).
+(with-eval-after-load 'transient
   ;; Set transient directories.
   (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
         transient-values-file  (concat celeste-data-dir "transient/values")
         transient-history-file (concat celeste-data-dir "transient/history"))
-  :config
+
   (setq transient-default-level 5
         ;; Always display the transient popup buffer below.
         transient-display-buffer-action '(display-buffer-below-selected))
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
-;; Also depends on `compat' and `dash'.
-(celeste/use-package with-editor
-  :load-path "packages/with-editor/lisp")
+;; Dependency: with-editor
+(add-to-list 'load-path (concat celeste-package-dir "with-editor/lisp"))
 
+;; Also depends on `compat' and `dash'.
 ;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
-(celeste/use-package magit
-  :load-path "packages/magit/lisp"
+(add-to-list 'load-path (concat celeste-package-dir "magit/lisp"))
+(use-package magit
   :demand t ; The killer feature of Emacs! Load it immediately!
   :defines (magit-diff-refine-hunk
             magit-save-repository-buffers
@@ -40,6 +33,11 @@
             magit-bury-buffer-function
             magit-display-buffer-function)
   :commands magit-mode-quit-window
+  :bind (("C-c g g" . magit)
+         ("C-c g e i" . magit-gitignore-in-topdir)
+         ("C-c g m a" . magit-submodule-add)
+         ("C-c g m d" . magit-submodule-remove)
+         ("C-c g m c" . magit-clone))
   :config
   (setq magit-diff-refine-hunk t ; show granular diffs in selected hunk
         ;; Just trust the user, instead of saving files before running magit
@@ -65,12 +63,14 @@
   ;; affected buffers (or at least marking them as need-to-be-reverted).
   (celeste/autoload '+magit/quit magit)
   (celeste/autoload '+magit/quit-all magit)
-  (define-key magit-mode-map "q" #'+magit/quit)
-  (define-key magit-mode-map "Q" #'+magit/quit-all)
-
+  (bind-keys :map magit-mode-map
+             ("q" . +magit/quit)
+             ("Q" . +magit/quit-all))
   )
 
-;; diff-hl: better git-diff integration
+
+;;; diff-hl: better git-diff integration
+
 (add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
 
 (use-package diff-hl
@@ -98,6 +98,7 @@
 (use-package diff-hl-dired
   :hook (dired-mode . diff-hl-dired-mode))
 
+
 (provide 'init-vc)
 ;;; init-vc.el ends here
 

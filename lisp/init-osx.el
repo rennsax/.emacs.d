@@ -27,6 +27,8 @@
 ;; native Cocoa API) instead, which is useless.
 (keymap-global-unset "C-z")
 
+(keymap-global-set "s-Z" #'undo-redo)
+
 (provide 'init-osx)
 ;;; init-osx.el ends here
 

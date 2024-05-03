@@ -69,31 +69,33 @@
   :hook (after-init . marginalia-mode))
 
 
-;; Like Telescope in Neovim.
-(celeste/use-package consult
+;;; consult: fuzzy finder in Emacs
+
+(add-to-list 'load-path (concat celeste-package-dir "consult"))
+(use-package consult
+  :bind (("C-c s ." . consult-recent-file)
+         ("C-c s f" . consult-fd)
+         ("C-c s o" . consult-outline)
+         ("C-c s b" . consult-buffer))
   :init
-  (progn
-    (keymap-global-set "C-c s ." #'consult-recent-file)
-    (keymap-global-set "C-c s f" #'consult-fd)
-    (keymap-global-set "C-c s o" #'consult-outline)
-    (keymap-global-set "C-c s b" #'consult-buffer))
-  :demand t
-  :config
   (defun +consult-emacs-configurations ()
     "Search Emacs configurations files."
     (interactive)
     (consult-fd user-emacs-directory "lisp/"))
+  (bind-key "C-c s c" #'+consult-emacs-configurations))
 
-  ;; `consult-org-heading' and `consult-org-agenda'
-  ;; Alternatives for `org-goto'.
-  (with-eval-after-load 'org
-    (require 'consult-org))
+;; `consult-org-heading' and `consult-org-agenda'
+;; Alternatives for `org-goto'.
+(use-package consult-org
+  ;; This package is included in consult, so no need for another load-path.
+  :after org
+  :bind (:map org-mode-map
+              ("C-c s h" . consult-org-heading)))
 
-  ;; `consult-flycheck'
-  (with-eval-after-load 'flycheck
-    (celeste/use-package consult-flycheck
-      :after flycheck
-      :commands consult-flycheck)))
+;; `consult-flycheck'
+(celeste/use-package consult-flycheck
+  :after flycheck
+  :bind (("C-c s d" . consult-flycheck)))
 
 
 ;; Fuzzy finder
@@ -102,7 +104,7 @@
   :config
   (setq completion-styles '(orderless basic)))
 
-
+
 (provide 'init-completion)
 ;;; init-completion.el ends here
 

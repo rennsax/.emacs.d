@@ -7,7 +7,7 @@
 (celeste/use-package spinner)
 (celeste/use-package deadgrep
   ;; Fancy progress-bars in mode-line.
-  :commands deadgrep)
+  :bind ("C-c r g" . deadgrep))
 
 ;; Powerful and convenient *workspace* manager.
 (celeste/use-package perspective
@@ -75,6 +75,10 @@
 (celeste/use-package projectile
   ;; Global minor mode to enable projectile functionalities.
   :hook (after-init . projectile-mode)
+  :bind (("C-c P s" . projectile-switch-project)
+         ("C-c P f" . projectile-find-file)
+         ("C-c P c" . projectile-compile-project)
+         ("C-c P ." . projectile-recentf))
   :diminish
   :init
   (setq projectile-cache-file (concat celeste-cache-dir "projectile.cache")
