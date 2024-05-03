@@ -6,7 +6,9 @@
 ;;; Magit
 
 ;; Transient is a builtin package for implementing keyboard-driven menus (mainly
-;; used for Magit).
+;; used for Magit). However, we use the submodule one, because it's actively
+;; developed, and newer version of magit may depend on it.
+(add-to-list 'load-path (concat celeste-package-dir "transient/lisp"))
 (with-eval-after-load 'transient
   ;; Set transient directories.
   (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
