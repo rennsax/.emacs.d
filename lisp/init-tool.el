@@ -4,9 +4,10 @@
 
 
 ;; Yet another great "ripgrep" frontend!
-(celeste/use-package spinner)
 (celeste/use-package deadgrep
-  ;; Fancy progress-bars in mode-line.
+  :init
+  ;; Dep: Fancy progress-bars in mode-line.
+  (celeste/use-package spinner)
   :bind ("C-c r g" . deadgrep))
 
 ;; Enchanted spell checker.
@@ -57,20 +58,6 @@
   :commands embark-prefix-help-command
   :init
   (setq prefix-help-command #'embark-prefix-help-command))
-
-(celeste/use-package mwim
-  :bind (("C-a" . mwim-beginning)
-         ("C-e" . mwim-end))
-  :commands mwim-beginning mwim-end)
-
-(celeste/use-package elisp-demos
-  :commands elisp-demos-advice-helpful-update elisp-demos-advice-describe-function-1
-  :init
-  ;; For traditional *Help*.
-  (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
-  ;; For helpful.
-  (with-eval-after-load 'helpful
-    (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update)))
 
 (provide 'init-tool)
 ;;; init-tool.el ends here

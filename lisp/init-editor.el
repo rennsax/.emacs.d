@@ -2,15 +2,17 @@
 ;;; Commentary:
 ;;; Code:
 
-;; `anzu.el' provides a minor mode which displays 'current match/total
-(celeste/use-package anzu
-  :diminish
-  :hook (after-init . global-anzu-mode))
+
+;;; Quickly navigation.
+
+;; Move what I mean!
+(celeste/use-package mwim
+  :bind (("C-a" . mwim-beginning)
+         ("C-e" . mwim-end)))
 
 ;; Rather convenient package that can serve as a complete alternative of Vim's
 ;; textobject!
 (celeste/use-package expand-region
-  :commands er/expand-region
   :bind (("C-=" . er/expand-region)))
 
 (celeste/use-package avy
@@ -61,6 +63,9 @@
           "zip" "zoo"))
   )
 
+
+;;; Modal editing.
+
 ;; Celeste Emacs has provided presets for several modal editing packages.
 (pcase celeste-modal-editing
   ('meow (require 'init-meow))
@@ -68,6 +73,15 @@
    (require 'init-evil)
    (require 'init-evil-keybinding)))
 
+
+;;; Misc.
+
+;; `anzu.el' provides a minor mode which displays 'current match/total
+(celeste/use-package anzu
+  :diminish
+  :hook (after-init . global-anzu-mode))
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
 

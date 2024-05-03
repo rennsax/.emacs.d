@@ -4,6 +4,7 @@
 
 ;; In-Emacs terminal emulator.
 (celeste/use-package vterm
+  ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
   :commands vterm
   :config

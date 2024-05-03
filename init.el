@@ -29,6 +29,8 @@
 ;;; Magical completion support 🧙🏻
 (require 'init-completion)
 
+(require 'init-help)
+
 (require 'init-corfu)
 
 ;;; Version control settings 🐱
@@ -55,8 +57,6 @@
 
 ;;; UI tweaks 🔮
 (require 'init-ui)
-
-(require 'init-misc)
 
 ;;; Language extensions
 (load (concat celeste-lisp-dir "lang/init"))

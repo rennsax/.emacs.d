@@ -8,8 +8,8 @@
   (setq org-modules nil) ; Speedup startup.
   (setq org-directory celeste-org-dir)
   (setq org-agenda-files (list (concat org-directory "agenda")))
-  :config
 
+  :config
   (setq org-edit-src-content-indentation 0
         org-hide-leading-stars t
         ;; Also fontify code in code blocks.
@@ -74,10 +74,9 @@
   ;; `f'
   ;; `s'
   ;; `org' (of course)
+  ;; `magit-section'
   ;; `emacsql' and `emacsql-sqlite'
   (add-to-list 'load-path (concat celeste-package-dir "emacsql"))
-  (celeste/use-package magit-section
-    :load-path "packages/magit/lisp")
   (celeste/use-package filenotify-recursive)
 ;;; >8 END Dependencies of `org-roam'
 
@@ -93,22 +92,26 @@
   :after org
   :config
 
-  ;; Emacs timestamp and date-time library.
-  (celeste/require 'ts)
-  ;; Emacs hashtable library.
-  (celeste/require 'ht)
-  ;; Supercharge the org-agenda!
-  (celeste/require 'org-super-agenda)
-  ;; Global minor mode. From now on, `org-agenda-list' respects a series of
-  ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
-  (declare-function org-super-agenda-mode 'org-super-agenda)
-  (org-super-agenda-mode)
-
   ;; Do not destroy my window layout!!!
   (if (featurep 'popper)
       (setq org-agenda-window-setup 'other-window)
     (setq org-agenda-window-setup 'current-window))
   )
+
+(celeste/use-package org-super-agenda
+  :after org-agenda
+  ;; Immediately loaded after `org-agenda'.
+  :demand t
+  :init
+  ;; Emacs timestamp and date-time library.
+  (celeste/require 'ts)
+  ;; Emacs hashtable library.
+  (celeste/require 'ht)
+  :commands org-super-agenda-mode
+  :config
+  ;; Global minor mode. From now on, `org-agenda-list' respects a series of
+  ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
+  (org-super-agenda-mode))
 
 
 (provide 'init-org)

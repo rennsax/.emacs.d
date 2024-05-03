@@ -2,7 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Scrolling behavior.
+
+
+;;; Scrolling behavior.
+
 (setq hscroll-step 1
       hscroll-margin 2
       scroll-margin 3 ; Like "scrolloff" in VIM
@@ -21,6 +24,9 @@
 ;; New feature in Emacs 29.1! Smooth scrolling!
 (pixel-scroll-precision-mode +1)
 
+
+;;; General UI.
+
 ;; Disable the cute blinking cursor.
 (blink-cursor-mode -1)
 
@@ -30,44 +36,18 @@
 ;; Show matched parentheses.
 (show-paren-mode)
 
+(celeste/add-mode-hook '(prog-mode text-mode) #'display-line-numbers-mode)
+;; Display relative line numbers.
+(setq display-line-numbers-type 'relative)
+
+
+;;; Window behavior.
+
 ;; Do not allow splitting a window vertically.
 (setq split-height-threshold nil)
 
-(use-package display-line-numbers
-  ;; Display relative line numbers.
-  :hook ((prog-mode text-mode) . display-line-numbers-mode)
-  :config
-  )
-(setq display-line-numbers-type 'relative)
-
-;; `popper': show annoying windows such as `help-mode' in a dedicated POP
-;; window, so they won't clobber the original window layout.
-(celeste/use-package popper
-  :bind (("C-`"   . popper-toggle)
-         ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :hook (after-init . popper-mode)
-  :config
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "\\*Warnings\\*"
-          "\\*Org Agenda\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          "\\*evil-jumps\\*"
-          "\\*Compile-Log\\*"
-          "\\*compilation\\*"
-          ;; Exclude "*Org Help*" buffer in `org-goto'. If not, `org-goto'
-          ;; firstly focuses on the popper window, which is annoying.
-          (lambda (buf)
-            (with-current-buffer buf
-              (and (derived-mode-p 'help-mode)
-                   (not (string= (buffer-name) "*Org Help*")))))
-          helpful-mode ; `helpful' package
-          debugger-mode))
-  (use-package popper-echo
-    :commands popper-echo-mode
-    :hook (popper-mode . popper-echo-mode)))
+
+;;; Colors, font faces.
 
 (celeste/use-package hl-todo
   :hook ((prog-mode yaml-mode) . hl-todo-mode)
@@ -98,6 +78,73 @@
           ("BUG" error bold)
           ("PERF" font-lock-keyword-face bold)
           ("XXX" font-lock-constant-face bold))))
+
+;; Show colors in the buffer as the background, for example, white red.
+(celeste/use-package rainbow-mode
+  :commands rainbow-mode
+  :config
+  ;; If `rainbow-mode' is on, disable `hl-line-mode', which can override the
+  ;; background color.
+  (add-hook 'rainbow-mode-hook
+            (lambda () (hl-line-mode (if rainbow-mode -1 +1)))))
+
+;; Rainbow delimiters.
+(celeste/use-package rainbow-delimiters
+  ;; Start automatically in most programming languages.
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Oh, the vanilla dired is boring! I want more colors.
+(celeste/use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
+;; Icons are also important!
+(celeste/use-package nerd-icons-dired
+  :diminish
+  :custom-face
+  ;; TODO doc
+  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+  :commands (nerd-icons-dired-mode)
+  ;; :hook (dired-mode . nerd-icons-dired-mode)
+  )
+
+
+
+;;; Popper.
+
+;; `popper': show annoying windows such as `help-mode' in a dedicated POP
+;; window, so they won't clobber the original window layout.
+(add-to-list 'load-path (concat celeste-package-dir "popper"))
+(use-package popper
+  :bind (("C-`"   . popper-toggle)
+         ("M-`"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :hook (after-init . popper-mode)
+  :config
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "\\*Warnings\\*"
+          "\\*Org Agenda\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          "\\*evil-jumps\\*"
+          "\\*Compile-Log\\*"
+          "\\*compilation\\*"
+          "\\*Flycheck checkers\\*"
+          ;; Exclude "*Org Help*" buffer in `org-goto'. If not, `org-goto'
+          ;; firstly focuses on the popper window, which is annoying.
+          (lambda (buf)
+            (with-current-buffer buf
+              (and (derived-mode-p 'help-mode)
+                   (not (string= (buffer-name) "*Org Help*")))))
+          helpful-mode ; `helpful' package
+          debugger-mode)))
+
+(use-package popper-echo
+  :after popper
+  :commands popper-echo-mode popper-tab-line-mode
+  :hook ((popper-mode . (lambda ()
+                          (popper-tab-line-mode -1)
+                          (popper-echo-mode +1)))))
 
 
 ;;; Theme
@@ -174,10 +221,13 @@ This should be called each time after the function definition is modified."
 ;; NO line number
 (line-number-mode -1)
 
-;; used by `doom-modeline'
-(celeste/use-package nerd-icons)
 (celeste/use-package doom-modeline
+  :init
+  (celeste/use-package nerd-icons)
   :hook (after-init . doom-modeline-mode))
+
+
+;;; Zen mode.
 
 (celeste/use-package visual-fill-column)
 (celeste/use-package writeroom-mode
@@ -188,45 +238,7 @@ This should be called each time after the function definition is modified."
   (setq writeroom-global-effects (delq 'writeroom-set-fullscreen writeroom-global-effects)))
 
 
-;; Better Emacs *help* buffer that provides much more contextual information.
-;; For example, source code, references, key bindings, ...
-(celeste/use-package elisp-refs) ; dep
-(celeste/use-package helpful
-  :hook (helpful-mode . visual-line-mode) ; turn on word wrap
-  :bind (("C-h f" . helpful-callable) ; `describe-function'
-         ("C-h v" . helpful-variable) ; `describe-variable'
-         ("C-h k" . helpful-key)      ; `describe-key'
-         ("C-h x" . helpful-command)))  ; `describe-command'
-
-;; Show colors in the buffer as the background, for example, white red.
-(celeste/use-package rainbow-mode
-  :commands rainbow-mode
-  :config
-  ;; If `rainbow-mode' is on, disable `hl-line-mode', which can override the
-  ;; background color.
-  (add-hook 'rainbow-mode-hook
-            (lambda () (hl-line-mode (if rainbow-mode -1 +1)))))
-
-;; Rainbow delimiters.
-(celeste/use-package rainbow-delimiters
-  ;; Start automatically in most programming languages.
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-;; Oh, the venilla dired is boring! I want more colors.
-(celeste/use-package diredfl
-  :hook (dired-mode . diredfl-mode))
-
-;; Icons are also important!
-(celeste/use-package nerd-icons-dired
-  :diminish
-  :custom-face
-  ;; TODO doc
-  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-  :commands (nerd-icons-dired-mode)
-  ;; :hook (dired-mode . nerd-icons-dired-mode)
-  )
-
-
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
 
