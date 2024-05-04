@@ -27,19 +27,13 @@
 ;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
 (add-to-list 'load-path (concat celeste-package-dir "magit/lisp"))
 (use-package magit
-  :demand t ; The killer feature of Emacs! Load it immediately!
-  :defines (magit-diff-refine-hunk
-            magit-save-repository-buffers
-            magit-mode-map
-            magit-revision-show-gravatars
-            magit-bury-buffer-function
-            magit-display-buffer-function)
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)
          ("C-c g e i" . magit-gitignore-in-topdir)
          ("C-c g m a" . magit-submodule-add)
          ("C-c g m d" . magit-submodule-remove)
          ("C-c g m c" . magit-clone))
+  :hook (after-init . magit-auto-revert-mode)
   :config
   (setq magit-diff-refine-hunk t ; show granular diffs in selected hunk
         ;; Just trust the user, instead of saving files before running magit
