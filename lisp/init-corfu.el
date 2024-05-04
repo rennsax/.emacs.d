@@ -16,7 +16,7 @@
   ;; Disable RET -> `corfu-insert'. I prefer primitive RET - just `newline'.
   (mapc (lambda (key) (keymap-unset corfu-map key))
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
-          "<remap> <beginning-of-buffer>"))
+          "<remap> <beginning-of-buffer>" "C-a"))
 
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))

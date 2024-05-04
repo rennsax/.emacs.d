@@ -13,6 +13,7 @@
   :bind (("C-h f" . helpful-callable) ; `describe-function'
          ("C-h v" . helpful-variable) ; `describe-variable'
          ("C-h k" . helpful-key)      ; `describe-key'
+         ("C-h h" . helpful-at-point)
          ("C-h x" . helpful-command))  ; `describe-command'
   :config
   (add-hook 'helpful-mode-hook #'visual-line-mode))

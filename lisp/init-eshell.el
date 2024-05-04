@@ -9,7 +9,7 @@
             eshell-history-size
             eshell-prompt-function
             eshell-mode-map)
-
+  :bind (("C-c b e" . eshell))
   :config
 
   (setq eshell-scroll-to-bottom-on-input t)

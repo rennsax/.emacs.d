@@ -17,6 +17,28 @@
 ;;; Code:
 
 
+;;; Basic keybindings.
+;; NOTE: Package-specified bindings should be put into their corresponding
+;; sections (their `use-package' configurations, for example).
+
+(bind-keys ("M-J" . join-line)
+           ("C-S-n" . scroll-up-line)
+           ("C-S-p" . scroll-down-line))
+
+;; Increasing or decreasing the default font size in all GUI Emacs
+;; frames. (new feature in Emacs 29.1)
+;; TODO: reset with "s-0"
+(bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
+           ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
+
+;; Tried of "C-x o".
+(bind-keys ("s-o" . other-window))
+
+;; Map the right command to control. Mac's right command key is redundant to me.
+(when sys/mac
+  (setq mac-right-command-modifier 'control))
+
+
 ;;; Data and cache directories.
 
 ;; init-mini.el has configured this builtin packages.

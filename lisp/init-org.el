@@ -9,6 +9,9 @@
   (setq org-directory celeste-org-dir)
   (setq org-agenda-files (list (concat org-directory "agenda")))
 
+  :bind (("C-c o A" . org-agenda)
+         ("C-c o a" . org-agenda-list))
+
   :config
   (setq org-edit-src-content-indentation 0
         org-hide-leading-stars t
@@ -41,7 +44,13 @@
         org-todo-keyword-faces '(("CANCEL" . error)))
 
   (celeste/autoload '+org-toggle-inline-images-in-subtree org nil t)
-  (celeste/autoload '+org/dwim-at-point org nil t))
+  (celeste/autoload '+org/dwim-at-point org nil t)
+  (keymap-set org-mode-map "s-<return>" #'+org/dwim-at-point)
+
+  ;; Resolve keymap conflicts.
+  (when (fboundp 'avy-goto-char-2)
+    (keymap-unset org-mode-map "C-'"))
+  )
 
 (use-package org-id
   :init
@@ -83,7 +92,7 @@
   (setq org-roam-directory (concat celeste-org-dir "roam/")
         org-roam-db-location (concat celeste-data-dir "org-roam.db"))
 
-  :commands (org-roam-node-find)
+  :bind (("C-c o r n" . org-roam-node-find))
   :config
   ;; Necessary for automatic `org-roam-complete-link-at-point'
   (org-roam-db-autosync-enable))

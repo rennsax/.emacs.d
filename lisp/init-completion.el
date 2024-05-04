@@ -76,7 +76,8 @@
   :bind (("C-c s ." . consult-recent-file)
          ("C-c s f" . consult-fd)
          ("C-c s o" . consult-outline)
-         ("C-c s b" . consult-buffer))
+         ("C-c s b" . consult-buffer)
+         ("M-y" . consult-yank-pop))
   :init
   (defun +consult-emacs-configurations ()
     "Search Emacs configurations files."
