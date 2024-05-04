@@ -86,7 +86,8 @@
   ;; If `rainbow-mode' is on, disable `hl-line-mode', which can override the
   ;; background color.
   (add-hook 'rainbow-mode-hook
-            (lambda () (hl-line-mode (if rainbow-mode -1 +1)))))
+            (defun +rainbow-mode-repel-hl-line-mode-h ()
+              (hl-line-mode (if rainbow-mode -1 +1)))))
 
 ;; Rainbow delimiters.
 (celeste/use-package rainbow-delimiters

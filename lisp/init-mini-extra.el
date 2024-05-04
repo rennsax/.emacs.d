@@ -95,9 +95,9 @@
 
 ;; Toggle `display-fill-column-indicator-mode' along with `auto-fill-mode'.
 ;; Show vertical line at the column of `fill-column'.
-;; TODO: how to tell whether `auto-fill-mode' is enabled?
 (add-hook 'auto-fill-mode-hook
-          #'(lambda () (display-fill-column-indicator-mode 'toggle)))
+          (defun +auto-fill-mode-company-display-fill-column-indicator-mode-h ()
+            (display-fill-column-indicator-mode (if auto-fill-function +1 -1))))
 
 
 ;;; Magical multi-font settings.
