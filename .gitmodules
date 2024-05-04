@@ -262,3 +262,6 @@
 [submodule "packages/avy"]
 	path = packages/avy
 	url = https://github.com/abo-abo/avy.git
+[submodule "packages/hide-mode-line"]
+	path = packages/hide-mode-line
+	url = https://github.com/hlissner/emacs-hide-mode-line.git
