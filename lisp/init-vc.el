@@ -86,6 +86,12 @@
 
   ;; Do not show stage changes. This is similar to most of prevalent editors.
   (setq diff-hl-show-staged-changes nil)
+  (advice-add 'diff-hl-show-hunk :after
+              (defun +diff-hl-auto-kill-diff-buffer-a (&rest _)
+                (kill-buffer diff-hl-show-hunk-buffer-name)))
+
+  ;; REVIEW: `diff-hl-show-hunk-posframe' is immature now.
+  ;; (setq diff-hl-show-hunk-function #'diff-hl-show-hunk-posframe)
   )
 
 (use-package diff-hl-flydiff
