@@ -171,7 +171,10 @@ This should be called each time after the function definition is modified."
     (interactive)
     (let ((doc-font celeste-other-font-name)
           (code-font celeste-default-font-name)
-          (yellow (doom-color 'yello)))
+          (yellow (doom-color 'yellow))
+          (orange (doom-color 'orange))
+          (magenta (doom-color 'magenta))
+          (cyan (doom-color 'cyan)))
       (+custom-doom-themes
 
        ;; TODO: dream to use another font in vertico
@@ -186,12 +189,13 @@ This should be called each time after the function definition is modified."
        `(org-block :family ,code-font)
        `(org-code :family ,code-font)
        `(org-verbatim :family ,code-font)
-       `(org-quote :family ,doc-font :italic nil :foreground ,(doom-color 'cyan))
+       `(org-quote :family ,doc-font :italic nil :foreground ,cyan)
+       `(org-bold :weight bold :foreground ,yellow)
 
        ;; `markdown-mode'
        `(markdown-inline-code-face :family ,code-font)
        `(markdown-code-face :family ,code-font)
-       `(markdown-blockquote-face :foreground ,(doom-color 'cyan))
+       `(markdown-blockquote-face :foreground ,cyan)
        `(markdown-header-delimiter-face :foreground ,(doom-color 'dark-cyan))
        `(markdown-header-face-1 :inherit outline-1)
        `(markdown-header-face-2 :inherit outline-2)

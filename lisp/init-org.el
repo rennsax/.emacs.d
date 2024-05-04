@@ -43,6 +43,16 @@
   (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)" "CANCEL(c)"))
         org-todo-keyword-faces '(("CANCEL" . error)))
 
+  (defface org-bold '((default :inherit bold)) "My bold emphasis for Org.")
+
+  (setq org-emphasis-alist
+    '(("*" org-bold)
+      ("/" italic)
+      ("_" underline)
+      ("=" org-verbatim verbatim)
+      ("~" org-code verbatim)
+      ("+" (:strike-through t))))
+
   (celeste/autoload '+org-toggle-inline-images-in-subtree org nil t)
   (celeste/autoload '+org/dwim-at-point org nil t)
   (keymap-set org-mode-map "s-<return>" #'+org/dwim-at-point)
