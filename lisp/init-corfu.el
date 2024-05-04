@@ -5,7 +5,32 @@
 ;; Lightweight completion engine, powered by capf.
 ;; Now only used by eshell and emacs-lisp-mode.
 (celeste/use-package corfu
-  :commands corfu-quit corfu-mode
+  :commands corfu-mode
+
+  :custom-face
+  (corfu-border ((t (:inherit region :background unspecified))))
+  ;; Toggle corfu in all buffers
+
+  :preface
+  (defconst corfu-enable-mode-list
+    '(eshell-mode emacs-lisp-mode)
+    "A list of modes that `corfu-mode' should be enabled.")
+
+  (defun +corfu-enable-corfu-mode (&optional no-auto)
+    "Enable `corfu-mode' in current buffer.
+
+If optional NO-AUTO is non-nil, turn off `corfu-auto'."
+    ;; Must before `corfu-mode' is turned on.
+    ;; In `eshell-mode', do not automatically toggle corfu prompt.
+    (when no-auto (setq-local corfu-auto nil))
+    (corfu-mode +1))
+
+  ;; Hooks have depth -10, which means, without exceptions, they are run before
+  ;; `lsp-bridge-mode' is enabled, so that `lsp-bridge-mode-hook' can detect the
+  ;; conflicts and then turn `corfu-mode' off.
+  (add-hook 'eshell-mode-hook (lambda () (+corfu-enable-corfu-mode t)) -10)
+  (add-hook 'emacs-lisp-mode-hook #'+corfu-enable-corfu-mode -10)
+
   :config
   (setq corfu-auto t
         corfu-auto-prefix 3
@@ -18,15 +43,8 @@
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
           "<remap> <beginning-of-buffer>" "C-a"))
 
-  :custom-face
-  (corfu-border ((t (:inherit region :background unspecified))))
-  ;; Toggle corfu in all buffers
-  :hook (;; In `eshell-mode', do not automatically toggle corfu prompt.
-         (eshell-mode . (lambda ()
-                          ;; Must before `corfu-mode' is turned on.
-                          (setq-local corfu-auto nil)
-                          (corfu-mode)))
-         (emacs-lisp-mode . corfu-mode)))
+  )
+
 
 ;; Lightweight templates.
 (celeste/use-package tempel

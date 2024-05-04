@@ -143,7 +143,18 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
   ;; RET should just insert a newline, completion is done by TAB.
   (mapc (lambda (key) (keymap-unset acm-mode-map key))
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
-          "<remap> <beginning-of-buffer>")))
+          "<remap> <beginning-of-buffer>"))
+
+  ;; corfu-mode is conflicted with lsp-bridge-mode.
+  (with-eval-after-load 'corfu
+    (add-hook 'lsp-bridge-mode-hook
+              (defun +lsp-bridge-mode-repel-corfu-mode-h (&rest _)
+                (if lsp-bridge-mode
+                    (corfu-mode -1)
+                  (when (and (boundp 'corfu-enable-mode-list)
+                             (apply #'derived-mode-p corfu-enable-mode-list))
+                    (corfu-mode +1))))))
+  )
 
 
 ;;; Programming Languages.
