@@ -69,11 +69,9 @@
 
 ;;; Bootstrap custom file.
 (setq custom-file (locate-user-emacs-file "custom.el"))
-;; `load-file' vs `load': the previous one just execute the Lisp code in the
-;; given file. The latter one does more things: try to add suffix, search
-;; `load-path', ...
 (when (file-exists-p custom-file)
-  (load-file custom-file))
+  ;; `load' is more primitive than `load-file'.
+  (load custom-file nil nil t))
 
 
 ;;; Handle whitespaces.
