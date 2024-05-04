@@ -53,10 +53,12 @@
 (setq gamegrid-user-score-file-directory (concat celeste-data-dir "games"))
 (setq bookmark-default-file (concat celeste-data-dir "bookmarks"))
 (setq url-cookie-file (concat celeste-cache-dir "url/cookie"))
+(setq project-list-file (celeste/make-path "projects" 'data))
 
 
 ;;; Diminished packages.
 
+(diminish 'auto-fill-function)
 (with-eval-after-load 'eldoc
   (diminish 'eldoc-mode))
 (with-eval-after-load 'autorevert

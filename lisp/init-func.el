@@ -37,6 +37,18 @@
 (add-hook 'emacs-startup-hook
           (lambda () (message (format "Init time: %s." (emacs-init-time)))))
 
+(defun +pure-save-buffer ()
+  "Save current file w/o running `before-save-hook'."
+  (interactive)
+  (let (before-save-hook)
+    (save-buffer)))
+
+(defun +add-no-byte-compile-file-local-variable ()
+  "Add file-local variable: `no-byte-compile': t."
+  (interactive)
+  (delete-file-local-variable-prop-line 'no-byte-compile)
+  (add-file-local-variable 'no-byte-compile t))
+
 (provide 'init-func)
 ;;; init-func.el ends here
 
