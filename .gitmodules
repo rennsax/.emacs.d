@@ -265,3 +265,6 @@
 [submodule "packages/hide-mode-line"]
 	path = packages/hide-mode-line
 	url = https://github.com/hlissner/emacs-hide-mode-line.git
+[submodule "packages/git-modes"]
+	path = packages/git-modes
+	url = https://github.com/magit/git-modes.git
