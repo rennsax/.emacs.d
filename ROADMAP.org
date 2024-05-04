@@ -8,11 +8,9 @@
 
 ** New Packages
 
-- [ ] [[https://github.com/Fanael/highlight-quoted][highlight-quoted]]
+- [ ] [[https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter][combobulate]]: Structured Movement and Editing with Tree-Sitter
 
-- [ ] [[https://github.com/bbatsov/persp-projectile.git][persp-projectile]]
-
-- [ ] [[https://github.com/abo-abo/hydra][hydra]]
+- [ ] [[Https://github.com/abo-abo/hydra][hydra]]
 
 - [ ] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]]
 
@@ -20,7 +18,7 @@
 
   [[https://ztlevi.github.io/posts/Spell-checking-with-Cspell-in-Emacs/][A blog]]
 
-- [ ] multi-vterm, [[https://github.com/kyagi/shell-pop-el][shell-pop-el]], [[https://github.com/atomontage/xterm-color/tree/master][xterm-color]]
+- [ ] [[https://github.com/kyagi/shell-pop-el][shell-pop-el]], [[https://github.com/atomontage/xterm-color/tree/master][xterm-color]]
 
   Reference: Centaur Emacs
 
@@ -28,8 +26,133 @@
 
 - [ ] [[https://github.com/magit/forge.git][magit forge]]
 
+- [ ] [[https://github.com/emacsmirror/git-timemachine.git][git-timemachine]]
+
 - [ ] [[https://github.com/kimim/chatu.git][chatu]]
-  
+
+- [ ] [[https://github.com/Fanael/highlight-quoted][highlight-quoted]]
+
+** Cleanup
+
+To be or not to be?
+
+- [ ] embark: it seems that I seldom use this package.
+
+  I misunderstand it. ~embark-action~ can be called everywhere, not only in the
+  minibuffer.
+
+  [[https://emacs-china.org/t/embark-hack/22205]] [[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
+
+** Try
+
+- [ ] Read Info: "The Mark and the Region"
+
+- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+
+- [ ] [[https://emacs-china.org/t/vterm-edit-command-buffer-vterm/20530][vterm-edit-command 在独立的 buffer 中编辑 vterm 当前命令行]]
+
+** Features
+
+- [ ] ielm
+
+- [ ] Improve reading UX
+
+  Set a new customizable variable ~celeste-reading-font-name~, which should be
+  set to a proportional font. It aims to be used in reading context.
+
+  Declare a minor mode ~celeste-reading-mode~.
+
+  [[https://emacs-china.org/t/topic/22639][【讨论】一种提升英文阅读体验的可能性]]
+
+  [[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
+
+- [ ] tweak ~org-clock~
+
+- [ ] convert markdown-style link to org-style link.
+
+  #+begin_src emacs-lisp
+  (defun my/md-link-to-org ()
+    ;; Can also be adapted to use the region, but one would need to add
+    ;; a marker and region-end.  Remember to remove marker at end.
+    (interactive)
+    (let ((markdown-regex-link-inline
+           ;; from http://jblevins.org/git/markdown-mode.git/tree/markdown-mode.el
+           "\\(!\\)?\\(\\[\\)\\([^]^][^]]*\\|\\)\\(\\]\\)\\((\\)\\([^)]*?\\)\\(?:\\s-+\\(\"[^\"]*\"\\)\\)?\\()\\)"))
+      (while (search-forward-regexp markdown-regex-link-inline (point-max) t)
+        (replace-match "[[\\6][\\3]]"))))
+#+end_src
+
+- [ ] Respect the true line numbers (folded lines also counts) in commands
+  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
+
+  These commands do not know if some regions are folded, which is prevalent in
+  org-mode and markdown-mode.
+
+- [ ] Add default options in transient.
+
+- [X] Customize org bold.
+
+- [ ] tweak bookmark
+
+- [X] How to make =diff-hl= do not display staged parts?
+
+- [X] auto kill buffers
+
+  There is no need to implement such feature.
+
+- [X] ~doom-modeline~ tweak. How can I persist some important information (such as
+  org-clock) when the frame size is limited?
+
+  I don't use doom-modeline anymore!
+
+** Performance
+** Huge Projects
+
+- [ ] Package manager: autoload?
+
+- [ ] Learn about how popper.el works.
+
+  Popper.el does a good job in protecting my window layout. However some plugins
+  are special: org-agenda, gptel, ... They still destroy my window layout, which
+  makes me annoying.
+
+  Maybe I also need to learn more about window.el.
+
+- [ ] Tweaks emacs-everywhere for perspective.el
+
+  If I still want to keep emacs-everywhere.
+
+  The two do not cooperate well. When persp.el is enabled, the transient buffer
+  created by emacs-everywhere cannot be killed properly, and a confirmation
+  always pops out to ask "whether to kill the unsaved buffer anyway", which is
+  annoying.
+
+- [ ] Separate cobalt2 from doomemacs/themes
+
+  doom-themes is a good place to develop other themes, but it makes the
+  customization more complex. Try to separate my color definitions from that, or
+  read and understand its source code.
+
+  [[https://github.com/positron-solutions/transient-showcase][positron-solutions/transient-showcase: Example forms for transient UI's in Emacs]]
+
+* Known Bugs
+
+** Handling windows with popper and evil
+
+How to reproduce: open Emacs, =C-h f= and then search for any callable
+functions, open the help buffer (in popper window). Click any link that targets
+to a file in the help buffer, the file appears at the right of the orginal
+window. Then =C-w x= (~evil-window-exchange~), an error like this occurs:
+
+#+begin_quote
+Window #<window 7 on *helpful function: url-user*> has same side bottom as
+window #<window 9 on *helpful function: url-user*> but no common parent
+#+end_quote
+
+* Completion
+
+- [X] [[https://github.com/bbatsov/persp-projectile.git][persp-projectile]]
+
 - [X] [[https://github.com/Fanael/edit-indirect][edit-indirect]] as ~markdown-mode~ dep
 
 - [X] bookmark (builtin)
@@ -50,18 +173,7 @@
 
 - [X] [[https://github.com/akreisher/eshell-syntax-highlighting][eshell-syntax-highlighting]]
 
-** Cleanup
-
-To be or not to be?
-
-- [ ] embark: it seems that I seldom use this package.
-
-  I misunderstand it. ~embark-action~ can be called everywhere, not only in the
-  minibuffer.
-
-  [[https://emacs-china.org/t/embark-hack/22205]] [[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
-
-** Fix
+- [X] [[https://github.com/abo-abo/avy][avy]]: ~avy-goto-char-2~
 
 - [X] ~celeste/require~: the first argument should be a symbol!
 
@@ -97,10 +209,6 @@ To be or not to be?
   (add-to-list 'recentf-keep "^/ssh:orb:")
 #+end_src
 
-** Try
-
-- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
-
 - [X] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
 
   Emacs-eat is a relatively-newer package that aims to provide experience much
@@ -114,156 +222,12 @@ To be or not to be?
 
   2024/04/23: Vterm is better.
 
-** Features
-
-- [ ] Improve reading UX
-
-  Set a new customizable variable ~celeste-reading-font-name~, which should be
-  set to a proportional font. It aims to be used in reading context.
-
-  Declare a minor mode ~celeste-reading-mode~.
-
-  [[https://emacs-china.org/t/topic/22639][【讨论】一种提升英文阅读体验的可能性]]
-
-  [[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
-
-- [ ] tweak ~org-clock~
-
-- [ ] ~doom-modeline~ tweak. How can I persist some important information (such as
-  org-clock) when the frame size is limited?
-
-- [ ] convert markdown-style link to org-style link.
-
-  #+begin_src emacs-lisp
-  (defun my/md-link-to-org ()
-    ;; Can also be adapted to use the region, but one would need to add
-    ;; a marker and region-end.  Remember to remove marker at end.
-    (interactive)
-    (let ((markdown-regex-link-inline
-           ;; from http://jblevins.org/git/markdown-mode.git/tree/markdown-mode.el
-           "\\(!\\)?\\(\\[\\)\\([^]^][^]]*\\|\\)\\(\\]\\)\\((\\)\\([^)]*?\\)\\(?:\\s-+\\(\"[^\"]*\"\\)\\)?\\()\\)"))
-      (while (search-forward-regexp markdown-regex-link-inline (point-max) t)
-        (replace-match "[[\\6][\\3]]"))))
-#+end_src
-
-- [ ] Respect the true line numbers (folded lines also counts) in commands
-  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
-
-  These commands do not know if some regions are folded, which is prevalent in
-  org-mode and markdown-mode.
-
-- [ ] Add default options in transient.
-
-- [ ] Customize org bold.
-
-- [ ] tweak bookmark
-
-- [X] How to make =diff-hl= do not display staged parts?
-  
-- [X] auto kill buffers
-
-  There is no need to implement such feature.
-
-** Performance
-
 - [X] Why is eshell loaded immediately after Emacs starts?
 
   ~emacs -q~ and ~emacs -Q~, then ~(featurep 'eshell)~ => nil
 
   Reason: the package exec-path-from-shell has ~require~-ed eshell.
 
-** Huge Projects
-
-- [ ] Package manager: autoload?
-
-- [ ] Learn about how popper.el works.
-
-  Popper.el does a good job in protecting my window layout. However some plugins
-  are special: org-agenda, gptel, ... They still destroy my window layout, which
-  makes me annoying.
-
-  Maybe I also need to learn more about window.el.
-
-- [ ] Tweaks emacs-everywhere for perspective.el
-
-  If I still want to keep emacs-everywhere.
-
-  The two do not cooperate well. When persp.el is enabled, the transient buffer
-  created by emacs-everywhere cannot be killed properly, and a confirmation
-  always pops out to ask "whether to kill the unsaved buffer anyway", which is
-  annoying.
-
-- [ ] Separate cobalt2 from doomemacs/themes
-
-  doom-themes is a good place to develop other themes, but it makes the
-  customization more complex. Try to separate my color definitions from that, or
-  read and understand its source code.
-
-  [[https://github.com/positron-solutions/transient-showcase][positron-solutions/transient-showcase: Example forms for transient UI's in Emacs]]
-
 - [X] Gradually get rid of evil...
 
-* Known Bugs
-
-** Handling windows with popper and evil
-
-How to reproduce: open Emacs, =C-h f= and then search for any callable
-functions, open the help buffer (in popper window). Click any link that targets
-to a file in the help buffer, the file appears at the right of the orginal
-window. Then =C-w x= (~evil-window-exchange~), an error like this occurs:
-
-#+begin_quote
-Window #<window 7 on *helpful function: url-user*> has same side bottom as
-window #<window 9 on *helpful function: url-user*> but no common parent
-#+end_quote
-
-* Knowledge
-
-** ~use-package~: ~:init~ or ~:config~?
-
-Code annotated by ~:init~ runs *before* the package is loaded, and code
-annotated by ~:config~ run *after* the package is loaded. Where should the
-~setq~ expression be put?
-
-The doom guy /hlissner/ answered [[https://www.reddit.com/r/emacs/comments/f3vncl/comment/fhmbf68/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button][in a Reddit thread]]. The main standpoint, which
-describes which kinds of variables should be set *before the package is loaded*.
-
-- Read the documentation. Some variables need to be set before the package is
-  loaded. For instance, ~evil-respect-visual-line-mode~.
-- Read the source code. Some variables have setters. For this kind of variables,
-  it should be set before the package is loaded in my case. (Other techniques
-  such as using doom's ~setq!~ or using the customization interface are
-  inpractical.)
-- For file/path variables, it's recommended to set them before the package is
-  loaded.
-
-Other variables should be set after the package is loaded when possible, which
-can speedup the startup procedure.
-
-** How does minor mode acts?
-
-Use =C-h f define-minor-mode=.
-
-** ~setq~ VS ~setopt~
-
-~setopt~ is a new function introduced in Emacs 29.1. Currently most of the users
-use ~setq~ to set variables. 
-
-Comparison:
-1. ~setq~ is more performance, of course, because it does less stuff and it's a
-   simple Lispy interface to bind some values to some symbols.
-
-** How to Set Frame Fonts?
-
-The most efficient way (in =early-init.el=, i.e. before the initial frame is
-created.
-
-#+begin_src emacs-lisp
-(add-to-list 'default-frame-alist
-             `(font . ,(format "%s %d" my-font-name my-font-size)))
-#+end_src
-
-So that newly-created window-system frames can use the font arguments.
-
-Of course, after the GUI frame is drawn, the function ~set-frame-font~ can
-change the font.
+- [X] multi-vterm
