@@ -268,3 +268,6 @@
 [submodule "packages/git-modes"]
 	path = packages/git-modes
 	url = https://github.com/magit/git-modes.git
+[submodule "packages/posframe"]
+	path = packages/posframe
+	url = https://github.com/tumashu/posframe.git
