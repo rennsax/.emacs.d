@@ -113,6 +113,16 @@ Envs are obtained by `exec-path-from-shell'."
   :group 'celeste
   :type 'symbol)
 
+(defcustom celeste-python-command "python3"
+  "Python3 command to use for lsp-bridge and EAF."
+  :group 'celeste
+  :type 'string
+  :set (lambda (sym val)
+         ;; `setq' is a special form - if a symbol is passed as the first
+         ;; argument, it won't work correctly.
+         (set sym val)
+         (setq lsp-bridge-python-command val)))
+
 (provide 'init-custom)
 ;;; init-custom.el ends here
 

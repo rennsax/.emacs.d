@@ -55,6 +55,12 @@ effects. For example:
 (setq lsp-bridge-python-command "Your Python executable path")
 ```
 
+Or you can leverage the customizable variable `celeste-python-command`:
+
+``` emacs-lisp
+(setopt celeste-python-command "Your Python executable path")
+```
+
 #### lsp-bridge
 
 ``` shell
