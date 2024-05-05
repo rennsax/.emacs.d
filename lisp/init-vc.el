@@ -8,7 +8,7 @@
 ;; Transient is a builtin package for implementing keyboard-driven menus (mainly
 ;; used for Magit). However, we use the submodule one, because it's actively
 ;; developed, and newer version of magit may depend on it.
-(add-to-list 'load-path (concat celeste-package-dir "transient/lisp"))
+(celeste/add-special-load-path 'transient)
 (with-eval-after-load 'transient
   ;; Set transient directories.
   (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
@@ -21,11 +21,11 @@
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
 ;; Dependency: with-editor
-(add-to-list 'load-path (concat celeste-package-dir "with-editor/lisp"))
+(celeste/add-special-load-path 'with-editor)
 
 ;; Also depends on `compat' and `dash'.
 ;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
-(add-to-list 'load-path (concat celeste-package-dir "magit/lisp"))
+(celeste/add-special-load-path 'magit)
 (use-package magit
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)

@@ -56,6 +56,19 @@ TYPE is one of cache and data. PATH is the relative path name."
                     (_ (error "Unrecognized type: %s" type)))))
     (concat base-dir path)))
 
+(defun celeste/add-special-load-path (package &optional subdir)
+  "Add the Lisp directory of PACKAGE from magit to `load-path'.
+
+Some packages (like magit, org) ship their Lisp files in the
+subdirectory \"lisp/\". This function is a convenient wrapper to
+dead with that situation.
+
+Optional SUBDIR indicates that the subdirectory SUBDIR is added
+to `load-path'. By default it's \"lisp\"."
+  (let ((subdir (or subdir "lisp")))
+    (add-to-list 'load-path (file-name-concat celeste-package-dir
+                                              (symbol-name package) subdir))))
+
 (defun +getenv-shell (variable &optional frame always)
   "Get the environment variable VARIABLE from shell.
 
