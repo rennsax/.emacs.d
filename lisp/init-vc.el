@@ -65,6 +65,12 @@
   )
 
 
+;;; git-modes: collection of git{ignore,config,attributes}-mode'.
+
+;;(celeste/package-build-autoload 'git-modes)
+(celeste/package-autoload 'git-modes)
+
+
 ;;; diff-hl: better git-diff integration
 
 (add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
