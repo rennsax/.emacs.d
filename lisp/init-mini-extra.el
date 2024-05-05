@@ -39,7 +39,19 @@
   (setq mac-right-command-modifier 'control))
 
 
+;;; Extra settings.
+
+;; Always keeps my "remote" files on the OrbStack VM. By default, They become unreachable
+;; when I turn down the VM, and are removed from the recentf list.
+(with-eval-after-load 'recentf
+  (add-to-list 'recentf-keep "^/ssh:orb:"))
+
+
 ;;; Data and cache directories.
+
+;; There is a package named "no-littering" which does the same stuff. But I
+;; prefer to write these on my own, for less external dependencies and more
+;; transparent behavior.
 
 ;; init-mini.el has configured this builtin packages.
 (setq backup-directory-alist `(("." . ,(celeste/make-path "backup/" 'cache))))
@@ -68,6 +80,8 @@
 
 
 ;;; Bootstrap custom file.
+;;; NOTE: must be here now.
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (when (file-exists-p custom-file)
   ;; `load' is more primitive than `load-file'.

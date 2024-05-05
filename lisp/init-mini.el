@@ -98,6 +98,9 @@
 ;; convention.
 (setq sentence-end-double-space nil)
 
+;; Never feel getting lost where the line is when you enter CTRL-V!
+(setq scroll-preserve-screen-position t)
+
 ;; Prefer simpler "y" or "n" over "yes" or "no".
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -186,11 +189,7 @@ or file path may exist now."
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
   ;; Text properties inflate the size of recentf's files, and there is
   ;; no purpose in persisting them (Must be first in the list!)
-  (add-to-list 'recentf-filename-handlers #'substring-no-properties)
-
-  ;; Always keeps my "remote" files on the OrbStack VM. By default, They become unreachable
-  ;; when I turn down the VM, and are removed from the recentf list.
-  (add-to-list 'recentf-keep "^/ssh:orb:"))
+  (add-to-list 'recentf-filename-handlers #'substring-no-properties))
 
 ;; `savehist-mode': persist minibuffer history to an external file.
 (add-hook 'after-init-hook #'savehist-mode)
@@ -207,7 +206,11 @@ or file path may exist now."
 ;; `save-place-mode': remember where I was when I last visit this file!
 (add-hook 'after-init-hook #'save-place-mode)
 
+;; Make `tabify' and `untabify' only affect indentation. Not tabs/spaces in the
+;; middle of a line.
+(setq tabify-regexp "^\t* [ \t]+")
 
+
 (provide 'init-mini)
 ;;; init-mini.el ends here
 
