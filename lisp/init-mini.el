@@ -133,7 +133,7 @@
             (list ".*" auto-save-list-file-prefix t)))
 
 
-;;; Advice, hooks. (from doom)
+;;; Advice, hooks.
 
 ;; Create missing directories when we open a file that doesn't exist under a
 ;; directory tree that may not exist.
@@ -164,6 +164,28 @@ or file path may exist now."
              (set-auto-mode)
              (not (eq major-mode 'fundamental-mode)))))))
 
+;; From minad/vertico.
+;; Add prompt indicator to `completing-read-multiple'.
+;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+(advice-add #'completing-read-multiple :filter-args
+            (defun crm-indicator-a (args)
+              "Filter the first argument of `completing-read-multiple'."
+              (cons (format "[CRM%s] %s"
+                            (replace-regexp-in-string
+                             "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                             crm-separator)
+                            (car args))
+                    (cdr args))))
+
+;; Do not allow the cursor in the minibuffer prompt
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+;; mode.  Vertico commands are hidden in normal buffers. This setting is
+;; useful beyond Vertico.
+(setq read-extended-command-predicate #'command-completion-default-include-p)
 
 
 ;;; Builtin packages.
