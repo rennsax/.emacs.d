@@ -271,3 +271,18 @@
 [submodule "packages/dired-hacks"]
 	path = packages/dired-hacks
 	url = https://github.com/Fuco1/dired-hacks.git
+[submodule "packages/forge"]
+	path = packages/forge
+	url = https://github.com/magit/forge.git
+[submodule "packages/closql"]
+	path = packages/closql
+	url = https://github.com/magit/closql.git
+[submodule "packages/yaml"]
+	path = packages/yaml
+	url = https://github.com/zkry/yaml.el.git
+[submodule "packages/ghub"]
+	path = packages/ghub
+	url = https://github.com/magit/ghub.git
+[submodule "packages/treepy"]
+	path = packages/treepy
+	url = https://github.com/volrath/treepy.el.git
