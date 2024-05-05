@@ -58,6 +58,17 @@
         (concat dired-omit-files
                 "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
 
+
+;;; dired-hacks
+(add-to-list 'load-path (concat celeste-package-dir "dired-hacks"))
+
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              ("<tab>" . dired-subtree-toggle)
+              ("<C-tab>" . dired-subtree-cycle)
+              ("<backtab>" . dired-subtree-remove)))
+
 
 (provide 'init-dired)
 ;;; init-dired.el ends here
