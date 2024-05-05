@@ -286,3 +286,6 @@
 [submodule "packages/treepy"]
 	path = packages/treepy
 	url = https://github.com/volrath/treepy.el.git
+[submodule "packages/olivetti"]
+	path = packages/olivetti
+	url = https://github.com/rnkn/olivetti.git
