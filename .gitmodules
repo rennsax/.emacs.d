@@ -271,3 +271,6 @@
 [submodule "packages/posframe"]
 	path = packages/posframe
 	url = https://github.com/tumashu/posframe.git
+[submodule "packages/dired-hacks"]
+	path = packages/dired-hacks
+	url = https://github.com/Fuco1/dired-hacks.git
