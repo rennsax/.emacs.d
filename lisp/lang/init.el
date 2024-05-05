@@ -38,6 +38,11 @@
 
   )
 
+;; `consult-flycheck'
+(celeste/use-package consult-flycheck
+  :after flycheck
+  :bind (("C-c s d" . consult-flycheck)))
+
 ;; Show diagnostic information in the buffer.
 (celeste/use-package sideline
   :diminish

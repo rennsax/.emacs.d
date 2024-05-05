@@ -6,7 +6,6 @@
 ;; VERTical Interactive COmpletion
 (celeste/use-package vertico
   :hook ((after-init . vertico-mode))
-  :defines (vertico-map)
   :config
   ;; Vertico extensions
   (eval-and-compile
@@ -22,11 +21,6 @@
   (use-package vertico-multiform
     :hook (vertico-mode . vertico-multiform-mode)
     :config
-
-    ;; Use grid view for `jinx-correct' completion menu. Recommended by minad himself.
-    (require 'vertico-grid)
-    (add-to-list 'vertico-multiform-categories
-                 '(jinx grid (vertico-grid-annotate . 20)))
 
     ;; From https://github.com/minad/vertico/wiki#candidate-display-transformations-custom-candidate-highlighting
     ;; Show different colors for directories/enabled modes in vertico.
@@ -78,11 +72,12 @@
          ("C-c s o" . consult-outline)
          ("C-c s b" . consult-buffer)
          ("M-y" . consult-yank-pop))
-  :init
+  :preface
   (defun +consult-emacs-configurations ()
     "Search Emacs configurations files."
     (interactive)
     (consult-fd user-emacs-directory "lisp/"))
+  :init
   (bind-key "C-c s c" #'+consult-emacs-configurations))
 
 ;; `consult-org-heading' and `consult-org-agenda'
@@ -92,11 +87,6 @@
   :after org
   :bind (:map org-mode-map
               ("C-c s h" . consult-org-heading)))
-
-;; `consult-flycheck'
-(celeste/use-package consult-flycheck
-  :after flycheck
-  :bind (("C-c s d" . consult-flycheck)))
 
 
 ;; Fuzzy finder

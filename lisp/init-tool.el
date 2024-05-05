@@ -22,6 +22,13 @@
   ;; here (instead of init-cjk.el)
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
 
+  (with-eval-after-load 'vertico-multiform
+    ;; Use grid view for `jinx-correct' completion menu. Recommended by minad himself.
+    (require 'vertico-grid)
+    (add-to-list 'vertico-multiform-categories
+                 '(jinx grid (vertico-grid-annotate . 20)))
+    )
+
   :init
   (defcustom jinx-mode-dict-alist
     '((emacs-lisp-mode ("el"))
