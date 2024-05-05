@@ -234,17 +234,6 @@ This should be called each time after the function definition is modified."
 (celeste/use-package hide-mode-line
   :hook ((eshell-mode shell-mode vterm-mode) . hide-mode-line-mode))
 
-
-;;; Zen mode.
-
-(celeste/use-package visual-fill-column)
-(celeste/use-package writeroom-mode
-  :commands writeroom-mode
-  :config
-  ;; Preserve the mode line.
-  (setq writeroom-mode-line t)
-  (setq writeroom-global-effects (delq 'writeroom-set-fullscreen writeroom-global-effects)))
-
 
 
 (provide 'init-ui)

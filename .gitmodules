@@ -115,9 +115,6 @@
 [submodule "packages/sis"]
 	path = packages/sis
 	url = https://github.com/laishulu/emacs-smart-input-source.git
-[submodule "packages/writeroom-mode"]
-	path = packages/writeroom-mode
-	url = https://github.com/joostkremers/writeroom-mode.git
 [submodule "packages/visual-fill-column"]
 	path = packages/visual-fill-column
 	url = https://codeberg.org/joostkremers/visual-fill-column.git
