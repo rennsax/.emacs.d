@@ -50,8 +50,8 @@
 ;; If `truncate-partial-width-windows' is nil and `truncate-lines' is t, always
 ;; performs line truncation. By default, line truncation is enabled when the
 ;; window width is narrower than its number.
-(setq truncate-partial-width-windows nil
-      truncate-lines t)
+(setq-default truncate-partial-width-windows nil
+              truncate-lines t)
 
 ;; `visual-line-mode' for soft line-wrapping. `auto-fill-mode' for hard one.
 (setq-default fill-column 80 ; "fill" line when exceed 80 chars
