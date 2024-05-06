@@ -40,9 +40,6 @@
 [submodule "packages/doom-themes"]
 	path = packages/doom-themes
 	url = https://github.com/doomemacs/themes.git
-[submodule "packages/doom-modeline"]
-	path = packages/doom-modeline
-	url = https://github.com/seagle0128/doom-modeline.git
 [submodule "packages/nerd-icons"]
 	path = packages/nerd-icons
 	url = https://github.com/rainstormstudio/nerd-icons.el.git

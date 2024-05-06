@@ -226,11 +226,6 @@ This should be called each time after the function definition is modified."
 ;; NO line number
 (line-number-mode -1)
 
-(celeste/use-package doom-modeline
-  :init
-  (celeste/use-package nerd-icons)
-  :hook (after-init . doom-modeline-mode))
-
 (celeste/add-mode-hook '(eshell-mode shell-mode vterm-mode) #'hidden-mode-line-mode)
 
 
