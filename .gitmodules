@@ -289,3 +289,6 @@
 [submodule "packages/olivetti"]
 	path = packages/olivetti
 	url = https://github.com/rnkn/olivetti.git
+[submodule "packages/rotate"]
+	path = packages/rotate
+	url = https://github.com/daichirata/emacs-rotate.git
