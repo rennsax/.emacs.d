@@ -81,7 +81,6 @@
          (vc-dir-mode . diff-hl-dir-mode)
          (magit-pre-refresh . diff-hl-magit-pre-refresh)
          (magit-post-refresh . diff-hl-magit-post-refresh))
-  :bind (("C-c g s h" . diff-hl-show-hunk))
   :config
   ;; `diff-hl-update' will use `make-thread' to create a new thread and update
   ;; diff info asynchronously.
@@ -103,7 +102,7 @@
 (use-package diff-hl-flydiff
   :hook (diff-hl-mode . diff-hl-flydiff-mode))
 (use-package diff-hl-show-hunk
-  :commands diff-hl-show-hunk)
+  :bind (("C-c g s h" . diff-hl-show-hunk)))
 (use-package diff-hl-dired
   :hook (dired-mode . diff-hl-dired-mode))
 
