@@ -231,8 +231,7 @@ This should be called each time after the function definition is modified."
   (celeste/use-package nerd-icons)
   :hook (after-init . doom-modeline-mode))
 
-(celeste/use-package hide-mode-line
-  :hook ((eshell-mode shell-mode vterm-mode) . hide-mode-line-mode))
+(celeste/add-mode-hook '(eshell-mode shell-mode vterm-mode) #'hidden-mode-line-mode)
 
 
 
