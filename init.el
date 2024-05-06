@@ -17,7 +17,7 @@
 (require 'init-env)
 
 ;;; Personal functions 🤠
-(require 'init-func)
+(require 'init-utils)
 
 ;;; Editor feature enhancement.
 (require 'init-editor)
