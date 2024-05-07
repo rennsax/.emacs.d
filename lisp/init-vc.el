@@ -76,8 +76,8 @@
 (add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
 
 (use-package diff-hl
-  ;; `find-file-hook': after a buffer is loaded from a file
-  :hook ((find-file . diff-hl-mode)
+  ;; Seeing VC gutter while writing docs is just .. distracted.
+  :hook ((prog-mode . diff-hl-mode)
          (vc-dir-mode . diff-hl-dir-mode)
          (magit-pre-refresh . diff-hl-magit-pre-refresh)
          (magit-post-refresh . diff-hl-magit-post-refresh))
