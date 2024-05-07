@@ -195,7 +195,7 @@ or file path may exist now."
   :hook (after-init . recentf-mode)
   :init
   (setq recentf-max-saved-items 240) ; just because I like this number
-  (setq recentf-exclude '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+  (setq recentf-exclude '("\\.?cache" ".cask" "COMMIT_EDITMSG\\'"
                 "\\.\\(?:gz\\|gif\\|svg\\|png\\|PNG\\|jpe?g\\|JPE?G\\|bmp\\|xpm\\)$"
                 "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
                 "^/tmp/" "^/var/folders/.+$" "/persp-confs/" "HELLO"))

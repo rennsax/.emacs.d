@@ -23,7 +23,9 @@
 
 (bind-keys ("M-J" . join-line)
            ("C-S-n" . scroll-up-line)
-           ("C-S-p" . scroll-down-line))
+           ("C-S-p" . scroll-down-line)
+           :map prog-mode-map
+           ("M-RET" . comment-indent-new-line))
 
 ;; Increasing or decreasing the default font size in all GUI Emacs
 ;; frames. (new feature in Emacs 29.1)
@@ -45,6 +47,9 @@
 ;; when I turn down the VM, and are removed from the recentf list.
 (with-eval-after-load 'recentf
   (add-to-list 'recentf-keep "^/ssh:orb:"))
+
+;; Also consider `superword-mode'.
+(add-hook 'prog-mode-hook #'subword-mode)
 
 
 ;;; Data and cache directories.
@@ -77,6 +82,8 @@
   (diminish 'auto-revert-mode))
 (with-eval-after-load 'face-remap
   (diminish 'buffer-face-mode))
+(with-eval-after-load 'subword
+  (diminish 'subword-mode))
 
 
 ;;; Bootstrap custom file.

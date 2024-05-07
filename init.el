@@ -5,6 +5,8 @@
 ;; Dependencies for initialization.
 (require 'init-const)
 (require 'init-lib)
+;; init-custom is early-loaded in early-init.el
+; (require 'init-custom)
 
 ;; Bootstrap `use-package'.
 (require 'init-package)

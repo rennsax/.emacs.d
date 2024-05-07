@@ -18,8 +18,7 @@
       auto-window-vscroll nil
       ;; mouse
       mouse-wheel-scroll-amount '(2 ((shift) . hscroll))
-      mouse-wheel-scroll-amount-horizontal 2
-      )
+      mouse-wheel-scroll-amount-horizontal 2)
 
 ;; New feature in Emacs 29.1! Smooth scrolling!
 (pixel-scroll-precision-mode +1)
@@ -31,14 +30,17 @@
 (blink-cursor-mode -1)
 
 ;; Highlight the current line. This is achived by putting an overlay.
-(global-hl-line-mode)
+(add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;; Show matched parentheses.
-(show-paren-mode)
+(show-paren-mode +1)
 
-(celeste/add-mode-hook '(prog-mode text-mode) #'display-line-numbers-mode)
-;; Display relative line numbers.
-(setq display-line-numbers-type 'relative)
+(use-package display-line-numbers
+  :hook (((prog-mode text-mode) . display-line-numbers-mode))
+  :config
+  ;; Why? Because it's inconvenient to move "logically". Why not just use
+  ;; `goto-line' or `avy-goto-line'?
+  (setq display-line-numbers-type t))
 
 
 ;;; Window behavior.
@@ -131,6 +133,7 @@
           "\\*Compile-Log\\*"
           "\\*compilation\\*"
           "\\*Flycheck checkers\\*"
+          "\\*lsp-bridge-doc\\*"
           ;; Exclude "*Org Help*" buffer in `org-goto'. If not, `org-goto'
           ;; firstly focuses on the popper window, which is annoying.
           (lambda (buf)
@@ -138,6 +141,7 @@
               (and (derived-mode-p 'help-mode)
                    (not (string= (buffer-name) "*Org Help*")))))
           helpful-mode ; `helpful' package
+          magit-process-mode
           debugger-mode)))
 
 (use-package popper-echo

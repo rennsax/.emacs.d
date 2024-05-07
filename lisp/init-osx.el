@@ -25,8 +25,13 @@
 
 ;; C-z is mapped to `suspend-frame'. In macOS, it hides the frame (with the
 ;; native Cocoa API) instead, which is useless.
-(keymap-global-unset "C-z")
+;; "s-t" - `menu-set-font'
+;; "s-p" - `ns-print-buffer'
+;; "s-m" - `iconify-frame', in macOS, just minimize the frame.
+(dolist (key '("C-z" "s-t" "s-p" "s-m"))
+  (keymap-global-unset key))
 
+;; Use ctrl-shift-z to redo, so intuitive.
 (keymap-global-set "s-Z" #'undo-redo)
 
 (provide 'init-osx)
