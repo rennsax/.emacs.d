@@ -63,7 +63,12 @@
 (setq save-place-file (concat celeste-cache-dir "saveplace"))
 (setq savehist-file (concat celeste-cache-dir "savehist"))
 (setq recentf-save-file (concat celeste-cache-dir "recentf"))
-(setq auto-save-list-file-prefix (concat celeste-cache-dir "autosave/"))
+(setq auto-save-list-file-prefix (celeste/make-path "autosave/" 'cache)
+      auto-save-file-name-transforms
+      (list (list "\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
+                  ;; Prefix tramp autosaves to prevent conflicts with local ones
+                  (concat auto-save-list-file-prefix "tramp-\\2") t)
+            (list ".*" auto-save-list-file-prefix t)))
 ;; Reuse the local backup directory.
 (setq tramp-backup-directory-alist backup-directory-alist
       tramp-auto-save-directory  (concat celeste-cache-dir "tramp-autosave/"))

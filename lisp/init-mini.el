@@ -125,12 +125,7 @@
 ;; without persist your changes. Use `recover-session' and `recover-this-file'.
 (setq auto-save-default t
       ;; auto-save even if a large part of the text is deleted.
-      auto-save-include-big-deletions t
-      auto-save-file-name-transforms
-      (list (list "\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
-                  ;; Prefix tramp autosaves to prevent conflicts with local ones
-                  (concat auto-save-list-file-prefix "tramp-\\2") t)
-            (list ".*" auto-save-list-file-prefix t)))
+      auto-save-include-big-deletions t)
 
 
 ;;; Advice, hooks.
