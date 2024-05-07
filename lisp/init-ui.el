@@ -165,10 +165,13 @@ This should be called each time after the function definition is modified."
     (interactive)
     (let ((doc-font celeste-other-font-name)
           (code-font celeste-default-font-name)
+          (red (doom-color 'red))
           (yellow (doom-color 'yellow))
           (orange (doom-color 'orange))
           (magenta (doom-color 'magenta))
-          (cyan (doom-color 'cyan)))
+          (cyan (doom-color 'cyan))
+          (dark-cyan (doom-color 'dark-cyan))
+          (bg (doom-color 'bg)))
       (+custom-doom-themes
 
        ;; TODO: dream to use another font in vertico
@@ -179,6 +182,12 @@ This should be called each time after the function definition is modified."
        `(magit-branch-current :box (:line-width (-1 . -1)) :weight bold
                               :foreground ,(doom-color 'dark-red))
 
+       ;; avy
+       `(avy-background-face :foreground ,dark-cyan)
+       `(avy-lead-face :background ,red)
+
+       `(olivetti-fringe :background ,(doom-darken bg 0.1))
+
        ;; `org-mode'
        `(org-block :family ,code-font)
        `(org-code :family ,code-font)
@@ -187,7 +196,7 @@ This should be called each time after the function definition is modified."
        `(org-bold :weight bold :foreground ,yellow)
 
        ;; `markdown-mode'
-       `(markdown-inline-code-face :family ,code-font)
+       `(markdown-inline-code-face :family ,code-font :foreground ,orange)
        `(markdown-code-face :family ,code-font)
        `(markdown-blockquote-face :foreground ,cyan)
        `(markdown-header-delimiter-face :foreground ,(doom-color 'dark-cyan))
@@ -207,7 +216,7 @@ This should be called each time after the function definition is modified."
        ;; `diredfl-mode'
        `(diredfl-dir-name :foreground ,(doom-color 'cyan) :weight bold)
        `(diredfl-symlink :foreground ,(doom-color 'red)))))
-  :hook (after-init . +load-default-theme))
+  :hook (after-init . (lambda () (+load-default-theme) (+doom-themes-custom))))
 
 
 ;;; Modeline
