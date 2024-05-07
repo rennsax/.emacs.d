@@ -14,8 +14,6 @@
 (celeste/use-package jinx
   :diminish
   :commands jinx-mode
-  :bind (:map jinx-overlay-map
-              ("C-c j c" . jinx-correct))
   :config
   (setq jinx-languages "en_US")
   ;; Exclude Chinese characters. This should be a universal setting, so I put it
@@ -28,6 +26,7 @@
     (add-to-list 'vertico-multiform-categories
                  '(jinx grid (vertico-grid-annotate . 20)))
     )
+  (keymap-global-set "M-$" #'jinx-correct)
 
   :init
   (defcustom jinx-mode-dict-alist
