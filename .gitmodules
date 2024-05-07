@@ -97,9 +97,6 @@
 [submodule "packages/diredfl"]
 	path = packages/diredfl
 	url = https://github.com/purcell/diredfl.git
-[submodule "packages/nerd-icons-dired"]
-	path = packages/nerd-icons-dired
-	url = https://github.com/rainstormstudio/nerd-icons-dired.git
 [submodule "packages/diminish"]
 	path = packages/diminish
 	url = https://github.com/myrjola/diminish.el

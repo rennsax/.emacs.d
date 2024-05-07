@@ -100,16 +100,6 @@
 (celeste/use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
-;; Icons are also important!
-(celeste/use-package nerd-icons-dired
-  :diminish
-  :custom-face
-  ;; TODO doc
-  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
-  :commands (nerd-icons-dired-mode)
-  ;; :hook (dired-mode . nerd-icons-dired-mode)
-  )
-
 
 
 ;;; Popper.
