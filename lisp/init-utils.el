@@ -44,6 +44,22 @@
   (interactive)
   (async-shell-command "emacs"))
 
+(defun upcase-previous-word (arg)
+  "Upcase the previous word.
+
+Obviously more useful than `upcase-word' and `upcase-dwim', which
+only upcase the next word.
+
+When the prefix ARG is non-nil, includes more delimiters."
+  (interactive "P")
+  (save-excursion
+    (let* ((delim-list '("\s" "\n"))
+           (delim-list (if arg (cons "-" delim-list) delim-list))
+           (delim-reg (format "[%s]" (string-join delim-list)))
+           (cur-pos (point))
+           (delim (search-backward-regexp delim-reg)))
+      (funcall #'upcase-region (1+ delim) cur-pos))))
+
 
 
 ;;; Got these idea from bbatsov/crux.
@@ -182,6 +198,7 @@ useful, e.g., for use with `visual-line-mode'."
 (keymap-global-set "<f9>" #'spawn-sub-emacs)
 (keymap-global-set "s-o" #'other-window-or-switch-buffer)
 (keymap-global-set "C-g" #'keyboard-quit-dwim)
+(keymap-global-set "M-u" #'upcase-previous-word)
 
 
 (provide 'init-utils)
