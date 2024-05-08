@@ -74,6 +74,27 @@ to `load-path'. By default it's \"lisp\"."
     (add-to-list 'load-path (file-name-concat celeste-package-dir
                                               (symbol-name package) subdir))))
 
+(defvar celeste/auto-require--search-dirs
+  (list celeste-package-dir celeste-site-lisp-dir))
+
+(defun celeste/auto-require (package)
+  "Automatically require PACKAGE.
+
+This function is for experimental purpose, for example, testing a
+new package. If the PACKAGE can't be `require'd directly, it will
+search `celeste-package-dir' and `celeste-site-lisp-dir'. If the
+PACKAGE still can't be found, then raise an error."
+  (unless (symbolp package) (error "PACKAGE must be a Lisp symbol!"))
+  (unless (ignore-errors (require package)) ; fail to require initially
+    (or (let ((package-name (symbol-name package)))
+          (cl-dolist (search-dir celeste/auto-require--search-dirs)
+            (let ((maybe-dir (expand-file-name package-name search-dir)))
+              (when (and (file-directory-p maybe-dir)
+                         (file-exists-p (expand-file-name (concat package-name ".el") maybe-dir)))
+                (add-to-list 'load-path maybe-dir)
+                (cl-return (require package))))))
+        (error "PACKAGE cannot be found!"))))
+
 (defun +getenv-shell (variable &optional frame always)
   "Get the environment variable VARIABLE from shell.
 
