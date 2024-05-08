@@ -139,7 +139,12 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
   (celeste/use-package yasnippet
     :diminish yas-minor-mode
     :config
-    (yas-global-mode +1))
+    (yas-global-mode +1)
+    (bind-keys :map yas-keymap
+               ("RET" . yas-next-field)
+               ("M-RET" . yas-prev-field))
+    (unbind-key "TAB" yas-keymap)
+    )
   :commands lsp-bridge-mode global-lsp-bridge-mode
   :config
   ;; Enable tempel.
@@ -159,6 +164,13 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
                   (when (and (boundp 'corfu-enable-mode-list)
                              (apply #'derived-mode-p corfu-enable-mode-list))
                     (corfu-mode +1))))))
+
+  ;; VSCode-style key bindings
+  (bind-keys :map lsp-bridge-mode-map
+             ("<f12>" . lsp-bridge-find-def)
+             ("S-<f12>" . lsp-bridge-find-def-return)
+             ("<f2>" . lsp-bridge-rename)
+             ("M-F" . lsp-bridge-code-format))
   )
 
 
