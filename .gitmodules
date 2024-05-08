@@ -100,9 +100,6 @@
 [submodule "packages/diminish"]
 	path = packages/diminish
 	url = https://github.com/myrjola/diminish.el
-[submodule "packages/org-modern"]
-	path = packages/org-modern
-	url = https://github.com/minad/org-modern.git
 [submodule "packages/org-rich-yank"]
 	path = packages/org-rich-yank
 	url = https://github.com/unhammer/org-rich-yank.git
