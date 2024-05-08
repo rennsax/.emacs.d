@@ -231,6 +231,16 @@ This should be called each time after the function definition is modified."
 
 (celeste/add-mode-hook '(eshell-mode shell-mode vterm-mode) #'hidden-mode-line-mode)
 
+
+;;; Completion.
+
+(celeste/use-package nerd-icons)
+(celeste/use-package nerd-icons-completion
+  :after marginalia
+  :hook ((marginalia-mode . nerd-icons-completion-marginalia-setup))
+  :config
+  (nerd-icons-completion-mode +1)
+  )
 
 
 (provide 'init-ui)
