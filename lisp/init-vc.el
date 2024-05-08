@@ -71,6 +71,42 @@
 (celeste/package-autoload 'git-modes)
 
 
+;;; Forge
+;; Interact with Github, GitLab in Emacs.
+
+;;; forge
+
+;; https://magit.vc/manual/ghub/Storing-a-Token.html
+;; PR: https://www.youtube.com/watch?v=Qj4eRccsos8
+(use-package forge
+  :after magit
+
+  :init
+  ;; All these sort of things are dependencies of forge (incredible!)
+  (celeste/use-package emacsql)
+  (celeste/use-package closql)
+  (celeste/use-package yaml)
+  (celeste/use-package treepy)
+  (celeste/add-special-load-path 'ghub)
+  (celeste/add-special-load-path 'forge)
+
+  (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'data))
+
+  ;; Load forge before `magit-status' is called.
+  (defun +magit-load-forge-now-a (&rest _) "Just load `forge'." (require 'forge))
+  (advice-add 'magit-status :before #'+magit-load-forge-now-a)
+  ;; After forge is loaded, remove the advice.
+  (with-eval-after-load 'forge
+    (advice-remove 'magit-status #'+magit-load-forge-now-a))
+
+  :commands forge-pull
+  :config
+
+  (defalias 'forge-issue-close 'forge-issue-state-set-completed "Close the issue.")
+
+  )
+
+
 ;;; diff-hl: better git-diff integration
 
 (add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
