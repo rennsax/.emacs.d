@@ -2,12 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
-;; TODO lazy load
-
 ;; Getting the path to a JSON value at point. Required by json-mode.
-(celeste/require 'json-snatcher)
+(celeste/use-package json-snatcher)
 ;; json-mode and jsonc-mode
-(celeste/require 'json-mode)
+(celeste/package-autoload 'json-mode)
 
 (provide 'init-json)
 ;;; init-json.el ends here

@@ -167,7 +167,7 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 ;; Markup.
 (require 'init-yaml)
 (require 'init-markdown)
-;; (require 'init-json) TODO
+(require 'init-json)
 
 ;; General-purpose.
 (require 'init-go)
