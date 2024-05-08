@@ -95,19 +95,6 @@ PACKAGE still can't be found, then raise an error."
                 (cl-return (require package))))))
         (error "PACKAGE cannot be found!"))))
 
-(defun +getenv-shell (variable &optional frame always)
-  "Get the environment variable VARIABLE from shell.
-
-VARIABLE and FRAME is passed to `getenv'.
-
-If ALWAYS is non-nil, always try to copy env from shell.
-Otherwise, if `getenv' returns non-nil, the result is returned
-immediately."
-  (if always
-      (cdar (exec-path-from-shell-copy-env variable))
-    (or (getenv variable frame)
-        (cdar (exec-path-from-shell-copy-env variable)))))
-
 (provide 'init-lib)
 ;;; init-lib.el ends here
 
