@@ -181,9 +181,6 @@
 [submodule "packages/markdown-toc"]
 	path = packages/markdown-toc
 	url = https://github.com/ardumont/markdown-toc.git
-[submodule "packages/perspective"]
-	path = packages/perspective
-	url = https://github.com/nex3/perspective-el.git
 [submodule "packages/lua-mode"]
 	path = packages/lua-mode
 	url = https://github.com/immerrr/lua-mode.git
@@ -208,9 +205,6 @@
 [submodule "packages/evil-goggles"]
 	path = packages/evil-goggles
 	url = https://github.com/edkolev/evil-goggles.git
-[submodule "packages/projectile"]
-	path = packages/projectile
-	url = https://github.com/bbatsov/projectile.git
 [submodule "packages/gptel"]
 	path = packages/gptel
 	url = https://github.com/karthink/gptel.git
@@ -244,9 +238,6 @@
 [submodule "packages/expand-region"]
 	path = packages/expand-region
 	url = https://github.com/magnars/expand-region.el.git
-[submodule "packages/persp-projectile"]
-	path = packages/persp-projectile
-	url = https://github.com/bbatsov/persp-projectile.git
 [submodule "packages/avy"]
 	path = packages/avy
 	url = https://github.com/abo-abo/avy.git
