@@ -283,3 +283,6 @@
 [submodule "packages/rotate"]
 	path = packages/rotate
 	url = https://github.com/daichirata/emacs-rotate.git
+[submodule "packages/nerd-icons-completion"]
+	path = packages/nerd-icons-completion
+	url = https://github.com/rainstormstudio/nerd-icons-completion.git
