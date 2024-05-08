@@ -33,9 +33,6 @@
 (bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
            ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
 
-;; Tried of "C-x o".
-(bind-keys ("s-o" . other-window))
-
 ;; Map the right command to control. Mac's right command key is redundant to me.
 (when sys/mac
   (setq mac-right-command-modifier 'control))
@@ -117,13 +114,17 @@
 ;; Celeste Emacs has presets for modes in which `visual-line-mode' and
 ;; `auto-fill-mode' should be enabled.
 (celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
-(celeste/add-mode-hook celeste-auto-fill-mode-list #'auto-fill-mode)
+(celeste/add-mode-hook celeste-auto-fill-mode-list #'celeste/auto-fill-mode)
 
-;; Toggle `display-fill-column-indicator-mode' along with `auto-fill-mode'.
-;; Show vertical line at the column of `fill-column'.
-(add-hook 'auto-fill-mode-hook
-          (defun +auto-fill-mode-company-display-fill-column-indicator-mode-h ()
-            (display-fill-column-indicator-mode (if auto-fill-function +1 -1))))
+(define-minor-mode celeste/auto-fill-mode
+  "Toggle `auto-fill-mode' and `display-fill-column-indicator-mode' together."
+  :init-value nil
+  :global nil
+  (if celeste/auto-fill-mode
+      (progn
+        (auto-fill-mode +1) (display-fill-column-indicator-mode +1))
+    (auto-fill-mode -1)
+    (display-fill-column-indicator-mode -1)))
 
 
 ;;; Magical multi-font settings.

@@ -25,9 +25,6 @@
                  (find-file file)))
       (message "The current buffer has no corresponding file!"))))
 
-(keymap-set global-map "s-r" #'reload-this-file)
-
-
 (defun byte-compile-this-file ()
   "Byte compile current file."
   (interactive)
@@ -41,6 +38,32 @@
   (interactive)
   (delete-file-local-variable-prop-line 'no-byte-compile)
   (add-file-local-variable 'no-byte-compile t))
+
+(defun spawn-sub-emacs ()
+  "Spawn a sub-Emacs. Mainly for testing purpose."
+  (interactive)
+  (async-shell-command "emacs"))
+
+
+
+;;; Got these idea from bbatsov/crux.
+
+(defun other-window-or-switch-buffer ()
+  "Call `other-window' if more than one window is visible.
+Switch to most recent buffer otherwise."
+  (interactive)
+  (if (one-window-p)
+      (switch-to-buffer nil)
+    (other-window 1)))
+
+(defun kill-buffer-truename ()
+  "Kill absolute path of file visited in current buffer."
+  (interactive)
+  (if buffer-file-name
+      (let ((truename (file-truename buffer-file-name)))
+        (kill-new truename)
+        (message "Added %s to kill ring." truename))
+    (message "Buffer is not visiting a file.")))
 
 
 
@@ -72,8 +95,7 @@ If FORCE-P, delete without confirmation."
           (kill-buffer buf))))))
 
 
-;;; hidden-mode-line-mode
-;; From Prot.
+;;; Protesilaos
 
 (define-minor-mode hidden-mode-line-mode
   "Toggle modeline visibility in the current buffer."
@@ -83,6 +105,30 @@ If FORCE-P, delete without confirmation."
       (setq-local mode-line-format nil)
     (kill-local-variable 'mode-line-format)
     (force-mode-line-update)))
+
+(defun keyboard-quit-dwim (arg)
+  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+
+The generic `keyboard-quit' does not do the expected thing when
+the minibuffer is open.  Whereas we want it to close the
+minibuffer, even without explicitly focusing it.
+
+The DWIM behaviour of this command is as follows:
+
+- When the region is active, disable it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- When the Completions buffer is selected, close it.
+- In every other case use the regular `keyboard-quit'."
+  (interactive "P")
+  (cond
+   ((region-active-p)
+    (keyboard-quit))
+   ((derived-mode-p 'completion-list-mode)
+    (delete-completion-window))
+   ((> (minibuffer-depth) 0)
+    (abort-recursive-edit))
+   (t
+    (keyboard-quit))))
 
 
 
@@ -102,6 +148,7 @@ useful, e.g., for use with `visual-line-mode'."
 ;;; Interactively resize window.
 ;; https://www.emacswiki.org/emacs/WindowResize
 
+;; TODO: rewrite a version like `text-scale-mode'
 (defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
   "Resize window interactively in the unit of ARG."
   (interactive "p")
@@ -127,6 +174,14 @@ useful, e.g., for use with `visual-line-mode'."
 	  (error (beep)))))
     (message "Done.")))
 
+
+
+;; Key bindings.
+
+(keymap-global-set "s-r" #'reload-this-file)
+(keymap-global-set "<f9>" #'spawn-sub-emacs)
+(keymap-global-set "s-o" #'other-window-or-switch-buffer)
+(keymap-global-set "C-g" #'keyboard-quit-dwim)
 
 
 (provide 'init-utils)
