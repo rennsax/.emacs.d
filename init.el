@@ -29,7 +29,7 @@
 (require 'init-dired)
 
 ;;; Magical completion support 🧙🏻
-(require 'init-completion)
+(require 'init-treasure)
 
 (require 'init-help)
 
