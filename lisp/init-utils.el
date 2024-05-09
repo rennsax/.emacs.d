@@ -39,10 +39,14 @@
   (delete-file-local-variable-prop-line 'no-byte-compile)
   (add-file-local-variable 'no-byte-compile t))
 
-(defun spawn-sub-emacs ()
-  "Spawn a sub-Emacs. Mainly for testing purpose."
-  (interactive)
-  (async-shell-command "emacs"))
+(defun spawn-sub-emacs (arg)
+  "Spawn a sub-Emacs. Mainly for testing purpose.
+
+If ARG is non-nil, spawn a vanilla Emacs."
+  (interactive "P")
+  (if arg
+      (async-shell-command "emacs -Q")
+    (async-shell-command "emacs")))
 
 (defun upcase-previous-word (arg)
   "Upcase the previous word.
