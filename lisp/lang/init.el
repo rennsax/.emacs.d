@@ -134,17 +134,6 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 
 (celeste/use-package lsp-bridge
   :diminish lsp-bridge-mode
-  :preface
-  ;; lsp-bridge depends on yasnippet for snippet completion
-  (celeste/use-package yasnippet
-    :diminish yas-minor-mode
-    :config
-    (yas-global-mode +1)
-    (bind-keys :map yas-keymap
-               ("RET" . yas-next-field)
-               ("M-RET" . yas-prev-field))
-    (unbind-key "TAB" yas-keymap)
-    )
   :commands lsp-bridge-mode global-lsp-bridge-mode
   :config
   ;; Enable tempel.
@@ -171,6 +160,20 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
              ("S-<f12>" . lsp-bridge-find-def-return)
              ("<f2>" . lsp-bridge-rename)
              ("M-F" . lsp-bridge-code-format))
+  ;; Conflict with my `upcase-previous-word'.
+  (keymap-unset acm-mode-map "M-u" t)
+
+  :init
+  ;; lsp-bridge depends on yasnippet for snippet completion
+  (celeste/use-package yasnippet
+    :diminish yas-minor-mode
+    :config
+    (yas-global-mode +1)
+    (bind-keys :map yas-keymap
+               ("RET" . yas-next-field)
+               ("M-RET" . yas-prev-field))
+    (unbind-key "TAB" yas-keymap))
+
   )
 
 

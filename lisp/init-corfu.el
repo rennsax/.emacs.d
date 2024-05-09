@@ -61,6 +61,10 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
                 (cons #'tempel-complete
                       completion-at-point-functions))
     (tempel-abbrev-mode))
+  :bind (("M-*" . tempel-insert)    ; useful when no completion frontend is enabled
+         :map tempel-map
+         ("RET" . tempel-next)
+         ("M-RET" . tempel-previous))
   :hook ((conf-mode prog-mode text-mode) . tempel-setup-capf)
   :commands (tempel-expand tempel-abbrev-mode tempel-complete)
   :config
