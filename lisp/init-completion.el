@@ -67,18 +67,37 @@
 
 (add-to-list 'load-path (concat celeste-package-dir "consult"))
 (use-package consult
-  :bind (("C-c s ." . consult-recent-file)
-         ("C-c s f" . consult-fd)
-         ("C-c s o" . consult-outline)
-         ("C-c s b" . consult-buffer)
-         ("M-y" . consult-yank-pop))
   :preface
+  ;; TODO: autoload
   (defun +consult-emacs-configurations ()
     "Search Emacs configurations files."
     (interactive)
     (consult-fd user-emacs-directory "lisp/"))
-  :init
-  (bind-key "C-c s c" #'+consult-emacs-configurations))
+  (defun +consult-buffer-maybe-other-window (arg)
+    "If prefix ARG is non-nil, use another window."
+    (interactive "P")
+    (if arg
+        (call-interactively #'consult-buffer-other-window)
+      (call-interactively #'consult-buffer)))
+
+  :init (bind-keys ("C-x b" . +consult-buffer-maybe-other-window) ; alternate `switch-to-buffer'
+                   ("C-c s c" . +consult-emacs-configurations))
+  :bind (("C-c s ." . consult-recent-file)
+         ("C-c s f" . consult-fd)
+         ("C-c s o" . consult-outline)
+         ("C-c s b" . consult-buffer)
+         ("M-y" . consult-yank-pop)     ; alternate `yank-pop'
+         :map project-prefix-map
+         ("b" . consult-project-buffer) ; alternate `project-switch-to-buffer'
+         )
+
+  :commands consult-buffer-other-window
+  :config
+  ;; Filtered buffers are still available in hidden buffers (with SPC switch).
+  (setq consult-buffer-filter
+        (append consult-buffer-filter
+                '("\\*helpful.*\\*" "\\*Help\\*")))
+  )
 
 ;; `consult-org-heading' and `consult-org-agenda'
 ;; Alternatives for `org-goto'.
