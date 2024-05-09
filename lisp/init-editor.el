@@ -81,6 +81,10 @@
   :diminish
   :hook (after-init . global-anzu-mode))
 
+;; rotate.el: provide convenient window layout management functions.
+(celeste/package-autoload 'rotate)
+
+
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
