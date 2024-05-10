@@ -31,6 +31,14 @@
 (dolist (key '("C-z" "s-t" "s-p" "s-m"))
   (keymap-global-unset key))
 
+(use-package tab-bar
+  :bind (("s-{" . tab-bar-switch-to-prev-tab)
+         ("s-}" . tab-bar-switch-to-next-tab)
+         ("s-t" . tab-bar-new-tab)
+         ("s-w" . tab-bar-close-tab))
+  :config
+  (keymap-global-unset "s-n" t))
+
 ;; Use ctrl-shift-z to redo, so intuitive.
 (keymap-global-set "s-Z" #'undo-redo)
 

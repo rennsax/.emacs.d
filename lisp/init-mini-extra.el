@@ -88,6 +88,32 @@
   (diminish 'subword-mode))
 
 
+;;; More configurations for builtin packages.
+
+(use-package project
+  :config
+  (setq project-switch-commands '((project-find-file "Find file")
+                                  (consult-fd "Fd" "F")
+                                  (consult-ripgrep "Ripgrep" "R")
+                                  (deadgrep "Deadgrep" "G")
+                                  (project-dired "Dired")
+                                  (magit-project-status "Magit" "m")
+                                  (project-eshell "Eshell")))
+  (dolist (unmap-key '("s" "v"))
+    (keymap-unset project-prefix-map unmap-key t)))
+
+(use-package tab-bar
+  :custom (tab-bar-select-tab-modifiers '(super)) ; use "s-[0-9]" to switch tabs
+  :config
+  (setq tab-bar-show 1                 ; hide tab bar when there is only one tab
+        tab-bar-close-button-show nil  ; hide the ugly close button
+        tab-bar-tab-hints t            ; show number
+        tab-bar-new-tab-choice #'get-scratch-buffer-create)
+
+  (delq 'tab-bar-format-add-tab tab-bar-format))
+
+
+
 ;;; Bootstrap custom file.
 ;;; NOTE: must be here now.
 
