@@ -65,6 +65,8 @@
 
 (require 'init-temp)
 
+(require 'init-private)
+
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; no-byte-compile: t
