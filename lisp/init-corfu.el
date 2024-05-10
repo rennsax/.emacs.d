@@ -4,7 +4,11 @@
 
 ;; Lightweight completion engine, powered by capf.
 ;; Now only used by eshell and emacs-lisp-mode.
-(celeste/use-package corfu
+
+(celeste/use-package corfu)
+(celeste/add-special-load-path 'corfu "extensions")
+
+(use-package corfu
   :commands corfu-mode
 
   :custom-face
@@ -43,8 +47,20 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
           "<remap> <beginning-of-buffer>" "C-a"))
 
-  )
+  ;; Enable corfu in minibuffer with `completion-at-point'.
+  (progn
+    (defun corfu-enable-in-minibuffer ()
+      "Enable Corfu in the minibuffer."
+      (when (local-variable-p 'completion-at-point-functions)
+        ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+        (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                    corfu-popupinfo-delay nil)
+        (corfu-mode 1)))
+    (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
+   )
 
+(use-package corfu-history
+  :hook (corfu-mode . corfu-history-mode))
 
 ;; Lightweight templates.
 (celeste/use-package tempel
