@@ -277,3 +277,6 @@
 [submodule "packages/org-journal"]
 	path = packages/org-journal
 	url = https://github.com/bastibe/org-journal
+[submodule "packages/emacs-everywhere"]
+	path = packages/emacs-everywhere
+	url = https://github.com/tecosaur/emacs-everywhere.git
