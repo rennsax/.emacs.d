@@ -10,6 +10,15 @@
   (celeste/use-package spinner)
   :bind ("C-c r g" . deadgrep))
 
+;; Edit anything, everywhere, w/ an popped Emacs frame!
+(celeste/use-package emacs-everywhere
+  :init
+  (add-hook 'after-init-hook
+            (defun safe-server-start ()
+              (require 'server)         ; must required
+              (unless (server-running-p) (server-start))))
+  :commands emacs-everywhere)
+
 ;; Enchanted spell checker.
 (celeste/use-package jinx
   :diminish
