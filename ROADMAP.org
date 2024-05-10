@@ -1,140 +1,142 @@
-#+title: Celeste Emacs
+#+title: Celeste Emacs Roadmap
 #+startup: overview
 
 * Roadmap
+** Easy Chores
 :PROPERTIES:
-:VISIBILITY: all
+:VISIBILITY: content
 :END:
-
-** New Packages
-
-- [ ] [[https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter][combobulate]]: Structured Movement and Editing with Tree-Sitter
-
-- [ ] [[Https://github.com/abo-abo/hydra][hydra]]
-
-- [ ] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]]
-
-- [ ] cspell integration
-
-  [[https://ztlevi.github.io/posts/Spell-checking-with-Cspell-in-Emacs/][A blog]]
-
-- [ ] [[https://github.com/kyagi/shell-pop-el][shell-pop-el]], [[https://github.com/atomontage/xterm-color/tree/master][xterm-color]]
-
-  Reference: Centaur Emacs
-
-- [ ] [[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]]
-
-- [ ] [[https://github.com/magit/forge.git][magit forge]]
-
-- [ ] [[https://github.com/emacsmirror/git-timemachine.git][git-timemachine]]
-
-- [ ] [[https://github.com/kimim/chatu.git][chatu]]
-
-- [ ] [[https://github.com/Fanael/highlight-quoted][highlight-quoted]]
-
-** Cleanup
-
-To be or not to be?
-
-- [ ] embark: it seems that I seldom use this package.
-
-  I misunderstand it. ~embark-action~ can be called everywhere, not only in the
-  minibuffer.
-
-  [[https://emacs-china.org/t/embark-hack/22205]] [[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
-
-** Try
-
-- [ ] Read Info: "The Mark and the Region"
-
-- [ ] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
-
-- [ ] [[https://emacs-china.org/t/vterm-edit-command-buffer-vterm/20530][vterm-edit-command 在独立的 buffer 中编辑 vterm 当前命令行]]
-
-** Features
-
-- [ ] ielm
-
-- [ ] Improve reading UX
-
-  Set a new customizable variable ~celeste-reading-font-name~, which should be
-  set to a proportional font. It aims to be used in reading context.
-
-  Declare a minor mode ~celeste-reading-mode~.
-
-  [[https://emacs-china.org/t/topic/22639][【讨论】一种提升英文阅读体验的可能性]]
-
-  [[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
-
-- [ ] tweak ~org-clock~
-
-- [ ] convert markdown-style link to org-style link.
-
-  #+begin_src emacs-lisp
-  (defun my/md-link-to-org ()
-    ;; Can also be adapted to use the region, but one would need to add
-    ;; a marker and region-end.  Remember to remove marker at end.
-    (interactive)
-    (let ((markdown-regex-link-inline
-           ;; from http://jblevins.org/git/markdown-mode.git/tree/markdown-mode.el
-           "\\(!\\)?\\(\\[\\)\\([^]^][^]]*\\|\\)\\(\\]\\)\\((\\)\\([^)]*?\\)\\(?:\\s-+\\(\"[^\"]*\"\\)\\)?\\()\\)"))
-      (while (search-forward-regexp markdown-regex-link-inline (point-max) t)
-        (replace-match "[[\\6][\\3]]"))))
-#+end_src
-
-- [ ] Respect the true line numbers (folded lines also counts) in commands
-  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
-
-  These commands do not know if some regions are folded, which is prevalent in
-  org-mode and markdown-mode.
-
-- [ ] Add default options in transient.
-
-- [X] Customize org bold.
-
-- [ ] tweak bookmark
-
-- [X] How to make =diff-hl= do not display staged parts?
-
-- [X] auto kill buffers
-
-  There is no need to implement such feature.
-
-- [X] ~doom-modeline~ tweak. How can I persist some important information (such as
-  org-clock) when the frame size is limited?
-
-  I don't use doom-modeline anymore!
-
-** Performance
+*** TODO [#A] rename ~+org-kill-this-link~
+Should be something like ~+org-cut-this-link~
+*** DOING [#A] Enable more consult extensions like ~consult-info~
+*** TODO [#B] Embark and helpful integration
+*** TODO [#B] Remove ~diff-hl-\*~ bindings. They are useless and buggy. Just use Magit.
+*** TODO [#B] It would be better if ~consult-buffer~'s posframe could be lower in the screen
+- [ ] ~consult-buffer~: lower
+- [ ] ~yank-pop~ and ~consult-yank-pop~: even lower
+** New Features
+:PROPERTIES:
+:VISIBILITY: content
+:END:
+*** TODO [#C] [[https://github.com/minad/cape.git][minad/cape]]: supercharge ~completion-at-point~
+Good, but not necessary, since I only use ~completion-at-point~ when writing ELisp.
+*** TODO [#A] Translation
+Possible choices:
+- [[https://github.com/condy0919/fanyi.el][condy0919/fanyi.el]]
+- [[https://github.com/xuchunyang/osx-dictionary.el][osx-dictionary]]
+- [[https://github.com/lorniu/go-translate][go-translation]]
+Related thread: [[https://emacs-china.org/t/topic/18006][一个支持多词典的翻译插件(目前仅支持单词) - Emacs-general - Emacs China]]
+*** TODO [#A] org-mode (use the newest version)
+*** TODO [#A] [[https://github.com/casouri/vundo][vundo]] or [[https://github.com/emacsmirror/undo-tree/blob/master/undo-tree.el][undo-tree]] or [[https://github.com/emacsmirror/undo-fu-session][undo-fu-session]]
+*** TODO [#A] [[Https://github.com/abo-abo/hydra][hydra]], [[https://github.com/Ladicle/hydra-posframe][hydra-posframe]], [[https://github.com/jerrypnz/major-mode-hydra.el][pretty-hydra]]
+*** TODO [#B] purcell's [[https://github.com/purcell/whitespace-cleanup-mode.git][whitespace-cleanup-mode]]
+*** TODO [#B] [[https://github.com/bbatsov/crux.git][crux]]: A Collection of Ridiculously Useful eXtensions for Emacs
+*** TODO [#B] [[https://github.com/victorhge/iedit][iedit]] like VSCode's ~s-L~
+*** TODO [#B] [[https://github.com/tecosaur/org-pandoc-import][org-pandoc-import]] ? how did you come with that
+*** TODO [#B] [[https://github.com/oantolin/emacs-config/blob/master/my-lisp/block-undo.el][block-undo]] if I frequently use kmacro
+*** TODO [#B] [[https://github.com/emacsmirror/git-timemachine.git][git-timemachine]]
+*** TODO [#B] Exclude useless buffers like "Helpful" buffer
+*** TODO [#B] [[https://www.emacswiki.org/emacs/InferiorEmacsLispMode][IELM]]: Inferior Emacs Lisp Mode
+*** TODO [#B] Improve reading UX
+Set a new customizable variable ~celeste-reading-font-name~, which should be
+set to a proportional font. It aims to be used in reading context.
+Declare a minor mode ~celeste-reading-mode~.
+[[https://emacs-china.org/t/topic/22639][【讨论】一种提升英文阅读体验的可能性]]
+[[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
+*** TODO [#B] Add default options in transient. Learn [[https://github.com/positron-solutions/transient-showcase.git][transient-showcase]].
+*** TODO [#B] tweak bookmark
+*** TODO [#B] [[https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter][combobulate]]: Structured Movement and Editing with Tree-Sitter
+*** TODO [#C] New line without auto-fill?
+*** TODO [#C] tweak ~org-clock~
+*** TODO [#C] [[https://github.com/kimim/chatu.git][chatu]]
+*** TODO [#C] [[https://github.com/Fanael/highlight-quoted][highlight-quoted]]
+*** TODO [#C] [[https://github.com/kyagi/shell-pop-el][shell-pop-el]], [[https://github.com/atomontage/xterm-color/tree/master][xterm-color]]
+Reference: Centaur Emacs
+*** TODO [#C] cspell integration
+[[https://ztlevi.github.io/posts/Spell-checking-with-Cspell-in-Emacs/][A blog]]
+*** TODO [#C] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]] - Maybe I will try it again once I switch to a Linux distro.
+** Learning
+:PROPERTIES:
+:VISIBILITY: content
+:END:
+*** TODO [#A] embark: it seems that I seldom use this package.
+I misunderstand it. ~embark-action~ can be called everywhere, not only in the
+minibuffer.
+[[https://emacs-china.org/t/embark-hack/22205]]
+[[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
+[[https://www.youtube.com/watch?v=43Dg5zYPHTU][Emacs: completion framework]] from Prot, 17:11
+*** TODO [#A] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+*** TODO [#B] Read Info: "The Mark and the Region"
+*** TODO [[https://emacs-china.org/t/vterm-edit-command-buffer-vterm/20530][vterm-edit-command 在独立的 buffer 中编辑 vterm 当前命令行]]
+** Refactor
+:PROPERTIES:
+:VISIBILITY: content
+:END:
+*** TODO [#C] Rewrite ~+exec-path-from-shell-write-cache~ with ~prin1-to-string~.
 ** Huge Projects
+:PROPERTIES:
+:VISIBILITY: content
+:END:
+*** TODO [#B] ~consult-locate~ for OSX
+OSX use ~mdfind~ for locate command. It behaves differently from locate.
+I may need something like:
+#+begin_src emacs-lisp
+(setq consult-locate-args "mdfind-wrapper -name ARG OPTS")
+#+end_src
+*** DOING [#B] [[https://protesilaos.com/codelog/2020-07-16-emacs-focused-editing/][Prot's focused editing]] (zen-mode)
+[[https://github.com/larstvei/Focus.git][Focus]]: dim the surrounding paragraphs, the idea is pretty, but not necessary.
+*** TODO [#B] Package manager: Info doc?
+*** DOING [#B] Tweaks emacs-everywhere for perspective.el
+If I still want to keep emacs-everywhere. The two do not cooperate well. When
+persp.el is enabled, the transient buffer created by emacs-everywhere cannot be
+killed properly, and a confirmation always pops out to ask "whether to kill the
+unsaved buffer anyway", which is annoying.
 
-- [ ] Package manager: autoload?
+I've dropped perspective.el, it's so buggy (f60da965c338405cef6ea379e4d7fc2c7ad526d5).
+I hate it.
+*** TODO [#C] I have some extra functions in the ~:preface~ section for each package.
+Autoload them.
+*** TODO [#C] Deprecate ~celeste/use-package~.
+This macro just add a default ~:load-path~. It's unnecessary, and is not
+elegant, make my configurations difficult to copy.
+Just remove it, and add a new macro/function to add something to ~load-path~.
+*** TODO [#C] Refactor dependencies, absorb =init-package.el=.
+*** TODO [#C] How to customize themes on earth?
+Which one: ~set-face-attribute~, ~customize-set-faces~,
+~customize-theme-set-faces~, ...
+*** TODO [#C] Learn about how popper.el works. Tweaks ~display-buffer~.
+Popper.el does a good job in protecting my window layout. However some plugins
+are special: org-agenda, gptel, ... They still destroy my window layout, which
+makes me annoying.
+Maybe I also need to learn more about window.el.
+2024-05-06: It seems that popper works by modifying ~display-buffer-alist~.
+Step:
+- Read [[https://www.masteringemacs.org/article/demystifying-emacs-window-manager][Mickey's wonderful article on window management]].
+- Read [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Choice.html][this manual]].
+- Read [[https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/][this thread]], which discusses the customization of this variable.
+*** TODO [#C] Separate cobalt2 from doomemacs/themes
+doom-themes is a good place to develop other themes, but it makes the
+customization more complex. Try to separate my color definitions from that, or
+read and understand its source code.
+[[https://github.com/positron-solutions/transient-showcase][positron-solutions/transient-showcase: Example forms for transient UI's in Emacs]]
+** FIXME
+:PROPERTIES:
+:VISIBILITY: content
+:END:
+*** TODO [#B] in yaml-ts-mode, the bindings are lost
+For example, in yaml-mode,  ~yaml-electric-backspace~ is bound to SPC.
+*** TODO [#B] ~C-g~ Behavior
+*** TODO [#A] there is always an empty line in  ~consult-yank-pop~
+It appears as the first condidate, which is annoying. Is this a kill-ring bug?
+*** TODO [#A] Rescue my LogSeq Notes 😭
+A good way to convert logseq markdown to org:
 
-- [ ] Learn about how popper.el works.
-
-  Popper.el does a good job in protecting my window layout. However some plugins
-  are special: org-agenda, gptel, ... They still destroy my window layout, which
-  makes me annoying.
-
-  Maybe I also need to learn more about window.el.
-
-- [ ] Tweaks emacs-everywhere for perspective.el
-
-  If I still want to keep emacs-everywhere.
-
-  The two do not cooperate well. When persp.el is enabled, the transient buffer
-  created by emacs-everywhere cannot be killed properly, and a confirmation
-  always pops out to ask "whether to kill the unsaved buffer anyway", which is
-  annoying.
-
-- [ ] Separate cobalt2 from doomemacs/themes
-
-  doom-themes is a good place to develop other themes, but it makes the
-  customization more complex. Try to separate my color definitions from that, or
-  read and understand its source code.
-
-  [[https://github.com/positron-solutions/transient-showcase][positron-solutions/transient-showcase: Example forms for transient UI's in Emacs]]
-
+1. mldoc convert -i ./Makefile.md -o ./Makefile.html
+2. search all list-related element tags like <li> and </li>, delete them
+3. pandoc -f html -t org -o ./Makefile.org ./Makefile.html
+** Doc
+*** TODO [#B] use table to specify dependencies (executable -> package)
+Typically, we have one to many. For some package like doc-view, it's many to one.
 * Known Bugs
 
 ** Handling windows with popper and evil
@@ -197,7 +199,7 @@ window #<window 9 on *helpful function: url-user*> but no common parent
      ((file-remote-p file nil t) (file-readable-p file))
      ((file-remote-p file))
      ((file-readable-p file))))
-#+end_src
+  #+end_src
 
   So it cleans remote files that are not readable.
 
@@ -207,7 +209,7 @@ window #<window 9 on *helpful function: url-user*> but no common parent
 
   #+begin_src emacs-lisp
   (add-to-list 'recentf-keep "^/ssh:orb:")
-#+end_src
+  #+end_src
 
 - [X] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
 
@@ -231,3 +233,42 @@ window #<window 9 on *helpful function: url-user*> but no common parent
 - [X] Gradually get rid of evil...
 
 - [X] multi-vterm
+
+- [X] [[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]]
+
+- [X] Customize org bold.
+
+- [X] How to make =diff-hl= do not display staged parts?
+
+- [X] auto kill buffers
+
+  There is no need to implement such feature.
+
+- [X] ~doom-modeline~ tweak. How can I persist some important information (such as
+  org-clock) when the frame size is limited?
+
+  I don't use doom-modeline anymore!
+
+- [X] [[https://github.com/magit/forge.git][magit forge]]
+
+- [X] [[https://github.com/rnkn/olivetti][olivetti]]: alternative for writeroom-mode
+
+- [X] convert markdown-style link to org-style link.
+
+- [X] Respect the true line numbers (folded lines also counts) in commands
+  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
+
+  These commands do not know if some regions are folded, which is prevalent in
+  org-mode and markdown-mode.
+
+  Solved: use ~previous-logical-line~ and ~next-logical-line~.
+
+- [X] Package manager: autoload?
+
+- [X] perspective.el + projectile.el => [[https://github.com/mclear-tools/tabspaces][mclear-tools/tabspaces]]
+
+  These two seem to be buggy, at least I've gotten unlucky. And these two are
+  old. Emacs has builtin project.el now, and perspective uses little new
+  features.
+
+  2024-05-08: tabspaces is buggy too :(
