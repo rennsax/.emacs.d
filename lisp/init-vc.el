@@ -44,7 +44,8 @@
   (keymap-unset magit-mode-map celeste-leader-key)
 
   ;; Show gravatars when viewing revision.
-  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+  ;; REVIEW: removed, because it's slow.
+  ; (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
 
   ;; Magit window settings.
   (celeste/autoload '+magit-display-buffer-fn magit)
