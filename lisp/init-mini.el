@@ -111,6 +111,7 @@
 ;; essential when my files are lost. Though today, most people prefer some VC
 ;; systems to find manage their files of different versions.
 (setq make-backup-files t
+      vc-make-backup-files t          ; even the file is managed by VC
       version-control t ; Use of version numbers for backup files.
       backup-by-copying t ; the default way is via mv, which may crash the FS.
       delete-old-versions t ; silently delete obsolete backups.
