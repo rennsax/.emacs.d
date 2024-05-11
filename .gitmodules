@@ -280,3 +280,6 @@
 [submodule "packages/emacs-everywhere"]
 	path = packages/emacs-everywhere
 	url = https://github.com/tecosaur/emacs-everywhere.git
+[submodule "packages/osx-dictionary"]
+	path = packages/osx-dictionary
+	url = https://github.com/xuchunyang/osx-dictionary.el.git
