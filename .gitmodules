@@ -283,3 +283,6 @@
 [submodule "packages/osx-dictionary"]
 	path = packages/osx-dictionary
 	url = https://github.com/xuchunyang/osx-dictionary.el.git
+[submodule "packages/vundo"]
+	path = packages/vundo
+	url = https://github.com/casouri/vundo.git
