@@ -6,7 +6,6 @@
 (celeste/use-package vterm
   ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
-  :bind (("C-c b t" . vterm))
   :commands vterm
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
@@ -37,8 +36,8 @@
   )
 ;; Manage multiple vterm buffers.
 (celeste/use-package multi-vterm
-  :commands (multi-vterm
-             multi-vterm-dedicated-toggle
+  :bind (("C-c b t" . multi-vterm))
+  :commands (multi-vterm-dedicated-toggle
              multi-vterm-dedicated-open))
 
 (provide 'init-vterm)
