@@ -286,3 +286,6 @@
 [submodule "packages/vundo"]
 	path = packages/vundo
 	url = https://github.com/casouri/vundo.git
+[submodule "packages/gcmh"]
+	path = packages/gcmh
+	url = https://github.com/emacsmirror/gcmh.git
