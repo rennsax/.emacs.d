@@ -293,3 +293,6 @@
 	path = packages/org-mode
 	url = https://git.savannah.gnu.org/git/emacs/org-mode.git
 	shallow = true
+[submodule "packages/org-pandoc-import"]
+	path = packages/org-pandoc-import
+	url = https://github.com/tecosaur/org-pandoc-import.git
