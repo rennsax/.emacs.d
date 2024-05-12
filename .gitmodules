@@ -296,3 +296,6 @@
 [submodule "packages/org-pandoc-import"]
 	path = packages/org-pandoc-import
 	url = https://github.com/tecosaur/org-pandoc-import.git
+[submodule "packages/org-download"]
+	path = packages/org-download
+	url = https://github.com/abo-abo/org-download.git
