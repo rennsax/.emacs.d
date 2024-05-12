@@ -1,0 +1,122 @@
+#+author: rennsax
+#+startup: indent
+
+#+html: <div align="center"><h1>Celeste Emacs</h1>
+#+html: <img src="https://static.miraheze.org/celestewiki/a/ac/Strawberry_flap.gif"alt="celeste strawberry"/>
+#+html: <p>Simple, lightweight and bespoked Emacs configurations.</p>
+#+html: </div>
+
+--------------
+
+* Installation
+Emacs requires C/C++ compiler suites, including a compiler, =make=,
+=cmake=.
+
+** macOS
+
+Directly installed from Homebrew's default formulae is OK, but you may get an
+Emacs without some essential new features, such as native compilation. I
+recommend installing a third-party distributed Emacs bundles such as
+[[https://github.com/d12frosted/homebrew-emacs-plus.git][d12frosted/homebrew-emacs-plus]].
+
+#+begin_src shell
+brew install emacs-plus@29 --with-native-comp --with-imagemagick
+#+end_src
+
+You can also pick your favorite icon [[https://github.com/d12frosted/homebrew-emacs-plus#icons][here]].
+
+** Hard Dependencies
+
+Hard dependencies are external tools that are required by some Emacs packages.
+To use these packages, you need first install the corresponding tools with your
+favorite package manager on your platform (such as =homebrew= on macOS, =apt= on
+Ubuntu).
+
+| Executable | Required by       | Link                |
+|------------+-------------------+---------------------|
+| pandoc     | org-pandoc-import | https://pandoc.org/ |
+|            |                   |                     |
+|            |                   |                     |
+|            |                   |                     |
+
+- =libenchant= for [[https://github.com/minad/jinx][jinx]], the spell checker
+- =ripgrep= for [[https://github.com/minad/consult][consult]] and [[https://github.com/Wilfred/deadgrep][deadgrep]], =fd= is also recommended
+- =libvterm= for [[https://github.com/akermu/emacs-libvterm][vterm]]
+- =macism= for [[https://github.com/laishulu/emacs-smart-input-source][sis]]
+- Check the dependencies for doc-view via =M-x find-library doc-view=.
+  For example, you may want to preview Microsoft Office's =docx=/=pptx=
+  files, then you need to install =soffice= from LibreOffice.
+
+#+begin_src shell
+# Basic dependencies.
+brew install make cmake ripgrep fd
+# LaTeX.
+brew install --cask mactex      # or, of course, mactex-no-gui
+# Extra dependencies for various packages.
+brew install enchant libvterm
+# For emacs-smart-input-source.
+brew tap laishulu/macism && brew install macism
+# For doc-view
+brew install --cask libreoffice
+#+end_src
+
+** Python Environment
+
+If you want to use other brilliant plugins like lsp-bridge and EAF that are
+based on a Python environment, some Python packages are also necessary. I
+recommend manage the dedicated Python environment with venv. You can also choose
+your favorite way, such as with conda, or even barely. Here is my way:
+
+#+begin_src shell
+# Make sure you have venv package is installed.
+# sudo apt install python3-venv -y
+
+python3 -m venv .venv
+source .venv/bin/activate
+# Use `deactivate` to deactivate the venv
+#+end_src
+
+Run =which python3= to see where the Python3 executable is located. You may need
+to change corresponding Emacs variables to make the virtual environment take
+effects. For example:
+
+#+begin_src emacs-lisp
+(setq lsp-bridge-python-command "Your Python executable path")
+#+end_src
+
+Or you can leverage the customizable variable =celeste-python-command=:
+
+#+begin_src emacs-lisp
+(setopt celeste-python-command "Your Python executable path")
+#+end_src
+
+*** lsp-bridge
+
+#+begin_src shell
+pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz
+#+end_src
+
+** Optional
+[[https://orgmode.org/org.html#Installation][Install org-mode manually]], for those who are interested in the newest features.
+
+#+begin_src shell
+cd ~/.config/emacs/pacakges
+git clone https://git.savannah.gnu.org/git/emacs/org-mode.git --depth 1
+cd org-mode/
+# This is mandatory.
+make autoloads
+#+end_src
+
+TODO
+
+* Copyright Notice
+The banner under the project name is a work from Celeste game asset,
+borrowed from
+[[https://github.com/laishulu/emacs-smart-input-source][Celeste Wiki]],
+and licensed under
+[[https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en][CC BY-NC-SA
+4.0 License]]. You may not use the material for commercial purposes.
+
+I use this banner just because I'm a huge fan of Celeste game. If my
+actions infringe on any copyrights, please contact me immediately. Thank
+a lot.
