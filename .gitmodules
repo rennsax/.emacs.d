@@ -289,3 +289,7 @@
 [submodule "packages/gcmh"]
 	path = packages/gcmh
 	url = https://github.com/emacsmirror/gcmh.git
+[submodule "packages/org-mode"]
+	path = packages/org-mode
+	url = https://git.savannah.gnu.org/git/emacs/org-mode.git
+	shallow = true
