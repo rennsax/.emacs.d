@@ -28,16 +28,15 @@
 ;; "s-t" - `menu-set-font'
 ;; "s-p" - `ns-print-buffer'
 ;; "s-m" - `iconify-frame', in macOS, just minimize the frame.
-(dolist (key '("C-z" "s-t" "s-p" "s-m"))
+(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n"
+               "C-<wheel-up>" "C-<wheel-down>"))
   (keymap-global-unset key))
 
 (use-package tab-bar
-  :bind (("s-{" . tab-bar-switch-to-prev-tab)
-         ("s-}" . tab-bar-switch-to-next-tab)
-         ("s-t" . tab-bar-new-tab)
-         ("s-w" . tab-bar-close-tab))
-  :config
-  (keymap-global-unset "s-n" t))
+  :init
+  (bind-keys ("s-{" . tab-bar-switch-to-prev-tab)
+             ("s-}" . tab-bar-switch-to-next-tab)
+             ("s-t" . tab-bar-new-tab)))
 
 ;; Use ctrl-shift-z to redo, so intuitive.
 (keymap-global-set "s-Z" #'undo-redo)
