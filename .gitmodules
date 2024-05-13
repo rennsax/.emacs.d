@@ -308,3 +308,6 @@
 [submodule "packages/hydra"]
 	path = packages/hydra
 	url = https://github.com/abo-abo/hydra.git
+[submodule "packages/ace-window"]
+	path = packages/ace-window
+	url = https://github.com/abo-abo/ace-window.git
