@@ -18,6 +18,9 @@
 ;; Fetch shell envs.
 (require 'init-env)
 
+;; Performance improvement.
+(require 'init-perf)
+
 ;;; Personal functions 🤠
 (require 'init-utils)
 
