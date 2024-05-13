@@ -305,3 +305,6 @@
 [submodule "packages/undo-fu-session"]
 	path = packages/undo-fu-session
 	url = https://github.com/emacsmirror/undo-fu-session.git
+[submodule "packages/hydra"]
+	path = packages/hydra
+	url = https://github.com/abo-abo/hydra.git
