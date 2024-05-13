@@ -67,6 +67,27 @@
   (celeste/add-mode-hook jinx-enable-mode-list #'jinx-mode)
   )
 
+
+;;; Undo system enhancement.
+
+;; Visualized undo history.
+(celeste/prepare-package vundo)
+(use-package vundo
+  :commands vundo)
+
+;; Persistent undo history across Emacs sessions.
+(celeste/prepare-package undo-fu-session)
+(use-package undo-fu-session
+  :hook (after-init . undo-fu-session-global-mode)
+  :init
+  (celeste/prepare-package undo-fu-session)
+
+  (setq undo-fu-session-directory (celeste/make-path "undo-fu-session" 'cache))
+
+  :config
+  (setq undo-fu-session-incompatible-files
+        '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
+
 
 
 (provide 'init-tool)
