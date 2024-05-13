@@ -90,6 +90,10 @@
 
 ;;; More configurations for builtin packages.
 
+(use-package register
+  :config
+  (set-register ?m '(buffer . "*Messages*")))
+
 (use-package project
   :config
   (setq project-switch-commands '((project-find-file "Find file")
@@ -112,6 +116,12 @@
 
   (delq 'tab-bar-format-add-tab tab-bar-format))
 
+;; Restore old window configurations.
+(use-package winner
+  :hook (after-init . winner-mode)
+  :bind (:map window-prefix-map
+              ("C-/" . winner-undo)
+              ("C-?" . winner-redo)))
 
 
 ;;; Bootstrap custom file.

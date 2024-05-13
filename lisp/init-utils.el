@@ -64,6 +64,16 @@ When the prefix ARG is non-nil, includes more delimiters."
            (delim (search-backward-regexp delim-reg)))
       (funcall #'upcase-region (1+ delim) cur-pos))))
 
+(defun kill-current-file-name ()
+  "Kill the current file name, if it visits a real file."
+  (interactive)
+  (if-let (file-path (buffer-file-name))
+      (progn
+        (setq file-path (abbreviate-file-name file-path))
+        (kill-new file-path)
+        (message "Kill \"%s\"." file-path))
+    (message "Not a file.")))
+
 
 
 ;;; Got these idea from bbatsov/crux.
