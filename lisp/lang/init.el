@@ -174,6 +174,19 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
                ("M-RET" . yas-prev-field))
     (unbind-key "TAB" yas-keymap))
 
+  (defmacro +lsp-bridge-def-minor-mode-for (lang)
+    (let ((lang-mode-hook (intern (concat (symbol-name lang) "-mode-hook")))
+          (mode (intern (format "%s-lsp-bridge-mode" lang))))
+      `(define-minor-mode ,mode
+         ,(format "Auto-toggle `lsp-bridge-mode' for `%s-mode'." lang)
+         :init-value nil
+         :global t
+         (if ,mode
+             (add-hook ',lang-mode-hook #'lsp-bridge-mode)
+           (remove-hook ',lang-mode-hook #'lsp-bridge-mode)))))
+
+  (dolist (mode '(go emacs-lisp c++))
+    (eval `(+lsp-bridge-def-minor-mode-for ,mode)))
   )
 
 
