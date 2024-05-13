@@ -302,3 +302,6 @@
 [submodule "packages/async"]
 	path = packages/async
 	url = https://github.com/jwiegley/emacs-async.git
+[submodule "packages/undo-fu-session"]
+	path = packages/undo-fu-session
+	url = https://github.com/emacsmirror/undo-fu-session.git
