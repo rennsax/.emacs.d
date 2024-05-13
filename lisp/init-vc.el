@@ -141,7 +141,7 @@
 (use-package diff-hl-flydiff
   :hook (diff-hl-mode . diff-hl-flydiff-mode))
 (use-package diff-hl-show-hunk
-  :bind (("C-c g s h" . diff-hl-show-hunk)))
+  :commands diff-hl-show-hunk)
 (use-package diff-hl-dired
   :hook (dired-mode . diff-hl-dired-mode))
 
