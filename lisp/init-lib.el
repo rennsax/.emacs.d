@@ -74,6 +74,8 @@ to `load-path'. By default it's \"lisp\"."
     (add-to-list 'load-path (file-name-concat celeste-package-dir
                                               (symbol-name package) subdir))))
 
+(make-obsolete 'celeste/add-special-load-path 'celeste/prepare-package "2024-05-13")
+
 (defvar celeste/auto-require--search-dirs
   (list celeste-package-dir celeste-site-lisp-dir))
 
@@ -94,6 +96,41 @@ PACKAGE still can't be found, then raise an error."
                   (add-to-list 'load-path maybe-dir)
                   (cl-return (require package))))))
           (error "PACKAGE cannot be found!"))))
+
+(defmacro celeste/prepare-package (package &rest subpath)
+  "Add PACKAGE's SUBPATHs to `load-path'."
+  (let* ((package-name (symbol-name package))
+         (package-dir (concat celeste-package-dir package-name)))
+    (when (file-directory-p package-dir) ; If there is no such package, do noting.
+      (if (= (length subpath) 0)
+          `(add-to-list 'load-path ,package-dir)
+        (macroexp-progn
+         (mapcar (lambda (p)
+                   `(add-to-list 'load-path ,(file-name-concat package-dir p)))
+                 subpath))))))
+
+(defmacro celeste/prepare-package-2 (package &rest args)
+  "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS."
+  (declare (indent 1))
+  (let* ((package-name (symbol-name package))
+         (package-dir (concat celeste-package-dir package-name)))
+    (when (file-directory-p package-dir) ; If there is no such package, do noting.
+      (if (= (length args) 0)
+          `(add-to-list 'load-path ,package-dir)
+      (macroexp-progn
+       (celeste/prepare-package-2--routine package-dir args))))))
+
+(defun celeste/prepare-package-2--routine (package-dir args)
+  (let ((add-path t))
+    (cl-loop for arg in args
+             when (stringp arg)
+             collect `(add-to-list ',(if add-path 'load-path 'Info-default-directory-list)
+                                   ,(file-name-concat package-dir arg))
+             when (keywordp arg) do
+             (pcase arg
+               (:info (setq add-path nil)
+                      (require 'info))
+               (:load-path (setq add-path t))))))
 
 (provide 'init-lib)
 ;;; init-lib.el ends here
