@@ -8,8 +8,11 @@
 ;; Transient is a builtin package for implementing keyboard-driven menus (mainly
 ;; used for Magit). However, we use the submodule one, because it's actively
 ;; developed, and newer version of magit may depend on it.
-(celeste/add-special-load-path 'transient)
-(with-eval-after-load 'transient
+(use-package transient
+  :init
+  (celeste/prepare-package transient "lisp")
+
+  :config
   ;; Set transient directories.
   (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
         transient-values-file  (concat celeste-data-dir "transient/values")
@@ -20,13 +23,13 @@
         transient-display-buffer-action '(display-buffer-below-selected))
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
-;; Dependency: with-editor
-(celeste/add-special-load-path 'with-editor)
-
-;; Also depends on `compat' and `dash'.
-;; TODO: `magit-submodule-add-1' git submodule absortgitdirs
-(celeste/add-special-load-path 'magit)
 (use-package magit
+  :init
+  (celeste/prepare-package compat)
+  (celeste/prepare-package dash)
+  (celeste/prepare-package with-editor "lisp")
+  (celeste/prepare-package-2 magit "lisp" :info "docs")
+
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)
          ("C-c g e i" . magit-gitignore-in-topdir)
@@ -68,7 +71,7 @@
 
 ;;; git-modes: collection of git{ignore,config,attributes}-mode'.
 
-;;(celeste/package-build-autoload 'git-modes)
+;; (celeste/package-build-autoload 'git-modes)
 (celeste/package-autoload 'git-modes)
 
 
@@ -84,12 +87,12 @@
 
   :init
   ;; All these sort of things are dependencies of forge (incredible!)
-  (celeste/use-package emacsql)
-  (celeste/use-package closql)
-  (celeste/use-package yaml)
-  (celeste/use-package treepy)
-  (celeste/add-special-load-path 'ghub)
-  (celeste/add-special-load-path 'forge)
+  (celeste/prepare-package emacsql)
+  (celeste/prepare-package closql)
+  (celeste/prepare-package yaml)
+  (celeste/prepare-package treepy)
+  (celeste/prepare-package ghub "lisp")
+  (celeste/prepare-package forge "lisp")
 
   (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'data))
 
@@ -101,6 +104,7 @@
     (advice-remove 'magit-status #'+magit-load-forge-now-a))
 
   :commands forge-pull
+
   :config
 
   (defalias 'forge-issue-close 'forge-issue-state-set-completed "Close the issue.")
@@ -110,9 +114,10 @@
 
 ;;; diff-hl: better git-diff integration
 
-(add-to-list 'load-path (concat celeste-package-dir "diff-hl"))
-
 (use-package diff-hl
+  :init
+  (celeste/prepare-package diff-hl)
+
   ;; Seeing VC gutter while writing docs is just .. distracted.
   :hook ((prog-mode . diff-hl-mode)
          (vc-dir-mode . diff-hl-dir-mode)
@@ -131,9 +136,6 @@
   (advice-add 'diff-hl-show-hunk :after
               (defun +diff-hl-auto-kill-diff-buffer-a (&rest _)
                 (kill-buffer diff-hl-show-hunk-buffer-name)))
-
-  ;; REVIEW: `diff-hl-show-hunk-posframe' is immature now.
-  ;; (setq diff-hl-show-hunk-function #'diff-hl-show-hunk-posframe)
   )
 
 (use-package diff-hl-flydiff
