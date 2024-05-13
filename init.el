@@ -60,6 +60,9 @@
 ;;; UI tweaks 🔮
 (require 'init-ui)
 
+;;; Zen mode
+(require 'init-zen)
+
 ;;; Language extensions
 (load (concat celeste-lisp-dir "lang/init"))
 
