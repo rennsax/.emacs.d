@@ -162,35 +162,8 @@
     (auto-fill-mode -1)
     (display-fill-column-indicator-mode -1)))
 
+
 
-;;; Magical multi-font settings.
-
-(defun celeste/buffer-set-other-font (&optional font-family no-hook)
-  "Setup another font for the current buffer.
-
-If FONT-FAMILY is non-nil, use the specified font. Otherwise,
-`celeste-other-font-name' is used.
-
-If NO-HOOK is non-nil, by passing the execution of
-`celeste-buffer-face-mode-hook'."
-  (interactive "MFont family: ")
-  (let ((font-family (or font-family celeste-other-font-name)))
-    (if (string= font-family celeste-default-font-name)
-        (buffer-face-mode -1)
-      (progn
-        (setq-local buffer-face-mode-face `(:family ,font-family))
-        (buffer-face-mode +1)
-        (unless no-hook
-            (run-hooks 'celeste-buffer-face-mode-hook))))))
-
-;; Set different fonts for those special modes, so I can distinguish from
-;; different contexts.
-(celeste/add-mode-hook celeste-other-font-mode-list #'celeste/buffer-set-other-font)
-
-(celeste/add-mode-hook celeste-cjk-font-mode-list
-    #'(lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))
-
-
 (provide 'init-mini-extra)
 ;;; init-mini-extra.el ends here
 

@@ -2,11 +2,14 @@
 ;;; Commentary:
 ;;; Code:
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 ;; Dependencies for initialization.
 (require 'init-const)
 (require 'init-lib)
-;; init-custom is early-loaded in early-init.el
-; (require 'init-custom)
+
+;;; Customization 🌷
+(require 'init-custom)
 
 ;; Bootstrap `use-package'.
 (require 'init-package)
@@ -56,6 +59,9 @@
 ;;; macOS defaults 🍎
 (when sys/mac
   (require 'init-osx))
+
+;;; Font settings 🔠
+(require 'init-font)
 
 ;;; UI tweaks 🔮
 (require 'init-ui)
