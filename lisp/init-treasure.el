@@ -8,7 +8,9 @@
 ;; complex functionalities and rather bloat documentation (I mean, yes,
 ;; straight.el). My huge thanks for these two!
 
-;; I include their most generic, helpful and well-designed packages here.
+;; I include their most generic, helpful and well-designed packages here. The
+;; common of these packages is that they provide some completion
+;; functionalities, which are very convenient.
 
 ;; Package list:
 
@@ -117,7 +119,9 @@
          ("C-c s b" . consult-buffer)
          ("C-c s g" . consult-ripgrep)
          ("C-c s m" . consult-bookmark)
-         ("M-y" . consult-yank-pop)     ; alternate `yank-pop'
+         ("C-c s a" . consult-man)      ; apropos
+         ("M-g g" . consult-goto-line)
+         ("<remap> <yank-pop>" . consult-yank-pop)
          :map project-prefix-map
          ("b" . consult-project-buffer) ; alternate `project-switch-to-buffer'
          )
@@ -133,6 +137,14 @@
     (cl-loop for entry in popper-reference-buffers
              when (stringp entry) do (add-to-list 'consult-buffer-filter entry)))
   )
+(use-package consult-info
+  :bind ("C-c s i" . consult-info))
+
+(use-package consult-register
+  :bind ("C-c s r" . consult-register))
+
+(use-package consult-kmacro
+  :bind ("C-c s k" . consult-kmacro))
 
 ;; `consult-org-heading' and `consult-org-agenda'
 ;; Alternatives for `org-goto'.
@@ -183,6 +195,8 @@
     (embark-kill-buffer-and-window (current-buffer)))
   :init
 
+  (setq help-char "?")
+
   ;; Embark makes this option really meaningful!
   (setq enable-recursive-minibuffers t)
 
@@ -191,9 +205,7 @@
 
   :config
 
-  (setq help-char "?")
-  (setq embark-help-key "?")
-
+  (setq embark-help-key help-char)
   (setq embark-indicators
         '(embark-minimal-indicator  ; default is embark-mixed-indicator
           embark-highlight-indicator
