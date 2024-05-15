@@ -95,14 +95,16 @@
   (set-register ?m '(buffer . "*Messages*")))
 
 (use-package project
-  :config
+  :init
   (setq project-switch-commands '((project-find-file "Find file")
                                   (consult-fd "Fd" "F")
                                   (consult-ripgrep "Ripgrep" "R")
                                   (deadgrep "Deadgrep" "G")
                                   (project-dired "Dired")
                                   (magit-project-status "Magit" "m")
-                                  (project-eshell "Eshell")))
+                                  (project-eshell "Eshell")
+                                  (keyboard-quit "Quit" "q")))
+  :config
   (dolist (unmap-key '("s" "v"))
     (keymap-unset project-prefix-map unmap-key t)))
 

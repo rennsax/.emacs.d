@@ -40,6 +40,21 @@
   :commands (multi-vterm-dedicated-toggle
              multi-vterm-dedicated-open))
 
+;;;###autoload
+(defun +project-vterm ()
+  "Open vterm at the project root."
+  (interactive)
+  (let* ((default-directory (project-root (project-current t))))
+    (if current-prefix-arg
+        (multi-vterm)
+      (vterm))))
+
+(when (bound-and-true-p project-switch-commands)
+  (add-to-list 'project-switch-commands
+               '(+project-vterm "vterm" "t")))
+
+
+
 (provide 'init-vterm)
 ;;; init-vterm.el ends here
 
