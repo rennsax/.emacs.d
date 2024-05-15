@@ -10,11 +10,12 @@
   ;; dependency
   (celeste/use-package elisp-refs)
 
-  :bind (("C-h f" . helpful-callable) ; `describe-function'
-         ("C-h v" . helpful-variable) ; `describe-variable'
-         ("C-h k" . helpful-key)      ; `describe-key'
+  :bind (([remap describe-function] . helpful-callable) ; `helpful-function' excludes macros
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-key] . helpful-key)
          ("C-h h" . helpful-at-point)
-         ("C-h x" . helpful-command))  ; `describe-command'
+         ([remap describe-symbol] . helpful-symbol)
+         ([remap describe-command] . helpful-command))
   :config
   (add-hook 'helpful-mode-hook #'visual-line-mode))
 
