@@ -136,7 +136,7 @@ If FORCE-P, delete without confirmation."
     (kill-local-variable 'mode-line-format)
     (force-mode-line-update)))
 
-(defun keyboard-quit-dwim (arg)
+(defun keyboard-quit-dwim ()
   "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
 The generic `keyboard-quit' does not do the expected thing when
@@ -149,7 +149,7 @@ The DWIM behaviour of this command is as follows:
 - When a minibuffer is open, but not focused, close the minibuffer.
 - When the Completions buffer is selected, close it.
 - In every other case use the regular `keyboard-quit'."
-  (interactive "P")
+  (interactive)
   (cond
    ((region-active-p)
     (keyboard-quit))
@@ -203,6 +203,28 @@ useful, e.g., for use with `visual-line-mode'."
 	     (t (beep)))
 	  (error (beep)))))
     (message "Done.")))
+
+
+;;; half-screen scrolling
+;; https://karthinks.com/software/more-less-emacs/#bonus-half-screen-scrolling
+
+(defun scroll-up-half ()
+  "Scroll up half screen."
+  (interactive)
+  (scroll-up-command
+   (floor
+    (- (window-height)
+       next-screen-context-lines)
+    2)))
+
+(defun scroll-down-half ()
+  "Scroll down half screen."
+  (interactive)
+  (scroll-down-command
+   (floor
+    (- (window-height)
+       next-screen-context-lines)
+    2)))
 
 
 
