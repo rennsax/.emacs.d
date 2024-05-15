@@ -35,6 +35,11 @@
 ;; Show matched parentheses.
 (show-paren-mode +1)
 
+(use-package elisp-mode
+  :config
+  ;; Show "lambda" keyword as λ.
+  (add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode))
+
 (use-package display-line-numbers
   :hook (((prog-mode text-mode) . display-line-numbers-mode))
   :config
@@ -188,7 +193,14 @@ This should be called each time after the function definition is modified."
        `(avy-background-face :foreground ,dark-cyan)
        `(avy-lead-face :background ,red)
 
-       `(olivetti-fringe :background ,(doom-darken bg 0.1))
+       ;; `(olivetti-fringe :background ,(doom-darken bg 0.1))
+
+       ;; vertico-posframe
+       `(vertico-posframe-border :background ,yellow)
+
+       ;; tab-bar
+       `(tab-bar :background ,(doom-color 'base3) :height 1.1)
+       `(tab-bar-tab-inactive :background ,(doom-color 'base3))
 
        ;; `org-mode'
        `(org-block :family ,code-font)
@@ -202,9 +214,9 @@ This should be called each time after the function definition is modified."
        `(markdown-code-face :family ,code-font)
        `(markdown-blockquote-face :foreground ,cyan)
        `(markdown-header-delimiter-face :foreground ,(doom-color 'dark-cyan))
-       `(markdown-header-face-1 :inherit outline-1)
-       `(markdown-header-face-2 :inherit outline-2)
-       `(markdown-header-face-3 :inherit outline-3)
+       `(markdown-header-face-1 :inherit outline-1 :underline t)
+       `(markdown-header-face-2 :inherit outline-2 :underline t)
+       `(markdown-header-face-3 :inherit outline-3 :underline t)
        `(markdown-header-face-4 :inherit outline-4)
        `(markdown-header-face-5 :inherit outline-5)
 
