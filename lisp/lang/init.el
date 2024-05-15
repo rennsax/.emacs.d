@@ -40,7 +40,6 @@
 
 ;; `consult-flycheck'
 (celeste/use-package consult-flycheck
-  :after flycheck
   :bind (("C-c s d" . consult-flycheck)))
 
 ;; Show diagnostic information in the buffer.
@@ -60,8 +59,8 @@
         sideline-delay 1.0 ; longer delay
         )
   ;; More eye-catching annotation.
-  (setq sideline-format-left "⚠️%s⚠️  "
-        sideline-format-right "   ⚠️%s⚠️"
+  (setq sideline-format-left "%s   "
+        sideline-format-right "   %s"
         sideline-display-backend-name t
         sideline-display-backend-format "[%s]")
 
