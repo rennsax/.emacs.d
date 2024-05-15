@@ -99,7 +99,7 @@
 (setq sentence-end-double-space nil)
 
 ;; Never feel getting lost where the line is when you enter CTRL-V!
-(setq scroll-preserve-screen-position t)
+(setq scroll-preserve-screen-position 1)
 
 ;; Prefer simpler "y" or "n" over "yes" or "no".
 (fset 'yes-or-no-p 'y-or-n-p)
