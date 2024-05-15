@@ -41,7 +41,7 @@
   (add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode))
 
 (use-package display-line-numbers
-  :hook (((prog-mode text-mode) . display-line-numbers-mode))
+  :hook ((prog-mode . display-line-numbers-mode))
   :config
   ;; Why? Because it's inconvenient to move "logically". Why not just use
   ;; `goto-line' or `avy-goto-line'?
