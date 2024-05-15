@@ -88,6 +88,17 @@
   (setq undo-fu-session-incompatible-files
         '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
 
+
+
+;; Integrated with OSX dictionary.
+(use-package osx-dictionary
+  :when sys/mac
+  :init
+  (celeste/prepare-package osx-dictionary)
+  :commands osx-dictionary-search-pointer
+  :config
+  (add-hook 'osx-dictionary-mode-hook #'celeste/zen-mode)
+  (regexp-opt (list osx-dictionary-buffer-name)))
 
 
 (provide 'init-tool)

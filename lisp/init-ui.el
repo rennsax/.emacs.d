@@ -139,6 +139,7 @@
                    (not (string= (buffer-name) "*Org Help*")))))
           helpful-mode ; `helpful' package
           magit-process-mode
+          osx-dictionary-mode
           debugger-mode)))
 
 (use-package popper-echo
