@@ -3,6 +3,69 @@
 ;;; Code:
 
 
+;;; Customizable variables.
+
+(defcustom celeste-other-font-mode-list
+  '()
+  "List of modes that should use another font."
+  :group 'celeste
+  :type '(repeat symbol)
+  :set (lambda (sym val)
+         (celeste/add-mode-hook val #'celeste/buffer-set-other-font)))
+
+(defcustom celeste-cjk-font-mode-list
+  nil
+  "List of modes that should use CJK font."
+  :group 'celeste
+  :type '(repeat symbol)
+  :set (lambda (sym val)
+         (celeste/add-mode-hook nil
+             #'(lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))))
+
+(defcustom celeste-default-font-name "MonaspiceRn Nerd Font"
+  "The default font of Celeste Emacs. Pick whatever you like."
+  :group 'celeste
+  :type 'string)
+
+(defcustom celeste-other-font-name "MonaspiceAr Nerd Font"
+  "Another font for Celeste Emacs.
+
+I suggest to use a relatively-standard font for it. This font is
+mainly used in some transient buffers for reading purpose."
+  :group 'celeste
+  :type 'string)
+
+(defcustom celeste-cjk-font-name "LXGW WenKai Mono"
+  "CJK font for Celeste Emacs.
+
+This CJK font may be used *everywhere* for CJK fonts. By running
+the hook `celeste-buffer-face-mode-hook', font for CJK characters
+are automatically patched whenever `buffer-face-mode' is enabled.
+
+Generally you can see different fonts in a buffer, and this may
+cause problems when you try to make some alignment operations,
+such as beautify the tables in `org-mode'. For me, I just prefer
+a nice CJK fonts, which constantly pleases me when I'm writing a
+Chinese document."
+  :group 'celeste
+  :type 'string)
+
+(defcustom celeste-font-size 14
+  "Font size of Celeste Emacs."
+  :group 'celeste
+  :type 'number)
+
+(defcustom celeste-buffer-face-mode-hook nil
+  "Functions to run after enable `buffer-face-mode'.
+
+Typically, Celeste uses `buffer-face-mode' to enable different
+fonts to distinguish buffer context (writing, programming,
+poem,...)."
+  :group 'celeste
+  :type 'hook
+  :risky t)
+
+
 ;;; Font settings.
 ;; Useful hooks:
 ;; `after-init-hook': not helpful in daemon mode.
@@ -33,6 +96,27 @@
 
 ;;; Magical multi-font settings.
 
+;; Set different fonts for those special modes, so I can distinguish from
+;; different contexts.
+;; REVIEW: it's interesting that Emacs can find `celeste/buffer-set-other-font',
+;; even it's defined later.
+(setopt celeste-other-font-mode-list
+        '(help-mode
+          helpful-mode
+          eshell-mode
+          magit-mode
+          debugger-mode
+          Custom-mode
+          dired-mode
+          git-commit-mode
+          org-mode
+          markdown-mode
+          org-agenda-mode
+          osx-dictionary-mode
+          git-rebase-mode
+          Info-mode
+          vterm-mode))
+
 (defun celeste/buffer-set-other-font (&optional font-family no-hook)
   "Setup another font for the current buffer.
 
@@ -49,15 +133,10 @@ If NO-HOOK is non-nil, by passing the execution of
         (setq-local buffer-face-mode-face `(:family ,font-family))
         (buffer-face-mode +1)
         (unless no-hook
-            (run-hooks 'celeste-buffer-face-mode-hook))))))
+          (run-hooks 'celeste-buffer-face-mode-hook))))))
 
-;; Set different fonts for those special modes, so I can distinguish from
-;; different contexts.
-(celeste/add-mode-hook celeste-other-font-mode-list #'celeste/buffer-set-other-font)
 
-(celeste/add-mode-hook celeste-cjk-font-mode-list
-    #'(lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))
-
+
 (provide 'init-font)
 ;;; init-font.el ends here
 
