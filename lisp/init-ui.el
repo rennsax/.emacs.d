@@ -40,7 +40,9 @@
   :config
   ;; Why? Because it's inconvenient to move "logically". Why not just use
   ;; `goto-line' or `avy-goto-line'?
-  (setq display-line-numbers-type t))
+  (setq display-line-numbers-type t)
+  ;; Suitable for line number over thousands.
+  (setq-default display-line-numbers-width 4))
 
 
 ;;; Window behavior.
