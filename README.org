@@ -36,16 +36,16 @@ Ubuntu).
 Hard dependencies are listed here. An asterisk symbol indicates that the tool is
 /not/ indispensable for the package(s).
 
-| Tool         | Used by           | Link                                              | Description                  |
-|--------------+-------------------+---------------------------------------------------+------------------------------|
-| ripgrep      | consult, deadgrep | https://github.com/BurntSushi/ripgrep             | Another Rust winner!         |
-| fd           | consult           | https://github.com/sharkdp/fd                     | ~find(1)~'s alternative.     |
-| pandoc       | org-pandoc-import | https://pandoc.org/                               | Required.                    |
-| gimp*        | org-download      | https://www.gimp.org/                             | Used by ~org-download-edit~. |
-| libenchant   | jinx              | https://github.com/AbiWord/enchant                | Spell checker.               |
-| libvterm     | vterm             | https://www.leonerd.org.uk/code/libvterm/         | Terminal emulator in Emacs.  |
-| macism       | sis               | https://github.com/laishulu/macism                | macOS.                       |
-| LibreOffice* | doc-view[fn:1]    | https://www.libreoffice.org/discover/libreoffice/ | For previewing documents.    |
+| Tool         | Used by           | Description                  |
+|--------------+-------------------+------------------------------|
+| [[https://github.com/BurntSushi/ripgrep][ripgrep]]      | consult, deadgrep | Another Rust winner!         |
+| [[https://github.com/sharkdp/fd][fd]]           | consult           | ~find(1)~'s alternative.     |
+| [[https://pandoc.org/][pandoc]]       | org-pandoc-import | Required.                    |
+| [[https://www.gimp.org/][gimp]]*        | org-download      | Used by ~org-download-edit~. |
+| [[https://github.com/AbiWord/enchant][libenchant]]   | jinx              | Spell checker.               |
+| [[https://www.leonerd.org.uk/code/libvterm/][libvterm]]     | vterm             | Terminal emulator in Emacs.  |
+| [[https://github.com/laishulu/macism][macism]]       | sis               | macOS.                       |
+| [[https://www.libreoffice.org/discover/libreoffice/][LibreOffice]]* | doc-view[fn:1]    | For previewing documents.    |
 
 [fn:1] For more dependencies of doc-view package, use ~M-x find-library doc-view~.
 
