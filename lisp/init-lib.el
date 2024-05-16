@@ -98,19 +98,25 @@ PACKAGE still can't be found, then raise an error."
           (error "PACKAGE cannot be found!"))))
 
 (defmacro celeste/prepare-package (package &rest subpath)
-  "Add PACKAGE's SUBPATHs to `load-path'."
-  (let* ((package-name (symbol-name package))
-         (package-dir (concat celeste-package-dir package-name)))
-    (when (file-directory-p package-dir) ; If there is no such package, do noting.
-      (if (= (length subpath) 0)
-          `(add-to-list 'load-path ,package-dir)
-        (macroexp-progn
-         (mapcar (lambda (p)
-                   `(add-to-list 'load-path ,(file-name-concat package-dir p)))
-                 subpath))))))
+  "Add PACKAGE's SUBPATHs to `load-path'.
+
+Produce no effects if PACKAGE is already loaded as a feature."
+  (unless (featurep package)
+    (let* ((package-name (symbol-name package))
+           (package-dir (concat celeste-package-dir package-name)))
+      (when (file-directory-p package-dir) ; If there is no such package, do noting.
+        (if (= (length subpath) 0)
+            `(add-to-list 'load-path ,package-dir)
+          (macroexp-progn
+           (mapcar (lambda (p)
+                     `(add-to-list 'load-path ,(file-name-concat package-dir p)))
+                   subpath)))))))
 
 (defmacro celeste/prepare-package-2 (package &rest args)
-  "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS."
+  "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS.
+
+Always try to add something to corresponding paths, even PACKAGE
+is loaded before."
   (declare (indent 1))
   (let* ((package-name (symbol-name package))
          (package-dir (concat celeste-package-dir package-name)))
