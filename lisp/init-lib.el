@@ -33,6 +33,8 @@ remaining arguments."
               `(:load-path ,(concat celeste-package-dir (symbol-name package))))
           ,@plist))
 
+(make-obsolete 'celeste/use-package 'celeste/prepare-package "2024-05-13")
+
 (defmacro celeste/autoload (function feature &rest args)
   "Define FUNCTION to autoload from FEATURE.
 
