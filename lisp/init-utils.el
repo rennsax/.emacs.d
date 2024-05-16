@@ -61,7 +61,8 @@ When the prefix ARG is non-nil, includes more delimiters."
            (delim-list (if arg (cons "-" delim-list) delim-list))
            (delim-reg (format "[%s]" (string-join delim-list)))
            (cur-pos (point))
-           (delim (search-backward-regexp delim-reg)))
+           (delim (ignore-errors (search-backward-regexp delim-reg)))
+           (delim (or delim (1- (point-min)))))
       (funcall #'upcase-region (1+ delim) cur-pos))))
 
 (defun kill-current-file-name ()
