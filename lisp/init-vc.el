@@ -5,12 +5,21 @@
 
 ;;; Magit
 
+;; Magit, forge, transient, etc., are developed by the same author (@tarsius,
+;; Jonas Bernoulli). His packages are common to startup. Assume that we are at
+;; the root directory of Magit, then typically we need to:
+;; 1. make lisp
+;; 2. make info
+;; Then, the info doc will appear in the "docs" subdirectory, and .elc files
+;; appear in the "lisp" subdirectory. Add the previous to
+;; `Info-default-directory-list' and add the latter to `load-path'.
+
 ;; Transient is a builtin package for implementing keyboard-driven menus (mainly
 ;; used for Magit). However, we use the submodule one, because it's actively
 ;; developed, and newer version of magit may depend on it.
 (use-package transient
   :init
-  (celeste/prepare-package transient "lisp")
+  (celeste/prepare-package-2 transient "lisp" :info "docs")
 
   :config
   ;; Set transient directories.
@@ -27,7 +36,7 @@
   :init
   (celeste/prepare-package compat)
   (celeste/prepare-package dash)
-  (celeste/prepare-package with-editor "lisp")
+  (celeste/prepare-package-2 with-editor "lisp" :info "docs")
   (celeste/prepare-package-2 magit "lisp" :info "docs")
 
   :commands magit-mode-quit-window
@@ -91,8 +100,8 @@
   (celeste/prepare-package closql)
   (celeste/prepare-package yaml)
   (celeste/prepare-package treepy)
-  (celeste/prepare-package ghub "lisp")
-  (celeste/prepare-package forge "lisp")
+  (celeste/prepare-package-2 ghub "lisp" :info "docs")
+  (celeste/prepare-package-2 forge "lisp" :info "docs")
 
   (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'data))
 
