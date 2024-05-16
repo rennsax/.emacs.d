@@ -11,7 +11,7 @@
 (defconst celeste-lisp-dir
   (concat user-emacs-directory "lisp/"))
 (defconst celeste-autoload-dir
-  (concat celeste-lisp-dir "autoload/"))
+  (concat user-emacs-directory "autoload/"))
 
 (defconst celeste-leader-key "SPC")
 
