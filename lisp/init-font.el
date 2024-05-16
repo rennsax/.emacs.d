@@ -6,7 +6,7 @@
 ;;; Customizable variables.
 
 (defcustom celeste-other-font-mode-list
-  '()
+  nil
   "List of modes that should use another font."
   :group 'celeste
   :type '(repeat symbol)
@@ -101,21 +101,17 @@ poem,...)."
 ;; REVIEW: it's interesting that Emacs can find `celeste/buffer-set-other-font',
 ;; even it's defined later.
 (setopt celeste-other-font-mode-list
-        '(help-mode
-          helpful-mode
-          eshell-mode
+        '(eshell-mode
           magit-mode
           debugger-mode
           Custom-mode
           dired-mode
-          git-commit-mode
           org-mode
-          markdown-mode
           org-agenda-mode
-          osx-dictionary-mode
-          git-rebase-mode
+          markdown-mode
           Info-mode
-          vterm-mode))
+          man-common
+          help-mode))
 
 (defun celeste/buffer-set-other-font (&optional font-family no-hook)
   "Setup another font for the current buffer.
