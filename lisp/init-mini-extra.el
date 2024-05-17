@@ -126,6 +126,18 @@
               ("C-?" . winner-redo)))
 
 
+;;; Minibuffer tweaks.
+
+;; Embark makes this option really meaningful!
+(setq enable-recursive-minibuffers t)
+
+(use-package mb-depth
+  :hook (after-init . minibuffer-depth-indicate-mode))
+
+;; Restore window configurations on exit from minibuffer.
+(setq read-minibuffer-restore-windows t)
+
+
 ;;; Bootstrap custom file.
 ;;; NOTE: must be here now.
 

@@ -197,9 +197,6 @@
 
   (setq help-char "?")
 
-  ;; Embark makes this option really meaningful!
-  (setq enable-recursive-minibuffers t)
-
   ;; When a prefix is typed, type `help-char' ("C-h").
   (setq prefix-help-command #'embark-prefix-help-command)
 
