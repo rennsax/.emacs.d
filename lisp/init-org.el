@@ -189,7 +189,7 @@
   (advice-add 'org-download--dir-2 :override
               (defun +org-download--dir-typora-style ()
                 (if org-download-no-new-dir ""
-                  (let* ((file-name (buffer-file-name))
+                  (let* ((file-name (buffer-file-name (buffer-base-buffer)))
                          (base-name (if file-name (file-name-nondirectory file-name) "_")))
                     (concat base-name ".assets")))))
   )
