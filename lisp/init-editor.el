@@ -84,6 +84,15 @@
 ;; rotate.el: provide convenient window layout management functions.
 (celeste/package-autoload 'rotate)
 
+;; Purcell's aggressive whitespace auto cleanup routine.
+(use-package whitespace-cleanup-mode
+  :diminish whitespace-cleanup-mode
+  :init
+  (celeste/prepare-package whitespace-cleanup-mode)
+  :hook (after-init . global-whitespace-cleanup-mode)
+  :config
+  (setq whitespace-cleanup-mode-preserve-point t))
+
 
 
 (provide 'init-editor)

@@ -135,12 +135,9 @@
   (load custom-file nil nil t))
 
 
-;;; Handle whitespaces.
-(celeste/add-mode-hook '(prog-mode outline-mode conf-mode)
-    (defun enable-trailing-whitespace ()
-      "Show trailing spaces and delete on saving."
-      (setq show-trailing-whitespace t)
-      (add-hook 'before-save-hook #'delete-trailing-whitespace nil 'local)))
+(celeste/add-mode-hook '(prog-mode text-mode)
+    (defun +set-show-trailing-whitespace ()
+      (setq-local show-trailing-whitespace t)))
 
 
 ;;; Handle line wrap in different modes.
