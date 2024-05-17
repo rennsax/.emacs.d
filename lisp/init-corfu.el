@@ -5,10 +5,15 @@
 ;; Lightweight completion engine, powered by capf.
 ;; Now only used by eshell and emacs-lisp-mode.
 
-(celeste/use-package corfu)
-(celeste/add-special-load-path 'corfu "extensions")
+
+
+;;; Corfu
+
+(celeste/prepare-package corfu "" "extensions")
 
 (use-package corfu
+  :init
+
   :commands corfu-mode
 
   :custom-face
@@ -40,8 +45,11 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
         corfu-auto-prefix 3
         ;; Do not do anything (such as the default "insert") on exact match. So
         ;; a manual TAB is always needed for completion.
-        corfu-on-exact-match nil
-        )
+        corfu-on-exact-match nil)
+
+  ;; No preview, i.e., do not automatically insert candidates when selected.
+  (setq corfu-preview-current nil)
+
   ;; Disable RET -> `corfu-insert'. I prefer primitive RET - just `newline'.
   (mapc (lambda (key) (keymap-unset corfu-map key))
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
@@ -57,10 +65,31 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
                     corfu-popupinfo-delay nil)
         (corfu-mode 1)))
     (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
-   )
+  )
 
 (use-package corfu-history
-  :hook (corfu-mode . corfu-history-mode))
+  :hook (corfu-mode . corfu-history-mode)
+  :config
+  ;; Persist corfu history, utilizing the builtin `savehist'.
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'corfu-history)))
+
+;; Popup information about candidates.
+(use-package corfu-popupinfo
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :config
+  (setq corfu-popupinfo-delay '(1.0 . 0.5)))
+
+;; Quickly select candidates with prefixed chars.
+(use-package corfu-quick
+  :bind (:map corfu-map
+              ("M-q" . corfu-quick-complete)
+              ("C-q" . corfu-quick-insert)))
+
+
+;;; Tempel
+
+;; TODO: move it to another place.
 
 ;; Lightweight templates.
 (celeste/use-package tempel
@@ -87,6 +116,8 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
   (setq tempel-trigger-prefix "t|")
   )
 
+
+
 (provide 'init-corfu)
 ;;; init-corfu.el ends here
 
