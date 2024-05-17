@@ -161,6 +161,23 @@
     (auto-fill-mode -1)
     (display-fill-column-indicator-mode -1)))
 
+
+;;; Compilation
+
+;; Emacs provides two building facilities: byte-compilation and
+;; native-compilation. The differences are the results: byte codes (.elc) or
+;; native instructions (.eln).
+
+;; If Emacs is built with native-compilation enabled, then Emacs will try to
+;; compile *.elc files to *.eln files asynchronously. However, many third-party
+;; packages can not be native-compiled inherently. As a compromise, I enable the
+;; native-compilation feature when building Emacs (so the builtin packages can
+;; be natively compiled) and disable the `native-comp-jit-compilation' options
+;; (so I can byte compile other elisp codes w/o automatically trigger Emacs's
+;; async compilation).
+
+(setq native-comp-async-report-warnings-errors 'silent)
+(setq native-comp-jit-compilation nil)  ; do not auto build .elc to .eln
 
 
 (provide 'init-mini-extra)
