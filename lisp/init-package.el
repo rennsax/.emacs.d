@@ -7,21 +7,11 @@
       use-package-always-defer t ; to accelerate startup
       use-package-expand-minimally t)
 
-;; Common Lisp extensions for Emacs, builtin
-(celeste/require 'dash)
-(celeste/require 's)
-(celeste/require 'f)
-(celeste/require 'annalist)
-(celeste/require 'compat) ; COMPATibility Library for Emacs Lisp
-(celeste/require 'shrink-path)
-
-;; REVIEW: `doom-modeline' does not show any minor mode factually. So do I still
-;; need diminish.el? IDK, so I specify it as a lazy-loaded dependency.
+;; Bootstrap diminish - change or conceal the mode-line indicator for minor modes.
 (use-package diminish
   :init
   (celeste/prepare-package diminish)
   :commands diminish)
-
 
 
 ;;; My package management routines.
@@ -81,7 +71,9 @@ optional parameter LISP-DIR gives the directory manually."
     (if (file-exists-p autoload-file)
         (with-demoted-errors "Cannot load autoload file of package %s: %s"
           package (load autoload-file nil nil t))
-      (user-error "Cannot find the autoload file of package %s.\nHave you run `celeste/build-autoload'?" package))))
+      (user-error "\
+Cannot find the autoload file of package %s.
+Have you run `celeste/build-autoload'?" package))))
 
 
 
