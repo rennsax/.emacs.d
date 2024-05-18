@@ -9,6 +9,11 @@
 
 ;;; My functions.
 
+(defun celeste/open-init-file ()
+  "Open Celeste init file."
+  (interactive)
+  (find-file celeste-init-file))
+
 (defun pure-save-buffer ()
   "Save current file w/o running `before-save-hook'."
   (interactive)
