@@ -21,6 +21,11 @@
   (load (concat celeste-autoload-dir "eshell-prompt"))
   (setq eshell-prompt-function '+eshell-default-prompt-fn)
 
+  ;; Eshell prompt depends on `shrink-path'.
+  (celeste/prepare-package s)
+  (celeste/prepare-package f)
+  (celeste/prepare-package dash)
+  (celeste/prepare-package shrink-path)
   (celeste/autoload '+eshell-input-bol eshell)
   (celeste/autoload '+eshell-kill-whole-input eshell))
 

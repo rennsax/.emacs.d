@@ -92,7 +92,10 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
 ;; TODO: move it to another place.
 
 ;; Lightweight templates.
-(celeste/use-package tempel
+(use-package tempel
+  :init
+  (celeste/prepare-package compat)
+  (celeste/prepare-package tempel)
   :preface
   (defun tempel-setup-capf ()
     ;; Add the Tempel Capf to `completion-at-point-functions'.

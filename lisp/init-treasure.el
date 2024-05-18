@@ -24,11 +24,12 @@
 
 
 
-(celeste/use-package vertico)
-(celeste/use-package marginalia)
-(celeste/use-package consult)
-(celeste/use-package orderless)
-(celeste/use-package embark)
+(celeste/prepare-package compat)
+(celeste/prepare-package vertico "" "extensions")
+(celeste/prepare-package marginalia)
+(celeste/prepare-package consult)
+(celeste/prepare-package orderless)
+(celeste/prepare-package embark)
 
 
 ;;; VERTical Interactive COmpletion
@@ -36,10 +37,6 @@
 (use-package vertico
   :hook ((after-init . vertico-mode))
   :config
-  ;; Vertico extensions
-  (eval-and-compile
-    (add-to-list 'load-path (concat celeste-package-dir "vertico/extensions/")))
-
   ;; DEL and M-DEL will delete a part of the path (divided by /) when possible.
   (use-package vertico-directory
     :hook (rfn-eshadow-update-overlay . vertico-directory-tidy) ; TODO: what's `rfn-eshadow-update-overlay'?
@@ -90,7 +87,7 @@
 
 ;;; Marginalia (n. marginal notes) in the minibuffer.
 
-(celeste/use-package marginalia
+(use-package marginalia
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :hook (after-init . marginalia-mode))

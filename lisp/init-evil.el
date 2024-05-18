@@ -12,7 +12,9 @@
   (celeste/require 'annalist)
   (defvar evil-want-keybinding nil))
 
-(celeste/use-package evil
+(use-package evil
+  :init
+  (celeste/prepare-package evil)
   :demand t
   :commands (evil-emacs-state)
 
@@ -83,7 +85,9 @@
   ;; (advice-add #'evil-scroll-up :after #'+evil-scroll-to-center-a)
 
   ;; Show search result counts.
-  (celeste/use-package evil-anzu
+  (use-package evil-anzu
+    :init
+    (celeste/prepare-package evil-anzu)
     :demand t
     :diminish)
 
@@ -92,7 +96,9 @@
 ;;; Evil extensions
 
 ;; A bunch of community evil key bindings => use evil almost everywhere!
-(celeste/use-package evil-collection
+(use-package evil-collection
+  :init
+  (celeste/prepare-package evil-collection)
   :commands evil-collection-init
   :config
   ;; Protect some keys - they should never be mapped!
@@ -103,7 +109,9 @@
                 '("g r"))))
 
 ;; Comment line/block with `gc'!
-(celeste/use-package evil-nerd-commenter
+(use-package evil-nerd-commenter
+  :init
+  (celeste/prepare-package evil-nerd-commenter)
   :bind (:map evil-normal-state-map
 	 ("g c" . evilnc-comment-operator)
 	 :map evil-visual-state-map
@@ -113,28 +121,38 @@
              evilnc-outer-commenter))
 
 ;; Port of vim.surround.
-(celeste/use-package evil-surround
+(use-package evil-surround
+  :init
+  (celeste/prepare-package evil-surround)
   :hook (evil-mode . global-evil-surround-mode))
 
 ;; * and # in `evil-visual-state' search the selected pattern.
-(celeste/use-package evil-visualstar
+(use-package evil-visualstar
+  :init
+  (celeste/prepare-package evil-visualstar)
   :commands (evil-visualstar/begin-search
              evil-visualstar/begin-search-forward
              evil-visualstar/begin-search-backward))
 
 ;; Provide "x" text object to manipulate html/xml tag attributes
-(celeste/use-package exato
+(use-package exato
+  :init
+  (celeste/prepare-package exato)
   :after evil
   ;; TODO It's not easy to lazy-load a textobject plugin.
   :demand t)
 
-(celeste/use-package evil-replace-with-register
+(use-package evil-replace-with-register
+  :init
+  (celeste/prepare-package evil-replace-with-register)
   :hook (evil-mode . evil-replace-with-register-install)
   :config
   (setq evil-replace-with-register-key (kbd "gr")))
 
 ;; Display visual hint on evil edit operations. Even better than Vim!
-(celeste/use-package evil-goggles
+(use-package evil-goggles
+  :init
+  (celeste/prepare-package evil-goggles)
   :hook (evil-mode . evil-goggles-mode)
   :init
   (setq evil-goggles-enable-delete nil

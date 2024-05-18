@@ -3,7 +3,9 @@
 ;;; Code:
 
 ;; Getting the path to a JSON value at point. Required by json-mode.
-(celeste/use-package json-snatcher)
+(use-package json-snatcher
+  :init
+  (celeste/prepare-package json-snatcher))
 ;; json-mode and jsonc-mode
 (celeste/package-autoload 'json-mode)
 

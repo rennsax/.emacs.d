@@ -2,7 +2,11 @@
 ;;; Commentary:
 ;;; Code:
 
-(celeste/use-package gptel
+(use-package gptel
+  :init
+  (celeste/prepare-package transient)
+  (celeste/prepare-package compat)
+  (celeste/prepare-package gptel)
   :commands (gptel
              gptel-send)
   :config

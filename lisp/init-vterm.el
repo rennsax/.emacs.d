@@ -3,9 +3,11 @@
 ;;; Code:
 
 ;; In-Emacs terminal emulator.
-(celeste/use-package vterm
+(use-package vterm
   ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
+  :init
+  (celeste/prepare-package vterm)
   :commands vterm
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
@@ -35,7 +37,9 @@
                             (vterm-send-key "e" nil nil 'ctrl))))
   )
 ;; Manage multiple vterm buffers.
-(celeste/use-package multi-vterm
+(use-package multi-vterm
+  :init
+  (celeste/prepare-package multi-vterm)
   :bind (("C-c b t" . multi-vterm))
   :commands (multi-vterm-dedicated-toggle
              multi-vterm-dedicated-open))

@@ -8,7 +8,9 @@
 ;; Olivetti is a brilliant package that does only one thing and does it very
 ;; well - centralize the buffer. Nothing more, nothing less. It does the stuff
 ;; by `set-window-margins'.
-(celeste/use-package olivetti
+(use-package olivetti
+  :init
+  (celeste/prepare-package olivetti)
   :commands olivetti-mode
   :diminish olivetti-mode
   :config

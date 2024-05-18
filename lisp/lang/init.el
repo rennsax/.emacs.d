@@ -11,7 +11,9 @@
 ;;; Syntax checker.
 
 ;; flycheck: successor of the builtin flymake.
-(celeste/use-package flycheck
+(use-package flycheck
+  :init
+  (celeste/prepare-package flycheck)
   :hook (prog-mode . flycheck-mode)
   :config
   ;; Check syntax when: the file is saved, a short time
@@ -39,16 +41,17 @@
   )
 
 ;; `consult-flycheck'
-(celeste/use-package consult-flycheck
+(use-package consult-flycheck
+  :init
+  (celeste/prepare-package consult-flycheck)
   :bind (("C-c s d" . consult-flycheck)))
 
 ;; Show diagnostic information in the buffer.
-(celeste/use-package sideline
+(use-package sideline
+  :init
+  (celeste/prepare-package ht)
+  (celeste/prepare-package sideline)
   :diminish
-  :preface
-  ;; The missing hash table library for Emacs.
-  (celeste/use-package ht)
-
   :config
   (setq sideline-backends-left-skip-current-line t
         ;; Allow right sideline at the current line
@@ -71,7 +74,9 @@
   ;; there.
   )
 
-(celeste/use-package sideline-flycheck
+(use-package sideline-flycheck
+  :init
+  (celeste/prepare-package sideline-flycheck)
   :hook ((flycheck-mode . sideline-mode)
          (flycheck-mode . sideline-flycheck-setup))
   :config
@@ -87,7 +92,9 @@
   ;; Level = 4: the highest level, which fontifies almost everything with TS.
   (setq treesit-font-lock-level 4))
 
-(celeste/use-package treesit-auto
+(use-package treesit-auto
+  :init
+  (celeste/prepare-package treesit-auto)
   :hook (after-init . global-treesit-auto-mode)
   :config
   ;; NOTE: Cpp parser is based on C parser. Remember to install them simultaneously.
@@ -131,7 +138,7 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 ;; Lazycat himself uses lsp-bridge everyday! And the wonderful package is in
 ;; active development.
 
-(celeste/use-package lsp-bridge
+(use-package lsp-bridge
   :diminish lsp-bridge-mode
   :commands lsp-bridge-mode global-lsp-bridge-mode
   :config
@@ -164,7 +171,11 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 
   :init
   ;; lsp-bridge depends on yasnippet for snippet completion
-  (celeste/use-package yasnippet
+  (celeste/prepare-package lsp-bridge)
+  (celeste/prepare-package markdown-mode)
+  (use-package yasnippet
+    :init
+    (celeste/prepare-package yasnippet)
     :diminish yas-minor-mode
     :config
     (yas-global-mode +1)

@@ -4,7 +4,9 @@
 
 
 ;; For further usage, read https://github.com/jrblevin/markdown-mode#usage.
-(celeste/use-package markdown-mode
+(use-package markdown-mode
+  :init
+  (celeste/prepare-package markdown-mode)
   :mode (("\\.md\\'" . markdown-mode)
          ;; Github Flavoured Markdown files
          ("README\\.md\\'" . gfm-mode))
@@ -34,10 +36,15 @@
   (setq-default markdown-hide-urls t)
 
   ;; Dependency for editing code blocks in markdown-mode.
-  (celeste/use-package edit-indirect)
+  (celeste/prepare-package edit-indirect)
   )
 
-(celeste/use-package markdown-toc
+(use-package markdown-toc
+  :init
+  (celeste/prepare-package s)
+  (celeste/prepare-package dash)
+  (celeste/prepare-package markdown-toc)
+
   :commands (markdown-toc-generate-toc markdown-toc-refresh-toc))
 
 (provide 'init-markdown)

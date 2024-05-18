@@ -58,7 +58,10 @@
 
 ;;; Colors, font faces.
 
-(celeste/use-package hl-todo
+(use-package hl-todo
+  :init
+  (celeste/prepare-package compat)
+  (celeste/prepare-package hl-todo)
   :hook ((prog-mode yaml-mode) . hl-todo-mode)
   :defines (hl-todo-highlight-punctuation
             hl-todo-keyword-faces)
@@ -89,7 +92,9 @@
           ("XXX" font-lock-constant-face bold))))
 
 ;; Show colors in the buffer as the background, for example, white red.
-(celeste/use-package rainbow-mode
+(use-package rainbow-mode
+  :init
+  (celeste/prepare-package rainbow-mode)
   :commands rainbow-mode
   :config
   ;; If `rainbow-mode' is on, disable `hl-line-mode', which can override the
@@ -99,12 +104,16 @@
               (hl-line-mode (if rainbow-mode -1 +1)))))
 
 ;; Rainbow delimiters.
-(celeste/use-package rainbow-delimiters
+(use-package rainbow-delimiters
+  :init
+  (celeste/prepare-package rainbow-delimiters)
   ;; Start automatically in most programming languages.
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Oh, the vanilla dired is boring! I want more colors.
-(celeste/use-package diredfl
+(use-package diredfl
+  :init
+  (celeste/prepare-package diredfl)
   :hook (dired-mode . diredfl-mode))
 
 
@@ -113,7 +122,7 @@
 
 ;; `popper': show annoying windows such as `help-mode' in a dedicated POP
 ;; window, so they won't clobber the original window layout.
-(add-to-list 'load-path (concat celeste-package-dir "popper"))
+(celeste/prepare-package popper)
 (use-package popper
   :bind (("C-`"   . popper-toggle)
          ("M-`"   . popper-cycle)
@@ -152,7 +161,9 @@
 
 ;;; Theme
 
-(celeste/use-package doom-themes
+(use-package doom-themes
+  :init
+  (celeste/prepare-package doom-themes)
   :demand t
   :preface
   (defun +load-default-theme ()
@@ -249,13 +260,17 @@ This should be called each time after the function definition is modified."
 
 ;;; Completion.
 
-(celeste/use-package nerd-icons)
-(celeste/use-package nerd-icons-completion
+(use-package nerd-icons
+  :init
+  (celeste/prepare-package nerd-icons))
+
+(use-package nerd-icons-completion
+  :init
+  (celeste/prepare-package nerd-icons-completion)
   :after marginalia
   :hook ((marginalia-mode . nerd-icons-completion-marginalia-setup))
   :config
-  (nerd-icons-completion-mode +1)
-  )
+  (nerd-icons-completion-mode +1))
 
 
 (provide 'init-ui)

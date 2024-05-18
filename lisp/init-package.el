@@ -17,7 +17,9 @@
 
 ;; REVIEW: `doom-modeline' does not show any minor mode factually. So do I still
 ;; need diminish.el? IDK, so I specify it as a lazy-loaded dependency.
-(celeste/use-package diminish
+(use-package diminish
+  :init
+  (celeste/prepare-package diminish)
   :commands diminish)
 
 

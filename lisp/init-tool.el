@@ -4,15 +4,20 @@
 
 
 ;; Yet another great "ripgrep" frontend!
-(celeste/use-package deadgrep
+(use-package deadgrep
   :init
-  ;; Dep: Fancy progress-bars in mode-line.
-  (celeste/use-package spinner)
+  (celeste/prepare-package s)
+  (celeste/prepare-package dash)
+  (celeste/prepare-package spinner)
+  (celeste/prepare-package deadgrep)
+
   :bind ("C-c r g" . deadgrep))
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
-(celeste/use-package emacs-everywhere
+(use-package emacs-everywhere
   :init
+  (celeste/prepare-package emacs-everywhere)
+
   (add-hook 'after-init-hook
             (defun safe-server-start ()
               (require 'server)         ; must required
@@ -20,7 +25,11 @@
   :commands emacs-everywhere)
 
 ;; Enchanted spell checker.
-(celeste/use-package jinx
+(use-package jinx
+  :init
+  (celeste/prepare-package compat)
+  (celeste/prepare-package jinx)
+
   :diminish
   :commands jinx-mode
   :config

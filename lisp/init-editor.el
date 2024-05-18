@@ -6,16 +6,22 @@
 ;;; Quickly navigation.
 
 ;; Move what I mean!
-(celeste/use-package mwim
+(use-package mwim
+  :init
+  (celeste/prepare-package mwim)
   :bind (("C-a" . mwim-beginning)
          ("C-e" . mwim-end)))
 
 ;; Rather convenient package that can serve as a complete alternative of Vim's
 ;; textobject!
-(celeste/use-package expand-region
+(use-package expand-region
+  :init
+  (celeste/prepare-package expand-region)
   :bind (("C-=" . er/expand-region)))
 
-(celeste/use-package avy
+(use-package avy
+  :init
+  (celeste/prepare-package avy)
   :bind (("C-'" . avy-goto-char-timer)
          ("C-:" . avy-goto-char-2)
          ("M-g w" . avy-goto-word-1)
@@ -77,7 +83,9 @@
 ;;; Misc.
 
 ;; `anzu.el' provides a minor mode which displays 'current match/total
-(celeste/use-package anzu
+(use-package anzu
+  :init
+  (celeste/prepare-package anzu)
   :diminish
   :hook (after-init . global-anzu-mode))
 

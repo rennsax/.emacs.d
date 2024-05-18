@@ -2,14 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
-
-(eval-when-compile
-  (require 'init-const))
-
-(celeste/use-package yaml-mode
+(use-package yaml-mode
+  :init
+  (celeste/prepare-package yaml-mode)
   ;; TODO: This causes duplicated entries in `auto-mode-alist'.
   :mode "\\.ya?ml\\'"
-  :init
+  :config
   (setq yaml-indent-offset 2)
   ;; Adjust `tab-width' (buffer-local). Hooks must be added before `yaml-mode'
   ;; is loaded. Otherwise the first opened yaml file's `tab-width' is not set.

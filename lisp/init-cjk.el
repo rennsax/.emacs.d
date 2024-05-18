@@ -7,7 +7,10 @@
 (setq word-wrap-by-category t)
 
 ;; Smart input source.
-(celeste/use-package sis
+(use-package sis
+  :init
+  (celeste/prepare-package sis)
+
   :bind (("s-I" . sis-switch))          ; switch IME faster than macOS
   :commands sis-global-context-mode sis-global-respect-mode sis-global-cursor-color-mode
 
@@ -84,10 +87,8 @@
   ;;              #'+org-export-remove-zwsp)
   )
 
-;; TODO mixed-pitch
-;; (celeste/use-package mixed-pitch)
 
-
+
 (provide 'init-cjk)
 ;;; init-cjk.el ends here
 

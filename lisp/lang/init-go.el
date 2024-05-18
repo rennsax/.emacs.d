@@ -3,7 +3,9 @@
 ;;; Code:
 
 
-(celeste/use-package go-mode
+(use-package go-mode
+  :init
+  (celeste/prepare-package go-mode)
   :mode (("\\.go\\'" . go-mode)
          ("go\\.mod$" . go-dot-mod-mode))
   :config
@@ -28,9 +30,10 @@
 ;; golangci-lint: Fast linters Runner for Go. It's an integrated linter suite
 ;; for GoLang. It's recommended to install it as a single binary (not by go
 ;; install).
-(celeste/use-package flycheck-golangci-lint
+(use-package flycheck-golangci-lint
   :commands flycheck-golangci-lint-setup
   :init
+  (celeste/prepare-package flycheck-golangci-lint)
   ;; Add `golangci-lint' to `flycheck-checkers'.
   (with-eval-after-load 'go-mode
     (flycheck-golangci-lint-setup)))

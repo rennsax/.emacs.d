@@ -16,7 +16,9 @@
 ;; borders will match the enabled theme.
 (and (or (daemonp)
          (display-graphic-p))
-     (celeste/use-package ns-auto-titlebar
+     (use-package ns-auto-titlebar
+       :init
+       (celeste/prepare-package ns-auto-titlebar)
        :hook (after-init . ns-auto-titlebar-mode)))
 
 ;; Interactive calles to `delete-file' and `delete-directory' and the Dired

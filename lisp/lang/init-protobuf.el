@@ -2,7 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(celeste/use-package protobuf-mode
+(use-package protobuf-mode
+  :init
+  (celeste/prepare-package protobuf-mode)
   :mode ("\\.proto\\'" . protobuf-mode))
 
 (provide 'init-protobuf)

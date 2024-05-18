@@ -2,7 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(celeste/use-package lua-mode
+(use-package lua-mode
+  :init
+  (celeste/prepare-package lua-mode)
   :mode ("\\.lua$" . lua-mode)
   :interpreter ("lua" . lua-mode)
   :config

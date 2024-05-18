@@ -5,10 +5,13 @@
 
 ;; Better Emacs *help* buffer that provides much more contextual information.
 ;; For example, source code, references, key bindings, ...
-(celeste/use-package helpful
+(use-package helpful
   :init
   ;; dependency
-  (celeste/use-package elisp-refs)
+  (celeste/prepare-package s)
+  (celeste/prepare-package dash)
+  (celeste/prepare-package elisp-refs)
+  (celeste/prepare-package helpful)
 
   :bind (([remap describe-function] . helpful-callable) ; `helpful-function' excludes macros
          ([remap describe-variable] . helpful-variable)
@@ -20,7 +23,9 @@
   (add-hook 'helpful-mode-hook #'visual-line-mode))
 
 ;; Show demos in the *Help* or `helpful-mode' buffer.
-(celeste/use-package elisp-demos
+(use-package elisp-demos
+  :init
+  (celeste/prepare-package elisp-demos)
   :commands elisp-demos-advice-helpful-update elisp-demos-advice-describe-function-1
   :init
   ;; For traditional *Help*.
