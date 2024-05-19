@@ -320,3 +320,6 @@
 [submodule "packages/whitespace-cleanup-mode"]
 	path = packages/whitespace-cleanup-mode
 	url = https://github.com/purcell/whitespace-cleanup-mode
+[submodule "packages/pulsar"]
+	path = packages/pulsar
+	url = https://github.com/protesilaos/pulsar
