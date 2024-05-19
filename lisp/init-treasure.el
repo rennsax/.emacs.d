@@ -121,14 +121,13 @@
          ([remap project-switch-to-buffer] . consult-project-buffer))
 
   :config
-  ;; Filtered buffers are still available in hidden buffers (with SPC switch).
   (setq consult-buffer-filter
-        (append consult-buffer-filter
-                '("\\*helpful.*\\*" "\\*Help\\*")))
-  (with-eval-after-load 'popper
-    ;; Buffers managed by popper are also boring.
-    (cl-loop for entry in popper-reference-buffers
-             when (stringp entry) do (add-to-list 'consult-buffer-filter entry)))
+        `("\\` " "\\`\\*Completions\\*\\'" "\\`\\*Flymake log\\*\\'" "\\`\\*Semantic SymRef\\*\\'" "\\`\\*tramp/.*\\*\\'" ; original
+          "Output\\*\\'"
+          "\\`\\*\\(?:Async Shell Command\\|Messages\\|Warnings\\|Compile-Log\\|Compilation\\)\\*\\'"
+          "\\*helpful.*\\*" "\\*Help\\*"
+          "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
+          "\\*osx-dictionary\\*"))
   )
 
 (use-package consult-info
