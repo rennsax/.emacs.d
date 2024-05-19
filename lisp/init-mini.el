@@ -104,6 +104,9 @@
 ;; Prefer simpler "y" or "n" over "yes" or "no".
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Confirm before `save-buffers-kill-emacs'.
+(setq confirm-kill-emacs 'y-or-n-p)
+
 
 ;;; IMPORTANT: Backup and auto-save behavior.
 
