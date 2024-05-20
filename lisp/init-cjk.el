@@ -8,46 +8,54 @@
 
 ;; Smart input source.
 (use-package sis
+  :bind (("s-I" . sis-switch))          ; switch IME faster than macOS
+  :commands (sis-global-context-mode
+             sis-global-respect-mode
+             sis-global-cursor-color-mode
+             sis-set-english)
   :init
   (celeste/prepare-package sis)
 
-  :bind (("s-I" . sis-switch))          ; switch IME faster than macOS
-  :commands sis-global-context-mode sis-global-respect-mode sis-global-cursor-color-mode
-
-  :preface
-  (defun +sis-on-for-evil ()
-    (with-eval-after-load 'evil
-      ;; Auto-switch IME according to the characters in the context.
-      (sis-global-context-mode +1)
-      ;; Respect C-x, C-h, C-c, and so on.
-      (sis-global-respect-mode +1)
-      ;; Use different cursor colors for different IME.
-      (sis-global-cursor-color-mode +1)))
-  (defun +sis-on-for-meow ()
-    (with-eval-after-load 'meow
-      (add-hook 'meow-insert-exit-hook #'sis-set-english)
-      (setq sis-context-hooks '(meow-insert-enter-hook))
-      (sis-global-context-mode +1)
-      (sis-global-cursor-color-mode +1)
-      (add-hook 'meow-insert-enter-hook #'(lambda () (sis-global-respect-mode +1)))
-      (add-hook 'meow-insert-exit-hook #'(lambda () (sis-global-respect-mode -1)))))
-  (defun +sis-on-for-vanilla ()
-    (progn
-      (sis-global-context-mode +1)
-      (sis-global-respect-mode +1)
-      (sis-global-cursor-color-mode +1)))
-  (defun celeste/sis-on ()
+  (defun celeste/sis--on ()
     "Turn on sis, smart source input."
-    (interactive)
-    (pcase celeste-modal-editing
-      ('evil (+sis-on-for-evil))
-      ('meow (+sis-on-for-meow))
-      (_ (+sis-on-for-vanilla))))
+    ;; Auto-switch IME according to the characters in the context.
+    (sis-global-context-mode +1)
+    ;; Use different cursor colors for different IME.
+    (sis-global-cursor-color-mode +1)
+    (if (eq celeste-modal-editing 'meow)
+        (progn
+          (add-hook 'meow-insert-exit-hook #'sis-set-english)
+          (add-hook 'meow-insert-enter-hook (lambda () (sis-global-respect-mode +1)))
+          (add-hook 'meow-insert-exit-hook (lambda () (sis-global-respect-mode -1))))
+      ;; Respect C-x, C-h, C-c, and so on.
+      (sis-global-respect-mode +1)))
 
-  :init
-  (add-hook 'after-init-hook #'celeste/sis-on)
+  (defun celeste/sis--off ()
+    "Turn down sis, smart source input."
+    (sis-global-context-mode -1)
+    ;; Use different cursor colors for different IME.
+    (sis-global-cursor-color-mode -1)
+    (if (eq celeste-modal-editing 'meow)
+        (progn
+          (remove-hook 'meow-insert-exit-hook #'sis-set-english)
+          (remove-hook 'meow-insert-enter-hook (lambda () (sis-global-respect-mode +1)))
+          (remove-hook 'meow-insert-exit-hook (lambda () (sis-global-respect-mode -1))))
+      ;; Respect C-x, C-h, C-c, and so on.
+      (sis-global-respect-mode -1)))
+
+  (define-minor-mode celeste/sis-mode
+    "Toggle sis mode."
+    :init-value nil
+    :lighter " SIS"
+    :global t
+    (if celeste/sis-mode
+        (celeste/sis--on)
+      (celeste/sis--off)))
 
   :config
+  (when (eq celeste-modal-editing 'meow)
+    (add-to-list 'sis-context-hooks #'meow-insert-enter-hook))
+
   (add-to-list 'sis-prefix-override-keys "M-g")
   ;; Make sure your input sources are these two (hint: use macism)
   (setq sis-english-source "com.apple.keylayout.US"
