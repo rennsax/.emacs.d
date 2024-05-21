@@ -2,6 +2,34 @@
 ;;; Commentary:
 ;;; Code:
 
+(eval-when-compile
+  (require 'init-const))
+
+
+;;; Functions for configuring more easily.
+
+(defun celeste/add-mode-hook (mode-list function)
+  "Add FUNCTION to MODE-hook for each MODE in MODE-LIST."
+  (declare (indent 2))
+  (dolist (mode mode-list)
+    (add-hook (intern (concat (symbol-name mode) "-hook")) function)))
+
+(defun celeste/make-path (path type)
+  "Make a path for cache and user data.
+
+TYPE is one of cache and data. PATH is the relative path name."
+  ;; TODO create directory.
+  (let ((base-dir (pcase type
+                    ('cache celeste-cache-dir)
+                    ('data celeste-data-dir)
+                    (_ (error "Unrecognized type: %s" type)))))
+    (concat base-dir path)))
+
+
+
+;;; My package management routines.
+
+
 (defun celeste/require (package &optional path)
   "Try to require PACKAGE.
 
@@ -40,23 +68,6 @@ directory `celeste-autoload-dir', with the same name of FEATURE.
 ARGS are passed to `autoload' as the remaining arguments."
   (let ((file (concat celeste-autoload-dir (symbol-name feature))))
     `(autoload ,function ,file ,@args)))
-
-(defun celeste/add-mode-hook (mode-list function)
-  "Add FUNCTION to MODE-hook for each MODE in MODE-LIST."
-  (declare (indent 2))
-  (dolist (mode mode-list)
-    (add-hook (intern (concat (symbol-name mode) "-hook")) function)))
-
-(defun celeste/make-path (path type)
-  "Make a path for cache and user data.
-
-TYPE is one of cache and data. PATH is the relative path name."
-  ;; TODO create directory.
-  (let ((base-dir (pcase type
-                    ('cache celeste-cache-dir)
-                    ('data celeste-data-dir)
-                    (_ (error "Unrecognized type: %s" type)))))
-    (concat base-dir path)))
 
 (defun celeste/add-special-load-path (package &optional subdir)
   "Add the Lisp directory of PACKAGE from magit to `load-path'.
@@ -97,31 +108,43 @@ PACKAGE still can't be found, then raise an error."
 (defmacro celeste/prepare-package (package &rest subpath)
   "Add PACKAGE's SUBPATHs to `load-path'.
 
-Produce no effects if PACKAGE is already loaded as a feature."
-  (unless (featurep package)
-    (let* ((package-name (symbol-name package))
-           (package-dir (concat celeste-package-dir package-name)))
-      (when (file-directory-p package-dir) ; If there is no such package, do noting.
-        (if (= (length subpath) 0)
-            `(add-to-list 'load-path ,package-dir)
-          (macroexp-progn
-           (mapcar (lambda (p)
-                     `(add-to-list 'load-path ,(file-name-concat package-dir p)))
-                   subpath)))))))
+Check if PACKAGE has been loaded. If you want to add something to
+`load-path' no mater PACKAGE is loaded before, use
+`celeste/prepare-package-2'.
+
+If the directory for PACKAGE is not found (checked when the macro
+is expanded), a warning is thrown."
+  (let* ((package-name (symbol-name package))
+         (package-dir (concat celeste-package-dir package-name)))
+    (if (file-directory-p package-dir)
+        `(unless (featurep ',package)
+           (eval-and-compile
+             ,@(if (= (length subpath) 0)
+                   `((add-to-list 'load-path ,package-dir))
+                 (mapcar (lambda (p)
+                           `(add-to-list 'load-path ,(file-name-concat package-dir p)))
+                         subpath))))
+      (warn "cannot find package: %s" package) nil)))
 
 (defmacro celeste/prepare-package-2 (package &rest args)
   "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS.
 
 Always try to add something to corresponding paths, even PACKAGE
-is loaded before."
+is loaded before.
+
+Check if the directory for PACKAGE exists when the macro is expanded.
+
+:info           Add the following subpath to `Info-default-directory-list'.
+:load-path      Add the following subpath to `load-path'."
   (declare (indent 1))
   (let* ((package-name (symbol-name package))
          (package-dir (concat celeste-package-dir package-name)))
-    (when (file-directory-p package-dir) ; If there is no such package, do noting.
-      (if (= (length args) 0)
-          `(add-to-list 'load-path ,package-dir)
-      (macroexp-progn
-       (celeste/prepare-package-2--routine package-dir args))))))
+    (if (file-directory-p package-dir)
+        `(eval-and-compile
+           ,@(if (= (length args) 0)
+                 `((add-to-list 'load-path ,package-dir))
+                (celeste/prepare-package-2--routine package-dir args)))
+      (warn "cannot find package: %s" package) nil)))
 
 (defun celeste/prepare-package-2--routine (package-dir args)
   (let ((add-path t))
@@ -135,9 +158,69 @@ is loaded before."
                       (require 'info))
                (:load-path (setq add-path t))))))
 
+
+;;; Autoload routines.
+
+;; Why is autoload still a need? Some packages, like major modes for various
+;; languages, provide pre-defined entries in `auto-mode-alist'. It's tried to
+;; copy them manually. In this case, autoload is still important to defer the
+;; loading of these packages while keep things available.
+
+(defun celeste/package--autoload-file-name (package)
+  (expand-file-name (format "%s-autoloads.el" package)
+                    (concat celeste-package-dir (symbol-name package))))
+
+(defun celeste/package--installed-packages ()
+  (ignore-errors
+    (directory-files celeste-package-dir nil
+                     directory-files-no-dot-files-regexp)))
+
+(defun celeste/package--read-package-name ()
+  (let* ((package-list (celeste/package--installed-packages))
+         (def (thing-at-point 'symbol)))
+    (when (and def (not (member def package-list)))
+      (setq def nil))
+    (let ((package-name (completing-read (format-prompt "Package name" def)
+                                         package-list nil t nil nil def)))
+      (if (string-empty-p package-name)
+          (error "Empty package name!")
+        package-name))))
+
+(defun celeste/package-build-autoload (package &optional lisp-dir)
+  "Generate the autoload file for PACKAGE.
+
+By default, the directory where the package's Lisp files are
+located is generated according to `celeste-package-dir'. The
+optional parameter LISP-DIR gives the directory manually."
+  (interactive (list (intern (celeste/package--read-package-name))))
+  (let* ((pkg-dir (concat celeste-package-dir (symbol-name package)))
+         (lisp-dir (or lisp-dir pkg-dir))
+         (output-file (celeste/package--autoload-file-name package))
+
+         (backup-inhibited nil)
+         (version-control 'never))
+    (loaddefs-generate
+     lisp-dir output-file nil
+     ;; The same kludge from `package-generate-autoloads'.
+     (prin1-to-string
+      '(add-to-list
+        'load-path
+        (or (and load-file-name
+                 (directory-file-name
+                  (file-name-directory load-file-name)))
+            (car load-path)))))))
+
+(defun celeste/package-autoload (package)
+  "Load the generated autoload file of PACKAGE."
+  (let ((autoload-file (celeste/package--autoload-file-name package)))
+    (if (file-exists-p autoload-file)
+        (with-demoted-errors "%S"
+          (load autoload-file nil nil t))
+      (user-error "\
+Cannot find the autoload file of package %s.
+Have you run `celeste/build-autoload'?" package))))
+
+
+
 (provide 'init-lib)
 ;;; init-lib.el ends here
-
-;; Local Variables:
-;; no-byte-compile: t
-;; End:
