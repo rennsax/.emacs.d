@@ -39,6 +39,8 @@
 
 (require 'init-help)
 
+(require 'init-window)
+
 (require 'init-corfu)
 
 ;;; Version control settings 🐱

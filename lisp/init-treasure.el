@@ -127,7 +127,10 @@
           "\\`\\*\\(?:Async Shell Command\\|Messages\\|Warnings\\|Compile-Log\\|Compilation\\)\\*\\'"
           "\\*helpful.*\\*" "\\*Help\\*"
           "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
-          "\\*osx-dictionary\\*"))
+          "\\*osx-dictionary\\*"
+          "\\`\\*devdocs\\*\\'"))
+  (with-eval-after-load 'org-agenda
+    (add-to-list 'consult-buffer-filter (regexp-quote org-agenda-buffer-name)))
   )
 
 (use-package consult-info

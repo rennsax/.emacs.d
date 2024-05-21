@@ -109,18 +109,6 @@
   (add-hook 'osx-dictionary-mode-hook #'celeste/zen-mode)
   (regexp-opt (list osx-dictionary-buffer-name)))
 
-;; Window management routines from abo-abo.
-(celeste/prepare-package ace-window)
-(use-package ace-window
-  :commands (ace-window
-             ace-delete-window
-             ace-swap-window)
-  :config
-  ;; Always show dispatcher even there are only two windows.
-  (setq aw-dispatch-always t)
-  ;; Do not ignore any buffer.
-  (setq aw-ignore-on nil)
-  (setq aw-keys '(?h ?j ?k ?l ?u ?i ?o)))
 
 
 (provide 'init-tool)

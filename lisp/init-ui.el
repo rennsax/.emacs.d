@@ -118,47 +118,6 @@
 
 
 
-;;; Popper.
-
-;; `popper': show annoying windows such as `help-mode' in a dedicated POP
-;; window, so they won't clobber the original window layout.
-(celeste/prepare-package popper)
-(use-package popper
-  :bind (("C-`"   . popper-toggle)
-         ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :hook (after-init . popper-mode)
-  :config
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "\\*Warnings\\*"
-          "\\*Org Agenda\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          "\\*evil-jumps\\*"
-          "\\*Compile-Log\\*"
-          "\\*compilation\\*"
-          "\\*Flycheck checkers\\*"
-          "\\*lsp-bridge-doc\\*"
-          ;; Exclude "*Org Help*" buffer in `org-goto'. If not, `org-goto'
-          ;; firstly focuses on the popper window, which is annoying.
-          (lambda (buf)
-            (with-current-buffer buf
-              (and (derived-mode-p 'help-mode)
-                   (not (string= (buffer-name) "*Org Help*")))))
-          helpful-mode ; `helpful' package
-          magit-process-mode
-          osx-dictionary-mode
-          debugger-mode)))
-
-(use-package popper-echo
-  :after popper
-  :commands popper-echo-mode popper-tab-line-mode
-  :hook ((popper-mode . (lambda ()
-                          (popper-tab-line-mode -1)
-                          (popper-echo-mode +1)))))
-
-
 ;;; Theme
 
 (use-package doom-themes
