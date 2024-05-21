@@ -53,22 +53,21 @@ If ARG is non-nil, spawn a vanilla Emacs."
       (async-shell-command "emacs -Q")
     (async-shell-command "emacs")))
 
-(defun upcase-previous-word (arg)
+(defun upcase-previous-word ()
   "Upcase the previous word.
 
 Obviously more useful than `upcase-word' and `upcase-dwim', which
-only upcase the next word.
-
-When the prefix ARG is non-nil, includes more delimiters."
-  (interactive "P")
-  (save-excursion
-    (let* ((delim-list '("\s" "\n"))
-           (delim-list (if arg (cons "-" delim-list) delim-list))
-           (delim-reg (format "[%s]" (string-join delim-list)))
-           (cur-pos (point))
-           (delim (ignore-errors (search-backward-regexp delim-reg)))
-           (delim (or delim (1- (point-min)))))
-      (funcall #'upcase-region (1+ delim) cur-pos))))
+only upcase the next word."
+  (interactive)
+  (if (use-region-p)
+      (upcase-region (region-beginning) (region-end) (region-noncontiguous-p))
+    (save-excursion
+      (let* ((cur-pos (point))
+             (delim (ignore-errors (if current-prefix-arg
+                                       (search-backward-regexp "[[:blank:]\n]")
+                                     (search-backward-regexp "[^a-zA-Z0-9]"))))
+             (delim (or delim (1- (point-min)))))
+        (funcall #'upcase-region (1+ delim) cur-pos)))))
 
 (defun kill-current-file-name ()
   "Kill the current file name, if it visits a real file."
