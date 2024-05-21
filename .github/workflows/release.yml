@@ -1,0 +1,43 @@
+name: Pack Emacs configurations with submodule downloaded
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: '.emacs.d'
+
+      - name: Update submodules
+        run: |
+          cd .emacs.d
+          sed -i '/shallow = true/d' .gitmodules
+          git submodule update --init --recursive
+
+      - name: Create tarball
+        run: |
+          tar zcvf celeste-emacs-latest.tar.gz --exclude=.git .emacs.d
+
+      - name: Generate SHA256 checksum
+        run: |
+          sha256sum celeste-emacs-* > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: List files
+        run: |
+          ls -lh
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            celeste-emacs-latest.tar.gz
+            SHA256SUMS.txt
+          tag_name: latest
