@@ -124,6 +124,13 @@
   :bind (:map window-prefix-map
               ("C-/" . winner-undo)
               ("C-?" . winner-redo)))
+(use-package man
+  :init
+  (when sys/mac
+    ;; Check: https://github.com/abo-abo/swiper/issues/2836#issuecomment-831292443.
+    ;; 1. Install man-db (nongnu's implementation).
+    ;; 2. Run `mandb' in the shell to build cache.
+    (setq manual-program "gman")))
 
 
 ;;; Minibuffer tweaks.
