@@ -81,6 +81,26 @@ When the prefix ARG is non-nil, includes more delimiters."
     (message "Not a file.")))
 
 
+(defun keyboard-escape-quit-no-close-win ()
+  "Similar to `keyboard-escape-quit', except that no `delete-other-windows' switch."
+  (interactive)
+  (cond ((eq last-command 'mode-exited) nil)
+	((region-active-p)
+	 (deactivate-mark))
+	((> (minibuffer-depth) 0)
+	 (abort-recursive-edit))
+	(current-prefix-arg
+	 nil)
+	((> (recursion-depth) 0)
+	 (exit-recursive-edit))
+	(buffer-quit-function
+	 (funcall buffer-quit-function))
+    ;; Do not touch my window configuration!
+	;; ((not (one-window-p t))
+	;;  (delete-other-windows))
+	((string-match "^ \\*" (buffer-name (current-buffer)))
+	 (bury-buffer))))
+
 
 ;;; Got these idea from bbatsov/crux.
 
@@ -241,6 +261,7 @@ useful, e.g., for use with `visual-line-mode'."
 (keymap-global-set "s-o" #'other-window-or-switch-buffer)
 (keymap-global-set "C-g" #'keyboard-quit-dwim)
 (keymap-global-set "M-u" #'upcase-previous-word)
+(keymap-global-set "ESC ESC ESC" #'keyboard-escape-quit-no-close-win)
 
 
 (provide 'init-utils)
