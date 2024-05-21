@@ -58,9 +58,6 @@
 [submodule "packages/undo-tree"]
 	path = packages/undo-tree
 	url = https://github.com/emacsmirror/undo-tree.git
-[submodule "packages/popper"]
-	path = packages/popper
-	url = https://github.com/karthink/popper.git
 [submodule "evil-visualstar"]
 	path = evil-visualstar
 	url = https://github.com/bling/evil-visualstar.git
