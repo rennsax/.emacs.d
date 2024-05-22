@@ -316,7 +316,7 @@
 	url = https://github.com/astoff/devdocs.el.git
 [submodule "packages/whitespace-cleanup-mode"]
 	path = packages/whitespace-cleanup-mode
-	url = https://github.com/purcell/whitespace-cleanup-mode
+	url = https://github.com/rennsax/whitespace-cleanup-mode
 [submodule "packages/pulsar"]
 	path = packages/pulsar
 	url = https://github.com/protesilaos/pulsar
