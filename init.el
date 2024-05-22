@@ -77,9 +77,9 @@
 ;;; Powerful AI assistant.
 (require 'init-ai)
 
-(require 'init-temp)
+(require 'init-temp nil t)
 
-(require 'init-private)
+(require 'init-private nil t)
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)

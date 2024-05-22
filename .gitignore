@@ -28,3 +28,5 @@
 /shell-env
 /.venv/
 /lsp-bridge/
+/lisp/init-private.el
+/lisp/init-temp.el
