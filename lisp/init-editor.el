@@ -126,7 +126,20 @@
              auto-save-disable)
   :config
   ;; `celeste/auto-save-mode' must be re-enabled after changing this value.
-  (setq auto-save-idle 1.0))
+  (setq auto-save-idle 1.0)
+
+  (defun +celeste/auto-save-temp-disable-a (oldfun &optional args)
+    (if (not celeste/auto-save-mode)
+        (apply oldfun args)
+      (celeste/auto-save-mode -1)
+      (apply oldfun args)
+      (celeste/auto-save-mode +1)))
+
+  ;; auto-save while vundo is annoying.
+  (with-eval-after-load 'vundo
+    (add-hook 'vundo-pre-enter-hook (lambda () (celeste/auto-save-mode -1)))
+    (add-hook 'vundo-post-exit-hook (lambda () (celeste/auto-save-mode +1))))
+  )
 
 
 (provide 'init-editor)
