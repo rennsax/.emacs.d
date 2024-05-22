@@ -164,6 +164,24 @@
     (auto-fill-mode -1)
     (display-fill-column-indicator-mode -1)))
 
+
+
+;;; Misc.
+
+;; Always write buffer content to the file when `save-buffer', because
+;; sometimes I need to save the buffer for cleaning up whitespaces, even when
+;; it has not been modified.
+(defun +save-buffer-alway-a (&rest _)
+  (set-buffer-modified-p t))
+(define-minor-mode celeste/always-save-buffer-mode
+  "Always save buffer even `buffer-modified-p' return nil."
+  :global t
+  :keymap nil
+  (if celeste/always-save-buffer-mode
+      (advice-add #'save-buffer :before #'+save-buffer-alway-a)
+    (advice-remove #'save-buffer #'+save-buffer-alway-a)))
+
+
 
 ;;; Compilation
 
