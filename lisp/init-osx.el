@@ -30,7 +30,7 @@
 ;; "s-t" - `menu-set-font'
 ;; "s-p" - `ns-print-buffer'
 ;; "s-m" - `iconify-frame', in macOS, just minimize the frame.
-(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n"
+(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n" "s-h"
                "C-<wheel-up>" "C-<wheel-down>"))
   (keymap-global-unset key))
 

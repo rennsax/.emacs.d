@@ -133,10 +133,12 @@
 (with-eval-after-load 'org
   (setq org-src-window-setup 'plain)
   (add-to-list 'display-buffer-alist
-               `(,(rx bos "*Org Src " (* nonl) ?* eos)
+               `((or . (,(rx bos "*Org Src " (* nonl) ?* eos)
+                        ,(rx bos "*Org Note*" eos)))
                  (display-buffer-reuse-window
                   display-buffer-below-selected)
-                 (window-height . 0.6))))
+                 (window-height . 0.6)
+                 (dedicated . t))))
 
 
 (provide 'init-window)

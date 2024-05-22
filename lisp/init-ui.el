@@ -179,6 +179,10 @@ This should be called each time after the function definition is modified."
        `(org-verbatim :family ,code-font)
        `(org-quote :family ,doc-font :italic nil :foreground ,cyan)
        `(org-bold :weight bold :foreground ,yellow)
+       `(org-indent :background ,(doom-darken (doom-color 'base4) 0.1)
+                                  :foreground ,(doom-darken (doom-color 'base4) 0.1))
+
+       `(org-table :family ,celeste-really-mono-font-name)
 
        ;; `markdown-mode'
        `(markdown-inline-code-face :family ,code-font :foreground ,orange)

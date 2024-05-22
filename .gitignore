@@ -30,3 +30,4 @@
 /lsp-bridge/
 /lisp/init-private.el
 /lisp/init-temp.el
+*.elc
