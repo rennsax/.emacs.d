@@ -50,6 +50,15 @@ Chinese document."
   :group 'celeste
   :type 'string)
 
+(defcustom celeste-really-mono-font-name "Sarasa Term SC Nerd"
+  "Really nonospace font.
+
+Ideal: Latin characters has exactly half the width of CJK
+characters. I know one font that achieve this, and it's the
+default value."
+  :group 'celeste
+  :type 'string)
+
 (defcustom celeste-font-size 14
   "Font size of Celeste Emacs."
   :group 'celeste
