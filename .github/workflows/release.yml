@@ -1,33 +1,43 @@
 name: Pack Emacs configurations with submodule downloaded
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
 
 permissions:
   contents: write
 
+env:
+  TAG_NAME: latest
+
 jobs:
-  tests:
+  release:
+    name: Pack Celeste Emacs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create release tag
+        uses: rickstaa/action-create-tag@v1
         with:
-          path: '.emacs.d'
+          tag: ${{ env.TAG_NAME }}
+          force_push_tag: true
+          message: ""
 
       - name: Update submodules
         run: |
-          cd .emacs.d
           sed -i '/shallow = true/d' .gitmodules
           git submodule update --init --recursive
 
       - name: Create tarball
         run: |
-          tar zcvf celeste-emacs-latest.tar.gz \
+          cd ..
+          tar zcvf celeste-emacs-${{ env.TAG_NAME }}.tar.gz \
               --exclude=.git \
               --exclude=*.png \
               --exclude=*.gif \
               .emacs.d
+          mv celeste-emacs-${{ env.TAG_NAME }}.tar.gz .emacs.d/
 
       - name: Generate SHA256 checksum
         run: |
@@ -41,7 +51,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          fail_on_unmatched_files: true
+          prerelease: true
           files: |
-            celeste-emacs-latest.tar.gz
+            celeste-emacs-${{ env.TAG_NAME }}.tar.gz
             SHA256SUMS.txt
-          tag_name: latest
+          tag_name: ${{ env.TAG_NAME }}
