@@ -95,7 +95,6 @@
 (use-package treesit-auto
   :init
   (celeste/prepare-package treesit-auto)
-  :hook (after-init . global-treesit-auto-mode)
   :config
   ;; NOTE: Cpp parser is based on C parser. Remember to install them simultaneously.
 
