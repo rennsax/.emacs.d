@@ -23,7 +23,11 @@ jobs:
 
       - name: Create tarball
         run: |
-          tar zcvf celeste-emacs-latest.tar.gz --exclude=.git .emacs.d
+          tar zcvf celeste-emacs-latest.tar.gz \
+              --exclude=.git \
+              --exclude=*.png \
+              --exclude=*.gif \
+              .emacs.d
 
       - name: Generate SHA256 checksum
         run: |
