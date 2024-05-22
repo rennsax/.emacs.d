@@ -77,6 +77,8 @@
 ;;; Powerful AI assistant.
 (require 'init-ai)
 
+(require 'init-hydra)
+
 (require 'init-temp nil t)
 
 (require 'init-private nil t)
