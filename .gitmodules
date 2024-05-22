@@ -39,7 +39,7 @@
 	url = https://github.com/minad/consult.git
 [submodule "packages/doom-themes"]
 	path = packages/doom-themes
-	url = https://github.com/doomemacs/themes.git
+	url = https://github.com/rennsax/doomemacs-themes.git
 [submodule "packages/nerd-icons"]
 	path = packages/nerd-icons
 	url = https://github.com/rainstormstudio/nerd-icons.el.git
