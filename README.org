@@ -1,5 +1,6 @@
+# -*- eval: (visual-line-mode -1); -*-
 #+author: rennsax
-#+startup: indent
+#+startup: indent show2levels
 
 #+html: <div align="center"><h1>Celeste Emacs</h1>
 #+html: <img src="https://static.miraheze.org/celestewiki/a/ac/Strawberry_flap.gif"alt="celeste strawberry"/>
@@ -12,7 +13,11 @@
 
 Emacs requires C/C++ compiler suites, including a compiler, ~make~, ~cmake~.
 
-** macOS
+** Emacs
+
+You can get the source code for Emacs [[http://ftpmirror.gnu.org/emacs][here]]. Either use ~curl -sSLO~ or ~wget~.
+
+*** macOS
 
 Directly installed from Homebrew's default formulae is OK, but you may get an
 Emacs without some essential new features, such as native compilation. I
@@ -34,26 +39,27 @@ favorite package manager on your platform (such as ~homebrew~ on macOS, ~apt~ on
 Ubuntu).
 
 Hard dependencies are listed here. An asterisk symbol indicates that the tool is
-/not/ indispensable for the package(s).
+optional for the package(s).
 
-| Tool         | Used by           | Description                  |
-|--------------+-------------------+------------------------------|
-| [[https://github.com/BurntSushi/ripgrep][ripgrep]]      | consult, deadgrep | Another Rust winner!         |
-| [[https://github.com/sharkdp/fd][fd]]           | consult           | ~find(1)~'s alternative.     |
-| [[https://pandoc.org/][pandoc]]       | org-pandoc-import | Required.                    |
-| [[https://www.gimp.org/][gimp]]*        | org-download      | Used by ~org-download-edit~. |
-| [[https://github.com/AbiWord/enchant][libenchant]]   | jinx              | Spell checker.               |
-| [[https://www.leonerd.org.uk/code/libvterm/][libvterm]]     | vterm             | Terminal emulator in Emacs.  |
-| [[https://github.com/laishulu/macism][macism]]       | sis               | macOS.                       |
-| [[https://www.libreoffice.org/discover/libreoffice/][LibreOffice]]* | doc-view[fn:1]    | For previewing documents.    |
+| Tool         | Used by           | Description                                 |
+|--------------+-------------------+---------------------------------------------|
+| [[https://man-db.nongnu.org/][man-db]]       | man               | macOS. Most GNU/Linux distros have builtin. |
+| [[https://github.com/BurntSushi/ripgrep][ripgrep]]      | consult, deadgrep | Another Rust winner!                        |
+| [[https://github.com/sharkdp/fd][fd]]           | consult           | ~find(1)~'s alternative.                    |
+| [[https://pandoc.org/][pandoc]]       | org-pandoc-import | Required.                                   |
+| [[https://www.gimp.org/][gimp]]*        | org-download      | Used by ~org-download-edit~.                |
+| [[https://github.com/AbiWord/enchant][libenchant]]   | jinx              | Spell checker.                              |
+| [[https://www.leonerd.org.uk/code/libvterm/][libvterm]]     | vterm             | Terminal emulator in Emacs.                 |
+| [[https://github.com/laishulu/macism][macism]]       | sis               | macOS.                                      |
+| [[https://www.libreoffice.org/discover/libreoffice/][LibreOffice]]* | doc-view[fn:1]    | For previewing documents.                   |
 
 [fn:1] For more dependencies of doc-view package, use ~M-x find-library doc-view~.
 
-For example, on my macOS, I install these dependencies:
+*** macOS
 
 #+begin_src shell
 # Basic dependencies.
-brew install ripgrep fd pandoc
+brew install man-db ripgrep fd pandoc
 # LaTeX.
 brew install --cask mactex      # or, of course, mactex-no-gui
 # Extra dependencies for various packages.
@@ -63,6 +69,14 @@ brew tap laishulu/macism && brew install macism
 # For doc-view
 brew install --cask libreoffice
 #+end_src
+
+** Fonts
+
+Here lists the fonts that I personally use.
+
+- [[https://monaspace.githubnext.com/][Monaspice]]: An innovative superfamily of fonts for code.
+- [[https://github.com/tonsky/FiraCode][FiraCode]]: Free monospaced font with programming ligatures.
+- [[https://github.com/laishulu/Sarasa-Term-SC-Nerd][更纱黑体]]: 极少数中英文宽度严格 2:1 的字体，适用于解决 org-table 对齐问题。
 
 ** Python Environment
 
@@ -112,6 +126,33 @@ make autoloads # This is mandatory.
 make compile # Highly recommended, since org-mode contains a lot of functions.
 #+end_src
 
+* Misc.
+
+** Map CapsLock to Ctrl
+
+It's known that Emacs users (who respect vanilla key bindings) usually suffer
+from [[https://en.wikipedia.org/wiki/Repetitive_strain_injury][RIP]] after enjoying their Emacs journey for many years. The core leader of
+FSF, Richard Stallman, almost lost his ability to type because of RIP. See [[http://xahlee.info/emacs/emacs/emacs_hand_pain_celebrity.html][this
+interesting post]]. For those who rely on their typing skills to make a living,
+it's rather important to take care of the finger health.
+
+There are many suggestions for protecting your fingers from RIP. The most
+famous, or simplest suggestion, is *to map CapsLock key to Ctrl*. Emacs key
+bindings heavily reply on the Ctrl key, but the key is so far from our fingers
+while typing.
+
+On macOS, we can easily set this: System Settings > Keyboard > Keyboard
+Shortcuts > Modifier Keys. You can also use the powerful [[https://github.com/pqrs-org/Karabiner-Elements][Karabiner-Elements]] to
+configure your keyboard completely, which is my choice.
+
+On Windows, you may find a lot of people teaching you to modify the Registry.
+It's too complicated for me, though. I prefer to use [[https://learn.microsoft.com/en-us/windows/powertoys/][Microsoft PowerToys]] to
+customize the keyboard.
+
+On Linux, the routines vary from distros.
+- Ubuntu: Gnome Tweaks (~gnome-tweaks~ from the cmd) -> Additional Layout
+  Options -> Ctrl position -> Caps Lock as Ctrl.
+
 * Copyright Notice
 
 The banner under the project name is a work from Celeste game asset, borrowed
@@ -119,8 +160,4 @@ from [[https://github.com/laishulu/emacs-smart-input-source][Celeste Wiki]], and
 the material for commercial purposes.
 
 I use this banner just because I'm a huge fan of Celeste game. If my actions
-infringe on any copyrights, please contact me immediately. Thank a lot.
-
-# Local Variables:
-# eval: (visual-line-mode -1)
-# End:
+infringe on any copyrights, please contact me and I will remove it. Thank a lot.
