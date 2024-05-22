@@ -46,6 +46,7 @@
 
 ;; Typed text replaces the selection. Does not mean too much in `evil-mode'.
 (delete-selection-mode +1)
+(setq delete-selection-temporary-region nil)
 
 ;; If `truncate-partial-width-windows' is nil and `truncate-lines' is t, always
 ;; performs line truncation. By default, line truncation is enabled when the
@@ -106,6 +107,60 @@
 
 ;; Confirm before `save-buffers-kill-emacs'.
 (setq confirm-kill-emacs 'y-or-n-p)
+
+;; Killing read-only texts only push it to the kill ring.
+(setq kill-read-only-ok t)
+(setq kill-transform-function
+      (lambda (string)
+        (and (not (string-blank-p string))
+             string)))
+;; If the data in the system clipboard is smaller than (in characters) this
+;; number, then it's saved into the kill ring before a new entry is pushed into
+;; the kill ring.
+(setq save-interprogram-paste-before-kill 200)
+
+;; It seems that it's a bug from Emacs upstream.
+(with-eval-after-load 'simple
+  (defun +kill-whole-line-fixed (&optional arg)
+    "Kill current line.
+With prefix ARG, kill that many lines starting from the current line.
+If ARG is negative, kill backward.  Also kill the preceding newline.
+\(This is meant to make \\[repeat] work well with negative arguments.)
+If ARG is zero, kill current line but exclude the trailing newline."
+    (interactive "p")
+    (or arg (setq arg 1))
+    (if (and (> arg 0) (eobp) (save-excursion (forward-visible-line 0) (eobp)))
+        (signal 'end-of-buffer nil))
+    (if (and (< arg 0) (bobp) (save-excursion (end-of-visible-line) (bobp)))
+        (signal 'beginning-of-buffer nil))
+    (unless (eq last-command 'kill-region)
+      (let ((kill-transform-function))  ; TODO: Emacs bug?
+        (kill-new ""))
+      (setq last-command 'kill-region))
+    (cond ((zerop arg)
+           ;; We need to kill in two steps, because the previous command
+           ;; could have been a kill command, in which case the text
+           ;; before point needs to be prepended to the current kill
+           ;; ring entry and the text after point appended.  Also, we
+           ;; need to use save-excursion to avoid copying the same text
+           ;; twice to the kill ring in read-only buffers.
+           (save-excursion
+             (kill-region (point) (progn (forward-visible-line 0) (point))))
+           (kill-region (point) (progn (end-of-visible-line) (point))))
+          ((< arg 0)
+           (save-excursion
+             (kill-region (point) (progn (end-of-visible-line) (point))))
+           (kill-region (point)
+                        (progn (forward-visible-line (1+ arg))
+                               (unless (bobp) (backward-char))
+                               (point))))
+          (t
+           (save-excursion
+             (kill-region (point) (progn (forward-visible-line 0) (point))))
+           (kill-region (point)
+                        (progn (forward-visible-line arg) (point))))))
+  (advice-add #'kill-whole-line :override #'+kill-whole-line-fixed))
+
 
 
 ;;; IMPORTANT: Backup and auto-save behavior.
