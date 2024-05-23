@@ -236,6 +236,25 @@ This should be called each time after the function definition is modified."
   (nerd-icons-completion-mode +1))
 
 
+;;; pulsar
+
+;; Never feel lost after executing some navigation commands!
+(use-package pulsar
+  :init
+  (celeste/prepare-package pulsar)
+  ;; Evil has its own solution: `evil-goggles'.
+  :when (not (eq celeste-modal-editing 'evil))
+  :hook (after-init . pulsar-global-mode)
+  :config
+  (setq pulsar-pulse t
+        pulsar-iterations 10)
+
+  (setq pulsar-pulse-functions
+        (append pulsar-pulse-functions
+                `(scroll-up-half scroll-down-half other-window-or-switch-buffer))))
+
+
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
 
