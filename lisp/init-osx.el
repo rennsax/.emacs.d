@@ -25,6 +25,9 @@
 ;; deletion commands use `move-file-to-trash'.
 (setq delete-by-moving-to-trash t)
 
+
+;;; Key bindings.
+
 ;; C-z is mapped to `suspend-frame'. In macOS, it hides the frame (with the
 ;; native Cocoa API) instead, which is useless.
 ;; "s-t" - `menu-set-font'
@@ -38,7 +41,16 @@
   :init
   (bind-keys ("s-{" . tab-bar-switch-to-prev-tab)
              ("s-}" . tab-bar-switch-to-next-tab)
-             ("s-t" . tab-bar-new-tab)))
+             ("s-t" . tab-bar-new-tab)
+             ("s-w" . +tab-bar-close-current-tab))
+
+  ;; It's too easy to press s-w on macOS, so I write a function that will ask
+  ;; for confirmation.
+  (defun +tab-bar-close-current-tab (&optional no-confirm)
+    (interactive)
+    (when (or no-confirm
+              (y-or-n-p "Close tab?"))
+      (tab-bar-close-tab))))
 
 ;; Use ctrl-shift-z to redo, so intuitive.
 (keymap-global-set "s-Z" #'undo-redo)
