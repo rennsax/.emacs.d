@@ -108,7 +108,15 @@
 
   :commands forge-pull
   :config
-  (defalias 'forge-issue-close 'forge-issue-state-set-completed "Close the issue."))
+  (defalias 'forge-issue-close 'forge-issue-state-set-completed "Close the issue.")
+
+  ;; A network error after submitting post makes me lose the post. So I add an
+  ;; advice to backup the recent submitted post.
+  (advice-add #'forge-post-submit :before
+              (defun +forge-backup-buffer-before-submit (&rest _)
+                (save-buffer)
+                (copy-file buffer-file-name "/tmp/forge-post-backup" t)))
+  )
 
 
 ;;; diff-hl: better git-diff integration
