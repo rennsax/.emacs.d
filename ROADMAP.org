@@ -7,7 +7,7 @@
 :PROPERTIES:
 :VISIBILITY: content
 :END:
-*** TODO [#A] Confirm before kill scratch buffer
+*** TODO [#B] Confirm before kill scratch buffer
 Customize ~kill-buffer-hook~.
 *** TODO [#B] multi-vterm: dedicated window
 *** TODO [#B] Disable mouse wheel
@@ -22,14 +22,16 @@ On the tab:
 *** TODO [#C] Special fonts in =*Messages*= buffer
 *** TODO [#C] Is it necessary to specify fringe?
 See [[elisp:(info "(elisp) Fringe Size/Pos")][manual]]. Related variables: ~{left,right}-fringe-width~, ~default-frame-alist~.
-*** DOING [#A] Always backup input when ~C-c C-c~ in ~forge-create-pullreq~
 *** DOING [#A] ~whitespace-cleanup-mode~: do not clean newlines in the end
 - [X] Implement in ~whitespace-cleanup-mode-write-file~
+- [ ] ~whitespace-write-file-hook~ also remove the empty lines at the beginning
 - [ ] Send a PR?
 *** CANCELED [#B] It would be better if ~consult-buffer~'s posframe could be lower in the screen
 2024-05-14: cancel. I do not use vertico-posframe anymore.
 - [ ] ~consult-buffer~: lower
 - [ ] ~yank-pop~ and ~consult-yank-pop~: even lower
+*** DONE [#A] Set mark before ~avy-goto-char~
+*** DONE [#A] Always backup input when ~C-c C-c~ in ~forge-create-pullreq~
 *** DONE [#A] Upcase the region in ~upcase-previous-word~
 *** DONE [#A] Rewrite ~celeste/sis-mode~
 - ~sis-global-respect-mode~ should be buffer-local, since it overrides some
@@ -55,6 +57,28 @@ I add it.
 :PROPERTIES:
 :VISIBILITY: content
 :END:
+*** TODO [#B] [[https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter][combobulate]] VS [[https://github.com/AmaiKinono/puni][puni]]
+combobulate is powered Tree-Sitter
+
+[[https://emacs-china.org/t/puni/18101][Puni: 通用、可定制的语法删除 - Emacs-general - Emacs China]]
+
+2024-05-25: I just find puni might also be a good choice for sturctured editing.
+
+*** TODO [#B] How to format org?
+For example, from
+#+begin_quote
+- The CAN-identifier (can_id) is used for arbitration on the CAN-bus. Therefore
+the CAN-IDs have to be chosen uniquely on the bus.
+#+end_quote
+to
+#+begin_quote
+- The CAN-identifier (can_id) is used for arbitration on the CAN-bus. Therefore
+  the CAN-IDs have to be chosen uniquely on the bus.
+#+end_quote
+*** TODO [#B] dired live filter
+Maybe dired-hacks can help.
+*** TODO [#B] [[https://github.com/dfeich/org-clock-convenience][org-clock-convenience]]: enhance org-clock
+*** TODO [#B] Tmux and Emacs integration
 *** TODO [#B] Display flycheck backend in its error message
 I have a bookmark which tracks the code.
 *** TODO [#B] [[https://github.com/manateelazycat/markmacro][markmacro]], a faster multi-cursor.el alternative based on kmacro
@@ -75,7 +99,10 @@ Copilot agent started.
 *** TODO [#B] [[https://github.com/emacsmirror/git-timemachine.git][git-timemachine]]
 *** TODO [#B] [[https://www.emacswiki.org/emacs/InferiorEmacsLispMode][IELM]]: Inferior Emacs Lisp Mode
 *** TODO [#B] tweak bookmark
-*** TODO [#B] [[https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter][combobulate]]: Structured Movement and Editing with Tree-Sitter
+*** TODO [#C] Disable flycheck for remote files
+Remote files can be:
+- tramp file
+- remote file that is opened by ~lsp-bridge-open-remote-file~
 *** TODO [#C] MUA
 [[https://www.youtube.com/watch?v=g7iF11qamh8][Emacs: Notmuch demo (notmuch.el)]] from Prot.
 
@@ -83,7 +110,6 @@ Copilot agent started.
 *** TODO [#C] The [[https://github.com/karthink/timeout][timeout]] library
 [[https://karthinks.com/software/cool-your-heels-emacs][cool-your-heels-emacs]]
 *** TODO [#C] try more dictionary packages
-*** TODO [#C] [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]: is it stabler than lsp-bridge?
 *** TODO [#C] [[https://github.com/minad/cape.git][minad/cape]]: supercharge ~completion-at-point~
 Good, but not necessary, since I only use ~completion-at-point~ when writing ELisp.
 *** TODO [#C] New line without auto-fill?
@@ -94,6 +120,40 @@ Good, but not necessary, since I only use ~completion-at-point~ when writing ELi
 Reference: Centaur Emacs
 *** TODO [#C] cspell integration
 [[https://ztlevi.github.io/posts/Spell-checking-with-Cspell-in-Emacs/][A blog]]
+*** DOING [#A] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
+
+Problems of ~electric-pair-mode~ I found:
+- It pairs '<' and '>' in org-mode. But I sometimes use ~->~, which breaks the
+  following pairing: insert a left parenthesis do not insert the right part
+  automatically. _This is because electric try to pair ">" in the src block!_
+
+#+begin_src emacs-lisp
+(<> (minibuffer-depth) 0) ; remove the less than sign, horrible thing happen!
+#+end_src
+
+*** DOING [#A] Configure Eglot
+
+[[https://www.reddit.com/r/emacs/comments/tqi0zc/lspmode_vs_eglot/][This thread]] provides some information I care about:
+- Eglot is an Out-Of-Box LSP client that "just works"
+- Eglot now works perfectly with corfu and orderless
+
+I also find [[https://github.com/joaotavora/eglot][eglot]] is
+- Built-in since Emacs 29!
+- Integrated seamlessly with flymake, eldoc, xref, project. Really!
+- Very easy to setup, compared to lsp-bridge
+- Not so slow as I thought before
+- I can use ~completion-at-point~ now. The ecosystem is never limited.
+
+Step:
+- [ ] [[https://github.com/nemethf/eglot-x][eglot-x]] for unofficial LSP extensions
+- [ ] tempel and eglot: [[https://github.com/fejfighter/eglot-tempel][eglot-tempel]], [[https://github.com/minad/tempel/issues/103#issuecomment-1544323744][tempel#103]]
+- [X] [[https://andreyor.st/posts/2023-09-09-migrating-from-lsp-mode-to-eglot/][This blog]], thought the author himself did not use Eglot anymore
+  (2024-05-25, refered from his dotfiles).
+
+*** DOING [#A] Rainbow indentation
+python-mode, yaml-mode
+
+- [ ] further customize [[https://github.com/DarthFennec/highlight-indent-guides][highlight-indent-guides]]
 *** DOING [#A] Improve reading UX
 Set a new customizable variable ~celeste-reading-font-name~, which should be
 set to a proportional font. It aims to be used in reading context.
@@ -104,6 +164,10 @@ Declare a minor mode ~celeste-reading-mode~.
   结论：不如用自己的配置。抄 Centaur Emacs 的配置已经 stash 了。
 - [ ]  [[https://en.wikipedia.org/wiki/Monospaced_font][Monospaced font - wikipedia]]
 - [ ] Is it possible to change the minibuffer font individually?
+*** PENDING [#C] [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]: is it stabler than lsp-bridge?
+I just find Eglot really nice.
+
+[[https://gitlab.com/andreyorst/dotfiles/-/blob/master/.config/emacs/init.el][Andrey Listopadov's init.el]] that uses corfu and lsp-mode simultaneously.
 *** PENDING [#C] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]] - Maybe I will try it again once I switch to a Linux distro.
 *** CANCELED [#A] cnfont settings
 [[https://github.com/tumashu/cnfonts.git][chfonts]]：实现中文字体和英文字体等宽
@@ -182,9 +246,9 @@ minibuffer.
 - [ ] [[https://karthinks.com/software/fifteen-ways-to-use-embark/][fifteen-ways-to-use-embark]]
   - [ ] Install vertico extension: vertico-buffer
 - [ ] [[https://www.youtube.com/watch?v=43Dg5zYPHTU][Emacs: completion framework]] from Prot, 17:11
-*** TODO [#A] electric (builtin) VS [[https://github.com/Fuco1/smartparens.git][smartparens]]
 *** TODO [#A] Learn transient: [[https://github.com/positron-solutions/transient-showcase][transient-showcase]]
 - [ ] Add default options in transient.
+- [ ] Add ~git push -d~ support.
 *** TODO [#B] [[https://emacs-china.org/t/vterm-edit-command-buffer-vterm/20530][vterm-edit-command 在独立的 buffer 中编辑 vterm 当前命令行]]
 *** DONE [#A] [[file:~/codeplace/github/prot-dotfiles/emacs/.emacs.d/prot-emacs.org::#h:15edf2c3-4419-4101-928a-6e224958a741][prot-emacs-completion.el]]
 *** DONE [#B] Read Info: "The Mark and the Region"
@@ -192,6 +256,8 @@ minibuffer.
 :PROPERTIES:
 :VISIBILITY: content
 :END:
+*** TODO [#A] =lang/init.el= and =init-corfu.el=
+
 *** TODO [#C] Rewrite ~+exec-path-from-shell-write-cache~ with ~prin1-to-string~.
 ** Huge Projects
 :PROPERTIES:
@@ -224,6 +290,34 @@ customization more complex. Try to separate my color definitions from that, or
 read and understand its source code.
 
 Maybe this package is helpful: [[https://github.com/jasonm23/autothemer][autothemer]]
+*** DOING [#B] Write +lsp-zero+ ide-zero macro
+- [X] the basic feature
+- [ ] add test with ERT
+- [ ] enable lsp-bridge
+*** DOING [#C] ~celeste/auto-save-mode~ performace issue
+It's mainly caused by ~after-save-hook~. For example, org-roam buffers have a
+function ~org-roam-db-autosync--setup-update-on-save-h~ in ~after-save-hook~,
+which is very slow.
+
+Currently I disable ~org-roam-db-autosync-mode~. However, other modes has their
+interesting hooks too, for example ~wakatime-save~. I need to make auto-save
+disable these hooks that should not be run so frequently.
+
+Reduce the time to run ~after-save-hook~. *MUST DO*: run ~after-save-hook~ when
+the buffer is killed.
+
+#+begin_src emacs-lisp
+(advice-add #'kill-buffer :before
+            (defun +kill-buffer-run-after-save-hook-a (&optional buf-or-name)
+              (save-current-buffer
+                (when buf-or-name (set-buffer buf-or-name))
+                (run-hooks 'after-save-hook))))
+#+end_src
+
+Use a buffer-local counter? When a buffer is saved each X times, trigger the
+~after-save-hook~. The problem: some hooks should be run immediately, such as
+flycheck's.
+
 *** CANCELED [#C] I have some extra functions in the ~:preface~ section for each package.
 Autoload them.
 *** DONE [#B] Package manager: Info doc?
@@ -276,16 +370,21 @@ Just remove it, and add a new macro/function to add something to ~load-path~.
 :PROPERTIES:
 :VISIBILITY: content
 :END:
+*** TODO [#A] lsp-bridge: if server is down, ~kill-buffer-hook~ prevent the buffer from being killed.
 *** TODO [#A] treesitter integration: major mode shortcuts are not inherited
 For example, in ~yaml-ts-mode~, ~yaml-electric-backspace~ isn't bound to DEL.
-*** TODO [#A] there is always an empty line in ~consult-yank-pop~
-It appears as the first condidate, which is annoying. Is this a kill-ring bug?
 *** TODO [#A] Rescue my LogSeq Notes 😭
 A good way to convert logseq markdown to org:
 
 1. mldoc convert -i ./Makefile.md -o ./Makefile.html
 2. search all list-related element tags like <li> and </li>, delete them
 3. pandoc -f html -t org -o ./Makefile.org ./Makefile.html
+*** TODO [#B] Tramp problem: sometimes stuck
+- [ ] [[https://en.liujiacai.net/2023/06/10/troubleshoot-tramp-hang/][troubleshoot-tramp-hang]]
+*** TODO [#B] ~celeste/auto-save-mode~ cannot save when org-capture
+*** TODO [#B] vterm: how to correctly handle remote?
+*** TODO [#B] Embark ~delete-region~ does not consider ~kill-transform-function~?
+
 *** TODO [#B] Consult and tab-bar and dedicated window
 Buffer with dedicated window should always be listed in ~consult-buffer-filter~,
 otherwise, when consulting buffers, the selected window will change
@@ -309,6 +408,9 @@ Customize orderless, such as:
 For example, in yaml-mode,  ~yaml-electric-backspace~ is bound to SPC.
 *** TODO [#B] ~C-g~ Behavior
 It may be caused by sis.
+*** TODO [#C] Man or Woman?
+Today I find zshall(1) with Man-mode is sperated to several files. I find [[https://emacs.stackexchange.com/a/69071][this
+answer]] gives a comprehensive explanation.
 *** TODO [#C] Emacs-Everywhere problem
 Cannot convert org to markdown.
 *** TODO [#C] When vertico is invoked, the fringe of some buffers shrink
@@ -320,6 +422,10 @@ If the variable ~vertico-posframe-parameters~ is set and then use
 
 This bug may take me some time to figure out the reason since I'm unfamiliar
 with posframe.
+*** DOING [#B] there is always an empty line in ~consult-yank-pop~
+It appears as the first condidate, which is annoying. Is this a kill-ring bug?
+
+Check [[file:/opt/homebrew/Cellar/emacs-plus@29/29.3/share/emacs/29.3/lisp/simple.el::defun read-from-kill-ring (prompt][read-from-kill-ring]].
 ** Doc
 :PROPERTIES:
 :VISIBILITY: content
@@ -339,125 +445,3 @@ window. Then =C-w x= (~evil-window-exchange~), an error like this occurs:
 Window #<window 7 on *helpful function: url-user*> has same side bottom as
 window #<window 9 on *helpful function: url-user*> but no common parent
 #+end_quote
-
-* Completion
-
-- [X] [[https://github.com/bbatsov/persp-projectile.git][persp-projectile]]
-
-- [X] [[https://github.com/Fanael/edit-indirect][edit-indirect]] as ~markdown-mode~ dep
-
-- [X] bookmark (builtin)
-
-- [X] [[https://github.com/alphapapa/org-super-agenda.git][org-super-agenda]]
-
-  Also read [[https://isamert.net/2021/01/25/how-i-do-keep-my-days-organized-with-org-mode-and-emacs.html][this blog]].
-
-- [X] [[https://github.com/minad/jinx][minad/jinx]]: enchanted spell checker (God minad)
-
-- [X] [[https://github.com/karthink/gptel][gptel]]
-
-- [X] [[https://projectile.mx/][projectile]] (keybindings)
-
-- [X] [[https://github.com/manateelazycat/lsp-bridge.git][lsp-bridge]]
-
-  Recommended thread: [[https://www.reddit.com/r/emacs/comments/1c0v28k/lspmode_vs_lspbridge_vs_lspce_vs_eglot/][lsp-mode vs. lsp-bridge vs. lspce vs. eglot : r/emacs]].
-
-- [X] [[https://github.com/akreisher/eshell-syntax-highlighting][eshell-syntax-highlighting]]
-
-- [X] [[https://github.com/abo-abo/avy][avy]]: ~avy-goto-char-2~
-
-- [X] ~celeste/require~: the first argument should be a symbol!
-
-- [X] ~org-goto~ and ~evil-mode~. The command ~org-goto~ is convenient for
-  navigating the org doc.
-
-  It's solved by adding an advice around ~org-goto~
-  (4deb7308d220a9af3800a130fa5724dabead5d98).
-
-- [X] Also keep tramp remote files in recentf
-
-  In fact, ~recentf-cleanup~ determines whether a file should be cleaned with
-  ~recentf-keep-default-predicate~ by default, which also handles the case of
-  remote files. Its source code is simple:
-
-  #+begin_src emacs-lisp
-  (defun recentf-keep-default-predicate (file)
-    "Return non-nil if FILE should be kept in the recent list.
-  It handles the case of remote files as well."
-    (cond
-     ((file-remote-p file nil t) (file-readable-p file))
-     ((file-remote-p file))
-     ((file-readable-p file))))
-  #+end_src
-
-  So it cleans remote files that are not readable.
-
-  We can add regexps or predicates to ~recentf-keep~ to keep more files. For
-  example, my "remote" files on my OrbStack virtual machine become unreadable
-  when the virtual machine is turned down, so I add this configuration:
-
-  #+begin_src emacs-lisp
-  (add-to-list 'recentf-keep "^/ssh:orb:")
-  #+end_src
-
-- [X] [[https://codeberg.org/akib/emacs-eat/][eat]] VS [[https://github.com/akermu/emacs-libvterm][vterm]]
-
-  Emacs-eat is a relatively-newer package that aims to provide experience much
-  more like a terminal emulator with better integration with Emacs Lisp. The
-  most attractive feature is the ~eshell-eat-mode~, which turns Eshell to a
-  (semi-finished) terminal emulator, which provides the functionality like
-  ~eshell-visual-command-mode~ without leaving the Eshell window.
-
-  However, emacs-eat seems to be premature. It's still buggy, and I found no
-  lucky when I try to integrate my Zsh with it.
-
-  2024/04/23: Vterm is better.
-
-- [X] Why is eshell loaded immediately after Emacs starts?
-
-  ~emacs -q~ and ~emacs -Q~, then ~(featurep 'eshell)~ => nil
-
-  Reason: the package exec-path-from-shell has ~require~-ed eshell.
-
-- [X] Gradually get rid of evil...
-
-- [X] multi-vterm
-
-- [X] [[https://github.com/hlissner/emacs-hide-mode-line][hide-mode-line-mode]]
-
-- [X] Customize org bold.
-
-- [X] How to make =diff-hl= do not display staged parts?
-
-- [X] auto kill buffers
-
-  There is no need to implement such feature.
-
-- [X] ~doom-modeline~ tweak. How can I persist some important information (such as
-  org-clock) when the frame size is limited?
-
-  I don't use doom-modeline anymore!
-
-- [X] [[https://github.com/magit/forge.git][magit forge]]
-
-- [X] [[https://github.com/rnkn/olivetti][olivetti]]: alternative for writeroom-mode
-
-- [X] convert markdown-style link to org-style link.
-
-- [X] Respect the true line numbers (folded lines also counts) in commands
-  ~next-line~, ~previous-line~, ~evil-previous-line~, ~evil-next-line~, etc.
-
-  These commands do not know if some regions are folded, which is prevalent in
-  org-mode and markdown-mode.
-
-  Solved: use ~previous-logical-line~ and ~next-logical-line~.
-
-- [X] Package manager: autoload?
-
-- [X] perspective.el + projectile.el => [[https://github.com/mclear-tools/tabspaces][mclear-tools/tabspaces]]
-
-  These two seem to be buggy, at least I've gotten unlucky. And these two are
-  old. Emacs has builtin project.el now, and perspective uses little new
-  features.
-
-  2024-05-08: tabspaces is buggy too :(
