@@ -329,3 +329,6 @@
 [submodule "packages/flycheck-eglot"]
 	path = packages/flycheck-eglot
 	url = https://github.com/flycheck/flycheck-eglot
+[submodule "packages/eglot-tempel"]
+	path = packages/eglot-tempel
+	url = https://github.com/fejfighter/eglot-tempel
