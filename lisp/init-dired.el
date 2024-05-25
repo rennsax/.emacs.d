@@ -4,6 +4,8 @@
 
 ;;; Emacs dired - practical file explorer 📂
 (use-package dired
+  :bind (:map dired-mode-map
+              ("DEL" . dired-up-directory))
   :config
   ;; Use the dir in another dired window as the default dir rather than the
   ;; current one.

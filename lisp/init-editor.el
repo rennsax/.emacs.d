@@ -67,6 +67,10 @@
           "toy" "try" "tub" "two" "urn" "use" "van" "war" "was" "wax" "way" "web"
           "wed" "wet" "who" "why" "wig" "win" "wit" "woe" "won" "wry" "you" "zap"
           "zip" "zoo"))
+
+  ;; Before jumping, set mark.
+  (advice-add #'avy-action-goto :before
+              (defun +avy-push-mark-before-goto (&rest _) (push-mark)))
   )
 
 

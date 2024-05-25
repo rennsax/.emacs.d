@@ -163,7 +163,7 @@ _u_p               _k_: cut          _R_metaR
 (defvar whitespace-mode nil)
 (defhydra hydra-toggle (:color red :hint nil)
   "
-[_a_]bbrev-mode:       %`abbrev-mode
+[_a_]bbrev-mode:       %`abbrev-mode         [_r_]edraw-display
 [_d_]ebug-on-error:    %`debug-on-error
 auto-[_f_]ill-mode:    %`auto-fill-function
 [_t_]runcate-lines:    %`truncate-lines
@@ -179,6 +179,7 @@ celeste/[_s_]is-mode:  %`celeste/sis-mode
   ("w" whitespace-mode)
   ("o" overwrite-mode)
   ("s" celeste/sis-mode)
+  ("r" redraw-display :color blue)
   ("q" nil "quit"))
 
 (keymap-global-set "S-<f6>" #'hydra-toggle/body)

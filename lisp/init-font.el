@@ -90,6 +90,7 @@ poem,...)."
 ;; See the variable `char-script-table'.
 (defun +fontset-setup-cjk (&optional fontset)
   "Setup special CJK fonts for FONTSET."
+  (interactive)
   (dolist (charset '(kana han cjk-misc bopomofo symbol))
     (set-fontset-font fontset charset (font-spec :family celeste-cjk-font-name))))
 

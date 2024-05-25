@@ -69,7 +69,8 @@
          (allow-no-window . t))
 
         ;;; override the selected window
-        ((or . ((derived-mode . Custom-mode)))
+        ((or . ((derived-mode . Custom-mode)
+                (derived-mode . Buffer-menu-mode)))
          (display-buffer-same-window))
 
         ;;; side-window
@@ -125,9 +126,9 @@
 (with-eval-after-load 'org-agenda
   (add-to-list 'display-buffer-alist
                `(,(regexp-quote org-agenda-buffer-name)
-                 (display-buffer-in-tab)
-                 (ignore-current-tab . t)
-                 (tab-name . "🦄")
+                 (display-buffer-in-side-window)
+                 (side . right)
+                 (window-width . 0.35)
                  (dedicated . t))))
 
 (with-eval-after-load 'org
