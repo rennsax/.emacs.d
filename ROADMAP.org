@@ -1,6 +1,7 @@
 #+title: Celeste Emacs Roadmap
 #+startup: overview indent
 #+todo: TODO(t) DOING(i) PENDING(p) | DONE(d) CANCELED(c@)
+#+archive: ::** Done
 
 * Roadmap
 ** Easy Chores
@@ -26,33 +27,6 @@ See [[elisp:(info "(elisp) Fringe Size/Pos")][manual]]. Related variables: ~{lef
 - [X] Implement in ~whitespace-cleanup-mode-write-file~
 - [ ] ~whitespace-write-file-hook~ also remove the empty lines at the beginning
 - [ ] Send a PR?
-*** CANCELED [#B] It would be better if ~consult-buffer~'s posframe could be lower in the screen
-2024-05-14: cancel. I do not use vertico-posframe anymore.
-- [ ] ~consult-buffer~: lower
-- [ ] ~yank-pop~ and ~consult-yank-pop~: even lower
-*** DONE [#A] Set mark before ~avy-goto-char~
-*** DONE [#A] Always backup input when ~C-c C-c~ in ~forge-create-pullreq~
-*** DONE [#A] Upcase the region in ~upcase-previous-word~
-*** DONE [#A] Rewrite ~celeste/sis-mode~
-- ~sis-global-respect-mode~ should be buffer-local, since it overrides some
-  prefix key, which conflicts with embark.
-
-It's difficult to do that. So I write a convenient wrapper for sis, ~celeste/sis-mode~.
-
-*** DONE [#A] Enable auto ~whitespace-cleanup~ for YAML file
-*** DONE [#A] Disable bindings for ~C-<wheel-up>~ in OSX
-My magical mouse is to sensitive.
-*** DONE [#A] Enable more consult extensions like ~consult-info~
-*** DONE [#A] customize ~org-ellipsis~
-*** DONE [#A] bind ~multi-vterm~
-*** DONE [#A] rename ~+org-kill-this-link~
-Should be something like ~+org-cut-this-link~
-*** DONE [#B] Write a function to insert info page as org-link
-*** DONE [#B] Should I write a function like "always-save"?
-I add it.
-*** DONE [#B] Add warning facility for ~celeste/prepare-package~
-*** DONE [#B] Embark and helpful integration
-*** DONE [#B] Remove ~diff-hl-\*~ bindings. They are useless and buggy. Just use Magit.
 ** New Features
 :PROPERTIES:
 :VISIBILITY: content
@@ -169,66 +143,6 @@ I just find Eglot really nice.
 
 [[https://gitlab.com/andreyorst/dotfiles/-/blob/master/.config/emacs/init.el][Andrey Listopadov's init.el]] that uses corfu and lsp-mode simultaneously.
 *** PENDING [#C] [[https://github.com/emacs-eaf/emacs-application-framework][EAF]] - Maybe I will try it again once I switch to a Linux distro.
-*** CANCELED [#A] cnfont settings
-[[https://github.com/tumashu/cnfonts.git][chfonts]]：实现中文字体和英文字体等宽
-
-2024-05-15: not as helpful as I think it would be.
-*** CANCELED [#B] [[https://github.com/fniessen/emacs-leuven-theme][leuven]]: Best org-mode theme?
-Average.
-*** CANCELED [#C] Maybe it's time to try another theme
-Candidates: [[https://github.com/11111000000/tao-theme-emacs.git][tao-theme]] [[https://github.com/maio/eink-emacs][elink]]
-Maintaining the theme by myself is difficult for me. I do not understand what a
-theme does under the hood. It may be better to begin with other people's work.
-
-Doom's themes are too magical. My theme is based on doom-themes but I really
-want to separate it out.
-
-2024-05-12: I'm not satisfied with those themes. Maybe I still need to customize
-my own theme. But I need to get rid of doom-themes. See [[*Separate cobalt2 from doomemacs/themes][Separate cobalt2 from doomemacs/themes]].
-*** DONE [#A] new auto-save facility
-Fork [[https://github.com/manateelazycat/auto-save][lazycat's auto-save]]
-*** DONE [#A] shellcheck integration
-Already integrated by flycheck.
-*** DONE [#A] [[https://github.com/abo-abo/hydra][hydra]], [[https://github.com/Ladicle/hydra-posframe][hydra-posframe]], [[https://github.com/jerrypnz/major-mode-hydra.el][pretty-hydra]]
-2024-05-13: Hydra is added. I may not use pretty-hydra or hydra-posframe. I want
-to keep my hydra configuration simple enough: it should not conquer my key
-binding system - it should just be a kind of sugar that brings some facilities
-to me.
-
-- [X] org-mode navigation hydra. Better than ~org-speed-command~.
-- [X] add more navigation commands in hydra-vi. Ref: [[file:packages/hydra/hydra-examples.el::defhydra hydra-vi (:pre hydra-vi/pre :post hydra-vi/post :color amaranth][hydra-example.el: hydra-vi]]
-*** DONE [#A] [[https://github.com/mickeynp/ligature.el][ligature.el]]
-[[https://www.masteringemacs.org/article/unicode-ligatures-color-emoji][Unicode, Ligatures and Color Emoji - Mastering Emacs]]
-*** DONE [#A] Add ~project-vterm~ to project's shortcut
-*** DONE [#A] [[https://github.com/tecosaur/org-pandoc-import][org-pandoc-import]]: how did you come with that
-It's Okay, but I would prefer to use it just as the a pandoc frontend. The
-~org-pandoc-import-transient-mode~ seems to be buggy for me.
-*** DONE [#A] org-mode (use the newest version)
-*** DONE [#A] [[https://github.com/emacsmirror/gcmh][gcmh]]: GC magic hack
-*** DONE [#A] [[https://github.com/casouri/vundo][vundo]]
-*** DONE [#A] Translation
-Possible choices:
-- [[https://github.com/condy0919/fanyi.el][condy0919/fanyi.el]]
-- [[https://github.com/xuchunyang/osx-dictionary.el][osx-dictionary]]
-- [[https://github.com/lorniu/go-translate][go-translation]]
-Related thread: [[https://emacs-china.org/t/topic/18006][一个支持多词典的翻译插件(目前仅支持单词) - Emacs-general - Emacs China]]
-
-Currently OK, with osx-dictionary.
-*** DONE [#B] protect ~tab-bar-close-tab~
-It's easy to be mispressed.
-- [X] remove the binding
-- [X] add confirmation mechanism
-- [X] restore the binding
-*** DONE [#B] purcell's [[https://github.com/purcell/whitespace-cleanup-mode.git][whitespace-cleanup-mode]]
-*** DONE [#B] [[https://github.com/astoff/devdocs.el][devdocs.el]]
-*** DONE [#B] Exclude useless buffers like "Helpful" buffer
-*** DONE [#C] [[https://github.com/roife/emt][emt]]: 中文分词，基于 macOS 自带的分词系统
-*** DONE [#C] [[https://github.com/protesilaos/pulsar][pulsar]]: pulse the current line after running select functions.
-Really good.
-*** DONE [#C] [[https://github.com/emacsmirror/undo-tree/blob/master/undo-tree.el][undo-tree]] or [[https://github.com/emacsmirror/undo-fu-session][undo-fu-session]]
-Do I need a persistent undo history?
-
-2024-05-13: Use undo-fu-session for persistent undo history.
 ** Learning
 :PROPERTIES:
 :VISIBILITY: content
@@ -250,8 +164,6 @@ minibuffer.
 - [ ] Add default options in transient.
 - [ ] Add ~git push -d~ support.
 *** TODO [#B] [[https://emacs-china.org/t/vterm-edit-command-buffer-vterm/20530][vterm-edit-command 在独立的 buffer 中编辑 vterm 当前命令行]]
-*** DONE [#A] [[file:~/codeplace/github/prot-dotfiles/emacs/.emacs.d/prot-emacs.org::#h:15edf2c3-4419-4101-928a-6e224958a741][prot-emacs-completion.el]]
-*** DONE [#B] Read Info: "The Mark and the Region"
 ** Refactor
 :PROPERTIES:
 :VISIBILITY: content
@@ -318,54 +230,6 @@ Use a buffer-local counter? When a buffer is saved each X times, trigger the
 ~after-save-hook~. The problem: some hooks should be run immediately, such as
 flycheck's.
 
-*** CANCELED [#C] I have some extra functions in the ~:preface~ section for each package.
-Autoload them.
-*** DONE [#B] Package manager: Info doc?
-See the documentation for ~Info-default-directory-list~ and
-~Info-directory-list~.
-
-TL;DR: add paths that contain Info documentations to ~Info-default-directory-list~.
-
-- [X] Add Magit's Info path. See it's README.org.
-- [X] Add org-roam's
-- [X] Generalize the interface to manage Info docs of packages.
-*** DONE [#B] [[https://protesilaos.com/codelog/2020-07-16-emacs-focused-editing/][Prot's focused editing]] (zen-mode)
-[[https://github.com/larstvei/Focus.git][Focus]]: dim the surrounding paragraphs, the idea is pretty, but not necessary.
-*** DONE [#B] Tweaks emacs-everywhere for perspective.el
-If I still want to keep emacs-everywhere. The two do not cooperate well. When
-persp.el is enabled, the transient buffer created by emacs-everywhere cannot be
-killed properly, and a confirmation always pops out to ask "whether to kill the
-unsaved buffer anyway", which is annoying.
-
-I've dropped perspective.el, it's so buggy (f60da965c338405cef6ea379e4d7fc2c7ad526d5).
-I hate it.
-*** DONE [#C] Refactor dependencies, absorb =init-package.el=.
-*** DONE [#C] Learn about how popper.el works. Tweaks ~display-buffer~.
-Popper.el does a good job in protecting my window layout. However some plugins
-are special: org-agenda, gptel, ... They still destroy my window layout, which
-makes me annoying.
-
-Maybe I also need to learn more about window.el.
-
-2024-05-06: It seems that popper works by modifying ~display-buffer-alist~.
-
-2024-05-18: Micky's article needs to be investigated more.
-
-2024-05-21: popper.el is completely dropped.
-
-- [X] Read [[https://www.masteringemacs.org/article/demystifying-emacs-window-manager][Mickey's wonderful article on window management]].
-- [X] Read [[elisp:(info "(emacs) Window Choice")][(emacs) Window Choice]].
-- [X] Read [[https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/][this thread]], which discusses the customization of this variable.
-- [X] I just find [[https://www.youtube.com/watch?v=1-UIzYPn38s][Prot's video about this]].
-*** DONE [#C] Deprecate ~celeste/use-package~.
-This macro just add a default ~:load-path~. It's unnecessary, and is not
-elegant, make my configurations difficult to copy.
-Just remove it, and add a new macro/function to add something to ~load-path~.
-
-2024-05-13: I'm almost here. New macros ~celeste/prepare-package~ and
-~celeste/prepare-package-2~ are added.
-
-- [X] totally remove ~celeste/use-pacakge~.
 ** FIXME
 :PROPERTIES:
 :VISIBILITY: content
@@ -430,8 +294,514 @@ Check [[file:/opt/homebrew/Cellar/emacs-plus@29/29.3/share/emacs/29.3/lisp/simpl
 :PROPERTIES:
 :VISIBILITY: content
 :END:
+** Done
+
+*** DONE [#A] Always backup input when ~C-c C-c~ in ~forge-create-pullreq~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:49
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] Upcase the region in ~upcase-previous-word~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] Enable auto ~whitespace-cleanup~ for YAML file
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] Enable more consult extensions like ~consult-info~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] bind ~multi-vterm~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Write a function to insert info page as org-link
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Add warning facility for ~celeste/prepare-package~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Remove ~diff-hl-\*~ bindings. They are useless and buggy. Just use Magit.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] new auto-save facility
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Fork [[https://github.com/manateelazycat/auto-save][lazycat's auto-save]]
+
+*** DONE [#A] [[https://github.com/abo-abo/hydra][hydra]], [[https://github.com/Ladicle/hydra-posframe][hydra-posframe]], [[https://github.com/jerrypnz/major-mode-hydra.el][pretty-hydra]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+2024-05-13: Hydra is added. I may not use pretty-hydra or hydra-posframe. I want
+to keep my hydra configuration simple enough: it should not conquer my key
+binding system - it should just be a kind of sugar that brings some facilities
+to me.
+
+- [X] org-mode navigation hydra. Better than ~org-speed-command~.
+- [X] add more navigation commands in hydra-vi. Ref: [[file:packages/hydra/hydra-examples.el::defhydra hydra-vi (:pre hydra-vi/pre :post hydra-vi/post :color amaranth][hydra-example.el: hydra-vi]]
+
+*** DONE [#A] Add ~project-vterm~ to project's shortcut
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] org-mode (use the newest version)
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] [[https://github.com/casouri/vundo][vundo]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] protect ~tab-bar-close-tab~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+It's easy to be mispressed.
+- [X] remove the binding
+- [X] add confirmation mechanism
+- [X] restore the binding
+
+*** DONE [#B] [[https://github.com/astoff/devdocs.el][devdocs.el]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#C] [[https://github.com/roife/emt][emt]]: 中文分词，基于 macOS 自带的分词系统
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#C] [[https://github.com/emacsmirror/undo-tree/blob/master/undo-tree.el][undo-tree]] or [[https://github.com/emacsmirror/undo-fu-session][undo-fu-session]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Do I need a persistent undo history?
+
+2024-05-13: Use undo-fu-session for persistent undo history.
+
+*** DONE [#A] [[file:~/codeplace/github/prot-dotfiles/emacs/.emacs.d/prot-emacs.org::#h:15edf2c3-4419-4101-928a-6e224958a741][prot-emacs-completion.el]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Learning
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Package manager: Info doc?
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+See the documentation for ~Info-default-directory-list~ and
+~Info-directory-list~.
+
+TL;DR: add paths that contain Info documentations to ~Info-default-directory-list~.
+
+- [X] Add Magit's Info path. See it's README.org.
+- [X] Add org-roam's
+- [X] Generalize the interface to manage Info docs of packages.
+
+*** DONE [#B] Tweaks emacs-everywhere for perspective.el
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+If I still want to keep emacs-everywhere. The two do not cooperate well. When
+persp.el is enabled, the transient buffer created by emacs-everywhere cannot be
+killed properly, and a confirmation always pops out to ask "whether to kill the
+unsaved buffer anyway", which is annoying.
+
+I've dropped perspective.el, it's so buggy (f60da965c338405cef6ea379e4d7fc2c7ad526d5).
+I hate it.
+
+*** DONE [#C] Learn about how popper.el works. Tweaks ~display-buffer~.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Popper.el does a good job in protecting my window layout. However some plugins
+are special: org-agenda, gptel, ... They still destroy my window layout, which
+makes me annoying.
+
+Maybe I also need to learn more about window.el.
+
+2024-05-06: It seems that popper works by modifying ~display-buffer-alist~.
+
+2024-05-18: Micky's article needs to be investigated more.
+
+2024-05-21: popper.el is completely dropped.
+
+- [X] Read [[https://www.masteringemacs.org/article/demystifying-emacs-window-manager][Mickey's wonderful article on window management]].
+- [X] Read [[elisp:(info "(emacs) Window Choice")][(emacs) Window Choice]].
+- [X] Read [[https://www.reddit.com/r/emacs/comments/179t67l/window_management_share_your_displaybufferalist/][this thread]], which discusses the customization of this variable.
+- [X] I just find [[https://www.youtube.com/watch?v=1-UIzYPn38s][Prot's video about this]].
+
 *** DONE [#B] use table to specify dependencies (executable -> package)
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Doc
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
 Typically, we have one to many. For some package like doc-view, it's many to one.
+
+*** DONE [#A] Rewrite ~celeste/sis-mode~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+- ~sis-global-respect-mode~ should be buffer-local, since it overrides some
+  prefix key, which conflicts with embark.
+
+It's difficult to do that. So I write a convenient wrapper for sis, ~celeste/sis-mode~.
+
+*** DONE [#A] customize ~org-ellipsis~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Should I write a function like "always-save"?
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+I add it.
+
+*** DONE [#A] shellcheck integration
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Already integrated by flycheck.
+
+*** DONE [#A] [[https://github.com/tecosaur/org-pandoc-import][org-pandoc-import]]: how did you come with that
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+It's Okay, but I would prefer to use it just as the a pandoc frontend. The
+~org-pandoc-import-transient-mode~ seems to be buggy for me.
+
+*** DONE [#A] Translation
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Possible choices:
+- [[https://github.com/condy0919/fanyi.el][condy0919/fanyi.el]]
+- [[https://github.com/xuchunyang/osx-dictionary.el][osx-dictionary]]
+- [[https://github.com/lorniu/go-translate][go-translation]]
+Related thread: [[https://emacs-china.org/t/topic/18006][一个支持多词典的翻译插件(目前仅支持单词) - Emacs-general - Emacs China]]
+
+Currently OK, with osx-dictionary.
+
+*** DONE [#B] Exclude useless buffers like "Helpful" buffer
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] Read Info: "The Mark and the Region"
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Learning
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#B] [[https://protesilaos.com/codelog/2020-07-16-emacs-focused-editing/][Prot's focused editing]] (zen-mode)
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+[[https://github.com/larstvei/Focus.git][Focus]]: dim the surrounding paragraphs, the idea is pretty, but not necessary.
+
+*** DONE [#C] Deprecate ~celeste/use-package~.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+This macro just add a default ~:load-path~. It's unnecessary, and is not
+elegant, make my configurations difficult to copy.
+Just remove it, and add a new macro/function to add something to ~load-path~.
+
+2024-05-13: I'm almost here. New macros ~celeste/prepare-package~ and
+~celeste/prepare-package-2~ are added.
+
+- [X] totally remove ~celeste/use-pacakge~.
+
+*** DONE [#A] Disable bindings for ~C-<wheel-up>~ in OSX
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+My magical mouse is to sensitive.
+
+*** DONE [#B] Embark and helpful integration
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] [[https://github.com/mickeynp/ligature.el][ligature.el]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+[[https://www.masteringemacs.org/article/unicode-ligatures-color-emoji][Unicode, Ligatures and Color Emoji - Mastering Emacs]]
+
+*** DONE [#B] purcell's [[https://github.com/purcell/whitespace-cleanup-mode.git][whitespace-cleanup-mode]]
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#C] Refactor dependencies, absorb =init-package.el=.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#A] rename ~+org-kill-this-link~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Should be something like ~+org-cut-this-link~
+
+*** DONE [#A] [[https://github.com/emacsmirror/gcmh][gcmh]]: GC magic hack
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
+*** DONE [#C] [[https://github.com/protesilaos/pulsar][pulsar]]: pulse the current line after running select functions.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:51
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+Really good.
+
+*** CANCELED [#B] It would be better if ~consult-buffer~'s posframe could be lower in the screen
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:52
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Easy Chores
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: CANCELED
+:END:
+2024-05-14: cancel. I do not use vertico-posframe anymore.
+- [ ] ~consult-buffer~: lower
+- [ ] ~yank-pop~ and ~consult-yank-pop~: even lower
+
+*** CANCELED [#A] cnfont settings
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:52
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: CANCELED
+:END:
+[[https://github.com/tumashu/cnfonts.git][chfonts]]：实现中文字体和英文字体等宽
+
+2024-05-15: not as helpful as I think it would be.
+
+*** CANCELED [#C] Maybe it's time to try another theme
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:52
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: CANCELED
+:END:
+Candidates: [[https://github.com/11111000000/tao-theme-emacs.git][tao-theme]] [[https://github.com/maio/eink-emacs][elink]]
+Maintaining the theme by myself is difficult for me. I do not understand what a
+theme does under the hood. It may be better to begin with other people's work.
+
+Doom's themes are too magical. My theme is based on doom-themes but I really
+want to separate it out.
+
+2024-05-12: I'm not satisfied with those themes. Maybe I still need to customize
+my own theme. But I need to get rid of doom-themes. See [[*Separate cobalt2 from doomemacs/themes][Separate cobalt2 from doomemacs/themes]].
+
+*** CANCELED [#C] I have some extra functions in the ~:preface~ section for each package.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:52
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/Huge Projects
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: CANCELED
+:END:
+Autoload them.
+
+*** CANCELED [#B] [[https://github.com/fniessen/emacs-leuven-theme][leuven]]: Best org-mode theme?
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:52
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: CANCELED
+:END:
+Average.
+
+*** DONE [#A] Set mark before ~avy-goto-char~
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-05-26 Sun 01:55
+:ARCHIVE_FILE: ~/.config/emacs/ROADMAP.org
+:ARCHIVE_OLPATH: Roadmap/New Features
+:ARCHIVE_CATEGORY: ROADMAP
+:ARCHIVE_TODO: DONE
+:END:
+
 * Known Bugs
 
 ** Handling windows with popper and evil
