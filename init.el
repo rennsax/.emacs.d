@@ -71,11 +71,12 @@
 ;;; Zen mode
 (require 'init-zen)
 
-;;; Language extensions
-(load (concat celeste-lisp-dir "lang/init"))
-
 ;;; Powerful AI assistant.
 (require 'init-ai)
+
+;;; Language extensions
+(add-to-list 'load-path (concat celeste-lisp-dir "lang"))
+(require 'init-lang)
 
 (require 'init-hydra)
 

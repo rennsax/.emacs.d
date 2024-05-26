@@ -116,11 +116,6 @@
     ;; 2. Run `mandb' in the shell to build cache.
     (setq manual-program "gman")))
 
-(use-package xref
-  :config
-  (advice-add #'xref-goto-xref :filter-args
-              (defun +xref-quit-window-after-goto (&optional quit) '(t))))
-
 
 ;;; Minibuffer tweaks.
 
