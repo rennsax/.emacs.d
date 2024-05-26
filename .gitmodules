@@ -335,3 +335,6 @@
 [submodule "packages/ide-zero"]
 	path = packages/ide-zero
 	url = https://github.com/rennsax/ide-zero
+[submodule "packages/project-x"]
+	path = packages/project-x
+	url = https://github.com/karthink/project-x
