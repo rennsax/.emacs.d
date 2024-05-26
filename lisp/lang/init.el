@@ -213,6 +213,10 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
   :config
   (eglot-tempel-mode +1))
 
+(use-package ide-zero
+  :init (celeste/prepare-package ide-zero)
+  :commands ide-zero-define)
+
 
 ;;; Programming Languages.
 
@@ -224,10 +228,13 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 ;; General-purpose.
 (require 'init-go)
 (require 'init-lua)
+(require 'init-cc)
+(require 'init-python)
 
 ;; DSL.
 (require 'init-cmake)
 (require 'init-protobuf)
+(require 'init-sh)
 
 ;;; lang/init.el ends here
 
