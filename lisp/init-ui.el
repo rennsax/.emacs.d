@@ -235,6 +235,13 @@ This should be called each time after the function definition is modified."
   :config
   (nerd-icons-completion-mode +1))
 
+(use-package nerd-icons-corfu
+  :init (celeste/prepare-package nerd-icons-corfu)
+  :after corfu
+  :demand t
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 
 ;;; pulsar
 
