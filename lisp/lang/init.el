@@ -14,7 +14,6 @@
 (use-package flycheck
   :init
   (celeste/prepare-package flycheck)
-  :hook (prog-mode . flycheck-mode)
   :config
   ;; Check syntax when: the file is saved, a short time
   ;; (`flycheck-idle-change-delay') after the last change, and immediately after
@@ -42,6 +41,7 @@
 
 ;; `consult-flycheck'
 (use-package consult-flycheck
+  :after flycheck
   :init
   (celeste/prepare-package consult-flycheck)
   :bind (("C-c s d" . consult-flycheck)))
@@ -128,14 +128,17 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
 
 ;;; LSP
 
-;; Eglot is the builtin LSP client of Emacs. But its functionality is somehow
-;; limited, with poor performance (mainly because of the JSON parser).
-
-;; The package lsp-bridge is a blazing fast LSP client for Emacs, developed by
-;; the honored manateelazycat.
-
-;; Lazycat himself uses lsp-bridge everyday! And the wonderful package is in
-;; active development.
+;; Snippet engine, integrated with Elgot, lsp-mode and lsp-bridge nicely.
+(use-package yasnippet
+  :init
+  (celeste/prepare-package yasnippet)
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode +1)
+  (bind-keys :map yas-keymap
+             ("RET" . yas-next-field)
+             ("M-RET" . yas-prev-field))
+  (unbind-key "TAB" yas-keymap))
 
 (use-package lsp-bridge
   :diminish lsp-bridge-mode
@@ -169,34 +172,46 @@ If ENSURE is non-nil, do nothing if the grammar for LANG has been installed."
   (keymap-unset acm-mode-map "M-u" t)
 
   :init
-  ;; lsp-bridge depends on yasnippet for snippet completion
   (celeste/prepare-package lsp-bridge)
   (celeste/prepare-package markdown-mode)
-  (use-package yasnippet
-    :init
-    (celeste/prepare-package yasnippet)
-    :diminish yas-minor-mode
-    :config
-    (yas-global-mode +1)
-    (bind-keys :map yas-keymap
-               ("RET" . yas-next-field)
-               ("M-RET" . yas-prev-field))
-    (unbind-key "TAB" yas-keymap))
 
-  (defmacro +lsp-bridge-def-minor-mode-for (lang)
-    (let ((lang-mode-hook (intern (concat (symbol-name lang) "-mode-hook")))
-          (mode (intern (format "%s-lsp-bridge-mode" lang))))
-      `(define-minor-mode ,mode
-         ,(format "Auto-toggle `lsp-bridge-mode' for `%s-mode'." lang)
-         :init-value nil
-         :global t
-         (if ,mode
-             (add-hook ',lang-mode-hook #'lsp-bridge-mode)
-           (remove-hook ',lang-mode-hook #'lsp-bridge-mode)))))
-
-  (dolist (mode '(go emacs-lisp c++))
-    (eval `(+lsp-bridge-def-minor-mode-for ,mode)))
   )
+
+(use-package eglot
+  :bind (:map eglot-mode-map
+              ("M-F" . eglot-format-buffer))
+  :config
+  (setq eglot-autoshutdown t)
+
+  (setq eglot-stay-out-of '(flymake))
+
+  (setq eglot-ignored-server-capabilities
+        '(:colorProvider
+          :foldingRangeProvider))
+
+  ;; Enable `corfu-mode', since `eglot' kindly extends `completion-at-point'.
+  (with-eval-after-load 'corfu
+    (add-to-list 'eglot-managed-mode-hook #'corfu-mode))
+
+  )
+
+(use-package flycheck-eglot
+  :after eglot
+  :init (celeste/prepare-package flycheck-eglot)
+  :commands flycheck-eglot-mode
+  :config
+  ;; If `flycheck-eglot-mode' is enabled, then other checkers will be disabled.
+  ;; `flycheck-eglot' implements this by set buffer-local `flycheck-checker' to
+  ;; `elgot-check', so flycheck won't automatically select checkers in
+  ;; `flycheck-checkers'.
+  (setq-default flycheck-eglot-exclusive t))
+
+(use-package eglot-tempel
+  :after eglot
+  :demand t
+  :init (celeste/prepare-package eglot-tempel)
+  :config
+  (eglot-tempel-mode +1))
 
 
 ;;; Programming Languages.
