@@ -62,7 +62,8 @@
 
 
 ;;; dired-hacks
-(add-to-list 'load-path (concat celeste-package-dir "dired-hacks"))
+
+(celeste/prepare-package dired-hacks)
 
 (use-package dired-subtree
   :after dired
@@ -70,6 +71,12 @@
               ("<tab>" . dired-subtree-toggle)
               ("<C-tab>" . dired-subtree-cycle)
               ("<backtab>" . dired-subtree-remove)))
+
+(use-package dired-narrow
+  :after dired
+  :commands (dired-narrow
+             dired-narrow-regexp
+             dired-narrow-fuzzy))
 
 
 (provide 'init-dired)
