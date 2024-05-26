@@ -34,6 +34,8 @@
 (require 'init-eshell)
 (require 'init-dired)
 
+(require 'init-project)
+
 ;;; Magical completion support 🧙🏻
 (require 'init-treasure)
 
