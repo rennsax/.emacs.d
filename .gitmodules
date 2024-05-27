@@ -338,3 +338,6 @@
 [submodule "packages/project-x"]
 	path = packages/project-x
 	url = https://github.com/karthink/project-x
+[submodule "packages/cape"]
+	path = packages/cape
+	url = https://github.com/minad/cape
