@@ -51,7 +51,7 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
   (setq corfu-preview-current nil)
 
   ;; Disable RET -> `corfu-insert'. I prefer primitive RET - just `newline'.
-  (mapc (lambda (key) (keymap-unset corfu-map key))
+  (mapc (lambda (key) (keymap-unset corfu-map key t))
         '("RET" "<remap> <next-line>" "<remap> <previous-line>"
           "<remap> <beginning-of-buffer>" "C-a"))
 

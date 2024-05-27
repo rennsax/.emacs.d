@@ -99,12 +99,13 @@
   ("o" delete-other-windows "only")
 
   ("b" consult-buffer "buf")
+  ("p b" consult-project-buffer "proj-buf")
   ("." consult-recent-file "recf")
 
   ("r" rotate-layout "rot")             ; from rotate
   ("+" balance-windows "bal")
 
-  ("c" hydra-window-resize/body "change")
+  ("c" ace-copy-window "copy")
 
   ("C-g" nil)
   ("q" nil "quit"))

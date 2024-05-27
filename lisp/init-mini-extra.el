@@ -24,6 +24,7 @@
 (bind-keys ("M-J" . join-line)
            ("C-S-n" . scroll-up-line)
            ("C-S-p" . scroll-down-line)
+           ("C-c b s" . scratch-buffer)
            :map prog-mode-map
            ("M-RET" . comment-indent-new-line))
 
