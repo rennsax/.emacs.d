@@ -35,6 +35,7 @@
 (require 'init-cmake)
 (require 'init-protobuf)
 (require 'init-sh)
+(require 'init-elisp)
 
 
 
