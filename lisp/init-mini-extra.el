@@ -25,6 +25,7 @@
            ("C-S-n" . scroll-up-line)
            ("C-S-p" . scroll-down-line)
            ("C-c b s" . scratch-buffer)
+           ("s-o" . other-window)
            :map prog-mode-map
            ("M-RET" . comment-indent-new-line))
 

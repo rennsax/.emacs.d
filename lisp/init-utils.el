@@ -257,7 +257,6 @@ useful, e.g., for use with `visual-line-mode'."
 
 (keymap-global-set "s-r" #'reload-this-file)
 (keymap-global-set "<f9>" #'spawn-sub-emacs)
-(keymap-global-set "s-o" #'other-window-or-switch-buffer)
 (keymap-global-set "C-g" #'keyboard-quit-dwim)
 (keymap-global-set "M-u" #'upcase-previous-word)
 (keymap-global-set "ESC ESC ESC" #'keyboard-escape-quit-no-close-win)
