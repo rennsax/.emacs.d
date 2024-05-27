@@ -131,6 +131,56 @@
           "\\`\\*devdocs\\*\\'"))
   (with-eval-after-load 'org-agenda
     (add-to-list 'consult-buffer-filter (regexp-quote org-agenda-buffer-name)))
+
+  ;; https://github.com/minad/consult/wiki#manual-preview-for-non-consult-commands-using-embark
+  (progn
+    (keymap-set minibuffer-local-map "M-." #'+minibuffer-embark-preview)
+    (defun +minibuffer-embark-preview ()
+      "Previews candidate in vertico buffer, unless it's a consult command"
+      (interactive)
+      (unless (bound-and-true-p consult--preview-function)
+        (save-selected-window
+          (let ((embark-quit-after-action nil))
+            (embark-dwim)))))
+    )
+
+  ;; https://github.com/minad/consult/wiki#toggle-preview-during-active-completion-session
+  (progn
+    (defvar-local consult-toggle-preview-orig nil)
+
+    (defun consult-toggle-preview ()
+      "Command to enable/disable preview."
+      (interactive)
+      (if consult-toggle-preview-orig
+          (setq consult--preview-function consult-toggle-preview-orig
+                consult-toggle-preview-orig nil)
+        (setq consult-toggle-preview-orig consult--preview-function
+              consult--preview-function #'ignore)))
+    (define-key vertico-map (kbd "M-,") #'consult-toggle-preview)
+    )
+
+  ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
+  (progn
+    (defun +consult-read-file-name (prompt &optional dir default mustmatch initial pred)
+      (let ((default-directory (or dir default-directory))
+            (minibuffer-completing-file-name t))
+        (consult--read #'read-file-name-internal :state (consult--file-preview)
+                       :prompt prompt
+                       :initial initial
+                       :require-match mustmatch
+                       :predicate pred)))
+
+    (defun +consult-find-file-maybe-with-preview (arg)
+      "`find-file' with consult preview. Only for interactive call"
+      (interactive "P")
+      (if arg
+          (let ((read-file-name-function #'+consult-read-file-name))
+            (call-interactively #'find-file))
+        (call-interactively #'find-file)))
+
+    (keymap-global-set "C-x C-f" #'+consult-find-file-maybe-with-preview)
+    )
+
   )
 
 (use-package consult-info
@@ -161,7 +211,53 @@
   ;; The ampersand affix searches annotation, which is very, very slow.
   (setq orderless-affix-dispatch-alist
         (seq-filter (lambda (affix) (not (eq (car affix) ?&)))
-                    orderless-affix-dispatch-alist)))
+                    orderless-affix-dispatch-alist))
+
+  ;; Fix consult, sophisticated completion style, etc.
+  ;; Shipped from https://github.com/minad/consult/wiki#minads-orderless-configuration.
+
+  (defun +orderless--consult-suffix ()
+    "Regexp which matches the end of string with Consult tofu support."
+    (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
+        (format "[%c-%c]*$"
+                consult--tofu-char
+                (+ consult--tofu-char consult--tofu-range -1))
+      "$"))
+
+  ;; Recognizes the following patterns:
+  ;; * .ext (file extension)
+  ;; * regexp$ (regexp matching at end)
+  (defun +orderless-consult-dispatch (word _index _total)
+    (cond
+     ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+     ((string-suffix-p "$" word)
+      `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
+     ;; File extensions
+     ((and (or minibuffer-completing-file-name
+               (derived-mode-p 'eshell-mode))
+           (string-match-p "\\`\\.." word))
+      `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
+
+  ;; Define orderless style with initialism by default. As a result, "tdoe"
+  ;; will firstly try to match `toggle-debug-on-error', "orn" will match
+  ;; `org-roam-node-*'. This completion style is more efficient, especially
+  ;; when you're already familiar with some frequently-used commands.
+  (orderless-define-completion-style +orderless-with-initialism
+    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
+  (setq completion-styles '(orderless basic)
+        ;; These are default values for `completion-category-overrides', which
+        ;; will override the default `completion-styles'. I just want to use
+        ;; orderless exclusively.
+        completion-category-defaults nil
+        completion-category-overrides '(;; enable initialism by default for symbols
+                                        (command (styles +orderless-with-initialism))
+                                        (variable (styles +orderless-with-initialism))
+                                        (symbol (styles +orderless-with-initialism)))
+        orderless-component-separator #'orderless-escapable-split-on-space ;; allow escaping space with backslash!
+        orderless-style-dispatchers (list #'+orderless-consult-dispatch
+                                          #'orderless-affix-dispatch))
+  )
 
 
 ;;; Use "C-;" to ease your life!
