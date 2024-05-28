@@ -341,3 +341,6 @@
 [submodule "packages/cape"]
 	path = packages/cape
 	url = https://github.com/minad/cape
+[submodule "packages/eglot"]
+	path = packages/eglot
+	url = https://github.com/emacs-straight/eglot
