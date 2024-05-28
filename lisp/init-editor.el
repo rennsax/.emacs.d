@@ -96,7 +96,11 @@
 ;; rotate.el: provide convenient window layout management functions.
 (celeste/package-autoload 'rotate)
 
-;; Purcell's aggressive whitespace auto cleanup routine.
+;; Smartly cleanup whitespaces on saving buffers. The package's idea is simple
+;; but practical: if the file's whitespaces is *initially* clean (when visited),
+;; then it will set `whitespace-cleanup-mode-only-if-initially-clean' to t, and
+;; automatically cleanup whitespace. If the file is not initially clean,
+;; manually `delete-trailing-whitespace' and then revert the buffer.
 (use-package whitespace-cleanup-mode
   :diminish whitespace-cleanup-mode
   :init

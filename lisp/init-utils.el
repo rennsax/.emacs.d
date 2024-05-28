@@ -17,7 +17,7 @@
 (defun pure-save-buffer ()
   "Save current file w/o running `before-save-hook'."
   (interactive)
-  (let (before-save-hook after-save-hook)
+  (let (before-save-hook after-save-hook write-file-functions)
     (save-buffer)))
 
 (defun reload-this-file ()
