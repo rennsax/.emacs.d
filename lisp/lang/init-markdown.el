@@ -1,12 +1,16 @@
-;;; init-markdown.el -- Markdown support. -*- lexical-binding: t -*-
+;;; init-markdown.el -- Markdown support -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-
 
 ;; For further usage, read https://github.com/jrblevin/markdown-mode#usage.
 (use-package markdown-mode
   :init
   (celeste/prepare-package markdown-mode)
+
+  (ide-zero-define markdown
+                   :mode markdown-mode
+                   :lsp ("marksman"))
+
   :mode (("\\.md\\'" . markdown-mode)
          ;; Github Flavoured Markdown files
          ("README\\.md\\'" . gfm-mode))
@@ -39,14 +43,8 @@
   (celeste/prepare-package edit-indirect)
   )
 
-(use-package markdown-toc
-  :init
-  (celeste/prepare-package s)
-  (celeste/prepare-package dash)
-  (celeste/prepare-package markdown-toc)
 
-  :commands (markdown-toc-generate-toc markdown-toc-refresh-toc))
-
+
 (provide 'init-markdown)
 ;;; init-markdown.el ends here
 
