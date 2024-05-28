@@ -344,3 +344,6 @@
 [submodule "packages/eglot"]
 	path = packages/eglot
 	url = https://github.com/emacs-straight/eglot
+[submodule "packages/track-changes"]
+	path = packages/track-changes
+	url = https://github.com/emacs-straight/track-changes
