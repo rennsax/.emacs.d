@@ -347,3 +347,6 @@
 [submodule "packages/track-changes"]
 	path = packages/track-changes
 	url = https://github.com/emacs-straight/track-changes
+[submodule "packages/jsonrpc"]
+	path = packages/jsonrpc
+	url = https://github.com/emacs-straight/jsonrpc
