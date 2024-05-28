@@ -128,7 +128,10 @@
           "\\*helpful.*\\*" "\\*Help\\*"
           "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
           "\\*osx-dictionary\\*"
-          "\\`\\*devdocs\\*\\'"))
+          "\\`\\*devdocs\\*\\'"
+          "\\`\\*Backtrace\\*\\'"
+          "\\`\\*Disabled Command\\*\\'"
+          "\\`\\*Flycheck checker\\*\\'"))
   (with-eval-after-load 'org-agenda
     (add-to-list 'consult-buffer-filter (regexp-quote org-agenda-buffer-name)))
 

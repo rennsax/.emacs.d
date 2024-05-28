@@ -37,9 +37,7 @@ For example, diffs and log buffers. Accepts `left', `right', `up', and `down'.")
                                magit-diff-mode
                                magit-stash-mode
                                magit-status-mode))))
-              '(display-buffer-same-window))
-
-             ('(+magit--display-buffer-in-direction))))))
+              '(display-buffer-same-window))))))
 
 (defun +magit--display-buffer-in-direction (buffer alist)
   "`display-buffer-alist' handler that opens BUFFER in a direction.

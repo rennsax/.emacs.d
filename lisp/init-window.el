@@ -5,6 +5,23 @@
 (eval-when-compile (require 'rx))
 
 
+;;; Initialization, global settings.
+
+(setq display-buffer-base-action '(nil))
+
+;; By default Emacs distinguishes between automatic and manual window switching.
+;; If you effect a window switch yourself with C-x b, it’s manual — and exempt
+;; from any display action rules you create yourself. *You probably don’t want
+;; that*. Example: `multi-vterm'.
+(setq switch-to-buffer-obey-display-actions t)
+
+(setq switch-to-buffer-in-dedicated-window nil)
+
+;; Cursor type in non-selected window
+(setq-default cursor-in-non-selected-windows 'hollow)
+
+
+
 ;;; Packages.
 
 ;; `tab-bar-mode' in Emacs is much more like a window configuration stack.
@@ -16,7 +33,11 @@
         tab-bar-tab-hints t            ; show number
         tab-bar-new-tab-choice #'get-scratch-buffer-create)
 
-  (delq 'tab-bar-format-add-tab tab-bar-format))
+  ;; It's inappropriate to use the side effect of `delq'. Better choice: use
+  ;; `remq', which does not modify the list.
+  (setq tab-bar-format
+        (delq 'tab-bar-format-add-tab tab-bar-format))
+  )
 
 ;; Restore old window configurations.
 (use-package winner
@@ -28,21 +49,68 @@
 
 ;; Window management routines from abo-abo.
 (use-package ace-window
-  :init
-  (celeste/prepare-package ace-window)
   :commands (ace-window
              ace-delete-window
-             ace-swap-window)
+             ace-swap-window
+             ace-display-buffer
+             aw-select)
+
+  :init
+  (celeste/prepare-package ace-window)
+  ;; Switch to the window that already displays the buffer, otherwise use
+  ;; `aw-select' to choose a window interactively.
+  (setq display-buffer-base-action '((display-buffer-reuse-window
+                                      ace-display-buffer)))
+
+  (defun ace-copy-window ()
+    "Ace copy window."
+    (interactive)
+    (aw-select " Ace - Copy Window" #'aw-copy-window))
+
+  :hook (after-init . ace-window-display-mode)
   :config
   ;; Always show dispatcher even there are only two windows.
   (setq aw-dispatch-always t)
   ;; Do not ignore any buffer.
   (setq aw-ignore-on nil)
   (setq aw-keys '(?h ?j ?k ?l ?u ?i ?o))
+
   (with-eval-after-load 'pulsar
-    (add-to-list 'pulsar-pulse-functions #'ace-window))
+    (setq pulsar-pulse-functions
+          (append pulsar-pulse-functions
+                  '(ace-window ace-display-buffer))))
+
+
+  ;; When `aw-select', hide cursors in all windows.
+  (define-advice aw-select (:around (fun &rest r) hide-cursor)
+    (let ((cursor-in-non-selected-windows nil))
+      (apply fun r)))
+
   )
 
+(defun display-buffer-base-action--empty-wrapper-a (fun &rest args)
+  "Set `display-buffer-base-action' to (nil) before calling FUN."
+  (let ((display-buffer-base-action (list nil)))
+    (apply fun args)))
+
+(defmacro display-buffer-base-empty-wrap (feature fun)
+  "After loading FEATURE, protect FUN with plain `display-buffer-base-action'.
+
+FUN is the symbol of the function declared by FEATURE, or a lambda expression
+that returns the symbol."
+  `(with-eval-after-load ',feature
+     (advice-add ,(cond ((and (symbolp fun)
+                              (fboundp fun))
+                         `(quote ,fun))
+                          ((and (listp fun)
+                                (eq (car fun) 'lambda))
+                           `(funcall ,fun))
+                          (t (user-error "Unable to handle %s" fun)))
+                 :around #'display-buffer-base-action--empty-wrapper-a)))
+
+(display-buffer-base-empty-wrap consult consult-buffer-other-window)
+(display-buffer-base-empty-wrap magit (lambda () magit-display-buffer-function))
+(display-buffer-base-empty-wrap org-capture org-capture)
 
 
 
@@ -50,11 +118,15 @@
 (with-eval-after-load 'man
   (setq Man-notify-method 'pushy))
 
-;; By default Emacs distinguishes between automatic and manual window switching.
-;; If you effect a window switch yourself with C-x b, it’s manual — and exempt
-;; from any display action rules you create yourself. *You probably don’t want
-;; that*. Example: `multi-vterm'.
-(setq switch-to-buffer-obey-display-actions t)
+;; Tips:
+
+;; 1. Use `(body-function . select-window)' for transient (not transient.el)
+;; windows. Typically I want to press "q" immediately to get rid of them.
+
+;; 2. Set `window-min-height'. Some buffers provide extra information for the
+;; current buffer, so I just want to display that below, always! Setting
+;; `window-min-height' to a small number (e.g. 2) guarantees a window is created
+;; below at most of the situations.
 
 (setq display-buffer-alist
       `(;;; no window
@@ -70,13 +142,17 @@
 
         ;;; override the selected window
         ((or . ((derived-mode . Custom-mode)
-                (derived-mode . Buffer-menu-mode)))
+                (derived-mode . Buffer-menu-mode)
+                (derived-mode . deadgrep-mode)
+                (derived-mode . forge-post-mode)))
          (display-buffer-same-window))
 
         ;;; side-window
 
         ((or . (,(rx bos "*lsp-bridge-doc*" eos)
-                ,(rx "Output*" eos)))            ; "*Pp Eval Output*, for example"
+                ,(rx bos "*eldoc*" eos)
+                ,(rx "Output*" eos)     ; "*Pp Eval Output*, for example"
+                ,(rx bos "*Messages*" eos)))
          (display-buffer-in-side-window)
          (dedicated . t)
          (side . bottom))
@@ -96,7 +172,8 @@
          (display-buffer-in-side-window)
          (dedicated . t)
          (side . bottom)
-         (window-height . 0.35))
+         (window-height . 0.35)
+         (body-function . select-window))
 
         ((or . ((derived-mode . osx-dictionary-mode)
                 ,(rx bos "*devdocs*" eos)))
@@ -109,14 +186,24 @@
         ((or . ("\\`\\*xref\\*\\'"
                 "\\`\\*Abbrevs\\*\\'"))
          (display-buffer-reuse-mode-window
-          display-buffer-below-selected)
-         (window-height . 0.3)
+          display-buffer-below-selected
+          display-buffer-same-window)
+         (window-min-height . 8)
          (dedicated . t))
+
+        ((or . (,(rx bos "*Warnings*" eos)
+                (derived-mode . debugger-mode)))
+         (display-buffer-reuse-mode-window
+          display-buffer-below-selected)
+         (window-min-height . 2)
+         (window-height body-lines . 16)
+         (dedicated . t)
+         (body-function . select-window))
 
         (,(rx bos "*edit-indirect " (* nonl) ?* eos)
          (display-buffer-reuse-window
           display-buffer-below-selected)
-         (window-height . 0.6)
+         (window-height . 0.4)
          (dedicated . t))
 
       ))
@@ -128,7 +215,7 @@
                `(,(regexp-quote org-agenda-buffer-name)
                  (display-buffer-in-side-window)
                  (side . right)
-                 (window-width . 0.35)
+                 (window-width body-columns . 50)
                  (dedicated . t))))
 
 (with-eval-after-load 'org
@@ -138,7 +225,7 @@
                         ,(rx bos "*Org Note*" eos)))
                  (display-buffer-reuse-window
                   display-buffer-below-selected)
-                 (window-height . 0.6)
+                 (window-height . 0.4)
                  (dedicated . t))))
 
 

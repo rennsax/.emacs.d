@@ -40,6 +40,9 @@
   (celeste/prepare-package-2 with-editor "lisp" :info "docs")
   (celeste/prepare-package-2 magit "lisp" :info "docs")
 
+  ;; So it can be successfully advised by `init-window'
+  (setq magit-display-buffer-function #'+magit-display-buffer-fn)
+
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)
          ("C-c g e i" . magit-gitignore-in-topdir)
@@ -62,8 +65,7 @@
 
   ;; Magit window settings.
   (celeste/autoload '+magit-display-buffer-fn magit)
-  (setq magit-bury-buffer-function #'magit-mode-quit-window
-        magit-display-buffer-function #'+magit-display-buffer-fn)
+  (setq magit-bury-buffer-function #'magit-mode-quit-window)
 
   ;; Add missing options.
   (transient-append-suffix 'magit-pull "-r"

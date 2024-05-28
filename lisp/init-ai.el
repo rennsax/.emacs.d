@@ -13,7 +13,10 @@
   ;; `gptel-curl-get-response'
   (require 'gptel-curl)
   ;; `gptel-system-prompt'
-  (require 'gptel-transient))
+  (require 'gptel-transient)
+
+  (setq gptel-display-buffer-action (list #'display-buffer-same-window))
+  )
 
 
 (provide 'init-ai)

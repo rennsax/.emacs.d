@@ -11,7 +11,11 @@
   (celeste/prepare-package spinner)
   (celeste/prepare-package deadgrep)
 
-  :bind ("C-c r g" . deadgrep))
+  :bind ("C-c r g" . deadgrep)
+  :config
+  ;; Use the standard `display-buffer' so we can customize the behavior in `display-buffer-alist'.
+  (setq deadgrep-display-buffer-function #'display-buffer)
+  )
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
 (use-package emacs-everywhere
