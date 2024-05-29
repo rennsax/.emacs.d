@@ -6,9 +6,27 @@
 (use-package vterm
   ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
+
   :init
   (celeste/prepare-package vterm)
-  :commands vterm
+
+  (defun project-vterm ()
+    "Switch to the existing project vterm buffer or create a new one."
+    (interactive)
+    (let* ((default-directory (project-root (project-current t)))
+           (project-name
+            (file-name-nondirectory (directory-file-name default-directory)))
+           (buf-name (format "*vterm<%s>*" project-name))
+           (buf (get-buffer buf-name)))
+      (if (and buf
+               (buffer-live-p buf))
+          (switch-to-buffer buf)
+        (vterm buf-name))))
+
+  :bind (("C-c b t" . vterm)
+         :map project-prefix-map
+         ("t" . project-vterm))
+
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
   ;;      the package is loaded, this is necessary to prevent it when
@@ -29,33 +47,19 @@
                                  (setq-local hscroll-margin 0)
                                  (when (featurep 'evil-escape)
                                    (evil-escape-mode -1))))
+
   (bind-keys :map vterm-mode-map
              ("C-u" . vterm--self-insert)
              ;; TODO: `vterm--self-insert' seems has no effect.
              ("C-x C-e" . (lambda () (interactive)
                             (vterm-send-key "x" nil nil 'ctrl)
-                            (vterm-send-key "e" nil nil 'ctrl))))
+                            (vterm-send-key "e" nil nil 'ctrl)))
+             :map vterm-copy-mode-map
+             ("q" . vterm-copy-mode-done)
+             ("p" . previous-line)
+             ("n" . next-line))
+
   )
-;; Manage multiple vterm buffers.
-(use-package multi-vterm
-  :init
-  (celeste/prepare-package multi-vterm)
-  :bind (("C-c b t" . multi-vterm))
-  :commands (multi-vterm-dedicated-toggle
-             multi-vterm-dedicated-open))
-
-;;;###autoload
-(defun +project-vterm ()
-  "Open vterm at the project root."
-  (interactive)
-  (let* ((default-directory (project-root (project-current t))))
-    (if current-prefix-arg
-        (multi-vterm)
-      (vterm))))
-
-(when (bound-and-true-p project-switch-commands)
-  (add-to-list 'project-switch-commands
-               '(+project-vterm "vterm" "t")))
 
 
 

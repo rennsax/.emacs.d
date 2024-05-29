@@ -8,10 +8,11 @@
   (setq project-switch-commands '((project-find-file "Find file")
                                   (consult-fd "Fd" "F")
                                   (consult-ripgrep "Ripgrep" "R")
-                                  (deadgrep "Deadgrep" "G")
+                                  (deadgrep "deadGrep" "G")
                                   (project-dired "Dired")
                                   (magit-project-status "Magit" "m")
                                   (project-eshell "Eshell")
+                                  (project-vterm "vTerm" "t")
                                   (keyboard-quit "Quit" "q")))
   :config
   (dolist (unmap-key '("s" "v"))
