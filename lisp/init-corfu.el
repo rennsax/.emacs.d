@@ -12,7 +12,7 @@
 (celeste/prepare-package corfu "" "extensions")
 
 (use-package corfu
-  :init
+  :hook (after-init . global-corfu-mode)
 
   :commands corfu-mode
 
@@ -85,6 +85,63 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
   :bind (:map corfu-map
               ("M-q" . corfu-quick-complete)
               ("C-q" . corfu-quick-insert)))
+
+
+
+;;; cape: Completion At Point Extension
+
+;; cape is another brilliant package developed by Daniel Mendler, which makes
+;; capf more powerful and extensive
+
+(celeste/prepare-package cape)
+
+(use-package cape
+  :init
+  ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+
+  (with-eval-after-load 'eglot
+    ;; This may hurt performance. LSP servers usually limit the completion
+    ;; candidates to a small number, to avoid sending large amounts of data over
+    ;; the JSONRPC protocol. If the server does not guarantee returning all
+    ;; valid completions matching the prefix, you will miss potentially valid
+    ;; completions. In case of doubt, use `cape-wrap-buster'.
+    (advice-add #'eglot-completion-at-point :around #'cape-wrap-buster)
+
+    ;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
+    (defun +cape-set-eglot-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         #'eglot-completion-at-point
+                         #'tempel-complete))))
+
+    ;; REVIEW: 2024-05-29 this is buggy, at least with gopls.
+    ;; (add-hook 'eglot-managed-mode-hook #'+cape-set-eglot-capf)
+    )
+
+  :commands cape-wrap-buster cape-capf-super
+
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-elisp-symbol)
+         ("C-c p e" . cape-elisp-block)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict))
+  )
+
+(use-package cape-char
+  :bind (("C-c p :" . cape-emoji)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345)))
 
 
 

@@ -256,7 +256,11 @@
         completion-category-overrides '(;; enable initialism by default for symbols
                                         (command (styles +orderless-with-initialism))
                                         (variable (styles +orderless-with-initialism))
-                                        (symbol (styles +orderless-with-initialism)))
+                                        (symbol (styles +orderless-with-initialism))
+                                        ;; REVIEW: 2024-05-29 we need to use the styles provided by eglot
+                                        ;; (eglot (styles orderless))
+                                        ;; (eglot-capf (styles orderless))
+                                        )
         orderless-component-separator #'orderless-escapable-split-on-space ;; allow escaping space with backslash!
         orderless-style-dispatchers (list #'+orderless-consult-dispatch
                                           #'orderless-affix-dispatch))
