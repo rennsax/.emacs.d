@@ -11,6 +11,12 @@
 (use-package olivetti
   :init
   (celeste/prepare-package olivetti)
+
+  ;; Turn on `olivetti-mode' when browsing help page.
+  (add-hook 'help-mode-hook #'olivetti-mode)
+  (with-eval-after-load 'helpful
+    (add-hook 'helpful-mode-hook #'olivetti-mode))
+
   :commands olivetti-mode
   :diminish olivetti-mode
   :config
