@@ -1,6 +1,42 @@
-;;; init-help.el -- Make Emacs manual more readable! -*- lexical-binding: t -*-
+;;; init-help.el -- Make Emacs manual more readable -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
+
+
+
+;;; man integration
+
+(use-package man
+  :init
+  ;; Generalized interface to browse Linux manual page.
+  (defvar manual-program)
+  (defvar linux-manual-dir "~/.local/share/linux-man")
+  (defun +darwin-lman (&optional man-arg)
+    "Browse Linux manual on macOS."
+    (interactive)
+    (let ((manual-program (concat "man -M " linux-manual-dir)))
+      (if man-arg
+          (man man-arg)
+        (call-interactively #'man))))
+  (cond (sys/mac (defalias 'lman '+darwin-lman))
+        (sys/linux (defalias 'lman 'man)))
+
+  ;; Bind keys.
+  (bind-keys ("C-c m m" . man)
+             ("C-c m l" . lman))
+
+  (when sys/mac
+    ;; Check: https://github.com/abo-abo/swiper/issues/2836#issuecomment-831292443.
+    ;; 1. Install man-db (nongnu's implementation).
+    ;; 2. Run `mandb' in the shell to build cache.
+    (setq manual-program "gman"))
+
+  ;; Integration with embark
+  (with-eval-after-load 'embark
+    (keymap-set embark-identifier-map "M m" #'man)
+    (keymap-set embark-identifier-map "M l" #'lman))
+  )
+
 
 
 ;; Better Emacs *help* buffer that provides much more contextual information.
