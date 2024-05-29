@@ -220,9 +220,6 @@
 [submodule "packages/elisp-demos"]
 	path = packages/elisp-demos
 	url = https://github.com/xuchunyang/elisp-demos.git
-[submodule "packages/multi-vterm"]
-	path = packages/multi-vterm
-	url = https://github.com/suonlight/multi-vterm.git
 [submodule "packages/eshell-syntax-highlighting"]
 	path = packages/eshell-syntax-highlighting
 	url = https://github.com/akreisher/eshell-syntax-highlighting
