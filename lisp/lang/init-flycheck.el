@@ -9,6 +9,11 @@
 (use-package flycheck
   :init
   (celeste/prepare-package flycheck)
+
+  ;; Enable syntax checking whenever eglot is managing the buffer.
+  (with-eval-after-load 'eglot
+    (add-hook 'eglot-managed-mode-hook #'flycheck-mode))
+
   :commands flycheck-mode
   :config
   ;; Check syntax when: the file is saved, a short time

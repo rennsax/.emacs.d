@@ -5,14 +5,11 @@
 
 (use-package go-mode
   :init
-  (celeste/prepare-package go-mode)
+  (celeste/package-autoload 'go-mode)
   (ide-zero-define go
                    :mode (go-mode go-ts-mode)
                    :lsp ("gopls")
-                   :linter golangci-lint)
-
-  :mode (("\\.go\\'" . go-mode)
-         ("go\\.mod$" . go-dot-mod-mode))
+                   :linter lsp)
 
   :config
   (setenv "GO111MODULE" "on")

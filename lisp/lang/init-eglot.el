@@ -6,8 +6,15 @@
 ;;; Eglot is the out-of-box LSP client lives in Emacs itself.
 
 (use-package eglot
+  :init
+  ;; Use newer Eglot. It depends on newer jsonrpc.
+  (celeste/prepare-package compat)
+  (celeste/prepare-package track-changes)
+  (celeste/prepare-package-2 eglot :load-path "" :info "")
+  :commands eglot eglot-ensure
   :bind (:map eglot-mode-map
-              ("M-F" . eglot-format-buffer))
+              ("M-F" . eglot-format)    ; format the active or the entire buffer
+              ("<f2>" . eglot-rename))
   :config
   (setq eglot-autoshutdown t)
 
@@ -16,10 +23,6 @@
   (setq eglot-ignored-server-capabilities
         '(:colorProvider
           :foldingRangeProvider))
-
-  ;; Enable `corfu-mode', since `eglot' kindly extends `completion-at-point'.
-  (with-eval-after-load 'corfu
-    (add-to-list 'eglot-managed-mode-hook #'corfu-mode))
 
   )
 
@@ -51,3 +54,7 @@
 
 (provide 'init-eglot)
 ;;; init-eglot.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
