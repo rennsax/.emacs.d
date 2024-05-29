@@ -33,6 +33,18 @@
   ;; Default is 400. If more than threshold, an annoying warning appears.
   (setq flycheck-checker-error-threshold 1000)
 
+  (defun flycheck-buffer-with (checker)
+    "Use CHECKER to check the buffer."
+    (interactive
+     (if current-prefix-arg
+         (list nil)
+       (list (flycheck-read-checker "Select checker: "
+                                    (flycheck-get-checker-for-buffer)))))
+    (let ((flycheck-checker checker))
+      (flycheck-buffer)))
+
+  (keymap-set flycheck-command-map "S" #'flycheck-buffer-with)
+
   )
 
 ;; `consult-flycheck'
