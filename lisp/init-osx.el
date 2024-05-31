@@ -28,6 +28,10 @@
 
 ;;; Key bindings.
 
+;; Map the right command to control. Mac's right command key is redundant to me.
+(when sys/mac
+  (setq mac-right-command-modifier 'control))
+
 ;; C-z is mapped to `suspend-frame'. In macOS, it hides the frame (with the
 ;; native Cocoa API) instead, which is useless.
 ;; "s-t" - `menu-set-font'

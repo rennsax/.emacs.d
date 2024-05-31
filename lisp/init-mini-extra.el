@@ -35,21 +35,6 @@
 (bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
            ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
 
-;; Map the right command to control. Mac's right command key is redundant to me.
-(when sys/mac
-  (setq mac-right-command-modifier 'control))
-
-
-;;; Extra settings.
-
-;; Always keeps my "remote" files on the OrbStack VM. By default, They become unreachable
-;; when I turn down the VM, and are removed from the recentf list.
-(with-eval-after-load 'recentf
-  (add-to-list 'recentf-keep "^/ssh:orb:"))
-
-;; Also consider `superword-mode'.
-(add-hook 'prog-mode-hook #'subword-mode)
-
 
 ;;; Data and cache directories.
 
