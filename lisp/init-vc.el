@@ -71,6 +71,10 @@
   (transient-append-suffix 'magit-pull "-r"
     '("-a" "Autostash" "--autostash"))
 
+  ;; Hybrid of `magit-checkout' and `magit-branch-and-checkout'.
+  (transient-replace-suffix 'magit-branch 'magit-checkout
+    '("b" "dwim" magit-branch-or-checkout))
+
   ;; Clean up after magit by killing leftover magit buffers and reverting
   ;; affected buffers (or at least marking them as need-to-be-reverted).
   (celeste/autoload '+magit/quit magit)
