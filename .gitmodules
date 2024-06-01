@@ -311,9 +311,6 @@
 [submodule "packages/pulsar"]
 	path = packages/pulsar
 	url = https://github.com/protesilaos/pulsar
-[submodule "packages/auto-save"]
-	path = packages/auto-save
-	url = https://github.com/rennsax/auto-save
 [submodule "packages/highlight-indent-guides"]
 	path = packages/highlight-indent-guides
 	url = https://github.com/DarthFennec/highlight-indent-guides.git
