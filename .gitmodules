@@ -350,3 +350,6 @@
 [submodule "packages/beancount-mode"]
 	path = packages/beancount-mode
 	url = https://github.com/beancount/beancount-mode
+[submodule "packages/org-fragtog"]
+	path = packages/org-fragtog
+	url = https://github.com/io12/org-fragtog
