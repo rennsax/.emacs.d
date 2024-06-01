@@ -258,11 +258,22 @@ or file path may exist now."
   (setq recentf-auto-cleanup (if (daemonp) 300))
   (add-hook 'kill-emacs-hook #'recentf-cleanup)
 
+  ;; REVIEW: Use this in lieu of `doom--recentf-file-truename-fn'.
+  ;;   See emacs-mirror/emacs@32906819addd.
+  ;; (setq recentf-show-abbreviated t)
+
+  (defun recentf--file-truename-abbred-fn (file)
+    "Get the truename of FILE and strip out the /sudo:X@ prefix."
+    (if (or (not (file-remote-p file))
+            (equal "sudo" (file-remote-p file 'method)))
+        (abbreviate-file-name (file-truename (tramp-file-name-localname file)))
+      file))
+
   (add-to-list 'recentf-exclude
 	       (concat "^" (regexp-quote (or (getenv "XDG_RUNTIME_DIR")
 					     "/run"))))
   ;; Filenames are shortened.
-  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name)
+  (add-to-list 'recentf-filename-handlers #'recentf--file-truename-abbred-fn)
   ;; Text properties inflate the size of recentf's files, and there is
   ;; no purpose in persisting them (Must be first in the list!)
   (add-to-list 'recentf-filename-handlers #'substring-no-properties))
