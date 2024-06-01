@@ -59,44 +59,6 @@
   (celeste/prepare-package consult-flycheck)
   :bind (("C-c s d" . consult-flycheck)))
 
-;; Show diagnostic information in the buffer.
-(use-package sideline
-  :init
-  (celeste/prepare-package ht)
-  (celeste/prepare-package sideline)
-  :diminish
-  :config
-  (setq sideline-backends-left-skip-current-line t
-        ;; Allow right sideline at the current line
-        sideline-backends-right-skip-current-line nil
-        sideline-order-right 'down
-        sideline-order-left 'down
-        sideline-priority 100 ; overlays' priority
-        sideline-delay 1.0 ; longer delay
-        )
-  ;; More eye-catching annotation.
-  (setq sideline-format-left "%s   "
-        sideline-format-right "   %s"
-        sideline-display-backend-name t
-        sideline-display-backend-format "[%s]")
-
-  ;; TODO sideline is a pretty package, but it's too young, and I've discovered
-  ;; some bugs:
-  ;; 1. `sideline-delay' is not respected
-  ;; 2. when sideline is show, then `revert-buffer', the sideline will freeze
-  ;; there.
-  )
-
-(use-package sideline-flycheck
-  :init
-  (celeste/prepare-package sideline-flycheck)
-  :hook ((flycheck-mode . sideline-mode)
-         (flycheck-mode . sideline-flycheck-setup))
-  :config
-  ;; (setq sideline-backends-right '(sideline-flycheck))
-  (setq sideline-backends-left '(sideline-flycheck))
-  )
-
 
 
 (provide 'init-flycheck)
