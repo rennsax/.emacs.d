@@ -109,45 +109,6 @@
   :config
   (setq whitespace-cleanup-mode-preserve-point t))
 
-;; `auto-save' from manteelazycat (my personal fork).
-(use-package auto-save
-  :init
-  (celeste/prepare-package auto-save)
-
-  (define-minor-mode celeste/auto-save-mode
-    "Save buffers automatically."
-    :global t
-    :lighter " AS"
-    :keymap nil
-    (if celeste/auto-save-mode
-        (auto-save-enable)
-      (auto-save-disable)))
-  (add-hook 'after-init-hook #'celeste/auto-save-mode)
-
-  ;; Disable Emacs's `auto-save-mode'. To check whether this minor mode is
-  ;; enabled in the current buffer, evaluate:
-  ;; (and buffer-auto-save-file-name (>= buffer-saved-size 0))
-  (setq auto-save-default nil)
-  (setq auto-save-silent t)
-
-  :commands (auto-save-enable
-             auto-save-disable)
-  :config
-  ;; `celeste/auto-save-mode' must be re-enabled after changing this value.
-  (setq auto-save-idle 1.0)
-
-  (defun +celeste/auto-save-temp-disable-a (oldfun &optional args)
-    (if (not celeste/auto-save-mode)
-        (apply oldfun args)
-      (celeste/auto-save-mode -1)
-      (apply oldfun args)
-      (celeste/auto-save-mode +1)))
-
-  ;; auto-save while vundo is annoying.
-  (with-eval-after-load 'vundo
-    (add-hook 'vundo-pre-enter-hook (lambda () (celeste/auto-save-mode -1)))
-    (add-hook 'vundo-post-exit-hook (lambda () (celeste/auto-save-mode +1))))
-  )
 
 
 (provide 'init-editor)
