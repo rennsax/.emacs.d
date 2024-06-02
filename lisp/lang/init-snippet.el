@@ -11,6 +11,7 @@
   :init
   (celeste/prepare-package yasnippet)
   :diminish yas-minor-mode
+  :commands yas-minor-mode
   :config
   (yas-global-mode +1)
   (bind-keys :map yas-keymap
@@ -23,6 +24,7 @@
 ;;; Tempel
 
 ;; Lightweight templates.
+;; In fact, tempel does not conflict with `yas-minor-mode'.
 (use-package tempel
   :init
   (celeste/prepare-package compat)
