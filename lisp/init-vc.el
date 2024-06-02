@@ -48,7 +48,9 @@
          ("C-c g e i" . magit-gitignore-in-topdir)
          ("C-c g m a" . magit-submodule-add)
          ("C-c g m d" . magit-submodule-remove)
-         ("C-c g m c" . magit-clone))
+         ("C-c g m c" . magit-clone)
+         ("C-c g f s" . magit-stage-buffer-file)
+         ("C-c g c" . magit-commit))
   :hook (after-init . magit-auto-revert-mode)
   :config
   (setq magit-diff-refine-hunk t ; show granular diffs in selected hunk

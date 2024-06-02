@@ -89,6 +89,9 @@
   ("k" windmove-up)
   ("j" windmove-down)
 
+  ("u" winner-undo)
+  ("C-r" winner-redo)
+
   ("v" (lambda () (interactive) (split-window-right) (windmove-right)) "vert")
   ("x" (lambda () (interactive) (split-window-below) (windmove-down)) "horz")
 
