@@ -311,9 +311,6 @@
 [submodule "packages/flycheck-eglot"]
 	path = packages/flycheck-eglot
 	url = https://github.com/flycheck/flycheck-eglot
-[submodule "packages/eglot-tempel"]
-	path = packages/eglot-tempel
-	url = https://github.com/fejfighter/eglot-tempel
 [submodule "packages/nerd-icons-corfu"]
 	path = packages/nerd-icons-corfu
 	url = https://github.com/LuigiPiucco/nerd-icons-corfu
