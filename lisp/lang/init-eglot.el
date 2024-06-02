@@ -40,13 +40,6 @@
   ;; `flycheck-checkers'.
   (setq-default flycheck-eglot-exclusive t))
 
-(use-package eglot-tempel
-  :after eglot
-  :demand t
-  :init (celeste/prepare-package eglot-tempel)
-  :config
-  (eglot-tempel-mode +1))
-
 
 ;; TODO: elgot-x?
 
