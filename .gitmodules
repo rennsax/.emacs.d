@@ -344,3 +344,6 @@
 [submodule "packages/alert"]
 	path = packages/alert
 	url = https://github.com/jwiegley/alert
+[submodule "packages/magit-todos"]
+	path = packages/magit-todos
+	url = https://github.com/alphapapa/magit-todos
