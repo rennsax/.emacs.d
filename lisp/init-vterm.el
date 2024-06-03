@@ -22,10 +22,21 @@
                (buffer-live-p buf))
           (switch-to-buffer buf)
         (vterm buf-name))))
+  (with-eval-after-load 'project
+    (keymap-set project-prefix-map "t" #'project-vterm))
 
-  :bind (("C-c b t" . vterm)
-         :map project-prefix-map
-         ("t" . project-vterm))
+  (defun +vterm-at (file &optional arg)
+    (interactive "fVterm directory: \nP")
+    (while (not (file-directory-p file))
+      (setq file (file-name-directory file)))
+    (let ((default-directory file))
+      ;; Use C-u prefix, so a new vterm is always created.
+      (vterm (or arg '(4)))))
+
+  (with-eval-after-load 'embark
+    (keymap-set embark-file-map "t" #'+vterm-at))
+
+  :bind (("C-c b t" . vterm))
 
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
@@ -59,6 +70,11 @@
              ("p" . previous-line)
              ("n" . next-line))
 
+  ;; It's true that I'm a Zsh lover.
+  (setq vterm-tramp-shells '(("docker" "/bin/sh")
+                             ;; REVIEW: Why quoted? See https://github.com/akermu/emacs-libvterm/issues/569#issuecomment-1615431427
+                             ;; It might be a Tramp bug.
+                             ("ssh" "'/bin/zsh'")))
   )
 
 
