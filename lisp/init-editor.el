@@ -110,6 +110,10 @@
   (setq whitespace-cleanup-mode-preserve-point t))
 
 
+;; Undo keyboard macros in a single step
+(require 'block-undo)
+
+
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
