@@ -12,9 +12,9 @@
 (require 'init-snippet)
 (require 'init-treesit)
 
-(use-package ide-zero
-  :init (celeste/prepare-package ide-zero)
-  :commands ide-zero-define)
+(eval-when-compile
+  (celeste/prepare-package ide-zero)
+  (require 'ide-zero))
 
 
 
