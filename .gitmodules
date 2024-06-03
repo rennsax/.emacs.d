@@ -341,3 +341,6 @@
 [submodule "packages/org-fragtog"]
 	path = packages/org-fragtog
 	url = https://github.com/io12/org-fragtog
+[submodule "packages/alert"]
+	path = packages/alert
+	url = https://github.com/jwiegley/alert
