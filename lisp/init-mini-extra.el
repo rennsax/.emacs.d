@@ -163,7 +163,7 @@
 ;; async compilation).
 
 (setq native-comp-async-report-warnings-errors 'silent)
-(setq native-comp-jit-compilation nil)  ; do not auto build .elc to .eln
+(setq native-comp-jit-compilation t)  ; do not auto build .elc to .eln
 
 
 (provide 'init-mini-extra)
