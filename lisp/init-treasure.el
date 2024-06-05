@@ -121,20 +121,6 @@
          ([remap project-switch-to-buffer] . consult-project-buffer))
 
   :config
-  (setq consult-buffer-filter
-        `("\\` " "\\`\\*Completions\\*\\'" "\\`\\*Flymake log\\*\\'" "\\`\\*Semantic SymRef\\*\\'" "\\`\\*tramp/.*\\*\\'" ; original
-          "Output\\*\\'"
-          "\\`\\*\\(?:Async Shell Command\\|Messages\\|Warnings\\|Compile-Log\\|Compilation\\)\\*\\'"
-          "\\*helpful.*\\*" "\\*Help\\*"
-          "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
-          "\\*osx-dictionary\\*"
-          "\\`\\*devdocs\\*\\'"
-          "\\`\\*Backtrace\\*\\'"
-          "\\`\\*Disabled Command\\*\\'"
-          "\\`\\*Flycheck checker\\*\\'"))
-  (with-eval-after-load 'org-agenda
-    (add-to-list 'consult-buffer-filter (regexp-quote org-agenda-buffer-name)))
-
   ;; https://github.com/minad/consult/wiki#manual-preview-for-non-consult-commands-using-embark
   (progn
     (keymap-set minibuffer-local-map "M-." #'+minibuffer-embark-preview)

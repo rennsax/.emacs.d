@@ -129,7 +129,9 @@ that returns the symbol."
 ;; below at most of the situations.
 
 (setq display-buffer-alist
-      `(;;; no window
+      `(
+
+;;; no window
 
         (,(rx bos "*Async Shell Command*" eos)
          (display-buffer-no-window))
@@ -140,17 +142,34 @@ that returns the symbol."
          ;; So `display-buffer-no-window' returns non-nil ("fail").
          (allow-no-window . t))
 
-        ;;; override the selected window
+;;; override the selected window (same window)
+
         ((or . ((derived-mode . Custom-mode)
                 (derived-mode . Buffer-menu-mode)
                 (derived-mode . deadgrep-mode)
                 (derived-mode . forge-post-mode)))
-         (display-buffer-same-window))
+         (display-buffer-reuse-mode-window
+          display-buffer-same-window))
 
-        ;;; side-window
+        ;; REVIEW: `info-lookup' is weird. To pop to a window for "*info*"
+        ;;   buffer, it:
+        ;;   1. Call `info' once with `save-window-excursion'.
+        ;;   2. Pop/switch to the window/buffer according to the result.
+        ;;   I do not quite understand this routine now. As a result, it will
+        ;;   call `display-buffer' twice, and if the current window is a dedicated
+        ;;   one, it triggers my `display-buffer-base-action' twice, which is
+        ;;   as I need to `ace-select-window' twice.
+        ;;
+        ;;   Therefore, the current workaround is to override its
+        ;;   `display-buffer' action.
+        (,(rx bos "*info*" eos)
+         (display-buffer-reuse-mode-window
+          display-buffer-same-window
+          display-buffer-use-some-window))
+
+;;; side-window
 
         ((or . (,(rx bos "*lsp-bridge-doc*" eos)
-                ,(rx bos "*eldoc*" eos)
                 ,(rx "Output*" eos)     ; "*Pp Eval Output*, for example"
                 ,(rx bos "*Messages*" eos)))
          (display-buffer-in-side-window)
@@ -168,7 +187,8 @@ that returns the symbol."
 
         ;; help/helpful
         ((or . ((derived-mode . help-mode)
-                (derived-mode . helpful-mode)))
+                (derived-mode . helpful-mode)
+                ,(rx bos "*eldoc*" eos)))
          (display-buffer-in-side-window)
          (dedicated . t)
          (side . bottom)
@@ -181,7 +201,10 @@ that returns the symbol."
          (dedicated . t)
          (side . bottom)
          (window-height . 0.3)
+         (body-function . select-window)
          (window-parameters . ((mode-line-format . none))))
+
+;;; Below the current window
 
         ((or . ("\\`\\*xref\\*\\'"
                 "\\`\\*Abbrevs\\*\\'"))
@@ -206,27 +229,43 @@ that returns the symbol."
          (window-height . 0.4)
          (dedicated . t))
 
+        ((or . (,(rx bos "*Org Src " (* nonl) ?* eos)
+                ,(rx "Org Note")
+                (derived-mode . calendar-mode)))
+         (display-buffer-reuse-window
+          display-buffer-below-selected)
+         (window-height . 0.4)
+         (dedicated . t))
+
       ))
 
 (keymap-global-set "C-`" #'window-toggle-side-windows)
 
-(with-eval-after-load 'org-agenda
-  (add-to-list 'display-buffer-alist
-               `(,(regexp-quote org-agenda-buffer-name)
-                 (display-buffer-in-side-window)
-                 (side . right)
-                 (window-width body-columns . 50)
-                 (dedicated . t))))
-
+;; Many commands of `org-mode' do not respect `display-buffer-alist'. They
+;; prefer to use their own options to customize the behavior of new buffer, for
+;; example, by `org-agenda-window-setup' we can configure how the new
+;; `org-agenda' buffer shows up, if instead of using it we manually configure
+;; `display-buffer-alist', then `org-agenda-quit' may call `delete-window',
+;; which break the window configuration.
 (with-eval-after-load 'org
-  (setq org-src-window-setup 'plain)
-  (add-to-list 'display-buffer-alist
-               `((or . (,(rx bos "*Org Src " (* nonl) ?* eos)
-                        ,(rx bos "*Org Note*" eos)))
-                 (display-buffer-reuse-window
-                  display-buffer-below-selected)
-                 (window-height . 0.4)
-                 (dedicated . t))))
+  (setq org-src-window-setup 'plain))
+
+;; Buffers with dedicated windows should be hidden in `consult-buffer', or
+;; consulting them will break the window configuration.
+(with-eval-after-load 'consult
+  (setq consult-buffer-filter
+        `("\\` " "\\`\\*Completions\\*\\'" "\\`\\*Flymake log\\*\\'" "\\`\\*Semantic SymRef\\*\\'" "\\`\\*tramp/.*\\*\\'" ; original
+          "Output\\*\\'"
+          "\\`\\*\\(?:Async Shell Command\\|Messages\\|Warnings\\|Compile-Log\\|Compilation\\)\\*\\'"
+          "\\*helpful.*\\*" "\\*Help\\*"
+          "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
+          "\\*osx-dictionary\\*"
+          "\\`\\*devdocs\\*\\'"
+          "\\`\\*Backtrace\\*\\'"
+          "\\`\\*Disabled Command\\*\\'"
+          "\\`\\*Flycheck checker\\*\\'"
+          "\\`\\*Calendar\\*\\'"))
+  )
 
 
 (provide 'init-window)
