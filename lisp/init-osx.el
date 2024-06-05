@@ -37,9 +37,20 @@
 ;; "s-t" - `menu-set-font'
 ;; "s-p" - `ns-print-buffer'
 ;; "s-m" - `iconify-frame', in macOS, just minimize the frame.
-(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n" "s-h"
-               "C-<wheel-up>" "C-<wheel-down>"))
+(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n" "s-h"))
   (keymap-global-unset key))
+
+(keymap-global-set "C-<wheel-up>" #'ignore)
+(keymap-global-set "C-<wheel-down>" #'ignore)
+
+;; Forbid using mouse wheel to select tab bars. My magical mouse is too
+;; sensitive.
+(dolist (key '("<wheel-down>"
+               "<wheel-up>"
+               "<wheel-right>"
+               "<wheel-left>"))
+  ;; Map to `ignore', so the annoying beep goes away!
+  (keymap-set tab-bar-map key #'ignore))
 
 (use-package tab-bar
   :init
