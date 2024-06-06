@@ -131,6 +131,23 @@
 
 
 
+;;; Some files are opened to be read-only for protection.
+
+(defcustom celeste-readonly-file-regexp
+  `(,lisp-directory)
+  "Regexp of file names that should be read-only when visited."
+  :group 'celeste
+  :type '(repeat regexp))
+
+(add-hook 'find-file-hook
+          (defun +file-set-readonly ()
+            (when-let ((buf-name (buffer-file-name)))
+              (when
+                  (seq-some (lambda (reg) (string-match-p reg buf-name))
+                            celeste-readonly-file-regexp)
+                (read-only-mode)))))
+
+
 ;;; Misc.
 
 ;; Always write buffer content to the file when `save-buffer', because
