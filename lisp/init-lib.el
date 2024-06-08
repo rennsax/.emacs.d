@@ -112,19 +112,35 @@ Check if PACKAGE has been loaded. If you want to add something to
 `load-path' no mater PACKAGE is loaded before, use
 `celeste/prepare-package-2'.
 
+If PACKAGE is a list, SUBPATH is ignored and all elements in the list are passed
+to `celeste/prepare-package' again. Useful when a package could have multiple
+dependencies.
+
 If the directory for PACKAGE is not found (checked when the macro
 is expanded), a warning is thrown."
-  (let* ((package-name (symbol-name package))
-         (package-dir (concat celeste-package-dir package-name)))
-    (if (file-directory-p package-dir)
-        `(unless (featurep ',package)
-           (eval-and-compile
-             ,@(if (= (length subpath) 0)
-                   `((add-to-list 'load-path ,package-dir))
-                 (mapcar (lambda (p)
-                           `(add-to-list 'load-path ,(file-name-concat package-dir p)))
-                         subpath))))
-      (warn "cannot find package: %s" package) nil)))
+  (cond
+   ((listp package)
+    (macroexp-progn
+     ;; Recursively call `celeste/prepare-package'.
+     (mapcar (lambda (args)
+               (if (listp args)
+                   `(celeste/prepare-package ,@args)
+                 `(celeste/prepare-package ,args)))
+             package)))
+   ((symbolp package)
+    (let* ((package-name (symbol-name package))
+           (package-dir (concat celeste-package-dir package-name)))
+      (if (file-directory-p package-dir)
+          `(unless (featurep ',package)
+             (eval-and-compile
+               ,@(if (= (length subpath) 0)
+                     `((add-to-list 'load-path ,package-dir))
+                   (mapcar (lambda (p)
+                             `(add-to-list 'load-path ,(file-name-concat package-dir p)))
+                           subpath))))
+        (warn "cannot find package: %s" package) nil)))
+   (t
+    (user-error "Package %s cannot be recognized" package))))
 
 (defmacro celeste/prepare-package-2 (package &rest args)
   "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS.
@@ -137,14 +153,26 @@ Check if the directory for PACKAGE exists when the macro is expanded.
 :info           Add the following subpath to `Info-default-directory-list'.
 :load-path      Add the following subpath to `load-path'."
   (declare (indent 1))
-  (let* ((package-name (symbol-name package))
-         (package-dir (concat celeste-package-dir package-name)))
-    (if (file-directory-p package-dir)
-        `(eval-and-compile
-           ,@(if (= (length args) 0)
-                 `((add-to-list 'load-path ,package-dir))
-                (celeste/prepare-package-2--routine package-dir args)))
-      (warn "cannot find package: %s" package) nil)))
+  (cond
+   ((listp package)
+    (macroexp-progn
+     ;; Recursively call `celeste/prepare-package'.
+     (mapcar (lambda (args)
+               (if (listp args)
+                   `(celeste/prepare-package-2 ,@args)
+                 `(celeste/prepare-package-2 ,args)))
+             package)))
+   ((symbolp package)
+    (let* ((package-name (symbol-name package))
+           (package-dir (concat celeste-package-dir package-name)))
+      (if (file-directory-p package-dir)
+          `(eval-and-compile
+             ,@(if (= (length args) 0)
+                   `((add-to-list 'load-path ,package-dir))
+                 (celeste/prepare-package-2--routine package-dir args)))
+        (warn "cannot find package: %s" package) nil)))
+   (t
+    (user-error "Package %s cannot be recognized" package))))
 
 (defun celeste/prepare-package-2--routine (package-dir args)
   (let ((add-path t))
