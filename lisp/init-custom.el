@@ -21,7 +21,6 @@
 
 (defcustom celeste-visual-line-mode-list
   '(message-mode
-    text-mode
     debugger-mode
     compilation-mode
     eshell-mode

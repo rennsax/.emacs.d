@@ -91,8 +91,7 @@
     (unless (org-export-derived-backend-p 'org)
       (replace-regexp-in-string "\u200b" "" text)))
   ;; BUG: if really removed, the text effects disappear.
-  ;; (add-to-list 'org-export-filter-final-output-functions
-  ;;              #'+org-export-remove-zwsp)
+  ;; (add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zwsp)
   )
 
 

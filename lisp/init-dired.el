@@ -14,8 +14,7 @@
   (setq dired-recursive-copies 'always
         dired-recursive-deletes 'always)
 
-  (setq dired-auto-revert-buffer t
-        dired-kill-when-opening-new-dired-buffer t)
+  (setq dired-auto-revert-buffer t)
 
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first")

@@ -13,7 +13,6 @@
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config
-  (yas-global-mode +1)
   (bind-keys :map yas-keymap
              ("RET" . yas-next-field)
              ("M-RET" . yas-prev-field))

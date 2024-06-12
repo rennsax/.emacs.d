@@ -184,6 +184,9 @@ This should be called each time after the function definition is modified."
 
        `(org-table :family ,celeste-really-mono-font-name)
 
+       `(aw-mode-line-face :foreground ,(doom-darken 'orange 0.1))
+       `(aw-leading-char-face :foreground ,yellow :background ,red :height 2.0)
+
        ;; `markdown-mode'
        `(markdown-inline-code-face :family ,code-font :foreground ,orange)
        `(markdown-code-face :family ,code-font)
