@@ -4,6 +4,11 @@
 
 
 ;; Install external org-mode, which includes newer features.
+;; 2024-05-30: I found `org-agenda-prepare-window' will delete all other windows
+;; before pop to the agenda buffer, which is really weird. The newer version of
+;; org-mode has changed the behavior, so `display-buffer-alist' is better
+;; respected. This enhancement also convinces myself to stick to a newer version
+;; of org-mode.
 (celeste/prepare-package-2 org-mode "lisp" :info "doc")
 (require 'org-loaddefs)
 
@@ -19,9 +24,22 @@
     (make-directory (concat org-directory subdir) t))
 
   :config
+
+  ;; Hack the org syntax table.
+  (modify-syntax-entry ?< "w" org-mode-syntax-table)
+  (modify-syntax-entry ?> "w" org-mode-syntax-table)
+
+  ;; `org-return' is really newline (w/o indentation), and
+  ;; `org-return-and-maybe-indent' is newline w/ indentation. They are bound to
+  ;; RET and C-j, by default.
+  (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
+  ;; The doc for `org-return-and-maybe-indent' is somehow wrong - it has nothing
+  ;; to do with `org-adapt-indentation'.
+  (setq org-adapt-indentation nil)
+
   (setq org-ellipsis "⤵"
-        org-cycle-separator-lines 0  ; never leave empty lines in collapsed view
-        )
+        org-cycle-separator-lines 0)  ; never leave empty lines in collapsed view
+
   (setq org-hide-leading-stars nil)
 
   ;; Place tags directly after headline text, with only one space in between.
@@ -29,12 +47,18 @@
         ;; Leave a blank line before a new heading. Try C-c RET.
         org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
 
-  (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "|" "DONE(d)" "CANCELED(c)"))
-        org-todo-keyword-faces '(("CANCELED" . error)
-                                 ("DOING" . warning))
+  ;; The default todo keywords also specify that log the time when the todo
+  ;; status changes to DONE or CANCELED. I recommend to check the option
+  ;; `org-log-into-drawer'.
+  (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "PENDING(p)" "|" "DONE(d!)" "CANCELED(c@)"))
+        org-todo-keyword-faces '(("CANCELED" . (:foreground "#ff5630" :strike-through t))
+                                 ("DOING" . (:foreground "#ffc600" :weight bold))
+                                 ("PENDING" . (:foreground "#a3b18a"))) ; teal color
         ;; If dependencies are not done, forbid to mark TODO entries as DONE.
         org-enforce-todo-dependencies t
-        org-enforce-todo-checkbox-dependencies t)
+        org-enforce-todo-checkbox-dependencies t
+        ;; No special window will be shown.
+        org-use-fast-todo-selection 'expert)
 
   ;; Add a special face for quote and verse.
   (setq org-fontify-quote-and-verse-blocks t)
@@ -57,6 +81,10 @@
   ;; you do want to "insert a newline", consider "C-o" (`org-open-line').
   (setq org-return-follows-link t)
 
+  ;; org-id behavior: if interactively call `org-store-link' in an org file, try
+  ;; to create custom id if the target entry has no.
+  (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
   ;; Customize org-bold face.
   (progn
     (defface org-bold '((default :inherit bold)) "My bold emphasis for Org.")
@@ -68,6 +96,12 @@
             ("=" org-verbatim verbatim)
             ("~" org-code verbatim)
             ("+" (:strike-through t)))))
+
+  (setq org-file-apps '((auto-mode . emacs)
+                        (directory . emacs)
+                        ("\\.mm\\'" . default)
+                        ("\\.x?html?\\'" . default)
+                        ("\\.pdf\\'" . emacs))) ; Open pdf with doc-view
 
   ;; TODO: use general autoload interface.
   (load (concat celeste-autoload-dir "org.el") nil nil t)
@@ -81,7 +115,10 @@
 (use-package org-agenda
   :init
   (bind-keys ("C-c o A" . org-agenda)
-             ("C-c o a" . org-agenda-list)))
+             ("C-c o a" . org-agenda-list))
+  :config
+  (setq org-agenda-window-setup 'current-window)
+  )
 
 (use-package org-capture
   :init
@@ -102,6 +139,13 @@
 (use-package org-keys
   :config
   (setq org-use-speed-commands t))
+
+(use-package org-refile
+  :config
+  (setq org-refile-targets `((nil . (:maxlevel . 9))) ; consider *all* heading in the current buffer
+        org-outline-path-complete-in-steps nil        ; select completion at one time
+        org-refile-use-outline-path t)                ; select target like paths
+  )
 
 
 ;;; third-party
@@ -145,7 +189,6 @@
   (setq org-journal-file-header #'org-journal-file-header-func)
   )
 
-(celeste/prepare-package-2 org-roam "" "extensions" :info "doc")
 
 (use-package org-roam
   :init
@@ -155,17 +198,40 @@
   ;; `org' (of course)
   ;; `magit-section'
   ;; `emacsql' and `emacsql-sqlite'
-  (celeste/prepare-package dash)
-  (celeste/prepare-package emacsql)
-  (celeste/prepare-package filenotify-recursive)
+  (celeste/prepare-package (dash f s emacsql filenotify-recursive))
+  (celeste/prepare-package-2 org-roam "" "extensions" :info "doc")
+
+  ;; I'm tried of remembering the order of verb and noun.
+  (defalias 'org-roam-find-node 'org-roam-node-find)
+  (defalias 'org-roam-random-node 'org-roam-node-random)
+  (defalias 'org-roam-insert-node 'org-roam-node-insert)
+  (defalias 'org-roam-open-node 'org-roam-node-open)
+  (defalias 'org-roam-visit-node 'org-roam-node-visit)
 
   (setq org-roam-directory (concat celeste-org-dir "roam/")
         org-roam-db-location (concat celeste-data-dir "org-roam.db"))
 
-  :bind (("C-c o r n" . org-roam-node-find))
+  :bind (("C-c o r n" . org-roam-node-find)
+         ("C-c o r s" . org-roam-db-sync)
+         ("C-c o r i" . org-roam-node-insert))
   :config
-  ;; Necessary for automatic `org-roam-complete-link-at-point'
-  (org-roam-db-autosync-enable))
+
+  ;; Use the standard `display-buffer'.
+  (fset #'org-roam-id-open
+        (defun +org-roam-id-open-with-display-buffer (id _)
+          "Go to the entry with id ID.
+Like `org-id-open', but additionally uses the Org-roam database."
+          (org-mark-ring-push)
+          (let ((m (or (org-roam-id-find id 'marker)
+                       (org-id-find id 'marker))))
+            (unless m
+              (error "Cannot find entry with ID \"%s\"" id))
+            (if (not (equal (current-buffer) (marker-buffer m)))
+                (display-buffer (marker-buffer m)))
+            (goto-char m)
+            (move-marker m nil)
+            (org-show-context))))
+  )
 
 (use-package org-download
   :init
@@ -193,6 +259,12 @@
                          (base-name (if file-name (file-name-nondirectory file-name) "_")))
                     (concat base-name ".assets")))))
   )
+
+;; Automatically toggle Org mode LaTeX fragment previews
+(use-package org-fragtog
+  :init (celeste/prepare-package org-fragtog)
+  :hook (org-mode . org-fragtog-mode))
+
 
 
 (provide 'init-org)

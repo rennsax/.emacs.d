@@ -213,6 +213,25 @@ All my (performant) foldings needs are met between this and `org-show-subtree'
               (delete-char 1))))
       (call-interactively #'org-emphasize))))
 
+;;;###autoload
+(defun +Info-copy-current-node-as-org-link ()
+  (interactive nil Info-mode)
+  (unless Info-current-node
+    (user-error "No current Info node"))
+  (require 'ol)
+  (let* ((node (if (stringp Info-current-file)
+                           (concat "(info \"(" (file-name-sans-extension
+                                                    (file-name-nondirectory Info-current-file))
+                                       ") "
+                                       Info-current-node
+                           "\")")
+                 (format "(Info-find-node '%S '%S)"
+                                     Info-current-file Info-current-node)))
+         (link-string (org-link-make-string (concat "elisp:" node)
+                                            (concat "Info: " Info-current-node))))
+    (kill-new link-string)
+    (message "%s" link-string)))
+
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
