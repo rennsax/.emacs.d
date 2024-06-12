@@ -36,9 +36,8 @@
 
 (use-package magit
   :init
-  (celeste/prepare-package dash)
-  (celeste/prepare-package-2 with-editor "lisp" :info "docs")
-  (celeste/prepare-package-2 magit "lisp" :info "docs")
+  (celeste/prepare-package-2
+      (dash (with-editor "lisp" :info "docs") (magit "lisp" :info "docs")))
 
   ;; So it can be successfully advised by `init-window'
   (setq magit-display-buffer-function #'+magit-display-buffer-fn)
@@ -105,12 +104,9 @@
 
   :init
   ;; All these sort of things are dependencies of forge (incredible!)
-  (celeste/prepare-package emacsql)
-  (celeste/prepare-package closql)
-  (celeste/prepare-package yaml)
-  (celeste/prepare-package treepy)
-  (celeste/prepare-package-2 ghub "lisp" :info "docs")
-  (celeste/prepare-package-2 forge "lisp" :info "docs")
+  (celeste/prepare-package-2
+      (emacsql closql yaml treepy
+               (ghub "lisp" :info "docs") (forge "lisp" :info "docs")))
 
   (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'data))
 
@@ -148,9 +144,9 @@
 
   ;; Do not show stage changes. This is similar to most of prevalent editors.
   (setq diff-hl-show-staged-changes nil)
-  (advice-add 'diff-hl-show-hunk :after
-              (defun +diff-hl-auto-kill-diff-buffer-a (&rest _)
-                (kill-buffer diff-hl-show-hunk-buffer-name)))
+
+  (define-advice diff-hl-show-hunk (:after (&rest _) kill-diff-buffer)
+    (kill-buffer diff-hl-show-hunk-buffer-name))
   )
 
 (use-package diff-hl-flydiff
