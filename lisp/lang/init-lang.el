@@ -11,6 +11,7 @@
 (require 'init-flycheck)
 (require 'init-snippet)
 (require 'init-treesit)
+(require 'init-docs)
 
 (eval-when-compile
   (celeste/prepare-package ide-zero)
