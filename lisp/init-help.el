@@ -44,10 +44,18 @@
 (use-package helpful
   :init
   ;; dependency
-  (celeste/prepare-package s)
-  (celeste/prepare-package dash)
-  (celeste/prepare-package elisp-refs)
-  (celeste/prepare-package helpful)
+  (celeste/prepare-package (s dash elisp-refs helpful))
+
+  (defun +helpful-set-as-original (sym)
+    "Restore the value of SYM to its original value, if any."
+    (interactive
+     (list (helpful--read-symbol
+            "Variable: "
+            (helpful--variable-at-point)
+            #'helpful--variable-p)))
+    (if-let ((ori-val (car-safe (helpful--original-value sym))))
+        (set sym ori-val)
+      (user-error "The original value of %s cannot be found!" sym)))
 
   :bind (([remap describe-function] . helpful-callable) ; `helpful-function' excludes macros
          ([remap describe-variable] . helpful-variable)
