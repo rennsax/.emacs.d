@@ -362,3 +362,6 @@
 [submodule "packages/format-all"]
 	path = packages/format-all
 	url = https://github.com/lassik/emacs-format-all-the-code
+[submodule "packages/sudo-edit"]
+	path = packages/sudo-edit
+	url = https://github.com/nflath/sudo-edit
