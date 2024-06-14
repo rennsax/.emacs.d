@@ -19,22 +19,6 @@
   :group 'celeste
   :type 'symbol)
 
-(defcustom celeste-visual-line-mode-list
-  '(message-mode
-    debugger-mode
-    compilation-mode
-    eshell-mode
-    magit-process-mode)
-  "List of modes when `visual-line-mode' should be enabled."
-  :group 'celeste
-  :type '(repeat symbol))
-
-(defcustom celeste-auto-fill-mode-list
-  '(org-mode)
-  "List of modes when `auto-fill-mode' should be enabled."
-  :group 'celeste
-  :type '(repeat symbol))
-
 (defcustom celeste-modal-editing nil
   "Which kind of modal editing is used. If nil, use vanilla Emacs.
 

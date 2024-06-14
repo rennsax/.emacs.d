@@ -27,6 +27,13 @@
   :group 'celeste
   :type 'string)
 
+(defcustom celeste-nerd-icon-font-name "MonaspiceRn Nerd Font"
+  "The font for displaying nerd icons.
+
+Go to https://www.nerdfonts.com and get a Nerd font."
+  :group 'celeste
+  :type 'string)
+
 (defcustom celeste-other-font-name "MonaspiceAr Nerd Font"
   "Another font for Celeste Emacs.
 
@@ -140,6 +147,10 @@ If NO-HOOK is non-nil, by passing the execution of
         (buffer-face-mode +1)
         (unless no-hook
           (run-hooks 'celeste-buffer-face-mode-hook))))))
+
+(use-package nerd-icons
+  :init
+  (setq nerd-icons-font-family celeste-nerd-icon-font-name))
 
 
 

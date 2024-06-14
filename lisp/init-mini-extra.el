@@ -114,10 +114,17 @@
 ;; `message-mode-hook' does not help.
 (with-current-buffer "*Messages*" (visual-line-mode))
 
-;; Celeste Emacs has presets for modes in which `visual-line-mode' and
-;; `auto-fill-mode' should be enabled.
-(celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
-(celeste/add-mode-hook celeste-auto-fill-mode-list #'celeste/auto-fill-mode)
+(defvar celeste-visual-line-mode-list
+  '(message-mode
+    debugger-mode
+    compilation-mode
+    eshell-mode
+    magit-process-mode)
+  "List of modes when `visual-line-mode' should be enabled.")
+
+(defvar celeste-auto-fill-mode-list
+  '(org-mode)
+  "List of modes when `auto-fill-mode' should be enabled.")
 
 (define-minor-mode celeste/auto-fill-mode
   "Toggle `auto-fill-mode' and `display-fill-column-indicator-mode' together."
@@ -128,6 +135,9 @@
         (auto-fill-mode +1) (display-fill-column-indicator-mode +1))
     (auto-fill-mode -1)
     (display-fill-column-indicator-mode -1)))
+
+(celeste/add-mode-hook celeste-visual-line-mode-list #'visual-line-mode)
+(celeste/add-mode-hook celeste-auto-fill-mode-list #'celeste/auto-fill-mode)
 
 
 
