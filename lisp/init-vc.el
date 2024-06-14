@@ -85,6 +85,16 @@
              ("Q" . +magit/quit-all))
   )
 
+;; Show TODOs in magit buffer.
+(use-package magit-todos
+  :after (magit hl-todo)
+  :demand t
+  :init
+  (celeste/prepare-package (async dash f s pcre2el magit-todos))
+  :config
+  (magit-todos-mode +1))
+
+
 
 ;;; git-modes: collection of git{ignore,config,attributes}-mode'.
 
