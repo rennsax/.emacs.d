@@ -61,7 +61,6 @@
 
   (bind-keys :map vterm-mode-map
              ("C-u" . vterm--self-insert)
-             ;; TODO: `vterm--self-insert' seems has no effect.
              ("C-x C-e" . (lambda () (interactive)
                             (vterm-send-key "x" nil nil 'ctrl)
                             (vterm-send-key "e" nil nil 'ctrl)))
