@@ -3,7 +3,7 @@
 ;;; Code:
 
 
-(use-package python-mode
+(use-package python
   :init
   (ide-zero-define python
                    :mode (python-mode python-ts-mode)
@@ -12,6 +12,9 @@
                    :linter lsp)
   :config
   (setq python-indent-offset 4)
+  (defun +python-set-tab-width ()
+    (setq-local tab-width python-indent-offset))
+  (add-hook 'python-mode-hook #'+python-set-tab-width)
   )
 
 
