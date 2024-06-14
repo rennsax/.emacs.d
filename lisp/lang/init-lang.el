@@ -9,6 +9,7 @@
 (require 'init-eglot)
 
 (require 'init-flycheck)
+(require 'init-format)
 (require 'init-snippet)
 (require 'init-treesit)
 (require 'init-docs)
