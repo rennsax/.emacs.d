@@ -365,3 +365,6 @@
 [submodule "packages/sudo-edit"]
 	path = packages/sudo-edit
 	url = https://github.com/nflath/sudo-edit
+[submodule "packages/org-alert"]
+	path = packages/org-alert
+	url = https://github.com/spegoraro/org-alert
