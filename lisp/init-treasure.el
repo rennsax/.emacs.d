@@ -87,6 +87,13 @@
                '(execute-extended-command
                  (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
 
+;; Use "M-B" to toggle `vertico-buffer-mode'.
+(use-package vertico-buffer
+  :commands vertico-buffer-mode
+  :config
+  (setq vertico-buffer-display-action
+        '(display-buffer-use-least-recent-window)))
+
 
 ;;; Marginalia (n. marginal notes) in the minibuffer.
 
