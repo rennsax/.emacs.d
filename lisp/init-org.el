@@ -167,6 +167,49 @@
   ;; variables from `org-super-agenda', e.g. `org-super-agenda-groups'.
   (org-super-agenda-mode))
 
+;; Alert
+(use-package alert
+  :init (celeste/prepare-package alert)
+  :commands alert
+  :config
+
+  ;; Set alert style.
+  (cond
+   (sys/mac
+    (setq alert-default-style 'osx-notifier))
+   (sys/linux
+    ;; --with-dbus
+    (setq alert-default-style 'notifier)))
+
+  ;; FIXED: encoding CJK characters leads to Apple Script error.
+  (when sys/mac
+    (fset #'alert-osx-notifier-notify
+          (defun +cjk-fix-alert-osx-notifier-notify (info)
+            (do-applescript (format "display notification %S with title %S"
+                                    ;; Why we need the encoding?
+                                    (plist-get info :message)
+                                    (plist-get info :title)))
+            (alert-message-notify info)))))
+
+(use-package org-alert
+  :init (celeste/prepare-package org-alert)
+  :after org-agenda
+  :demand t
+  :config
+  (setq org-alert-notification-title "Org Agenda"
+        ;; Check agendas each 5 minutes.
+        org-alert-interval 300
+        org-alert-cutoff-prop "REMINDERN")
+  (org-alert-enable)
+
+  ;; Ignore DOING entries.
+  (setq org-alert-match-string
+        (format "SCHEDULED>=%S+SCHEDULED<%S-todo=%S|DEADLINE>=%S+DEADLINE<%S-todo=%S"
+                "<today>" "<tomorrow>" "DOING" "<today>" "<tomorrow>" "DOING"))
+  )
+
+
+;; Journal
 (use-package org-journal
   :after org-capture
   :commands org-journal-new-entry
