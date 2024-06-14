@@ -71,7 +71,6 @@
 
 ;;; Window management.
 
-;; TODO: maybe it's time to obsolete `resize-window'?
 (defhydra hydra-window-resize ()
   ("w" enlarge-window-horizontally "widen")
   ("n" shrink-window-horizontally "narrow")

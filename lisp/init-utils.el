@@ -200,36 +200,6 @@ useful, e.g., for use with `visual-line-mode'."
     (fill-region beg end)))
 
 
-;;; Interactively resize window.
-;; https://www.emacswiki.org/emacs/WindowResize
-
-;; TODO: rewrite a version like `text-scale-mode'
-(defun resize-window (&optional arg)    ; Hirose Yuuji and Bob Wiener
-  "Resize window interactively in the unit of ARG."
-  (interactive "p")
-  (if (one-window-p) (error "Cannot resize sole window"))
-  (or arg (setq arg 1))
-  (let (c)
-    (catch 'done
-      (while t
-	(message
-	 "h=heighten, s=shrink, w=widen, n=narrow (by %d);  1-9=unit, q=quit"
-	 arg)
-	(setq c (read-char))
-	(condition-case ()
-	    (cond
-	     ((= c ?h) (enlarge-window arg))
-	     ((= c ?s) (shrink-window arg))
-	     ((= c ?w) (enlarge-window-horizontally arg))
-	     ((= c ?n) (shrink-window-horizontally arg))
-	     ((= c ?\^G) (keyboard-quit))
-	     ((= c ?q) (throw 'done t))
-	     ((and (> c ?0) (<= c ?9)) (setq arg (- c ?0)))
-	     (t (beep)))
-	  (error (beep)))))
-    (message "Done.")))
-
-
 ;;; half-screen scrolling
 ;; https://karthinks.com/software/more-less-emacs/#bonus-half-screen-scrolling
 
