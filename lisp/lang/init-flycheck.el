@@ -50,6 +50,10 @@
 
   (keymap-set flycheck-command-map "S" #'flycheck-buffer-with)
 
+  ;; Do not auto-enable `flycheck-mode' when edited org block.
+  (with-eval-after-load 'org
+    (define-advice org-edit-special (:after (&rest _) disable-flycheck)
+      (flycheck-mode -1)))
   )
 
 ;; `consult-flycheck'
