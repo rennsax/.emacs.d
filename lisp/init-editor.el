@@ -114,6 +114,14 @@
 (require 'block-undo)
 
 
+;; Edit the current buffer as super user with `sudo-edit'.
+(use-package sudo-edit
+  :init (celeste/prepare-package sudo-edit)
+  :commands (sudo-edit sudo-edit-find-file)
+  :config
+  (sudo-edit-indicator-mode +1))
+
+
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
