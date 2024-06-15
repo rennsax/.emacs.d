@@ -368,3 +368,6 @@
 [submodule "packages/org-alert"]
 	path = packages/org-alert
 	url = https://github.com/spegoraro/org-alert
+[submodule "packages/elfeed"]
+	path = packages/elfeed
+	url = https://github.com/skeeto/elfeed.git
