@@ -305,9 +305,6 @@
 [submodule "packages/pulsar"]
 	path = packages/pulsar
 	url = https://github.com/protesilaos/pulsar
-[submodule "packages/highlight-indent-guides"]
-	path = packages/highlight-indent-guides
-	url = https://github.com/DarthFennec/highlight-indent-guides.git
 [submodule "packages/flycheck-eglot"]
 	path = packages/flycheck-eglot
 	url = https://github.com/rennsax/flycheck-eglot
