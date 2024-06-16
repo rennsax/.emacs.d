@@ -196,6 +196,13 @@
   :bind (:map org-mode-map
               ("C-c s h" . consult-org-heading)))
 
+;; Xref integration. No xref UI now!
+(use-package consult-xref
+  :after xref
+  :autoload consult-xref
+  :init
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref))
 
 
 ;;; Really interesting and practical completion style.
