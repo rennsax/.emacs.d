@@ -81,6 +81,10 @@
   :config
   (set-register ?m '(buffer . "*Messages*")))
 
+(use-package elec-pair
+  :init
+  (add-hook 'after-init-hook #'electric-pair-mode))
+
 
 ;;; Minibuffer tweaks.
 

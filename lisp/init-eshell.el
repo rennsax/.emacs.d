@@ -42,6 +42,10 @@
   (celeste/require 'eshell-syntax-highlighting)
   (eshell-syntax-highlighting-global-mode +1))
 
+(use-package esh-mode
+  :config
+  (add-hook 'eshell-mode-hook (lambda () (electric-pair-local-mode -1))))
+
 
 (provide 'init-eshell)
 ;;; init-eshell.el ends here
