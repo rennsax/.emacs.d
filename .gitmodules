@@ -368,3 +368,6 @@
 [submodule "packages/elfeed"]
 	path = packages/elfeed
 	url = https://github.com/skeeto/elfeed.git
+[submodule "packages/htmlize"]
+	path = packages/htmlize
+	url = https://github.com/hniksic/emacs-htmlize
