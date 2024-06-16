@@ -24,6 +24,9 @@
     (make-directory (concat org-directory subdir) t))
 
   :config
+  ;; Originally `org-cycle-agenda-files'.
+  (keymap-unset org-mode-map "C-'" t)
+  (bind-keys ("C-c o l" . org-store-link))
 
   ;; Hack the org syntax table.
   (modify-syntax-entry ?< "w" org-mode-syntax-table)
@@ -107,9 +110,6 @@
   (load (concat celeste-autoload-dir "org.el") nil nil t)
   (keymap-set org-mode-map "s-<return>" #'+org/dwim-at-point)
 
-  (keymap-unset org-mode-map "C-'" t)
-
-  (bind-keys ("C-c o l" . org-store-link))
   )
 
 (use-package org-agenda
@@ -117,7 +117,34 @@
   (bind-keys ("C-c o A" . org-agenda)
              ("C-c o a" . org-agenda-list))
   :config
-  (setq org-agenda-window-setup 'current-window)
+  ;; "o" is mapped to `delete-other-windows' in `org-agenda-mode', but I think
+  ;; it's unnecessary.
+  (keymap-unset org-agenda-keymap "o" t)
+
+  ;; How the agenda buffer is displayed
+  (setq org-agenda-window-setup 'current-window
+        org-agenda-restore-windows-after-quit nil)
+
+  ;; Do not show DONE entries!
+  (setq org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-timestamp-if-done t)
+
+  (setq org-agenda-skip-scheduled-if-deadline-is-shown nil
+        org-agenda-skip-timestamp-if-deadline-is-shown nil
+        org-agenda-skip-deadline-prewarning-if-scheduled t)
+
+  ;; Skip useless subtrees.
+  (setq org-agenda-skip-comment-trees t
+        org-agenda-skip-archived-trees t)
+
+  ;; Deadline is just deadline. Do not dim it!
+  (setq org-agenda-dim-blocked-tasks nil)
+
+  ;; Otherwise, the buffer's relative position will change in the window.
+  (define-advice org-agenda-redo-all (:after (&rest _) move-to-begin)
+    (beginning-of-buffer))
+
   )
 
 (use-package org-capture
@@ -155,11 +182,7 @@
   ;; Immediately loaded after `org-agenda'.
   :demand t
   :init
-  ;; Emacs timestamp and date-time library.
-  (celeste/prepare-package ts)
-  ;; Emacs hashtable library.
-  (celeste/prepare-package ht)
-  (celeste/prepare-package org-super-agenda)
+  (celeste/prepare-package-2 (ts ht (org-super-agenda :load-path "" :info "")))
 
   :commands org-super-agenda-mode
   :config
