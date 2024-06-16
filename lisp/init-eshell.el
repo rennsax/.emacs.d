@@ -38,8 +38,11 @@
   (add-to-list 'eshell-visual-commands "nvim"))
 
 ;; Syntax highlighting.
-(with-eval-after-load 'esh-mode
-  (celeste/require 'eshell-syntax-highlighting)
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :init (celeste/prepare-package eshell-syntax-highlighting)
+  :demand t
+  :config
   (eshell-syntax-highlighting-global-mode +1))
 
 (use-package esh-mode
