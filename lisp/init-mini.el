@@ -94,10 +94,16 @@
 ;; Show the non-prettified version of a symbol when point is on it.
 (setq prettify-symbols-unprettify-at-point t)
 
-;; Though recommended by Emacs, it's more common to use one space after a
-;; period. Ending a sentence with two spaces is considered to be a historical
-;; convention.
-(setq sentence-end-double-space nil)
+(use-package fill
+  :init
+  ;; Use a space to separate words of a different kind. Check pangu.js.
+  (setq fill-separate-heterogeneous-words-with-space t
+        ;; Prevent certain characters from being placed at the beginning or end
+        ;; of a line by filling.
+        enable-kinsoku t
+        ;; Ending a sentence with two spaces is considered to be a historical
+        ;; convention.
+        sentence-end-double-space nil))
 
 ;; Never feel getting lost where the line is when you enter CTRL-V!
 (setq scroll-preserve-screen-position 1)
