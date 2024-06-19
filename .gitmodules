@@ -280,7 +280,7 @@
 	url = https://github.com/tecosaur/org-pandoc-import.git
 [submodule "packages/org-download"]
 	path = packages/org-download
-	url = https://github.com/abo-abo/org-download.git
+	url = https://github.com/rennsax/org-download.git
 [submodule "packages/async"]
 	path = packages/async
 	url = https://github.com/jwiegley/emacs-async.git
