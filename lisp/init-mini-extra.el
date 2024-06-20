@@ -77,6 +77,9 @@
 
 ;;; More configurations for builtin packages.
 
+;; Also apply dir-local variables to remote files.
+(setq enable-remote-dir-locals t)
+
 (use-package register
   :config
   (set-register ?m '(buffer . "*Messages*")))
