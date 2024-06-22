@@ -88,6 +88,10 @@
   :init
   (add-hook 'after-init-hook #'electric-pair-mode))
 
+(use-package isearch
+  :config
+  (setq isearch-lazy-count t))
+
 
 ;;; Minibuffer tweaks.
 
