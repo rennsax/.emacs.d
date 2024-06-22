@@ -86,13 +86,6 @@
 
 ;;; Misc.
 
-;; `anzu.el' provides a minor mode which displays 'current match/total
-(use-package anzu
-  :init
-  (celeste/prepare-package anzu)
-  :diminish
-  :hook (after-init . global-anzu-mode))
-
 ;; rotate.el: provide convenient window layout management functions.
 (celeste/package-autoload 'rotate)
 
