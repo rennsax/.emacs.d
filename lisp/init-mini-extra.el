@@ -1,39 +1,6 @@
 ;;; init-mini-extra.el -- Extra configurations for mini. -*- lexical-binding: t; -*-
 ;;; Commentary:
-
-;; Extra configurations that are not specified in init-mini.el.
-
-;; Why bother use another file to refine init-mini.el rather than including
-;; these things inside init-mini.el itself? That's because I want to keep
-;; init-mini.el as general as possible. Customized settings to my taste should
-;; be put into another file, and this file is it.
-
-;; In init-mini-extra.el, the restriction is relaxed a lot. Simply load this
-;; file may fail, because it can require external dependencies (limited to
-;; init-lib.el, init-const.el and init-package.el).
-
-;; This file still specifies the configurations for builtin packages.
-
 ;;; Code:
-
-
-;;; Basic keybindings.
-;; NOTE: Package-specified bindings should be put into their corresponding
-;; sections (their `use-package' configurations, for example).
-
-(bind-keys ("M-J" . join-line)
-           ("C-S-n" . scroll-up-line)
-           ("C-S-p" . scroll-down-line)
-           ("C-c b s" . scratch-buffer)
-           ("s-o" . other-window)
-           :map prog-mode-map
-           ("M-RET" . comment-indent-new-line))
-
-;; Increasing or decreasing the default font size in all GUI Emacs
-;; frames. (new feature in Emacs 29.1)
-;; TODO: reset with "s-0"
-(bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
-           ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
 
 
 ;;; Data and cache directories.
@@ -73,45 +40,6 @@
   (diminish 'buffer-face-mode))
 (with-eval-after-load 'subword
   (diminish 'subword-mode))
-
-
-;;; More configurations for builtin packages.
-
-;; Also apply dir-local variables to remote files.
-(setq enable-remote-dir-locals t)
-
-(use-package register
-  :config
-  (set-register ?m '(buffer . "*Messages*")))
-
-(use-package elec-pair
-  :init
-  (add-hook 'after-init-hook #'electric-pair-mode))
-
-(use-package isearch
-  :config
-  (setq isearch-lazy-count t))
-
-
-;;; Minibuffer tweaks.
-
-;; Embark makes this option really meaningful!
-(setq enable-recursive-minibuffers t)
-
-(use-package mb-depth
-  :hook (after-init . minibuffer-depth-indicate-mode))
-
-;; Restore window configurations on exit from minibuffer.
-(setq read-minibuffer-restore-windows t)
-
-
-;;; Bootstrap custom file.
-;;; NOTE: must be here now.
-
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  ;; `load' is more primitive than `load-file'.
-  (load custom-file nil nil t))
 
 
 (celeste/add-mode-hook '(prog-mode text-mode)
@@ -183,25 +111,6 @@
   (if celeste/always-save-buffer-mode
       (advice-add #'save-buffer :before #'+save-buffer-alway-a)
     (advice-remove #'save-buffer #'+save-buffer-alway-a)))
-
-
-
-;;; Compilation
-
-;; Emacs provides two building facilities: byte-compilation and
-;; native-compilation. The differences are the results: byte codes (.elc) or
-;; native instructions (.eln).
-
-;; If Emacs is built with native-compilation enabled, then Emacs will try to
-;; compile *.elc files to *.eln files asynchronously. However, many third-party
-;; packages can not be native-compiled inherently. As a compromise, I enable the
-;; native-compilation feature when building Emacs (so the builtin packages can
-;; be natively compiled) and disable the `native-comp-jit-compilation' options
-;; (so I can byte compile other elisp codes w/o automatically trigger Emacs's
-;; async compilation).
-
-(setq native-comp-async-report-warnings-errors 'silent)
-(setq native-comp-jit-compilation t)  ; do not auto build .elc to .eln
 
 
 (provide 'init-mini-extra)
