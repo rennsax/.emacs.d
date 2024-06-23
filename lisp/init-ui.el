@@ -33,7 +33,14 @@
 (add-hook 'prog-mode-hook #'hl-line-mode)
 
 ;; Show matched parentheses.
-(show-paren-mode +1)
+(use-package paren
+  :init
+  (add-hook 'prog-mode-hook #'show-paren-local-mode)
+  (setq show-paren-when-point-inside-paren t)
+  :config
+  ;; By default it's enabled after Emacs is launched.
+  (show-paren-mode -1)
+  )
 
 (use-package elisp-mode
   :config

@@ -287,7 +287,7 @@ or file path may exist now."
 ;; Typed text replaces the selection. Does not mean too much in `evil-mode'.
 (use-package delsel
   :init
-  (delete-selection-mode +1)
+  (add-hook 'after-init-hook #'delete-selection-mode)
   (setq delete-selection-temporary-region nil))
 
 (use-package tabify
@@ -315,6 +315,14 @@ or file path may exist now."
 
 (use-package mb-depth
   :hook (after-init . minibuffer-depth-indicate-mode))
+
+(use-package hideshow
+  :init
+  (add-hook 'prog-mode-hook #'hs-minor-mode))
+
+(use-package so-long
+  :init
+  (add-hook 'after-init-hook #'global-so-long-mode))
 
 
 

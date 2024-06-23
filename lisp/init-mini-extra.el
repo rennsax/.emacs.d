@@ -40,6 +40,8 @@
   (diminish 'buffer-face-mode))
 (with-eval-after-load 'subword
   (diminish 'subword-mode))
+(with-eval-after-load 'hideshow
+  (diminish 'hs-minor-mode))
 
 
 (celeste/add-mode-hook '(prog-mode text-mode)
