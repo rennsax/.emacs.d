@@ -11,6 +11,7 @@
   :group 'celeste
   :type '(repeat symbol)
   :set (lambda (sym val)
+         (set sym val)
          (celeste/add-mode-hook val #'celeste/buffer-set-other-font)))
 
 (defcustom celeste-cjk-font-mode-list
@@ -19,8 +20,9 @@
   :group 'celeste
   :type '(repeat symbol)
   :set (lambda (sym val)
-         (celeste/add-mode-hook nil
-             #'(lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))))
+         (set sym val)
+         (celeste/add-mode-hook val
+             (lambda () (celeste/buffer-set-other-font celeste-cjk-font-name 'no-hook)))))
 
 (defcustom celeste-default-font-name "MonaspiceRn Nerd Font"
   "The default font of Celeste Emacs. Pick whatever you like."
