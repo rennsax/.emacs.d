@@ -49,9 +49,11 @@
 
 If ARG is non-nil, spawn a vanilla Emacs."
   (interactive "P")
-  (if arg
-      (async-shell-command "emacs -Q")
-    (async-shell-command "emacs")))
+  (if-let ((emacs-exe (executable-find "emacs")))
+      (if arg
+          (async-shell-command (concat emacs-exe " -Q"))
+        (async-shell-command emacs-exe))
+    (user-error "Cannot find `emacs' executable!")))
 
 (defun upcase-previous-word ()
   "Upcase the previous word.
