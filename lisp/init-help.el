@@ -2,6 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+
+
+;;; GNU Info
+(use-package info
+  :init
+  (defun Info-refresh ()
+    "Refresh current `Info-directory-list'.
+
+This function is useful after you change `Info-default-directory-list'."
+    (interactive)
+    (setq Info-directory-list nil)
+    (info-initialize))
+  )
+
+
 
 
 ;;; man integration
