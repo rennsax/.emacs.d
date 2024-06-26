@@ -68,9 +68,13 @@
           "wed" "wet" "who" "why" "wig" "win" "wit" "woe" "won" "wry" "you" "zap"
           "zip" "zoo"))
 
-  ;; Before jumping, set mark.
-  (advice-add #'avy-action-goto :before
-              (defun +avy-push-mark-before-goto (&rest _) (push-mark)))
+  ;; Read https://karthinks.com/software/emacs-window-management-almanac/#windows-are-made-up-let-s-ignore-them
+  ;; Jump to the previous position after `avy-jump', w/o ruining the window configuration.
+  (define-advice pop-global-mark (:around (pgm) use-display-buffer)
+    "Make `pop-to-buffer' jump buffers via `display-buffer'."
+    (cl-letf (((symbol-function 'switch-to-buffer)
+               #'pop-to-buffer))
+      (funcall pgm)))
   )
 
 
