@@ -61,12 +61,8 @@ ENV-LIST is a list of (NAME . VALUE)."
                             ',(parse-colon-path value)))
                     "\n")
             (insert (prin1-to-string `(setq-default eshell-path-env ,value)) "\n"))))
-      (insert "
-;; Local Variables:
-;; mode: emacs-lisp
-;; buffer-read-only: t
-;; End:
-")))
+      (add-file-local-variable 'buffer-read-only t)
+      (add-file-local-variable 'mode 'emacs-lisp-mode)))
 
   (defun +exec-path-from-shell-invalidate-cache ()
     "Invalidate the cache for envs.
