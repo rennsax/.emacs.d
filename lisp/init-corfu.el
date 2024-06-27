@@ -78,7 +78,7 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
 (use-package corfu-popupinfo
   :hook (corfu-mode . corfu-popupinfo-mode)
   :config
-  (setq corfu-popupinfo-delay '(1.0 . 0.5)))
+  (setq corfu-popupinfo-delay '(1.0 . 0.0)))
 
 ;; Quickly select candidates with prefixed chars.
 (use-package corfu-quick
@@ -97,6 +97,7 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
 
 (use-package cape
   :init
+  ;; NOTE: `add-hook' adds the capf to the global default value.
   ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
@@ -120,7 +121,9 @@ If optional NO-AUTO is non-nil, turn off `corfu-auto'."
     ;; (add-hook 'eglot-managed-mode-hook #'+cape-set-eglot-capf)
     )
 
-  :commands cape-wrap-buster cape-capf-super
+  :commands (cape-wrap-buster
+             cape-capf-super
+             cape-interactive)
 
   :bind (("C-c p p" . completion-at-point) ;; capf
          ("C-c p t" . complete-tag)        ;; etags
