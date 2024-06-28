@@ -371,3 +371,6 @@
 [submodule "packages/htmlize"]
 	path = packages/htmlize
 	url = https://github.com/hniksic/emacs-htmlize
+[submodule "packages/envrc"]
+	path = packages/envrc
+	url = https://github.com/purcell/envrc.git
