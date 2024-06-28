@@ -92,6 +92,10 @@ variables are changed."
     ;; effects. It's implemented by writing `setenv's to a cache file.
     (exec-path-from-shell-initialize)))
 
+(use-package envrc
+  :init (celeste/prepare-package envrc)
+  :hook (after-init . envrc-global-mode))
+
 (provide 'init-env)
 ;;; init-env.el ends here
 
