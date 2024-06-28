@@ -38,6 +38,8 @@
 (require 'init-protobuf)
 (require 'init-sh)
 (require 'init-elisp)
+(require 'init-nix)
+
 
 
 
