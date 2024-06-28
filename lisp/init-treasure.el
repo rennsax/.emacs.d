@@ -38,7 +38,16 @@
   :hook ((after-init . vertico-mode))
   :config
   ;; Cycle candidates.
-  (setq vertico-cycle t))
+  (setq vertico-cycle t)
+  (require 'vertico-repeat)
+  (bind-keys ("M-P" . vertico-repeat)
+             :map vertico-map
+             ("M-P" . vertico-repeat-previous)
+             ("M-N" . vertico-repeat-next))
+  (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
+  (with-eval-after-load 'savehist
+    (add-to-list 'savehist-additional-variables 'vertico-repeat-history))
+  )
 
 ;; DEL and M-DEL will delete a part of the path (divided by /) when possible.
 (use-package vertico-directory
@@ -93,6 +102,9 @@
   :config
   (setq vertico-buffer-display-action
         '(display-buffer-use-least-recent-window)))
+
+(use-package vertico-suspend
+  :bind ("M-S" . vertico-suspend))
 
 
 ;;; Marginalia (n. marginal notes) in the minibuffer.
@@ -283,6 +295,7 @@
   :commands (embark-prefix-help-command
              embark-kill-buffer-and-window)
   :preface
+  (defvar embark-quit-after-action)
   (defun embark-act-noquit ()
     "Run action but don't quit the minibuffer afterwards."
     (interactive)
