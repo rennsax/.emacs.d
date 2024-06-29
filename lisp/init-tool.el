@@ -113,6 +113,25 @@
   (add-hook 'osx-dictionary-mode-hook #'celeste/zen-mode)
   (regexp-opt (list osx-dictionary-buffer-name)))
 
+
+;;; Elfeed: read elfeed in Emacs!
+
+;; NOTE: To make `elfeed-show-mode' display images normally, remember to compile
+;; Emacs with options "--with-imagemagick"
+(use-package elfeed
+  :init (celeste/prepare-package elfeed)
+  :commands elfeed
+  :config
+  (defun +elfeed-improve-readability ()
+    (text-scale-set +2)
+    (visual-line-mode +1))
+
+  (add-hook 'elfeed-search-mode-hook #'+elfeed-improve-readability)
+  (add-hook 'elfeed-show-mode-hook #'+elfeed-improve-readability)
+
+  (define-advice elfeed-kill-buffer (:after (&rest _) close-tab)
+    (tab-bar-close-tab)))
+
 
 
 (provide 'init-tool)
