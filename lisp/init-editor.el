@@ -106,6 +106,33 @@
   :config
   (setq whitespace-cleanup-mode-preserve-point t))
 
+;; Simpler auto-save: just what you mean auto-save!
+(use-package wim-auto-save
+  :init
+  ;; Disable Emacs's `auto-save-mode'. To check whether this minor mode is
+  ;; enabled in the current buffer, evaluate:
+  ;; (and buffer-auto-save-file-name (>= buffer-saved-size 0))
+  (setq auto-save-default nil)
+
+  (setq wim-auto-save-interval 1.5
+        wim-auto-save-log-level 'basic)
+  :hook (after-init . wim-auto-save-mode)
+  :diminish
+  :config
+  (with-eval-after-load 'vundo
+    (add-hook 'vundo-pre-enter-hook (lambda () (wim-auto-save-mode -1)))
+    (add-hook 'vundo-post-exit-hook (lambda () (wim-auto-save-mode +1))))
+
+  (setopt wim-auto-save-inhibit-actions '((wakatime-save . 5)
+                                          (flycheck-handle-save . 5)))
+
+  (setq wim-auto-save--debug nil)
+
+  (setq wim-auto-save-disable-predicates
+        ;; If the current buffer is captured (`org-capture')
+        `(,(lambda ()
+             (get-buffer (concat "CAPTURE-" (buffer-name))))))
+  )
 
 ;; Undo keyboard macros in a single step
 (require 'block-undo)
