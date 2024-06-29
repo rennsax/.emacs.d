@@ -43,6 +43,10 @@
   (setq org-ellipsis "⤵"
         org-cycle-separator-lines 0)  ; never leave empty lines in collapsed view
 
+  ;; The curly braces are *required* in order to trigger interpretations as
+  ;; sub/superscript. See also `org-export-with-sub-superscripts'.
+  (setq org-use-sub-superscripts '{})
+
   (setq org-hide-leading-stars nil)
 
   ;; Place tags directly after headline text, with only one space in between.
@@ -151,13 +155,6 @@
   :init
   (bind-keys ("C-c o c" . org-capture)))
 
-;; Use "listings" as the LaTeX backend for source block.
-(use-package ox-latex
-  :config
-  (setq org-latex-src-block-backend 'listings)
-  (setq org-latex-packages-alist
-        '(("" "listings"))))
-
 (use-package org-indent
   :diminish org-indent-mode
   :config
@@ -173,6 +170,32 @@
         org-outline-path-complete-in-steps nil        ; select completion at one time
         org-refile-use-outline-path t)                ; select target like paths
   )
+
+
+;;; ox: Export Framework for Org Mode
+
+(use-package ox
+  :config
+  (setq org-export-with-sub-superscripts '{}
+        org-export-with-section-numbers nil)
+  )
+
+;; Use "listings" as the LaTeX backend for source block.
+(use-package ox-latex
+  :config
+  (setq org-latex-src-block-backend 'listings)
+  (setq org-latex-packages-alist
+        '(("" "listings"))))
+
+(use-package ox-html
+  :config
+  ;; org-mode now leverage htmlize.el to fontify the source block.
+  (celeste/prepare-package htmlize)
+
+  (setq org-html-postamble nil
+        org-html-preamble nil)
+  )
+
 
 
 ;;; third-party
@@ -234,17 +257,18 @@
 
 ;; Journal
 (use-package org-journal
-  :after org-capture
-  :commands org-journal-new-entry
   :init
-  (celeste/prepare-package org-journal)
-
+  ;; (celeste/package-build-autoload 'org-journal)
+  ;; REVIEW: `org-loaddefs' does not autoload `org-element-type'.
+  (autoload 'org-element-type "org-element-ast")
+  (celeste/package-autoload 'org-journal)
   (setq org-journal-dir (concat celeste-org-dir "journal"))
+
   :config
   (setq org-journal-file-type 'weekly
         org-journal-date-format "%A, %B %d %Y")
 
-  (defun org-journal-file-header-func (time)
+  (defun org-journal-file-header-fn (time)
     "Custom function to create journal header."
     (concat
      (pcase org-journal-file-type
@@ -252,7 +276,7 @@
        (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
        (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
        (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
-  (setq org-journal-file-header #'org-journal-file-header-func)
+  (setq org-journal-file-header #'org-journal-file-header-fn)
   )
 
 
@@ -309,6 +333,7 @@ Like `org-id-open', but additionally uses the Org-roam database."
   (setq org-download-backend "curl \"%s\" -o \"%s\""
         org-download-method 'directory)
   (setq org-download-display-inline-images nil)
+  (setq org-download-image-html-width "80%")
   (setq-default org-download-heading-lvl nil)
   (when sys/mac
     (setq org-download-screenshot-method "screencapture -i %s"))
