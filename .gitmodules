@@ -374,3 +374,6 @@
 [submodule "packages/envrc"]
 	path = packages/envrc
 	url = https://github.com/purcell/envrc.git
+[submodule "packages/eglot-booster"]
+	path = packages/eglot-booster
+	url = https://github.com/jdtsmith/eglot-booster
