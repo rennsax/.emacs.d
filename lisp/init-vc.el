@@ -72,6 +72,9 @@
   (transient-append-suffix 'magit-pull "-r"
     '("-a" "Autostash" "--autostash"))
 
+  (transient-append-suffix 'magit-dispatch "r"
+    '("R" "Rename" magit-file-rename))
+
   ;; Hybrid of `magit-checkout' and `magit-branch-and-checkout'.
   (transient-replace-suffix 'magit-branch 'magit-checkout
     '("b" "dwim" magit-branch-or-checkout))
