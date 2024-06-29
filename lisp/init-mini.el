@@ -324,6 +324,18 @@ or file path may exist now."
   :init
   (add-hook 'after-init-hook #'global-so-long-mode))
 
+(use-package calendar
+  :config
+  (add-hook 'calendar-today-visible-hook #'calendar-mark-today))
+
+(use-package webjump
+  :config
+  (add-to-list 'webjump-sites
+               `("Google" .
+                 [simple-query "www.google.com"
+                               "www.google.com/search?q=" ""]))
+  )
+
 
 
 (provide 'init-mini)
