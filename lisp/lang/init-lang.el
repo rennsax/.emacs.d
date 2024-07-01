@@ -40,6 +40,8 @@
 (require 'init-elisp)
 (require 'init-nix)
 
+;; Misc.
+(require 'init-beancount)
 
 
 
