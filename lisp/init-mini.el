@@ -336,6 +336,12 @@ or file path may exist now."
                                "www.google.com/search?q=" ""]))
   )
 
+(use-package doc-view
+  :config
+  (when sys/mac
+    ;; This is a wrapper script defined in my Nix configuration.
+    (setq doc-view-odf->pdf-converter-program "soffice-cli")))
+
 
 
 (provide 'init-mini)
