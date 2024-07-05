@@ -20,8 +20,12 @@
                   ;; Prefix tramp autosaves to prevent conflicts with local ones
                   (concat auto-save-list-file-prefix "tramp-\\2") t)
             (list ".*" auto-save-list-file-prefix t)))
-;; Reuse the local backup directory.
-(setq tramp-backup-directory-alist backup-directory-alist
+;; Reuse the local backup directory. According to the implementation of
+;; `tramp-handle-find-backup-file-name', if `tramp-backup-directory-alist' is
+;; set then the actual backup directory will be prepended with the Tramp file
+;; name prefix. If it's nil then `backup-directory-alist' is used, so the backup
+;; is stored locally.
+(setq tramp-backup-directory-alist nil
       tramp-auto-save-directory  (concat celeste-cache-dir "tramp-autosave/"))
 (setq gamegrid-user-score-file-directory (concat celeste-data-dir "games"))
 (setq bookmark-default-file (concat celeste-data-dir "bookmarks"))
