@@ -44,12 +44,18 @@
   (delete-file-local-variable-prop-line 'no-byte-compile)
   (add-file-local-variable 'no-byte-compile t))
 
+;; Logic copied from `flycheck-this-emacs-executable'.
+(defvar emacs-executable-path
+  (concat invocation-directory invocation-name)
+  "The path to the Emacs executable.")
+
 (defun spawn-sub-emacs (arg)
   "Spawn a sub-Emacs. Mainly for testing purpose.
 
 If ARG is non-nil, spawn a vanilla Emacs."
   (interactive "P")
-  (if-let ((emacs-exe (executable-find "emacs")))
+  (if-let ((emacs-exe (or emacs-executable-path
+                          (executable-find "emacs"))))
       (if arg
           (async-shell-command (concat emacs-exe " -Q"))
         (async-shell-command emacs-exe))
