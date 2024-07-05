@@ -340,3 +340,7 @@ or file path may exist now."
 
 (provide 'init-mini)
 ;;; init-mini.el ends here
+
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
