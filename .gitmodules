@@ -377,3 +377,9 @@
 [submodule "packages/eglot-booster"]
 	path = packages/eglot-booster
 	url = https://github.com/jdtsmith/eglot-booster
+[submodule "packages/tomelr"]
+	path = packages/tomelr
+	url = https://github.com/kaushalmodi/tomelr
+[submodule "packages/ox-hugo"]
+	path = packages/ox-hugo
+	url = https://github.com/kaushalmodi/ox-hugo
