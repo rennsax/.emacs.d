@@ -140,6 +140,9 @@
          ([remap project-switch-to-buffer] . consult-project-buffer))
 
   :config
+  ;; Include hidden files. See man fd(1).
+  (add-to-list 'consult-fd-args "-H" t)
+
   ;; https://github.com/minad/consult/wiki#manual-preview-for-non-consult-commands-using-embark
   (progn
     (keymap-set minibuffer-local-map "M-." #'+minibuffer-embark-preview)
