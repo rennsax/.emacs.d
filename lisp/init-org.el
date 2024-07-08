@@ -146,8 +146,10 @@
   (setq org-agenda-dim-blocked-tasks nil)
 
   ;; Otherwise, the buffer's relative position will change in the window.
-  (define-advice org-agenda-redo-all (:after (&rest _) move-to-begin)
-    (beginning-of-buffer))
+  (define-advice org-agenda-redo-all (:around (oldfun &rest args) move-to-begin)
+    (let ((cur-win (current-window-configuration)))
+      (apply oldfun args)
+      (set-window-configuration cur-win)))
 
   )
 
