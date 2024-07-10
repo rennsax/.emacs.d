@@ -342,6 +342,11 @@ or file path may exist now."
     ;; This is a wrapper script defined in my Nix configuration.
     (setq doc-view-odf->pdf-converter-program "soffice-cli")))
 
+(use-package tramp
+  :config
+  ;; Reuse the path settings of your remote account when you log in.
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
 
 
 (provide 'init-mini)
