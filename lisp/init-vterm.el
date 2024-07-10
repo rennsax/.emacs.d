@@ -64,6 +64,7 @@
              ("C-x C-e" . (lambda () (interactive)
                             (vterm-send-key "x" nil nil 'ctrl)
                             (vterm-send-key "e" nil nil 'ctrl)))
+             ("C-q" . vterm-send-next-key)
              :map vterm-copy-mode-map
              ("q" . vterm-copy-mode-done)
              ("p" . previous-line)
