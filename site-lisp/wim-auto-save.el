@@ -103,6 +103,9 @@ Caveat: you should set this variable *before* `wim-auto-save-mode' is enabled."
            (user-error "This option cannot be set when `wim-auto-save-mode' is enabled"))
          (set sym val)))
 
+(defcustom wim-auto-save-disable-in-minibuf t
+  "Whether to auto save when the cursor is at minibuffer."
+  :type 'boolean)
 
 (defvar wim-auto-save--doing nil "Whether during auto-save.")
 (defvar wim-auto-save--count 0 "Global counter for auto-save.")
@@ -118,30 +121,33 @@ Caveat: you should set this variable *before* `wim-auto-save-mode' is enabled."
                     ((eq wim-auto-save-log-level 'basic) 1)
                     ((eq wim-auto-save-log-level 'verbose) 2)
                     (t 1))))
-    (save-current-buffer
-      (dolist (buf (buffer-list))
-        (set-buffer buf)
-        (when (and
-               ;; Buffer is still alive?
-               (buffer-live-p buf)
-               ;; Buffer associate with a filename?
-               (buffer-file-name)
-               ;; Buffer is modifiable?
-               (buffer-modified-p)
+    (unless (and wim-auto-save-disable-in-minibuf
+                 (string-match "Minibuf" (buffer-name)))
+      (save-current-buffer
+        (dolist (buf (buffer-list))
+          (set-buffer buf)
+          (when (and
+                 ;; Buffer is still alive?
+                 (buffer-live-p buf)
+                 ;; Buffer associate with a filename?
+                 (buffer-file-name)
+                 ;; Buffer is modifiable?
+                 (buffer-modified-p)
 
-               ;; Any disable predicate return non-nil
-               (not (seq-some (lambda (pred) (funcall pred))
-                              wim-auto-save-disable-predicates))
-               )
-          (cond
-           ((<= log-level 1)
-            (with-temp-message ""
-              (let ((inhibit-message t)
-                    (inhibit-redisplay t))
-                (wim-auto-save--do-save-buffer))))
-           (t
-            (wim-auto-save--do-save-buffer)))
-          (setq n-saved-buffer (1+ n-saved-buffer)))))
+                 ;; Any disable predicate return non-nil
+                 (not (seq-some (lambda (pred) (funcall pred))
+                                wim-auto-save-disable-predicates))
+                 )
+            (cond
+             ((<= log-level 1)
+              (with-temp-message ""
+                (let ((inhibit-message t)
+                      (inhibit-redisplay t))
+                  (wim-auto-save--do-save-buffer))))
+             (t
+              (wim-auto-save--do-save-buffer)))
+            (setq n-saved-buffer (1+ n-saved-buffer)))))
+      )
     (when (> n-saved-buffer 0)
       (when (>= log-level 1)
         (message "[%d] Saved %d buffers" wim-auto-save--count n-saved-buffer))
