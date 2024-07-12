@@ -36,7 +36,12 @@
   (with-eval-after-load 'embark
     (keymap-set embark-file-map "t" #'+vterm-at))
 
-  :bind (("C-c b t" . vterm))
+  :commands vterm
+
+  :bind (("C-c b t" . (lambda ()
+                        (interactive)
+                        (let ((default-directory "~"))
+                          (vterm '(4))))))
 
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
