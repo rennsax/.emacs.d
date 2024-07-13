@@ -78,8 +78,10 @@
   (with-eval-after-load 'pulsar
     (setq pulsar-pulse-functions
           (append pulsar-pulse-functions
-                  '(ace-window ace-display-buffer))))
-
+                  '(ace-window ace-display-buffer
+                               ace-copy-window ace-swap-window
+                               ace-delete-window ace-delete-other-windows))))
+  ;; (delete-dups pulsar-pulse-functions)
 
   ;; When `aw-select', hide cursors in all windows.
   (define-advice aw-select (:around (fun &rest r) hide-cursor)

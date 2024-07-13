@@ -266,7 +266,12 @@ This should be called each time after the function definition is modified."
 
   (setq pulsar-pulse-functions
         (append pulsar-pulse-functions
-                `(scroll-up-half scroll-down-half other-window-or-switch-buffer))))
+                `(scroll-up-half scroll-down-half other-window-or-switch-buffer)
+                '(org-agenda-goto org-agenda-switch-to
+                                  org-open-at-point
+                                  org-capture)
+                '(magit-diff-visit-file)))
+  )
 
 
 
