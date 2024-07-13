@@ -78,16 +78,6 @@
   )
 
 
-;;; Modal editing.
-
-;; Celeste Emacs has provided presets for several modal editing packages.
-(pcase celeste-modal-editing
-  ('meow (require 'init-meow))
-  ('evil
-   (require 'init-evil)
-   (require 'init-evil-keybinding)))
-
-
 ;;; Misc.
 
 ;; rotate.el: provide convenient window layout management functions.

@@ -19,13 +19,6 @@
   :group 'celeste
   :type 'symbol)
 
-(defcustom celeste-modal-editing nil
-  "Which kind of modal editing is used. If nil, use vanilla Emacs.
-
-One of meow, evil and nil."
-  :group 'celeste
-  :type 'symbol)
-
 (defcustom celeste-inherit-shell-env-list '()
   "Environment variables that should be inherited from the default shell.
 
