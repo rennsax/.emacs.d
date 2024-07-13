@@ -202,6 +202,22 @@
 
 ;;; third-party
 
+(use-package ox-hugo
+  :after ox
+  :demand t
+  :init
+  (celeste/prepare-package (tomelr ox-hugo))
+  :commands org-hugo-auto-export-mode
+  :config
+  (setq org-hugo-use-code-for-kbd t)
+  ;; Hugo uses Goldmark to render Markdown to HTML, which treats `_' and `*'
+  ;; differently. `a_bb_c' does not make `bb' italic, but `a*bb*c' makes it italic.
+  (define-advice org-blackfriday-italic (:override (_italic contents _info) asterisk)
+    (format "*%s*" contents)))
+
+(use-package org-hugo-auto-export-mode
+  :commands org-hugo-auto-export-mode)
+
 (use-package org-super-agenda
   :after org-agenda
   ;; Immediately loaded after `org-agenda'.
