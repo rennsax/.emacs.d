@@ -1,8 +1,8 @@
 name: Pack Emacs configurations with submodule downloaded
 on:
   push:
-    # branches:
-    #   - main
+    tags:
+      - '*'
 
 permissions:
   contents: write
