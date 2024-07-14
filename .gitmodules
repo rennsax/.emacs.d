@@ -4,12 +4,6 @@
 [submodule "packages/f"]
 	path = packages/f
 	url = https://github.com/rejeep/f.el.git
-[submodule "packages/evil"]
-	path = packages/evil
-	url = https://github.com/emacs-evil/evil.git
-[submodule "packages/evil-collection"]
-	path = packages/evil-collection
-	url = https://github.com/emacs-evil/evil-collection.git
 [submodule "packages/annalist.el"]
 	path = packages/annalist.el
 	url = https://github.com/noctuid/annalist.el.git
@@ -49,20 +43,11 @@
 [submodule "packages/corfu"]
 	path = packages/corfu
 	url = https://github.com/minad/corfu.git
-[submodule "packages/evil-nerd-commenter"]
-	path = packages/evil-nerd-commenter
-	url = https://github.com/redguardtoo/evil-nerd-commenter.git
-[submodule "packages/evil-surround"]
-	path = packages/evil-surround
-	url = https://github.com/emacs-evil/evil-surround.git
 [submodule "packages/undo-tree"]
 	path = packages/undo-tree
 	url = https://github.com/emacsmirror/undo-tree.git
 [submodule "evil-visualstar"]
 	path = evil-visualstar
-	url = https://github.com/bling/evil-visualstar.git
-[submodule "packages/evil-visualstar"]
-	path = packages/evil-visualstar
 	url = https://github.com/bling/evil-visualstar.git
 [submodule "packages/exato"]
 	path = packages/exato
@@ -124,9 +109,6 @@
 [submodule "packages/yaml-mode"]
 	path = packages/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
-[submodule "packages/evil-anzu"]
-	path = packages/evil-anzu
-	url = https://github.com/emacsorphanage/evil-anzu.git
 [submodule "packages/anzu"]
 	path = packages/anzu
 	url = https://github.com/emacsorphanage/anzu.git
@@ -136,9 +118,6 @@
 [submodule "packages/spinner"]
 	path = packages/spinner
 	url = https://github.com/Malabarba/spinner.el.git
-[submodule "packages/evil-replace-with-register"]
-	path = packages/evil-replace-with-register
-	url = https://github.com/emacsmirror/evil-replace-with-register.git
 [submodule "packages/flycheck"]
 	path = packages/flycheck
 	url = https://github.com/flycheck/flycheck.git
@@ -190,9 +169,6 @@
 [submodule "packages/org-super-agenda"]
 	path = packages/org-super-agenda
 	url = https://github.com/alphapapa/org-super-agenda
-[submodule "packages/evil-goggles"]
-	path = packages/evil-goggles
-	url = https://github.com/edkolev/evil-goggles.git
 [submodule "packages/gptel"]
 	path = packages/gptel
 	url = https://github.com/karthink/gptel.git
@@ -217,9 +193,6 @@
 [submodule "packages/eshell-syntax-highlighting"]
 	path = packages/eshell-syntax-highlighting
 	url = https://github.com/akreisher/eshell-syntax-highlighting
-[submodule "packages/meow"]
-	path = packages/meow
-	url = https://github.com/meow-edit/meow.git
 [submodule "packages/expand-region"]
 	path = packages/expand-region
 	url = https://github.com/magnars/expand-region.el.git

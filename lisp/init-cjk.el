@@ -46,26 +46,14 @@
     (sis-global-context-mode +1)
     ;; Use different cursor colors for different IME.
     (sis-global-cursor-color-mode +1)
-    (if (eq celeste-modal-editing 'meow)
-        (progn
-          (add-hook 'meow-insert-exit-hook #'sis-set-english)
-          (add-hook 'meow-insert-enter-hook (lambda () (sis-global-respect-mode +1)))
-          (add-hook 'meow-insert-exit-hook (lambda () (sis-global-respect-mode -1))))
-      ;; Respect C-x, C-h, C-c, and so on.
-      (sis-global-respect-mode +1)))
+    ;; Respect C-x, C-h, C-c, and so on.
+    (sis-global-respect-mode +1))
 
   (defun celeste/sis--off ()
-    "Turn down sis, smart source input."
+    "Turn off sis, smart source input."
     (sis-global-context-mode -1)
-    ;; Use different cursor colors for different IME.
     (sis-global-cursor-color-mode -1)
-    (if (eq celeste-modal-editing 'meow)
-        (progn
-          (remove-hook 'meow-insert-exit-hook #'sis-set-english)
-          (remove-hook 'meow-insert-enter-hook (lambda () (sis-global-respect-mode +1)))
-          (remove-hook 'meow-insert-exit-hook (lambda () (sis-global-respect-mode -1))))
-      ;; Respect C-x, C-h, C-c, and so on.
-      (sis-global-respect-mode -1)))
+    (sis-global-respect-mode -1))
 
   (define-minor-mode celeste/sis-mode
     "Toggle sis mode."
@@ -77,9 +65,6 @@
       (celeste/sis--off)))
 
   :config
-  (when (eq celeste-modal-editing 'meow)
-    (add-to-list 'sis-context-hooks #'meow-insert-enter-hook))
-
   (add-to-list 'sis-prefix-override-keys "M-g")
   ;; Make sure your input sources are these two (hint: use macism)
   (setq sis-english-source "com.apple.keylayout.US"
@@ -161,12 +146,11 @@
 
 ;; Fix: `fill-paragraph' sometimes breaks a whole Chinese sentence. When
 ;; exported as HTML, a space kept at the line break.
-(with-eval-after-load 'ox-html
-  ;; https://emacs-china.org/t/org-mode-html/7174/2
-  (define-advice org-html-paragraph (:filter-args (args) join-cjk-lines)
-    "Join consecutive Chinese lines into a single long line without
-unwanted space when exporting org-mode to html."
-    (let* ((origin-contents (nth 1 args))
+;; https://emacs-china.org/t/org-mode-html/7174/2
+(defun ox-join-cjk-lines-a (args)
+    "Join consecutive Chinese lines.into a single long line without
+unwanted space when exporting org-mode."
+  (let* ((origin-contents (nth 1 args))
            (fix-regexp "[[:multibyte:]]") ; REVIEW: is it good enough to match CJK chars?
                                           ; See https://emacs-china.org/t/join-line/10355/8.
            (fixed-contents
@@ -174,7 +158,15 @@ unwanted space when exporting org-mode to html."
              (concat
               "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)")
              "\\1\\2" origin-contents)))
-      (setf (cadr args) fixed-contents) args)))
+      (setf (cadr args) fixed-contents) args))
+
+(with-eval-after-load 'ox-html
+  (advice-add 'org-html-paragraph :filter-args #'ox-join-cjk-lines-a))
+
+;; Add advice to `org-md-paragraph' is also reasonable. But I want to keep the
+;; markdown backend untouched.
+(with-eval-after-load 'ox-hugo
+  (advice-add 'org-hugo-paragraph :filter-args #'ox-join-cjk-lines-a))
 
 (with-eval-after-load 'ox-latex
   ;; Include xeCJK package so Chinese can be correctly exported.

@@ -257,8 +257,6 @@ This should be called each time after the function definition is modified."
 (use-package pulsar
   :init
   (celeste/prepare-package pulsar)
-  ;; Evil has its own solution: `evil-goggles'.
-  :when (not (eq celeste-modal-editing 'evil))
   :hook (after-init . pulsar-global-mode)
   :config
   (setq pulsar-pulse t
