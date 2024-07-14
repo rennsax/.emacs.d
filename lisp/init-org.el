@@ -207,7 +207,6 @@
   :demand t
   :init
   (celeste/prepare-package (tomelr ox-hugo))
-  :commands org-hugo-auto-export-mode
   :config
   (setq org-hugo-use-code-for-kbd t)
   ;; Hugo uses Goldmark to render Markdown to HTML, which treats `_' and `*'
@@ -216,6 +215,9 @@
     (format "*%s*" contents)))
 
 (use-package org-hugo-auto-export-mode
+  :init
+  (use-package ox-hugo
+    :commands org-hugo-export-wim-to-md)
   :commands org-hugo-auto-export-mode)
 
 (use-package org-super-agenda
