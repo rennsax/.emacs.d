@@ -193,9 +193,6 @@
 [submodule "packages/eshell-syntax-highlighting"]
 	path = packages/eshell-syntax-highlighting
 	url = https://github.com/akreisher/eshell-syntax-highlighting
-[submodule "packages/meow"]
-	path = packages/meow
-	url = https://github.com/meow-edit/meow.git
 [submodule "packages/expand-region"]
 	path = packages/expand-region
 	url = https://github.com/magnars/expand-region.el.git
