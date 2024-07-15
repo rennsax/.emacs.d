@@ -178,6 +178,13 @@ that returns the symbol."
          (dedicated . t)
          (side . bottom))
 
+        ((or . (,(rx bos "*envrc*" eos)
+                ,(rx bos "*compilation*" eos)))
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (side . bottom)
+         (body-function . select-window))
+
         ;; `org-capture'
         (,(rx bos "*Org Select*" eos)
          (display-buffer-in-side-window)
@@ -186,6 +193,27 @@ that returns the symbol."
          (window-width . 0.2)
          (slot . 0)
          (window-parameters . ((mode-line-format . none))))
+
+        ;; `org-agenda' dispatcher (there is a leading space!)
+        (,(rx bos " *Agenda Commands*" eos)
+         (display-buffer-in-side-window)
+         (dedicated . t)
+         (side . bottom)
+         (window-width . 0.3)
+         (slot . 0)
+         (window-parameters . ((mode-line-format . none))))
+
+        ("\\*elfeed-entry\\*"
+         (display-buffer-in-tab)
+         (tab-name . (lambda (buffer alist)
+                       (with-current-buffer buffer
+                         (concat "🚀 " (elfeed-feed-title (elfeed-entry-feed elfeed-show-entry))))))
+         (tab-group . "📻 Elfeed"))
+
+        ("\\*elfeed-search\\*"
+         (display-buffer-in-tab)
+         (tab-name . "📣 Entries")
+         (tab-group . "📻 Elfeed"))
 
         ;; help/helpful
         ((or . ((derived-mode . help-mode)
@@ -266,7 +294,12 @@ that returns the symbol."
           "\\`\\*Backtrace\\*\\'"
           "\\`\\*Disabled Command\\*\\'"
           "\\`\\*Flycheck checker\\*\\'"
-          "\\`\\*Calendar\\*\\'"))
+          ,(rx bos "*Org Src" (* nonl))
+          "\\`\\*Calendar\\*\\'"
+          ,(rx bos "*elfeed-" (| "search" "entry") "*" eos)
+          ,(rx bos "*compilation*" eos)
+          ,(rx bos "*envrc*" eos)
+          ))
   )
 
 
