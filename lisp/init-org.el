@@ -376,6 +376,11 @@ Like `org-id-open', but additionally uses the Org-roam database."
   :init (celeste/prepare-package org-fragtog)
   :hook (org-mode . org-fragtog-mode))
 
+(use-package org-pandoc-import
+  :init (celeste/prepare-package org-pandoc-import)
+  :commands (org-pandoc-import-as-org
+             org-pandoc-import-to-org))
+
 
 
 (provide 'init-org)
