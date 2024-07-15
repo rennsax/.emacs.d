@@ -356,3 +356,6 @@
 [submodule "packages/ox-hugo"]
 	path = packages/ox-hugo
 	url = https://github.com/kaushalmodi/ox-hugo
+[submodule "packages/indent-bars"]
+	path = packages/indent-bars
+	url = https://github.com/jdtsmith/indent-bars
