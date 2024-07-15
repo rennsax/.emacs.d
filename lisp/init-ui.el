@@ -123,6 +123,13 @@
   (celeste/prepare-package diredfl)
   :hook (dired-mode . diredfl-mode))
 
+(use-package indent-bars
+  :init (celeste/prepare-package indent-bars)
+  :hook ((python-mode yaml-mode) . indent-bars-mode)
+  :config
+  ;; The most compatible option.
+  (setq indent-bars-prefer-character t))
+
 
 
 ;;; Theme
