@@ -192,12 +192,18 @@ This should be called each time after the function definition is modified."
        `(org-quote :family ,doc-font :italic nil :foreground ,cyan)
        `(org-bold :weight bold :foreground ,yellow)
        `(org-indent :background ,(doom-darken (doom-color 'base4) 0.1)
-                                  :foreground ,(doom-darken (doom-color 'base4) 0.1))
+                    :foreground ,(doom-darken (doom-color 'base4) 0.1))
+
+       `(org-agenda-structure :height 1.2)
+       `(org-super-agenda-header :inherit custom-button
+                                 :foreground "white")
 
        `(org-table :family ,celeste-really-mono-font-name)
 
        `(aw-mode-line-face :foreground ,(doom-darken 'orange 0.1))
        `(aw-leading-char-face :foreground ,yellow :background ,red :height 2.0)
+
+       `(vterm-color-bright-black :foreground "#636d75")
 
        ;; `markdown-mode'
        `(markdown-inline-code-face :family ,code-font :foreground ,orange)
