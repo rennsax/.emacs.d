@@ -145,6 +145,9 @@
   ;; Deadline is just deadline. Do not dim it!
   (setq org-agenda-dim-blocked-tasks nil)
 
+  ;; `org-agenda-follow-mode' displays only the current item's tree.
+  (setq org-agenda-follow-indirect t)
+
   ;; Otherwise, the buffer's relative position will change in the window.
   (define-advice org-agenda-redo-all (:around (oldfun &rest args) move-to-begin)
     (let ((cur-win (current-window-configuration)))
