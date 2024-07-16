@@ -16,6 +16,9 @@
               ("M-F" . eglot-format)    ; format the active or the entire buffer
               ("<f2>" . eglot-rename))
   :config
+  ;; LSP servers typically generate very large amounts of data
+  (setq read-process-output-max (* 1024 1024)) ; 1MB
+
   (setq eglot-autoshutdown t)
 
   (setq eglot-stay-out-of '(flymake))
@@ -24,6 +27,14 @@
         '(:colorProvider
           :foldingRangeProvider))
 
+  (if (executable-find "emacs-lsp-booster")
+      (progn
+        (celeste/prepare-package eglot-booster)
+        (require 'eglot-booster)
+        ;; Remote boost requires "emacs-lsp-booster" to be installed remotely.
+        (setq eglot-booster-no-remote-boost t)
+        (eglot-booster-mode +1))
+    (warn "Cannot find executable %S!" "eglot-booster"))
   )
 
 (use-package flycheck-eglot
