@@ -15,6 +15,12 @@
   :config
   ;; Use the standard `display-buffer' so we can customize the behavior in `display-buffer-alist'.
   (setq deadgrep-display-buffer-function #'display-buffer)
+
+  (define-advice deadgrep-restart (:around (oldfun &rest args) keep-cursor)
+    "Try to persist the cursor position after restarting deadgrep."
+    (let ((cur (point)))
+      (apply oldfun args)
+      (goto-char cur)))
   )
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
