@@ -359,3 +359,6 @@
 [submodule "packages/indent-bars"]
 	path = packages/indent-bars
 	url = https://github.com/jdtsmith/indent-bars
+[submodule "packages/math-preview"]
+	path = packages/math-preview
+	url = https://gitlab.com/matsievskiysv/math-preview.git
