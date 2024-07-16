@@ -95,15 +95,22 @@
 
 (defcustom celeste-readonly-file-regexp
   `(,lisp-directory)
-  "Regexp of file names that should be read-only when visited."
+  "Regexps of file names that should be read-only when visited.
+
+If the regexp is a directory name (determined by `directory-name-p'), then
+`file-in-directory-p' is also used for checking."
   :group 'celeste
   :type '(repeat regexp))
 
 (add-hook 'find-file-hook
           (defun +file-set-readonly ()
-            (when-let ((buf-name (buffer-file-name)))
+            (when-let ((file-name (buffer-file-name)))
               (when
-                  (seq-some (lambda (reg) (string-match-p reg buf-name))
+                  (seq-some (lambda (dir-or-rep)
+                              (or
+                               (and (directory-name-p dir-or-rep)
+                                    (file-in-directory-p file-name dir-or-rep))
+                               (string-match-p dir-or-rep file-name)))
                             celeste-readonly-file-regexp)
                 (read-only-mode)))))
 
