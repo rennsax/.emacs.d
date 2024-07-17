@@ -362,3 +362,6 @@
 [submodule "packages/rust-mode"]
 	path = packages/rust-mode
 	url = https://github.com/rust-lang/rust-mode.git
+[submodule "packages/editorconfig"]
+	path = packages/editorconfig
+	url = https://github.com/editorconfig/editorconfig-emacs
