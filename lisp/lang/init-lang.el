@@ -32,6 +32,7 @@
 (require 'init-lua)
 (require 'init-cc)
 (require 'init-python)
+(require 'init-rust)
 
 ;; DSL.
 (require 'init-cmake)
