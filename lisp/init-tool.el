@@ -87,6 +87,17 @@
   )
 
 
+;;; Preview math formulas inline with MathJax.
+
+(use-package math-preview
+  :init
+  (celeste/prepare-package (s dash math-preview))
+  (with-eval-after-load 'org
+    (defalias #'org-latex-preview #'math-preview-at-point)
+    (defalias #'org-clear-latex-preview #'math-preview-clear-region))
+  :commands math-preview-at-point math-preview-clear-region)
+
+
 ;;; Undo system enhancement.
 
 ;; Visualized undo history.
