@@ -96,6 +96,12 @@
   :config
   (setq whitespace-cleanup-mode-preserve-point t))
 
+;; EditorConfig integration.
+(use-package editorconfig
+  :init (celeste/prepare-package editorconfig)
+  :diminish
+  :hook (after-init . editorconfig-mode))
+
 ;; Simpler auto-save: just what you mean auto-save!
 (use-package wim-auto-save
   :init
