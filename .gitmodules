@@ -266,9 +266,6 @@
 [submodule "packages/ace-window"]
 	path = packages/ace-window
 	url = https://github.com/abo-abo/ace-window.git
-[submodule "packages/ligature"]
-	path = packages/ligature
-	url = https://github.com/mickeynp/ligature.el.git
 [submodule "packages/devdocs"]
 	path = packages/devdocs
 	url = https://github.com/astoff/devdocs.el.git
