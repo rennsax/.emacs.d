@@ -94,7 +94,12 @@ variables are changed."
 
 (use-package envrc
   :init (celeste/prepare-package envrc)
-  :hook (after-init . envrc-global-mode))
+  :hook (after-init . envrc-global-mode)
+  :config
+  (setq envrc-none-lighter '(" e[" (:propertize "none" face envrc-mode-line-none-face) "]")
+        envrc-on-lighter '(" e[" (:propertize "on" face envrc-mode-line-on-face) "]")
+        envrc-error-lighter '(" e[" (:propertize "error" face envrc-mode-line-error-face) "]"))
+  )
 
 (provide 'init-env)
 ;;; init-env.el ends here
