@@ -7,41 +7,58 @@
   ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
 
+  :commands vterm
+
   :init
   (celeste/prepare-package vterm)
 
-  (defun project-vterm ()
-    "Switch to the existing project vterm buffer or create a new one."
-    (interactive)
-    (let* ((default-directory (project-root (project-current t)))
-           (project-name
-            (file-name-nondirectory (directory-file-name default-directory)))
-           (buf-name (format "*vterm<%s>*" project-name))
-           (buf (get-buffer buf-name)))
-      (if (and buf
-               (buffer-live-p buf))
+  (defun vterm-at (file &optional arg)
+    "Open a vterm buffer that is closest to FILE.
+
+If FILE is a directory, open vterm at this directory. If FILE is a regular file,
+open vterm at its parent directory."
+    (interactive "fVterm directory: \nP")
+    (unless (file-exists-p file)
+      (error "FILE %s does not exist!" file))
+    (unless (file-directory-p file)
+      (setq file (file-name-directory file)))
+    ;; Convert directory name to absolute, and remove the tailing slash.
+    (setq file (directory-file-name (expand-file-name file)))
+    (let* ((default-directory file)
+           (vterm-buf-name
+            (format "*vterm<%s>*" (file-name-base file)))
+           (buf (get-buffer vterm-buf-name)))
+      (if (and (not arg)
+               buf
+               (buffer-live-p buf)
+               (file-equal-p
+                (with-current-buffer buf default-directory)
+                default-directory))
           (switch-to-buffer buf)
-        (vterm buf-name))))
+        ;; If a string is given, `vterm' will always open a new terminal.
+        (vterm vterm-buf-name))))
+
   (with-eval-after-load 'project
+    (defun project-vterm ()
+      "Switch to the existing project vterm buffer or create a new one."
+      (interactive)
+      (vterm-at (project-root (project-current t))))
     (keymap-set project-prefix-map "t" #'project-vterm))
 
-  (defun +vterm-at (file &optional arg)
-    (interactive "fVterm directory: \nP")
-    (while (not (file-directory-p file))
-      (setq file (file-name-directory file)))
-    (let ((default-directory file))
-      ;; Use C-u prefix, so a new vterm is always created.
-      (vterm (or arg '(4)))))
-
   (with-eval-after-load 'embark
-    (keymap-set embark-file-map "t" #'+vterm-at))
+    (keymap-set embark-file-map "t" #'vterm-at))
 
-  :commands vterm
+  (with-eval-after-load 'dired
+    (defun dired-do-open-vterm (file)
+      "Open vterm according to the current cursor position in the dired buffer."
+      (interactive (list (dired-get-filename)))
+      (vterm-at file))
+    ;; Override `dired-do-touch'.
+    (keymap-set dired-mode-map "T" #'dired-do-open-vterm))
 
   :bind (("C-c b t" . (lambda ()
                         (interactive)
-                        (let ((default-directory "~"))
-                          (vterm '(4))))))
+                        (vterm-at "~"))))
 
   :config
   ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
