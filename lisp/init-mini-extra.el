@@ -11,9 +11,9 @@
 
 ;; init-mini.el has configured this builtin packages.
 (setq backup-directory-alist `(("." . ,(celeste/make-path "backup/" 'cache))))
-(setq save-place-file (concat celeste-cache-dir "saveplace"))
-(setq savehist-file (concat celeste-cache-dir "savehist"))
-(setq recentf-save-file (concat celeste-cache-dir "recentf"))
+(setq save-place-file (celeste/make-path "saveplace" 'state))
+(setq savehist-file (celeste/make-path "savehist" 'state))
+(setq recentf-save-file (celeste/make-path "recentf" 'state))
 (setq auto-save-list-file-prefix (celeste/make-path "autosave/" 'cache)
       auto-save-file-name-transforms
       (list (list "\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
@@ -26,10 +26,15 @@
 ;; name prefix. If it's nil then `backup-directory-alist' is used, so the backup
 ;; is stored locally.
 (setq tramp-backup-directory-alist nil
-      tramp-auto-save-directory  (concat celeste-cache-dir "tramp-autosave/"))
-(setq gamegrid-user-score-file-directory (concat celeste-data-dir "games"))
-(setq bookmark-default-file (concat celeste-data-dir "bookmarks"))
-(setq url-cookie-file (concat celeste-cache-dir "url/cookie"))
+      tramp-auto-save-directory  (celeste/make-path "tramp-autosave/" 'cache)
+      tramp-persistency-file-name (celeste/make-path "tramp/connection-history" 'state))
+(setq gamegrid-user-score-file-directory (celeste/make-path "games/" 'state))
+(setq bookmark-default-file (celeste/make-path "bookmarks" 'state))
+(setq url-configuration-directory (celeste/make-path "url/" 'data)
+      url-cache-directory (celeste/make-path "url-cache/" 'cache)
+      url-cookie-file (celeste/make-path "url-cookie" 'state))
+(setq eshell-history-file-name (celeste/make-path "eshell/history" 'state)
+      eshell-last-dir-ring-file-name (celeste/make-path "eshell/lastdir" 'state))
 (setq project-list-file (celeste/make-path "projects" 'data))
 
 

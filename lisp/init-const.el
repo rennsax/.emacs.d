@@ -23,6 +23,8 @@
   (concat celeste-local-dir "cache/"))
 (defconst celeste-data-dir
   (concat celeste-local-dir "etc/"))
+(defconst celeste-state-dir
+  (concat celeste-local-dir "state/"))
 
 ;; Operating system.
 (defconst sys/mac (eq system-type 'darwin))

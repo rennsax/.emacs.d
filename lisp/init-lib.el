@@ -18,12 +18,16 @@
   "Make a path for cache and user data.
 
 TYPE is one of cache and data. PATH is the relative path name."
-  ;; TODO create directory.
-  (let ((base-dir (pcase type
-                    ('cache celeste-cache-dir)
-                    ('data celeste-data-dir)
-                    (_ (error "Unrecognized type: %s" type)))))
-    (concat base-dir path)))
+  (let* ((var-sym (intern (format "celeste-%s-dir" type)))
+         (base-dir
+          (if (boundp var-sym)
+              (eval var-sym)
+            (error "Unrecognized type: %s!" type)))
+         (file-path (concat base-dir path)))
+    (if (directory-name-p file-path)
+        (make-directory file-path t)
+      (make-directory (file-name-directory file-path) t))
+    file-path))
 
 
 

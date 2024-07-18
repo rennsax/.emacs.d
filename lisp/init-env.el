@@ -32,7 +32,7 @@ immediately."
           (cdar (exec-path-from-shell-copy-envs (list variable))))))
 
   ;; Cache mechanism for `exec-path-from-shell'.
-  (defvar exec-path-from-shell-cache-file (concat user-emacs-directory "shell-env"))
+  (defvar exec-path-from-shell-cache-file (celeste/make-path "shell-env" 'cache))
   (defvar exec-path-from-shell-no-cache nil)
 
   (defun +exec-path-from-shell-write-cache (env-list)

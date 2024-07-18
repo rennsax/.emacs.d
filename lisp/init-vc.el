@@ -25,9 +25,9 @@
 
   :config
   ;; Set transient directories.
-  (setq transient-levels-file  (concat celeste-data-dir "transient/levels")
-        transient-values-file  (concat celeste-data-dir "transient/values")
-        transient-history-file (concat celeste-data-dir "transient/history"))
+  (setq transient-levels-file  (celeste/make-path "transient/levels.el" 'state)
+        transient-values-file  (celeste/make-path "transient/values.el" 'state)
+        transient-history-file (celeste/make-path "transient/history.el" 'state))
 
   (setq transient-default-level 5
         ;; Always display the transient popup buffer below.
