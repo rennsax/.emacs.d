@@ -144,21 +144,38 @@
       (replace-regexp-in-string "\u200b" "" text)))
   (add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zwsp))
 
-;; Fix: `fill-paragraph' sometimes breaks a whole Chinese sentence. When
-;; exported as HTML, a space kept at the line break.
-;; https://emacs-china.org/t/org-mode-html/7174/2
+;; Fix: `fill-paragraph' sometimes breaks a whole Chinese sentence with newline,
+;; and when the paragraph exported, the newline character is replaced with a
+;; space, which is not the desired result.
+;;
+;; In the following cases, lines should be joined without adding an internal space:
+;;
+;; Case 1: 你好\n世界 (CJK + CJK)
+;; Case 2: 你好，\n(.) (CJK symbols + anything)
 (defun ox-join-cjk-lines-a (args)
-    "Join consecutive Chinese lines.into a single long line without
-unwanted space when exporting org-mode."
-  (let* ((origin-contents (nth 1 args))
-           (fix-regexp "[[:multibyte:]]") ; REVIEW: is it good enough to match CJK chars?
-                                          ; See https://emacs-china.org/t/join-line/10355/8.
-           (fixed-contents
-            (replace-regexp-in-string
-             (concat
-              "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)")
-             "\\1\\2" origin-contents)))
-      (setf (cadr args) fixed-contents) args))
+  "Join consecutive Chinese lines into a single long line without unwanted space
+when exporting org-mode."
+  (let* ((contents (nth 1 args))
+         ;; https://github.com/vinta/pangu.js/blob/6107055384b99e6f30a49f5d1b85aa0b78251dc2/src/shared/core.js#L19
+         (cjk-regexp "[\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+
+         ;; Case 1
+         (contents
+          (replace-regexp-in-string
+           (concat
+            "\\(" cjk-regexp "\\) *\n *\\(" cjk-regexp "\\)")
+           "\\1\\2" contents))
+
+         ;; Case 2
+         (contents
+          (replace-regexp-in-string
+           ;; Unicode blocks: CJK Symbols and Punctuation + Halfwidth and Fullwidth Forms
+           (rx (group (in (?\u3000 . ?\u303f) (?\uff00 . ?\uffef)))
+               (* space) ?\n (* space)
+               (group nonl))
+           "\\1\\2" contents)))
+
+    (setf (cadr args) contents) args))
 
 (with-eval-after-load 'ox-html
   (advice-add 'org-html-paragraph :filter-args #'ox-join-cjk-lines-a))
