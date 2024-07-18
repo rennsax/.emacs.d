@@ -281,7 +281,8 @@ This should be called each time after the function definition is modified."
                 '(org-agenda-goto org-agenda-switch-to
                                   org-open-at-point
                                   org-capture)
-                '(magit-diff-visit-file)))
+                '(magit-diff-visit-file)
+                '(deadgrep-visit-result)))
   )
 
 
