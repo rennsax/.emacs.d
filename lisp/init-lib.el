@@ -8,11 +8,30 @@
 
 ;;; Functions for configuring more easily.
 
+(defun celeste--mode->hook (mode)
+  (intern (concat (symbol-name mode) "-hook")))
+
+(defun celeste--mode-hook-reset (prev-modes next-modes hook-fun)
+  (dolist (mode prev-modes)
+    (remove-hook (celeste--mode->hook mode) hook-fun))
+  (dolist (mode next-modes)
+    (add-hook (celeste--mode->hook mode) hook-fun)))
+
+(defmacro celeste--mode-list-setter (hook-fun)
+  (when (memq (car-safe hook-fun) '(lambda defun quote))
+    (setq hook-fun (eval hook-fun)))
+  `(lambda (sym val)
+     (celeste--mode-hook-reset
+      (if (boundp sym) (symbol-value sym) '())
+      val
+      #',hook-fun)
+     (set sym val)))
+
 (defun celeste/add-mode-hook (mode-list function)
   "Add FUNCTION to MODE-hook for each MODE in MODE-LIST."
   (declare (indent 2))
   (dolist (mode mode-list)
-    (add-hook (intern (concat (symbol-name mode) "-hook")) function)))
+    (add-hook (celeste--mode->hook mode) function)))
 
 (defun celeste/make-path (path type)
   "Make a path for cache and user data.
