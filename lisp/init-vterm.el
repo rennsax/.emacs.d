@@ -76,10 +76,7 @@ open vterm at its parent directory."
   (setq vterm-max-scrollback 10000)
 
   ;; The horizontal margin is useless.
-  (add-hook 'vterm-mode-hook #'(lambda ()
-                                 (setq-local hscroll-margin 0)
-                                 (when (featurep 'evil-escape)
-                                   (evil-escape-mode -1))))
+  (add-hook 'vterm-mode-hook (lambda () (setq-local hscroll-margin 0)))
 
   (bind-keys :map vterm-mode-map
              ("C-u" . vterm--self-insert)
