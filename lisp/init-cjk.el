@@ -67,8 +67,10 @@
   :config
   (add-to-list 'sis-prefix-override-keys "M-g")
   ;; Make sure your input sources are these two (hint: use macism)
-  (setq sis-english-source "com.apple.keylayout.US"
-        sis-other-source "com.sogou.inputmethod.sogou.pinyin"))
+  (when sys/mac
+    (setq sis-english-source "com.apple.keylayout.US"
+          sis-other-source "com.sogou.inputmethod.sogou.pinyin"))
+  )
 
 
 ;;; A series of routines to improve CJK editing experience in org-mode.
