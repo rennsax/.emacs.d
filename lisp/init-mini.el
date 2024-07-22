@@ -344,6 +344,7 @@ or file path may exist now."
 
 (use-package tramp
   :config
+  (setq tramp-default-method "ssh")
   ;; Reuse the path settings of your remote account when you log in.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
