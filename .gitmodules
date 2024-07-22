@@ -7,9 +7,6 @@
 [submodule "packages/annalist.el"]
 	path = packages/annalist.el
 	url = https://github.com/noctuid/annalist.el.git
-[submodule "packages/annalist"]
-	path = packages/annalist
-	url = https://github.com/noctuid/annalist.el.git
 [submodule "packages/dash"]
 	path = packages/dash
 	url = https://github.com/magnars/dash.el.git
@@ -49,9 +46,6 @@
 [submodule "evil-visualstar"]
 	path = evil-visualstar
 	url = https://github.com/bling/evil-visualstar.git
-[submodule "packages/exato"]
-	path = packages/exato
-	url = https://github.com/ninrod/exato.git
 [submodule "packages/hl-todo"]
 	path = packages/hl-todo
 	url = https://github.com/tarsius/hl-todo.git
@@ -88,9 +82,6 @@
 [submodule "packages/sis"]
 	path = packages/sis
 	url = https://github.com/laishulu/emacs-smart-input-source.git
-[submodule "packages/visual-fill-column"]
-	path = packages/visual-fill-column
-	url = https://codeberg.org/joostkremers/visual-fill-column.git
 [submodule "packages/ns-auto-titlebar"]
 	path = packages/ns-auto-titlebar
 	url = https://github.com/purcell/ns-auto-titlebar.git
@@ -109,9 +100,6 @@
 [submodule "packages/yaml-mode"]
 	path = packages/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
-[submodule "packages/anzu"]
-	path = packages/anzu
-	url = https://github.com/emacsorphanage/anzu.git
 [submodule "packages/deadgrep"]
 	path = packages/deadgrep
 	url = https://github.com/Wilfred/deadgrep.git
