@@ -100,6 +100,17 @@ only upcase the next word."
 	((string-match "^ \\*" (buffer-name (current-buffer)))
 	 (bury-buffer))))
 
+(defun eol-dos-to-unix ()
+  "Convert from doc-style EOL (CRLF, ^M^J) to unix-style (LF, ^J)."
+  (interactive)
+  (replace-string-in-region "\n" "\n" (point-min) (point-max)))
+
+(defun eol-unix-to-dos ()
+  "Convert from unix-style (LF, ^J) to doc-style EOL (CRLF, ^M^J)."
+  (interactive)
+  (replace-string-in-region "\n" "\n" (point-min) (point-max)))
+
+
 
 ;;; Got these idea from bbatsov/crux.
 
