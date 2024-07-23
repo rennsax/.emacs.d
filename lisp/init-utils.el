@@ -30,14 +30,6 @@
                  (find-file file)))
       (message "The current buffer has no corresponding file!"))))
 
-(defun byte-compile-this-file ()
-  "Byte compile current file."
-  (interactive)
-  (let ((file (buffer-file-name)))
-    (if (and file (string-suffix-p "el" file))
-        (byte-compile-file file)
-      (message "Cannot compile current \"file\"!"))))
-
 (defun +add-no-byte-compile-file-local-variable ()
   "Add file-local variable: `no-byte-compile': t."
   (interactive)
