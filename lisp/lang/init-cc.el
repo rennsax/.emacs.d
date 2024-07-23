@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+(use-package make
+  ;; The default picked mode is `makefile-bsdmake-mode'.
+  :mode (("[Mm]akefile\\'" . makefile-gmake-mode)))
+
 (use-package cc-mode
   :init
   (ide-zero-define c
