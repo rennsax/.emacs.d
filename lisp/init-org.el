@@ -328,6 +328,8 @@
          ("C-c o r s" . org-roam-db-sync)
          ("C-c o r i" . org-roam-node-insert))
   :config
+  ;; After loading, synchronize the org-roam-db cache.
+  (org-roam-db-sync)
 
   ;; Use the standard `display-buffer'.
   (fset #'org-roam-id-open
