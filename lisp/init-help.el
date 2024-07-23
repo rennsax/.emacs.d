@@ -7,13 +7,21 @@
 ;;; GNU Info
 (use-package info
   :init
-  (defun Info-refresh ()
+  (defun info-refresh ()
     "Refresh current `Info-directory-list'.
 
 This function is useful after you change `Info-default-directory-list'."
     (interactive)
     (setq Info-directory-list nil)
     (info-initialize))
+
+  (defun info-show (string)
+    "Show info file found by `info' program with STRING as the argument."
+    (interactive "sInfo manual: \n")
+    (when-let* ((str (shell-command-to-string (format "info -w %s" string)))
+                (index (string-match (rx (group (* nonl)) "\n") str))
+                (info-file-path (match-string 1 str)))
+      (info info-file-path)))
   )
 
 
