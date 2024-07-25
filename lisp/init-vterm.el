@@ -120,11 +120,21 @@ will invert `vterm-copy-exclude-prompt' for that call."
              ("M-w" . vterm-copy-mode-done-no-exit)
              ("C-w" . vterm-copy-mode-done-no-exit))
 
-  ;; It's true that I'm a Zsh lover.
-  (setq vterm-tramp-shells '(("docker" "/bin/sh")
-                             ;; REVIEW: Why quoted? See https://github.com/akermu/emacs-libvterm/issues/569#issuecomment-1615431427
-                             ;; It might be a Tramp bug.
-                             ("ssh" "'/bin/zsh'")))
+  ;; Make tmux work at the remote shell. https://github.com/akermu/emacs-libvterm/issues/569.
+  (define-advice vterm--get-shell (:filter-return (vterm-shell) quote-remote)
+    "Quote VTERM-SHELL if it's a remote shell."
+    (if (and (ignore-errors (file-remote-p default-directory))
+             (not (string-match-p "'.*'" vterm-shell)))
+        (format "'%s'" vterm-shell)
+      vterm-shell))
+
+  ;; It's the terminal emulator's duty to set COLORTERM env. Just like iTerm2 does:
+  ;; https://gitlab.com/gnachman/iterm2/-/commit/978e1ab1b2ac7847d96dbabec808dfe767d45184.
+  ;; See also neovim/libvterm:vterm.c, ls(1).
+  (setq vterm-environment '("COLORTERM=truecolor"
+                            ;; Unset PAGER variable.
+                            ;; Tramp sets PAGER=cat via `tramp-remote-process-environment'.
+                            "PAGER"))
   )
 
 
