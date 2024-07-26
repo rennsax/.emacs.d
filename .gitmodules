@@ -350,3 +350,6 @@
 [submodule "packages/editorconfig"]
 	path = packages/editorconfig
 	url = https://github.com/editorconfig/editorconfig-emacs
+[submodule "packages/ox-gfm"]
+	path = packages/ox-gfm
+	url = https://github.com/larstvei/ox-gfm
