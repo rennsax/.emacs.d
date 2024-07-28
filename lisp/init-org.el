@@ -201,6 +201,11 @@
         org-html-preamble nil)
   )
 
+(use-package ox-gfm
+  :after ox-md
+  :init (celeste/prepare-package ox-gfm)
+  :demand t)
+
 
 
 ;;; third-party
