@@ -144,7 +144,7 @@
 	url = https://github.com/renzmann/treesit-auto.git
 [submodule "packages/jinx"]
 	path = packages/jinx
-	url = https://github.com/rennsax/jinx.git
+	url = https://github.com/minad/jinx.git
 [submodule "packages/vterm"]
 	path = packages/vterm
 	url = https://github.com/rennsax/emacs-libvterm.git
