@@ -267,9 +267,12 @@ optional parameter LISP-DIR gives the directory manually."
     (if (file-exists-p autoload-file)
         (with-demoted-errors "%S"
           (load autoload-file nil nil t))
-      (user-error "\
-Cannot find the autoload file of package %s.
-Have you run `celeste/build-autoload'?" package))))
+      ;; If the autoload file is not found, try to build it.
+      (celeste/package-build-autoload package)
+      (unless (file-exists-p autoload-file)
+        (error "Fail to build autoload file for %s!" package))
+      (with-demoted-errors "%S"
+        (load autoload-file nil nil t)))))
 
 
 
