@@ -75,6 +75,11 @@
 
   ;; Also apply dir-local variables to remote files.
   (setq enable-remote-dir-locals t)
+
+  ;; https://emacs.stackexchange.com/questions/72462/failed-to-trash-remote-directories-over-tramp
+  (define-advice system-move-file-to-trash (:override (filename) use-trash-cli)
+    (process-file-shell-command
+     (format "trash %S" (file-local-name filename))))
   )
 
 ;; Backup and auto-save.
