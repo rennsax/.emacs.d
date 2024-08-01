@@ -213,7 +213,7 @@
 	url = https://github.com/daichirata/emacs-rotate.git
 [submodule "packages/nerd-icons-completion"]
 	path = packages/nerd-icons-completion
-	url = https://github.com/rennsax/nerd-icons-completion.git
+	url = https://github.com/rainstormstudio/nerd-icons-completion.git
 [submodule "packages/org-journal"]
 	path = packages/org-journal
 	url = https://github.com/bastibe/org-journal
