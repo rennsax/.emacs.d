@@ -353,6 +353,13 @@ or file path may exist now."
   ;; Reuse the path settings of your remote account when you log in.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
+(use-package subword
+  :diminish ((superword-mode . " 󱔎")
+             (subword-mode . " 󱗀"))
+  :init
+  (defalias 'camel-case-mode 'subword-mode)
+  (defalias 'snake-case-mode 'superword-mode))
+
 
 
 (provide 'init-mini)
