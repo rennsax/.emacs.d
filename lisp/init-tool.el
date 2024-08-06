@@ -27,11 +27,6 @@
 (use-package emacs-everywhere
   :init
   (celeste/prepare-package emacs-everywhere)
-
-  (add-hook 'after-init-hook
-            (defun safe-server-start ()
-              (require 'server)         ; must required
-              (unless (server-running-p) (server-start))))
   :commands emacs-everywhere)
 
 ;; Enchanted spell checker.

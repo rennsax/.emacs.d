@@ -360,6 +360,15 @@ or file path may exist now."
   (defalias 'camel-case-mode 'subword-mode)
   (defalias 'snake-case-mode 'superword-mode))
 
+(use-package server
+  :init
+  (defun safe-server-start ()
+    (require 'server)         ; must required
+    (unless (server-running-p)
+      (server-start)))
+
+  (add-hook 'after-init-hook #'safe-server-start))
+
 
 
 (provide 'init-mini)
