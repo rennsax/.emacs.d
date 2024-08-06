@@ -3,8 +3,6 @@
 ;;; Code:
 
 (use-package cmake-mode
-  :init
-  (celeste/prepare-package cmake-mode)
   :mode (("CMakeLists\\.txt\\'" . cmake-mode)
          ("\\.cmake\\'" . cmake-mode)))
 
