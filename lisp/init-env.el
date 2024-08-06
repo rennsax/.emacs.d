@@ -16,6 +16,7 @@
           "XDG_CONFIG_HOME" "XDG_CACHE_HOME" "XDG_DATA_HOME" "XDG_STATE_HOME"
           "https_proxy" "http_proxy"
           "GOPATH"
+          "NIX_PROFILES"
           "ASDF_DATA_DIR"))
 
   (defun +getenv-shell (variable &optional frame always)
@@ -51,8 +52,8 @@ ENV-LIST is a list of (NAME . VALUE)."
 
 " (format-time-string "%Y-%m-%d %H:%M:%S")))
       (dolist (env env-list)
-        (let ((name (car env))
-              (value (cdr env)))
+        (when-let ((name (car env))
+                   (value (cdr env)))
           (insert (prin1-to-string `(setenv ,name ,value)) "\n")
           ;; Handle PATH specially.
           (when (string-equal "PATH" name)
@@ -90,7 +91,21 @@ variables are changed."
     ;; This line increases 100-200 ms startup time, but it's in the critical
     ;; section :(. I currently enable a cache mechanism to reduce the side
     ;; effects. It's implemented by writing `setenv's to a cache file.
-    (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize)
+
+    ;; After `exec-path-from-shell-initialize', NIX_PROFILES is probably set.
+    (when (fboundp 'nix--profile-paths)
+      (dolist (profile (reverse (nix--profile-paths)))
+        ;; `directory-file-name' is important to add sub dirs to the right place of `load-path'
+        ;; see the source code of `normal-top-level-add-to-load-path'
+        (let ((default-directory (directory-file-name
+                                  (expand-file-name "share/emacs/site-lisp/" profile))))
+          (when (file-exists-p default-directory)
+            (setq load-path (cons default-directory load-path))
+            (normal-top-level-add-subdirs-to-load-path)))
+        (let ((info-dir (expand-file-name "share/info" profile)))
+          (when (file-directory-p info-dir)
+            (add-to-list 'Info-default-directory-list info-dir)))))))
 
 (use-package envrc
   :init (celeste/prepare-package envrc)
