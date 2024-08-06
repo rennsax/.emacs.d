@@ -41,7 +41,7 @@ TYPE is one of cache and data. PATH is the relative path name."
          (base-dir
           (if (boundp var-sym)
               (eval var-sym)
-            (error "Unrecognized type: %s!" type)))
+            (error "[celeste/make-path] Unrecognized type: %s!" type)))
          (file-path (concat base-dir path)))
     (if (directory-name-p file-path)
         (make-directory file-path t)
@@ -117,7 +117,7 @@ This function is for experimental purpose, for example, testing a
 new package. If the PACKAGE can't be `require'd directly, it will
 search `celeste-package-dir' and `celeste-site-lisp-dir'. If the
 PACKAGE still can't be found, then raise an error."
-  (unless (symbolp package) (error "PACKAGE must be a Lisp symbol!"))
+  (unless (symbolp package) (error "[celeste/auto-require] PACKAGE must be a Lisp symbol!"))
   (or (ignore-errors (require package)) ; fail to require initially
       (or (let ((package-name (symbol-name package)))
             (cl-dolist (search-dir celeste/auto-require--search-dirs)
@@ -126,7 +126,7 @@ PACKAGE still can't be found, then raise an error."
                            (file-exists-p (expand-file-name (concat package-name ".el") maybe-dir)))
                   (add-to-list 'load-path maybe-dir)
                   (cl-return (require package))))))
-          (error "PACKAGE cannot be found!"))))
+          (error "[celeste/auto-require] PACKAGE cannot be found!"))))
 
 (defmacro celeste/prepare-package (package &rest subpath)
   "Add PACKAGE's SUBPATHs to `load-path'.
@@ -161,9 +161,9 @@ is expanded), a warning is thrown."
                    (mapcar (lambda (p)
                              `(add-to-list 'load-path ,(file-name-concat package-dir p)))
                            subpath))))
-        (warn "cannot find package: %s" package) nil)))
+        (warn "[celeste/prepare-package] Cannot find package: %s!" package) nil)))
    (t
-    (user-error "Package %s cannot be recognized" package))))
+    (user-error "[celeste/prepare-package] Package %s cannot be recognized!" package))))
 
 (defmacro celeste/prepare-package-2 (package &rest args)
   "Prepare PACKAGE's load path(s) or Info doc path(s) according to ARGS.
@@ -193,9 +193,9 @@ Check if the directory for PACKAGE exists when the macro is expanded.
              ,@(if (= (length args) 0)
                    `((add-to-list 'load-path ,package-dir))
                  (celeste/prepare-package-2--routine package-dir args)))
-        (warn "cannot find package: %s" package) nil)))
+        (warn "[celeste/prepare-package-2] Cannot find package: %s!" package) nil)))
    (t
-    (user-error "Package %s cannot be recognized" package))))
+    (user-error "[celeste/prepare-package-2] Package %s cannot be recognized!" package))))
 
 (defun celeste/prepare-package-2--routine (package-dir args)
   (let ((add-path t))
@@ -265,13 +265,13 @@ optional parameter LISP-DIR gives the directory manually."
   "Load the generated autoload file of PACKAGE."
   (let ((autoload-file (celeste/package--autoload-file-name package)))
     (if (file-exists-p autoload-file)
-        (with-demoted-errors "%S"
+        (with-demoted-errors "[celeste/package-autoload] %S"
           (load autoload-file nil nil t))
       ;; If the autoload file is not found, try to build it.
       (celeste/package-build-autoload package)
       (unless (file-exists-p autoload-file)
-        (error "Fail to build autoload file for %s!" package))
-      (with-demoted-errors "%S"
+        (error "[celeste/package-autoload] Fail to build autoload file for %s!" package))
+      (with-demoted-errors "[celeste/package-autoload] %S"
         (load autoload-file nil nil t)))))
 
 
