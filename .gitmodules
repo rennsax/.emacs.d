@@ -353,3 +353,6 @@
 [submodule "packages/ox-gfm"]
 	path = packages/ox-gfm
 	url = https://github.com/larstvei/ox-gfm
+[submodule "packages/dockerfile-mode"]
+	path = packages/dockerfile-mode
+	url = https://github.com/spotify/dockerfile-mode.git
