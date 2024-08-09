@@ -35,13 +35,12 @@
 (require 'init-rust)
 
 ;; DSL.
-(require 'init-cmake)
-(require 'init-protobuf)
 (require 'init-sh)
 (require 'init-elisp)
 (require 'init-nix)
 
 ;; Misc.
+(require 'init-misc-dsl)
 (require 'init-beancount)
 
 
