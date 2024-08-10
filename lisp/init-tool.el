@@ -107,7 +107,7 @@
   :init
   (celeste/prepare-package undo-fu-session)
 
-  (setq undo-fu-session-directory (celeste/make-path "undo-fu-session" 'cache))
+  (setq undo-fu-session-directory (celeste/make-path "undo-fu-session" 'state))
 
   :config
   (setq undo-fu-session-incompatible-files

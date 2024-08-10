@@ -35,7 +35,7 @@
       url-cookie-file (celeste/make-path "url-cookie" 'state))
 (setq eshell-history-file-name (celeste/make-path "eshell/history" 'state)
       eshell-last-dir-ring-file-name (celeste/make-path "eshell/lastdir" 'state))
-(setq project-list-file (celeste/make-path "projects" 'data))
+(setq project-list-file (celeste/make-path "projects" 'state))
 
 
 ;;; Diminished packages.

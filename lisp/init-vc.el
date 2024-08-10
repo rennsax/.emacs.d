@@ -121,7 +121,7 @@
       (emacsql closql yaml treepy
                (ghub "lisp" :info "docs") (forge "lisp" :info "docs")))
 
-  (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'data))
+  (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'state))
 
   :commands forge-pull
   :config

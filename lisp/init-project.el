@@ -26,7 +26,7 @@
 
   ;; Do not auto save project state.
   (setq project-x-save-interval nil)
-  (setq project-x-window-list-file (celeste/make-path "project-x-window-list" 'data))
+  (setq project-x-window-list-file (celeste/make-path "project-x-window-list" 'state))
   (setq project-x-local-identifier
         '("package.json" "mix.exs" "Project.toml" ".project" "go.mod"))
   )
