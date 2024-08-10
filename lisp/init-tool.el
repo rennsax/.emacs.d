@@ -114,18 +114,6 @@
         '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'")))
 
 
-
-;; Integrated with OSX dictionary.
-(use-package osx-dictionary
-  :when sys/mac
-  :init
-  (celeste/prepare-package osx-dictionary)
-  :commands osx-dictionary-search-pointer
-  :config
-  (add-hook 'osx-dictionary-mode-hook #'celeste/zen-mode)
-  (regexp-opt (list osx-dictionary-buffer-name)))
-
-
 ;;; Elfeed: read elfeed in Emacs!
 
 ;; NOTE: To make `elfeed-show-mode' display images normally, remember to compile
