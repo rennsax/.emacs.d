@@ -3,28 +3,37 @@
 ;;; Code:
 
 (defconst celeste-init-file
-  (concat user-emacs-directory "init.el"))
+  (expand-file-name
+   (concat user-emacs-directory "init.el")))
 (defconst celeste-package-dir
-  (concat user-emacs-directory "packages/"))
+  (expand-file-name
+   (concat user-emacs-directory "packages/")))
 (defconst celeste-site-lisp-dir
-  (concat user-emacs-directory "site-lisp/"))
+  (expand-file-name
+   (concat user-emacs-directory "site-lisp/")))
 (defconst celeste-lisp-dir
-  (concat user-emacs-directory "lisp/"))
+  (expand-file-name
+   (concat user-emacs-directory "lisp/")))
 (defconst celeste-autoload-dir
-  (concat user-emacs-directory "autoload/"))
+  (expand-file-name
+   (concat user-emacs-directory "autoload/")))
 
 (defconst celeste-leader-key "SPC")
 
 ;; Celeste Emacs directs temporary files created by Emacs to a unified path, so
 ;; the root path `user-emacs-directory' won't be too dirty.
 (defconst celeste-local-dir
-  (concat user-emacs-directory ".local/"))
+  (expand-file-name
+   (concat user-emacs-directory ".local/")))
 (defconst celeste-cache-dir
-  (concat celeste-local-dir "cache/"))
+  (expand-file-name
+   (concat celeste-local-dir "cache/")))
 (defconst celeste-data-dir
-  (concat celeste-local-dir "etc/"))
+  (expand-file-name
+   (concat celeste-local-dir "etc/")))
 (defconst celeste-state-dir
-  (concat celeste-local-dir "state/"))
+  (expand-file-name
+   (concat celeste-local-dir "state/")))
 
 ;; Operating system.
 (defconst sys/mac (eq system-type 'darwin))
