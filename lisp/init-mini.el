@@ -24,6 +24,16 @@
   ;; TODO: reset with "s-0"
   (bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
              ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
+
+  ;; `tmm-menubar'
+  (keymap-global-unset "M-`")
+
+  ;; `enable-command' w/o modifying init.el
+  (dolist (cmd '(list-timers))
+    (put cmd 'disabled nil))
+  ;; `disable-command' w/o modifying init.el
+  (dolist (cmd '(list-buffers))
+    (put cmd 'disabled t))
   )
 
 ;; Bootstrap custom file.
