@@ -70,6 +70,9 @@
 ;; Use ctrl-shift-z to redo, so intuitive.
 (keymap-global-set "s-Z" #'undo-redo)
 
+;; Strangely, OS X cannot recognize <insert>: it seems to be translated to <help>.
+(keymap-global-set "<help>" #'overwrite-mode)
+
 (provide 'init-osx)
 ;;; init-osx.el ends here
 
