@@ -272,6 +272,8 @@
                                         (command (styles +orderless-with-initialism))
                                         (variable (styles +orderless-with-initialism))
                                         (symbol (styles +orderless-with-initialism))
+                                        ;; `find-function'
+                                        (function (styles +orderless-with-initialism))
                                         ;; REVIEW: 2024-05-29 we need to use the styles provided by eglot
                                         ;; (eglot (styles orderless))
                                         ;; (eglot-capf (styles orderless))
