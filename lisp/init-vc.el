@@ -34,10 +34,24 @@
         transient-display-buffer-action '(display-buffer-below-selected))
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
+(use-package with-editor
+  :init
+  (celeste/prepare-package-2 with-editor "lisp" :info "docs")
+  :hook ((vterm-mode . with-editor-export-editor)
+         (eshell-mode . with-editor-export-editor))
+  :bind (("<remap> <shell-command>" . with-editor-shell-command)
+         ("<remap> <async-shell-command>" . with-editor-async-shell-command))
+  :autoload with-editor
+  :config
+  (setq with-editor-cancel-query-functions
+        (list
+         (lambda (force) (or force (y-or-n-p "Cancel with-editor?")))))
+  )
+
 (use-package magit
   :init
   (celeste/prepare-package-2
-      (dash (with-editor "lisp" :info "docs") (magit "lisp" :info "docs")))
+      (dash (magit "lisp" :info "docs")))
 
   ;; So it can be successfully advised by `init-window'
   (setq magit-display-buffer-function #'+magit-display-buffer-fn)
