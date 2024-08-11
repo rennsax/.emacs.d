@@ -18,10 +18,11 @@ This function is useful after you change `Info-default-directory-list'."
   (defun info-show (string)
     "Show info file found by `info' program with STRING as the argument."
     (interactive "sInfo manual: \n")
-    (when-let* ((str (shell-command-to-string (format "info -w %s" string)))
+    (if-let* ((str (shell-command-to-string (format "info -w %s" string)))
                 (index (string-match (rx (group (* nonl)) "\n") str))
                 (info-file-path (match-string 1 str)))
-      (info info-file-path)))
+        (info info-file-path)
+      (error "Cannot open info page for %s!" string)))
   )
 
 
