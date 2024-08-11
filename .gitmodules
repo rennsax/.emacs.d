@@ -353,3 +353,6 @@
 [submodule "packages/dockerfile-mode"]
 	path = packages/dockerfile-mode
 	url = https://github.com/spotify/dockerfile-mode.git
+[submodule "packages/emmet-mode"]
+	path = packages/emmet-mode
+	url = https://github.com/smihica/emmet-mode.git
