@@ -108,7 +108,7 @@ variables are changed."
             (add-to-list 'Info-default-directory-list info-dir)))))))
 
 (use-package envrc
-  :init (celeste/prepare-package envrc)
+  :init (celeste/prepare-package (envrc inheritenv))
   :hook (after-init . envrc-global-mode)
   :config
   (setq envrc-none-lighter '(" e[" (:propertize "none" face envrc-mode-line-none-face) "]")
