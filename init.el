@@ -66,7 +66,7 @@
   (require 'init-osx))
 
 ;;; Font settings 🔠
-(require 'init-font)
+(when (display-graphic-p) (require 'init-font))
 
 ;;; UI tweaks 🔮
 (require 'init-ui)

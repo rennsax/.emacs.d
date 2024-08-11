@@ -155,8 +155,9 @@
 
 This should be called each time after the function definition is modified."
     (interactive)
-    (let ((doc-font celeste-other-font-name)
-          (code-font celeste-default-font-name)
+    (let ((doc-font (bound-and-true-p celeste-other-font-name))
+          (code-font (bound-and-true-p celeste-default-font-name))
+          (really-mono-font (bound-and-true-p celeste-really-mono-font-name))
           (red (doom-color 'red))
           (yellow (doom-color 'yellow))
           (orange (doom-color 'orange))
@@ -198,7 +199,7 @@ This should be called each time after the function definition is modified."
        `(org-super-agenda-header :inherit custom-button
                                  :foreground "white")
 
-       `(org-table :family ,celeste-really-mono-font-name)
+       `(org-table :family ,really-mono-font)
 
        `(aw-mode-line-face :foreground ,(doom-darken 'orange 0.1))
        `(aw-leading-char-face :foreground ,yellow :background ,red :height 2.0)
