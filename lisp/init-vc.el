@@ -72,7 +72,6 @@
         magit-save-repository-buffers nil)
 
   (keymap-set magit-mode-map "s-r" 'magit-refresh)
-  (keymap-unset magit-mode-map celeste-leader-key)
 
   ;; Show gravatars when viewing revision.
   ;; REVIEW: removed, because it's slow.

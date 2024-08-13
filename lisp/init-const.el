@@ -18,8 +18,6 @@
   (expand-file-name
    (concat user-emacs-directory "autoload/")))
 
-(defconst celeste-leader-key "SPC")
-
 ;; Celeste Emacs directs temporary files created by Emacs to a unified path, so
 ;; the root path `user-emacs-directory' won't be too dirty.
 (defconst celeste-local-dir
