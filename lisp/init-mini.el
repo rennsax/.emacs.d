@@ -379,6 +379,9 @@ or file path may exist now."
 
   (add-hook 'after-init-hook #'safe-server-start))
 
+(use-package mouse
+  :hook ((after-init . context-menu-mode)))
+
 
 
 (provide 'init-mini)
