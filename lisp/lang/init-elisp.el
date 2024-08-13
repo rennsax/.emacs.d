@@ -6,8 +6,8 @@
 (use-package elisp-mode
   :init
   (ide-zero-define elisp
-                   :linter default
-                   :mode emacs-lisp-mode)
+      :linter default
+      :mode emacs-lisp-mode)
   (add-hook 'after-init-hook #'elisp-ide-zero-mode)
 
   :config

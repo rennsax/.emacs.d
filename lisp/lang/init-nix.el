@@ -6,8 +6,8 @@
   :init
   (celeste/package-autoload 'nix-mode)
   (ide-zero-define nix
-                   :mode nix-mode
-                   :lsp ("nil"))
+      :mode nix-mode
+      :lsp ("nil"))
   )
 
 (provide 'init-nix)

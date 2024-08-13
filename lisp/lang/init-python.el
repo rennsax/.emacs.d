@@ -6,10 +6,10 @@
 (use-package python
   :init
   (ide-zero-define python
-                   :mode (python-mode python-ts-mode)
-                   ;; pyright
-                   :lsp ("pyright-langserver" "--stdio") ;; Use basedpyright?
-                   :linter lsp)
+      :mode (python-mode python-ts-mode)
+      ;; pyright
+      :lsp ("pyright-langserver" "--stdio") ;; Use basedpyright?
+      :linter lsp)
   :config
   (setq python-indent-offset 4)
   (defun +python-set-tab-width ()

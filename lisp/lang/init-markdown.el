@@ -8,8 +8,8 @@
   (celeste/prepare-package markdown-mode)
 
   (ide-zero-define markdown
-                   :mode markdown-mode
-                   :lsp ("marksman"))
+      :mode markdown-mode
+      :lsp ("marksman"))
 
   :mode (("\\.md\\'" . markdown-mode)
          ;; Github Flavoured Markdown files

@@ -7,9 +7,9 @@
   :init
   (celeste/package-autoload 'go-mode)
   (ide-zero-define go
-                   :mode (go-mode go-ts-mode)
-                   :lsp ("gopls")
-                   :linter lsp)
+      :mode (go-mode go-ts-mode)
+      :lsp ("gopls")
+      :linter lsp)
 
   :config
   (setenv "GO111MODULE" "on")
