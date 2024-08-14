@@ -180,7 +180,11 @@
 (use-package diff-hl-show-hunk
   :commands diff-hl-show-hunk)
 (use-package diff-hl-dired
-  :hook (dired-mode . diff-hl-dired-mode))
+  :commands diff-hl-dired-mode
+  :init
+  (add-hook 'dired-mode-hook
+            (lambda () (unless (file-remote-p default-directory)
+                    (diff-hl-dired-mode)))))
 
 
 (provide 'init-vc)
