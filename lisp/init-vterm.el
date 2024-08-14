@@ -135,6 +135,9 @@ will invert `vterm-copy-exclude-prompt' for that call."
                             ;; Unset PAGER variable.
                             ;; Tramp sets PAGER=cat via `tramp-remote-process-environment'.
                             "PAGER"))
+
+  ;; `spawn-sub-emacs'
+  (add-to-list 'vterm-keymap-exceptions "<f9>")
   )
 
 
