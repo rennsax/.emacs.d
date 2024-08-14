@@ -138,6 +138,21 @@ will invert `vterm-copy-exclude-prompt' for that call."
 
   ;; `spawn-sub-emacs'
   (add-to-list 'vterm-keymap-exceptions "<f9>")
+
+  ;; Mode-line for vterm buffer.
+  (add-hook 'vterm-mode-hook
+            (defun +vterm--simplify-mode-line ()
+              (setq-local mode-line-format
+                          '((ace-window-display-mode
+                             (:eval
+                              (window-parameter
+                               (selected-window)
+                               'ace-window-path)))
+                            "%e" mode-line-front-space
+                            " "
+                            mode-line-modes
+                            mode-line-misc-info
+                            mode-line-end-spaces))))
   )
 
 

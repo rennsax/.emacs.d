@@ -240,7 +240,7 @@ This should be called each time after the function definition is modified."
 ;; NO line number
 (line-number-mode -1)
 
-(celeste/add-mode-hook '(eshell-mode shell-mode vterm-mode) #'hidden-mode-line-mode)
+(celeste/add-mode-hook '(eshell-mode shell-mode) #'hidden-mode-line-mode)
 
 
 ;;; Completion.
