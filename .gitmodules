@@ -356,3 +356,6 @@
 [submodule "packages/emmet-mode"]
 	path = packages/emmet-mode
 	url = https://github.com/smihica/emmet-mode.git
+[submodule "packages/web-mode"]
+	path = packages/web-mode
+	url = https://github.com/fxbois/web-mode
