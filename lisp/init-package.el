@@ -14,8 +14,10 @@
 
 ;; I feel hard to remember whether to use the plural...
 (defalias 'use-package-handler/:command 'use-package-handler/:commands)
+(defalias 'use-package-normalize/:command 'use-package-normalize/:commands)
 (add-to-list 'use-package-keywords :command)
 (defalias 'use-package-handler/:function 'use-package-handler/:functions)
+(defalias 'use-package-normalize/:function 'use-package-normalize/:functions)
 (add-to-list 'use-package-keywords :function)
 
 
