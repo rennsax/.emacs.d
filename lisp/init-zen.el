@@ -44,7 +44,7 @@
 (define-minor-mode celeste/zen-mode
   "Toggle buffer-local Zen mode."
   :init-value nil
-  :lighter " 🛌🏾"
+  :lighter "  "
   :global nil
   (if celeste/zen-mode
       (progn
