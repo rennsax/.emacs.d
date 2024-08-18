@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(eval-when-compile (require 'rx))
-
 
 ;;; Initialization, global settings.
 
@@ -175,20 +173,17 @@ that returns the symbol."
                 ,(rx "Output*" eos)     ; "*Pp Eval Output*, for example"
                 ,(rx bos "*Messages*" eos)))
          (display-buffer-in-side-window)
-         (dedicated . t)
          (side . bottom))
 
         ((or . (,(rx bos "*envrc*" eos)
                 ,(rx bos "*compilation*" eos)))
          (display-buffer-in-side-window)
-         (dedicated . t)
          (side . bottom)
          (body-function . select-window))
 
         ;; `org-capture'
         (,(rx bos "*Org Select*" eos)
          (display-buffer-in-side-window)
-         (dedicated . t)
          (side . right)
          (window-width . 0.2)
          (slot . 0)
@@ -197,7 +192,6 @@ that returns the symbol."
         ;; `org-agenda' dispatcher (there is a leading space!)
         (,(rx bos " *Agenda Commands*" eos)
          (display-buffer-in-side-window)
-         (dedicated . t)
          (side . bottom)
          (window-width . 0.3)
          (slot . 0)
@@ -220,19 +214,9 @@ that returns the symbol."
                 (derived-mode . helpful-mode)
                 ,(rx bos "*eldoc*" eos)))
          (display-buffer-in-side-window)
-         (dedicated . t)
          (side . bottom)
          (window-height . 0.35)
          (body-function . select-window))
-
-        ((or . ((derived-mode . osx-dictionary-mode)
-                ,(rx bos "*devdocs*" eos)))
-         (display-buffer-in-side-window)
-         (dedicated . t)
-         (side . bottom)
-         (window-height . 0.3)
-         (body-function . select-window)
-         (window-parameters . ((mode-line-format . none))))
 
 ;;; Below the current window
 
