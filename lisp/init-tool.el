@@ -21,6 +21,9 @@
     (let ((cur (point)))
       (apply oldfun args)
       (goto-char cur)))
+
+  ;; -z, --search-zip: also search in compressed files.
+  (add-to-list 'deadgrep-extra-arguments "-z")
   )
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
