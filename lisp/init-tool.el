@@ -24,6 +24,15 @@
 
   ;; -z, --search-zip: also search in compressed files.
   (add-to-list 'deadgrep-extra-arguments "-z")
+
+  (defun deadgrep-specify-extra-arguments ()
+    (interactive)
+    (let ((arg-str (read-from-minibuffer
+                 "Extra arugments: "
+                 (concat (string-join deadgrep-extra-arguments " ") " "))))
+      (setq-local deadgrep-extra-arguments
+                  (string-split arg-str))))
+  (keymap-set deadgrep-mode-map "A" #'deadgrep-specify-extra-arguments)
   )
 
 ;; Edit anything, everywhere, w/ an popped Emacs frame!
