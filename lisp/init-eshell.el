@@ -45,9 +45,20 @@
   :config
   (eshell-syntax-highlighting-global-mode +1))
 
+(use-package em-rebind
+  :commands eshell-delchar-or-maybe-eof)
+
 (use-package esh-mode
   :config
-  (add-hook 'eshell-mode-hook (lambda () (electric-pair-local-mode -1))))
+  (add-hook 'eshell-mode-hook (lambda () (electric-pair-local-mode -1)))
+  (defun eshell-yank-last-arg ()
+    "Insert the last arg of the previous command."
+    (interactive)
+    (insert "$_")
+    (pcomplete-expand))
+  (bind-keys :map eshell-mode-map
+             ("C-d" . eshell-delchar-or-maybe-eof)
+             ("M-." . eshell-yank-last-arg)))
 
 
 (provide 'init-eshell)
