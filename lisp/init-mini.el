@@ -359,9 +359,25 @@ or file path may exist now."
 
 (use-package tramp
   :config
-  (setq tramp-default-method "ssh")
+  ;; More standard shell.
+  (setq tramp-default-method "sshx")
+
   ;; Reuse the path settings of your remote account when you log in.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+  (setq tramp-inline-compress-start-size (* 1024 10))
+
+  ;; Set to nil to use the configuration in ~/.ssh/config.
+  ;; (info "(tramp) Ssh setup")
+  (setq tramp-use-ssh-controlmaster-options nil)
+
+  ;; Set HISTFILE to empty so the first “exec /bin/sh -i” command isn't written
+  ;; to ~/.bash_history.
+  (let ((args
+         (assoc 'tramp-login-args (assoc "sshx" tramp-methods))))
+    (setf (cadr (assoc "-o" (cadr args)))
+          "RemoteCommand=\"env 'HISTFILE=' %l\""))
+  )
 
 (use-package subword
   :diminish ((superword-mode . " 󱔎")
