@@ -146,46 +146,26 @@
       (replace-regexp-in-string "\u200b" "" text)))
   (add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zwsp))
 
+
 ;; Fix: `fill-paragraph' sometimes breaks a whole Chinese sentence with newline,
 ;; and when the paragraph exported, the newline character is replaced with a
 ;; space, which is not the desired result.
-;;
-;; In the following cases, lines should be joined without adding an internal space:
-;;
-;; Case 1: 你好\n世界 (CJK + CJK)
-;; Case 2: 你好，\n(.) (CJK symbols + anything)
-(defun ox-join-cjk-lines-a (args)
-  "Join consecutive Chinese lines into a single long line without unwanted space
-when exporting org-mode."
-  (let* ((contents (nth 1 args))
-         ;; https://github.com/vinta/pangu.js/blob/6107055384b99e6f30a49f5d1b85aa0b78251dc2/src/shared/core.js#L19
-         (cjk-regexp "[\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+(use-package unfill
+  :init (celeste/prepare-package dash)
+  :commands unfill-region
+  :autoload unfill-string)
 
-         ;; Case 1
-         (contents
-          (replace-regexp-in-string
-           (concat
-            "\\(" cjk-regexp "\\) *\n *\\(" cjk-regexp "\\)")
-           "\\1\\2" contents))
-
-         ;; Case 2
-         (contents
-          (replace-regexp-in-string
-           ;; Unicode blocks: CJK Symbols and Punctuation + Halfwidth and Fullwidth Forms
-           (rx (group (in (?\u3000 . ?\u303f) (?\uff00 . ?\uffef)))
-               (* space) ?\n (* space)
-               (group nonl))
-           "\\1\\2" contents)))
-
-    (setf (cadr args) contents) args))
+(defun ox--paragraph-join-lines-a (args)
+  (let ((contents (nth 1 args)))
+    (setf (cadr args) (unfill-string contents)) args))
 
 (with-eval-after-load 'ox-html
-  (advice-add 'org-html-paragraph :filter-args #'ox-join-cjk-lines-a))
+  (advice-add 'org-html-paragraph :filter-args #'ox--paragraph-join-lines-a))
 
-;; Add advice to `org-md-paragraph' is also reasonable. But I want to keep the
-;; markdown backend untouched.
-(with-eval-after-load 'ox-hugo
-  (advice-add 'org-hugo-paragraph :filter-args #'ox-join-cjk-lines-a))
+;; `org-hugo-paragraph' will invoke `org-md-paragraph'. Though it has its own logic
+;; to handle CJK characters, I also add my own logic.
+(with-eval-after-load 'ox-md
+  (advice-add #'org-md-paragraph :filter-args #'ox--paragraph-join-lines-a))
 
 (with-eval-after-load 'ox-latex
   ;; Include xeCJK package so Chinese can be correctly exported.
