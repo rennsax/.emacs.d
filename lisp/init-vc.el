@@ -53,9 +53,6 @@
   (celeste/prepare-package-2
       (dash (magit "lisp" :info "docs")))
 
-  ;; So it can be successfully advised by `init-window'
-  (setq magit-display-buffer-function #'+magit-display-buffer-fn)
-
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)
          ("C-c g e i" . magit-gitignore-in-topdir)
@@ -78,7 +75,41 @@
   ; (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
 
   ;; Magit window settings.
-  (celeste/autoload '+magit-display-buffer-fn magit)
+  (defun +magit-display-buffer-fn (buffer)
+    "Same as `magit-display-buffer-traditional', except...
+
+- If opened from a commit window, it will open below it.
+- Magit process windows are always opened in small windows below the current.
+- Everything else will reuse the same window."
+    (let ((buffer-mode (buffer-local-value 'major-mode buffer)))
+      (display-buffer
+       buffer (cond
+               ((and (eq buffer-mode 'magit-status-mode)
+                     (get-buffer-window buffer))
+                '(display-buffer-reuse-window))
+               ;; Any magit buffers opened from a commit window should open below
+               ;; it. Also open magit process windows below.
+               ((or (bound-and-true-p git-commit-mode)
+                    (eq buffer-mode 'magit-process-mode))
+                (let ((size (if (eq buffer-mode 'magit-process-mode)
+                                0.35
+                              0.7)))
+                  `(display-buffer-below-selected
+                    . ((window-height . ,(truncate (* (window-height) size)))))))
+
+               ;; Everything else should reuse the current window.
+               ((or (not (derived-mode-p 'magit-mode))
+                    (not (memq (with-current-buffer buffer major-mode)
+                               '(magit-process-mode
+                                 magit-revision-mode
+                                 magit-diff-mode
+                                 magit-stash-mode
+                                 magit-status-mode))))
+                '(display-buffer-same-window))))))
+
+  ;; So it can be successfully advised by `init-window'
+  (setq magit-display-buffer-function #'+magit-display-buffer-fn)
+
   (setq magit-bury-buffer-function #'magit-mode-quit-window)
 
   ;; Add missing options.
@@ -92,13 +123,6 @@
   (transient-replace-suffix 'magit-branch 'magit-checkout
     '("b" "dwim" magit-branch-or-checkout))
 
-  ;; Clean up after magit by killing leftover magit buffers and reverting
-  ;; affected buffers (or at least marking them as need-to-be-reverted).
-  (celeste/autoload '+magit/quit magit)
-  (celeste/autoload '+magit/quit-all magit)
-  (bind-keys :map magit-mode-map
-             ("q" . +magit/quit)
-             ("Q" . +magit/quit-all))
   )
 
 ;; Show TODOs in magit buffer.
