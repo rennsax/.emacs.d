@@ -116,6 +116,8 @@ Format: same as `process-environment', e.g. \\='(\"env1=v1\" \"env2=v2\")."
   :type '(repeat string)
   :group 'vterm-x)
 
+(put 'vterm-x-environment 'risky-local-variable t)
+
 (make-obsolete-variable
  'vterm-environment
  'vterm-x-environment "0.01"
