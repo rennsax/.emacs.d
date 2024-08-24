@@ -47,6 +47,8 @@ optional for the package(s).
 
 | Tool              | Used by           | Description                                 |
 |-------------------+-------------------+---------------------------------------------|
+| [[https://github.com/andreafrancia/trash-cli][trash-cli]]         | trash             | Linux. Buggy on macOS.                      |
+| [[https://github.com/sindresorhus/macos-trash][macos-trash]]       | trash             | macOS.                                      |
 | [[https://man-db.nongnu.org/][man-db]]            | man               | macOS. Most GNU/Linux distros have builtin. |
 | [[https://github.com/BurntSushi/ripgrep][ripgrep]]           | consult, deadgrep | Another Rust winner!                        |
 | [[https://github.com/sharkdp/fd][fd]]                | consult           | ~find(1)~'s alternative.                    |
@@ -60,12 +62,13 @@ optional for the package(s).
 | [[https://gitlab.com/matsievskiysv/math-preview][math-preview]]      | math-preview      | Preview math formulas inline.               |
 | [[https://www.ghostscript.com/][ghostscript]]       | doc-view          | PDF -> PNG                                  |
 | [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]] | emacs-lsp-booster | Wrapper executable for LSP client.          |
+| [[https://prettier.io/][prettier]]*         | format-all        | Formatter for many languages.               |
 
 [fn:1] For more dependencies of doc-view package, use ~M-x find-library doc-view~.
 
 *** macOS
 
-Incomplete (not maintained since 2024-06-20).
+A rough tutorial (not maintained since 2024-06-20).
 
 #+begin_src shell
 # Basic dependencies.
@@ -81,37 +84,6 @@ brew install --cask libreoffice
 #+end_src
 
 *** NixOS
-
-Add these packages to =home.packages= or =users.users.<name>.packages= or
-=environment.systemPackages=.
-
-#+begin_src nix
-with pkgs; [
-  man
-  ripgrep
-  fd
-  pandoc
-  enchant
-  aspellDicts.en # Necessary for en_US dictionary for jinx
-  libvterm-neovim
-  ghostscript
-  math-preview
-
-  # Use the overlay provided slotThe/emacs-lsp-booster-flake
-  emacs-lsp-booster
-
-  emacs
-
-] ++ lib.optionals stdenv.hostPlatform.isDarwin [
-  pngpaste
-  libreoffice-bin
-] ++ lib.optionals stdenv.hostPlatform.isLinux [
-  libreoffice
-]
-#+end_src
-
-Or you can build your own derivation for packages like =macism= which are not
-included in Nixpkgs. Make sure Emacs can find your desired executables.
 
 Check my personal dotfiles to see how I install external dependencies for Emacs:
 [[https://github.com/rennsax/dotfiles/blob/main/modules/emacs/emacs-deps.nix][rennsax/dotfiles:modules/emacs/emacs-deps.nix]].
