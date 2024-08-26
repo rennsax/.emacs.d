@@ -36,6 +36,7 @@
 (setq eshell-history-file-name (celeste/make-path "eshell/history" 'state)
       eshell-last-dir-ring-file-name (celeste/make-path "eshell/lastdir" 'state))
 (setq project-list-file (celeste/make-path "projects" 'state))
+(setq type-break-file-name (celeste/make-path "type-break" 'state))
 
 
 ;;; Diminished packages.
