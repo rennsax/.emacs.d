@@ -52,7 +52,8 @@ when the size of windows change, it will immediately notify."
   :lighter " VTermNotify" ;; NOTE: mono-height
   :keymap nil
   :global nil
-  (unless (eq major-mode 'vterm-mode)
+  (unless (or (eq major-mode 'vterm-mode)
+              (derived-mode-p 'vterm-mode))
     (user-error "You cannot enable `vterm-notify-mode' outside vterm buffers!"))
   (unless (bound-and-true-p vterm--shell-integrated)
     (user-error "Shell integration is not installed correctly!"))
