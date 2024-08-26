@@ -141,7 +141,7 @@
 
   :config
   ;; Include hidden files. See man fd(1).
-  (add-to-list 'consult-fd-args "-H" t)
+  (setq consult-fd-args '("fd" "--full-path --color=never" "-H"))
 
   ;; https://github.com/minad/consult/wiki#manual-preview-for-non-consult-commands-using-embark
   (progn
