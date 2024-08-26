@@ -351,6 +351,37 @@ Like `org-id-open', but additionally uses the Org-roam database."
             (goto-char m)
             (move-marker m nil)
             (org-show-context))))
+
+  (cl-defmethod org-roam-node-directories ((node org-roam-node))
+    "Method to get the parent directory of NODE."
+    (if-let ((dirs (file-name-directory (file-relative-name (org-roam-node-file node) org-roam-directory))))
+        (format "(%s)" (car (split-string dirs "/")))
+      ""))
+
+  (cl-defmethod org-roam-node-backlinkscount ((node org-roam-node))
+    "Method to get the backlink count of NODE."
+    (let* ((count (caar (org-roam-db-query
+                         [:select (funcall count source)
+                                  :from links
+                                  :where (= dest $s1)
+                                  :and (= type "id")]
+                         (org-roam-node-id node)))))
+      (format "[%d]" count)))
+
+  ;; `marginalia' should be loaded.
+  (setq org-roam-node-display-template
+        (concat (propertize "${tags:20}" 'face 'org-tag)
+                (propertize "${directories:12}" 'face 'org-priority)
+                " ${title:*} ${backlinkscount:6}")
+        org-roam-node-annotation-function
+        (lambda (node) (marginalia--time (org-roam-node-file-mtime node))))
+
+  ;; Includes all sections in `org-roam-buffer'.
+  (setq org-roam-mode-sections
+        '(org-roam-backlinks-section
+          org-roam-reflinks-section
+          org-roam-unlinked-references-section))
+
   )
 
 (use-package org-download
