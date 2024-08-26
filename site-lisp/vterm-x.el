@@ -62,6 +62,38 @@
 (add-hook 'vterm-set-directory-hook #'vterm--sync-buffer-name)
 
 
+;;; A more intuitive implementation of `vterm'.
+
+;;;###autoload
+(defun vterm-at (file &optional arg)
+  "Open a vterm buffer that is closest to FILE.
+
+If FILE is a directory, open vterm at this directory. If FILE is a regular file,
+open vterm at its parent directory.
+
+If ARG is non-nil, force to open a new vterm buffer."
+  (interactive "fVterm directory: \nP")
+  (unless (file-exists-p file)
+    (error "FILE %s does not exist!" file))
+  (unless (file-directory-p file)
+    (setq file (file-name-directory file)))
+  ;; Convert directory name to absolute, and remove the tailing slash.
+  (setq file (directory-file-name (expand-file-name file)))
+  (let* ((default-directory file)
+         (vterm-buf-name
+          (format "*vterm<%s>*" (file-name-base file)))
+         (buf (get-buffer vterm-buf-name)))
+    (if (and (not arg)
+             buf
+             (buffer-live-p buf)
+             (file-equal-p
+              (with-current-buffer buf default-directory)
+              default-directory))
+        (switch-to-buffer buf)
+      ;; If a string is given, `vterm' will always open a new terminal.
+      (vterm vterm-buf-name))))
+
+
 ;;; Indicate whether the shell integration is installed.
 
 ;; Limits: it's hard to tell whether shell integration is installed in a

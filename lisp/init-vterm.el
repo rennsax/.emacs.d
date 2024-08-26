@@ -7,36 +7,9 @@
   ;; Emacs-vterm needs to be dynamically linked to libvterm.
   :when (bound-and-true-p module-file-suffix)
 
-  :commands vterm
-
   :init
   (celeste/prepare-package vterm)
-
-  (defun vterm-at (file &optional arg)
-    "Open a vterm buffer that is closest to FILE.
-
-If FILE is a directory, open vterm at this directory. If FILE is a regular file,
-open vterm at its parent directory."
-    (interactive "fVterm directory: \nP")
-    (unless (file-exists-p file)
-      (error "FILE %s does not exist!" file))
-    (unless (file-directory-p file)
-      (setq file (file-name-directory file)))
-    ;; Convert directory name to absolute, and remove the tailing slash.
-    (setq file (directory-file-name (expand-file-name file)))
-    (let* ((default-directory file)
-           (vterm-buf-name
-            (format "*vterm<%s>*" (file-name-base file)))
-           (buf (get-buffer vterm-buf-name)))
-      (if (and (not arg)
-               buf
-               (buffer-live-p buf)
-               (file-equal-p
-                (with-current-buffer buf default-directory)
-                default-directory))
-          (switch-to-buffer buf)
-        ;; If a string is given, `vterm' will always open a new terminal.
-        (vterm vterm-buf-name))))
+  (autoload 'vterm-at "vterm-x" nil t)
 
   (with-eval-after-load 'project
     (defun project-vterm ()
