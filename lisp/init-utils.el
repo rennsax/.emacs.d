@@ -238,9 +238,9 @@ useful, e.g., for use with `visual-line-mode'."
 
 (keymap-global-set "s-r" #'reload-this-file)
 (keymap-global-set "<f9>" #'spawn-sub-emacs)
-(keymap-global-set "C-g" #'keyboard-quit-dwim)
+(keymap-global-set "<remap> <keyboard-quit>" #'keyboard-quit-dwim)
 (keymap-global-set "M-u" #'upcase-previous-word)
-(keymap-global-set "ESC ESC ESC" #'keyboard-escape-quit-no-close-win)
+(keymap-global-set "<remap> <keyboard-escape-quit>" #'keyboard-escape-quit-no-close-win)
 
 
 (provide 'init-utils)
