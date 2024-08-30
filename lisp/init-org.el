@@ -382,6 +382,13 @@ Like `org-id-open', but additionally uses the Org-roam database."
           org-roam-reflinks-section
           org-roam-unlinked-references-section))
 
+  ;; Embark integration.
+  (with-eval-after-load 'embark
+    (defvar-keymap embark-org-roam-map
+      :doc "Keymap for Embark org roam actions."
+      "i" #'org-roam-node-insert)
+    (add-to-list 'embark-keymap-alist '(org-roam-node . embark-org-roam-map)))
+
   )
 
 (use-package org-download
