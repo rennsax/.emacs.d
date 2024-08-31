@@ -329,9 +329,8 @@
   (setq org-roam-directory (concat celeste-org-dir "roam/")
         org-roam-db-location (celeste/make-path "org-roam.db" 'data))
 
-  :bind (("C-c o r n" . org-roam-node-find)
-         ("C-c o r s" . org-roam-db-sync)
-         ("C-c o r i" . org-roam-node-insert))
+  :bind (("C-c o r s" . org-roam-db-sync)
+         ("C-c o n" . org-roam-node-find))
   :config
   ;; After loading, synchronize the org-roam-db cache.
   (org-roam-db-sync)
