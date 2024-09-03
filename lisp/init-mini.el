@@ -90,6 +90,14 @@
   (define-advice system-move-file-to-trash (:override (filename) use-trash-cli)
     (process-file-shell-command
      (format "trash %S" (file-local-name filename))))
+
+  ;; Do not consider bidirectional text.
+  (setq-default bidi-display-reordering nil)
+  (setq bidi-inhibit-bpa t)
+
+  (setq long-line-threshold 2000
+        large-hscroll-threshold 1000
+        syntax-wholeline-max 1000)
   )
 
 ;; Backup and auto-save.
