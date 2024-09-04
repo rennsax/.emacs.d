@@ -176,6 +176,12 @@
         org-refile-use-outline-path t)                ; select target like paths
   )
 
+(use-package org-protocol
+  :init
+  ;; Lazy-load `org-protocol'.
+  (advice-add 'server-visit-files :around #'org--protocol-detect-protocol-server)
+  :autoload org--protocol-detect-protocol-server)
+
 
 ;;; ox: Export Framework for Org Mode
 
