@@ -128,7 +128,8 @@ If FONT-FAMILY is non-nil, use the specified font. Otherwise,
 
 If NO-HOOK is non-nil, by passing the execution of
 `celeste-buffer-face-mode-hook'."
-  (interactive "MFont family: ")
+  (interactive (list (completing-read (format-prompt "Font family" celeste-other-font-name)
+                                      (font-family-list))))
   (let ((font-family (or font-family celeste-other-font-name)))
     (if (string= font-family celeste-default-font-name)
         (buffer-face-mode -1)
