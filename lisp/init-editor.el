@@ -123,6 +123,7 @@
                                           (flycheck-handle-save . 5)))
 
   (setq wim-auto-save--debug nil)
+  (setq wim-auto-save-log-level nil)
 
   (setq wim-auto-save-disable-predicates
         ;; If the current buffer is captured (`org-capture')
