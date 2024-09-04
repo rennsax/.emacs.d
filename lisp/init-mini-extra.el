@@ -71,7 +71,7 @@
   "List of modes when `visual-line-mode' should be enabled."
   :group 'celeste
   :type '(repeat symbol)
-  :set (celeste--mode-list-setter 'visual-line-mode))
+  :set (celeste--mode-list-setter visual-line-mode))
 
 (define-minor-mode celeste/auto-fill-mode
   "Toggle `auto-fill-mode' and `display-fill-column-indicator-mode' together."
@@ -88,7 +88,7 @@
   "List of modes when `auto-fill-mode' should be enabled."
   :group 'celeste
   :type '(repeat symbol)
-  :set (celeste--mode-list-setter 'celeste/auto-fill-mode))
+  :set (celeste--mode-list-setter celeste/auto-fill-mode))
 
 
 ;;; Some files are opened to be read-only for protection.

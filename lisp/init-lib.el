@@ -18,11 +18,12 @@
     (add-hook (celeste--mode->hook mode) hook-fun)))
 
 (defmacro celeste--mode-list-setter (hook-fun)
-  (when (memq (car-safe hook-fun) '(lambda defun quote))
+  (when (memq (car-safe hook-fun) '(quote))
+    (warn "Do not quote HOOK-FUN `%s'!" hook-fun)
     (setq hook-fun (eval hook-fun)))
   `(lambda (sym val)
      (celeste--mode-hook-reset
-      (if (boundp sym) (symbol-value sym) '())
+      (when (boundp sym) (symbol-value sym))
       val
       #',hook-fun)
      (set sym val)))

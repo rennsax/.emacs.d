@@ -10,7 +10,7 @@
   "List of modes that should use another font."
   :group 'celeste
   :type '(repeat symbol)
-  :set (celeste--mode-list-setter 'celeste/buffer-set-other-font))
+  :set (celeste--mode-list-setter celeste/buffer-set-other-font))
 
 (defcustom celeste-default-font-name "MonaspiceRn Nerd Font"
   "The default font of Celeste Emacs. Pick whatever you like."
