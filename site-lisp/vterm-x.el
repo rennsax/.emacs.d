@@ -36,9 +36,8 @@
   '((:propertize " " face ((t :inherit success))) . (:propertize " " face ((t :inherit error))))
   "Symbols that indicate whether shell integration is correctly installed."
   :type '(cons sexp sexp)
-  :group 'vterm-x)
-
-(put 'vterm-shell-integration-indicator 'risky-local-variable t)
+  :group 'vterm-x
+  :risky t)
 
 (define-advice vterm--set-directory (:after (&rest _) run-hooks -100)
   (run-hooks 'vterm-set-directory-hook))
@@ -137,7 +136,7 @@ It can be useful when the user set an abbreviation host name in its ssh config."
    (rx (group (? "~/" "./" "/") ;; Optional leading dot or tilde
               (* (+ (not space) ?/)))
        (group
-        (| "sh" "ksh" "csh" "tcsh" "bash" "zsh" "fish" "nu" "xonsh") eow))
+        (| "sh" "ksh" "csh" "tcsh" "bash" "zsh" "fish" "nu" "xonsh" "elvish") eow))
    "\\1'\\2'"
    shell))
 
@@ -146,9 +145,8 @@ It can be useful when the user set an abbreviation host name in its ssh config."
 
 Format: same as `process-environment', e.g. \\='(\"env1=v1\" \"env2=v2\")."
   :type '(repeat string)
-  :group 'vterm-x)
-
-(put 'vterm-x-environment 'risky-local-variable t)
+  :group 'vterm-x
+  :risky t)
 
 (make-obsolete-variable
  'vterm-environment
