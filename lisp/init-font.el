@@ -7,7 +7,10 @@
 
 (defcustom celeste-other-font-mode-list
   nil
-  "List of modes that should use another font."
+  "List of modes that should use another font.
+
+Set different fonts for those special modes, so the user can easily switch
+between different contexts."
   :group 'celeste
   :type '(repeat symbol)
   :set (celeste--mode-list-setter celeste/buffer-set-other-font))
@@ -71,6 +74,8 @@ poem,...)."
   :type 'hook
   :risky t)
 
+(make-obsolete-variable 'celeste-buffer-face-mode-hook nil "2024-09-04")
+
 
 ;;; Font settings.
 ;; Useful hooks:
@@ -79,55 +84,66 @@ poem,...)."
 ;; `text-scale-mode-hook': TODO
 ;; `after-setting-font-hook': after the frame font is *changed*.
 
-(create-fontset-from-fontset-spec
- (format  "-*-%s-regular-normal-normal-*-%d-*-*-*-p-0-fontset-celeste"
-          celeste-default-font-name celeste-font-size))
-
 ;; This workaround is found at https://emacs-china.org/t/doom-emacs/23513
 ;; See the variable `char-script-table'.
-(defun +fontset-setup-cjk (&optional fontset)
+(defun celeste--fontset-setup-cjk (&optional fontset)
   "Setup special CJK fonts for FONTSET."
-  (interactive)
   (dolist (charset '(kana han cjk-misc bopomofo symbol))
     (set-fontset-font fontset charset (font-spec :family celeste-cjk-font-name))))
 
-;; Patch the fontset after `buffer-face-mode' is enabled.
-(add-hook 'celeste-buffer-face-mode-hook #'+fontset-setup-cjk)
+(defun celeste--create-fontset (alias-prefix)
+  "Create a fontset with ALIAS-PREFIX as the prefix of its short name.
 
-;; `after-setting-font-hook' isn't triggered since the font of the initial frame
-;; is never *changed*.
-(+fontset-setup-cjk "fontset-celeste")
+Return the alias (short name) of the created fontset.
 
-(push '(font . "fontset-celeste") default-frame-alist)
+The short name is formatted as ALIAS-PREFIX_FONT-NAME, where FONT-NAME is
+`celeste-default-font-name'.
+
+CJK charsets are specially handled. Their font family is set to
+`celeste-cjk-font-name'."
+  (when (string-match-p "-" alias-prefix)
+    (user-error "ALIAS-PREFIX should not contain dash (-)!"))
+  (let* ((fontname (downcase celeste-default-font-name))
+         (fontname-normalized (string-replace " " "_" fontname))
+         ;; Alias (short name) that will be recorded in `fontset-alias-alist'.
+         (fontset-alias (concat "fontset-" alias-prefix "_" fontname-normalized))
+         (fontsize celeste-font-size)
+         (fontset-spec (format "-*-%s-regular-normal-normal-*-%d-*-*-*-p-0-%s"
+                               fontname fontsize fontset-alias)))
+    (create-fontset-from-fontset-spec fontset-spec)
+    (celeste--fontset-setup-cjk fontset-alias)
+    fontset-alias))
+
+(defun celeste/reload-font ()
+  "Reload font settings.
+
+Call this function to apply the changes of the following options:
+
+- `celeste-default-font-name'
+- `celeste-cjk-font-name'
+- `celeste-font-size'"
+  (interactive)
+  (let ((fontset-name (celeste--create-fontset "celeste")))
+    (if-let ((frame-font-param (assoc 'font default-frame-alist)))
+        (setf (cdr frame-font-param) fontset-name)
+      (push `(font . ,fontset-name) default-frame-alist))
+    (when (and after-init-time  ; REVIEW: is this the "best practice"?
+               (selected-frame))
+      (set-frame-font fontset-name))))
+
+(celeste/reload-font)
 
 
 ;;; Magical multi-font settings.
 
-;; Set different fonts for those special modes, so I can distinguish from
-;; different contexts.
-;; REVIEW: it's interesting that Emacs can find `celeste/buffer-set-other-font',
-;; even it's defined later.
-(setopt celeste-other-font-mode-list
-        '(eshell-mode
-          magit-mode
-          debugger-mode
-          Custom-mode
-          dired-mode
-          org-mode
-          org-agenda-mode
-          markdown-mode
-          Info-mode
-          man-common
-          help-mode))
-
-(defun celeste/buffer-set-other-font (&optional font-family no-hook)
+(defun celeste/buffer-set-other-font (&optional font-family no-cjk-setup)
   "Setup another font for the current buffer.
 
 If FONT-FAMILY is non-nil, use the specified font. Otherwise,
 `celeste-other-font-name' is used.
 
-If NO-HOOK is non-nil, by passing the execution of
-`celeste-buffer-face-mode-hook'."
+Use `celeste--fontset-setup-cjk' to setup CJK charsets unless NO-CJK-SETUP is
+non-nil."
   (interactive (list (completing-read (format-prompt "Font family" celeste-other-font-name)
                                       (font-family-list))))
   (let ((font-family (or font-family celeste-other-font-name)))
@@ -136,8 +152,8 @@ If NO-HOOK is non-nil, by passing the execution of
       (progn
         (setq-local buffer-face-mode-face `(:family ,font-family))
         (buffer-face-mode +1)
-        (unless no-hook
-          (run-hooks 'celeste-buffer-face-mode-hook))))))
+        (unless no-cjk-setup
+          (celeste--fontset-setup-cjk))))))
 
 (use-package nerd-icons
   :init
