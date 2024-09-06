@@ -52,11 +52,6 @@
   (diminish 'hs-minor-mode))
 
 
-(celeste/add-mode-hook '(prog-mode text-mode)
-    (defun +set-show-trailing-whitespace ()
-      (setq-local show-trailing-whitespace t)))
-
-
 ;;; Handle line wrap in different modes.
 
 ;; HACK: the "*Message*" buffer has been created before, so `add-hook' to

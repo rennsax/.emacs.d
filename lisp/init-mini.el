@@ -406,6 +406,48 @@ or file path may exist now."
 (use-package mouse
   :hook ((after-init . context-menu-mode)))
 
+(use-package whitespace
+  :init
+  (defun whitespace-display-mode--on ()
+    "Turn on whitespace visualization, buffer-locally."
+    (interactive)
+    (dolist (var '(whitespace-font-lock-keywords
+                   whitespace-display-table
+                   whitespace-display-table-was-local
+                   whitespace-active-style))
+      (make-variable-buffer-local var))
+    (setq whitespace-active-style (if (listp whitespace-style)
+                                      whitespace-style
+                                    (list whitespace-style)))
+    (when whitespace-active-style
+      (whitespace-color-on)
+      (whitespace-display-char-on)))
+
+  (defun whitespace-display-mode--off ()
+    "Turn off whitespace visualization."
+    (when whitespace-active-style
+      (whitespace-color-off)
+      (whitespace-display-char-off)))
+
+  (define-minor-mode whitespace-display-mode
+    "Toggle whitespace visualization.
+
+This mode exists because `whitespace-mode' actually does two things: toggle
+whitespace visualization, and auto-cleanup when writing files."
+    :init-value nil
+    :global nil
+    :group 'whitespace
+    (if whitespace-display-mode
+        (whitespace-display-mode--on)
+      (whitespace-display-mode--off)))
+
+  :hook ((text-mode prog-mode) . whitespace-display-mode)
+  :config
+  ;; (Only) Show tab characters with font face and a special glyph.
+  (setq whitespace-style '(face tabs tab-mark
+                                ;; These two styles affect how `whitespace-cleanup' functions.
+                                trailing empty))
+  )
 
 
 (provide 'init-mini)
