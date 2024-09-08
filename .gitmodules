@@ -4,9 +4,6 @@
 [submodule "packages/f"]
 	path = packages/f
 	url = https://github.com/rejeep/f.el.git
-[submodule "packages/annalist.el"]
-	path = packages/annalist.el
-	url = https://github.com/noctuid/annalist.el.git
 [submodule "packages/dash"]
 	path = packages/dash
 	url = https://github.com/magnars/dash.el.git
@@ -147,7 +144,7 @@
 	url = https://github.com/minad/jinx.git
 [submodule "packages/vterm"]
 	path = packages/vterm
-	url = https://github.com/rennsax/emacs-libvterm.git
+	url = https://github.com/akermu/emacs-libvterm.git
 [submodule "packages/edit-indirect"]
 	path = packages/edit-indirect
 	url = https://github.com/Fanael/edit-indirect.git
