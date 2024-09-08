@@ -167,6 +167,10 @@ This should be called each time after the function definition is modified."
           (bg (doom-color 'bg)))
       (+custom-doom-themes
 
+       ;; `whitespace-mode'
+       `(whitespace-tab :background ,(doom-darken bg 0.1)
+                        :foreground ,(doom-lighten bg 0.1))
+
        ;; `magit-mode'
        `(magit-branch-remote :box (:line-width (-1 . -1)) :weight bold)
        `(magit-section-heading :foreground ,(doom-color 'yellow))
