@@ -67,8 +67,9 @@
   ;; since programmers' tools tend to be POSIX compliant (and no big deal if not).
   (setq require-final-newline t)
 
-  ;; If set to t, open the *scratch* buffer.
-  (setq initial-buffer-choice t)
+  ;; If Emacs is opened in GUI mode, show *scratch* buffer immediately.
+  (when (display-graphic-p)
+    (setq initial-buffer-choice t))
 
   ;; Emacs can create file locks to protect the file from being edited by multiple
   ;; users. This feature worthes little for personal computer.
