@@ -127,6 +127,8 @@ Caveat: you should set this variable *before* `wim-auto-save-mode' is enabled."
         (dolist (buf (buffer-list))
           (set-buffer buf)
           (when (and
+                 ;; Locally turned down?
+                 (not (bound-and-true-p wim-auto-save-ignore-mode))
                  ;; Buffer is still alive?
                  (buffer-live-p buf)
                  ;; Buffer associate with a filename?
@@ -226,6 +228,12 @@ Caveat: you should set this variable *before* `wim-auto-save-mode' is enabled."
   (if wim-auto-save-mode
       (wim-auto-save--setup)
     (wim-auto-save--teardown)))
+
+(define-minor-mode wim-auto-save-ignore-mode
+  "Turn down `wim-auto-save-mode' locally."
+  :init-value nil
+  :global nil
+  :keymap nil)
 
 
 
