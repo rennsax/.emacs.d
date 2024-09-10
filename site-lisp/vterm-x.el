@@ -49,8 +49,9 @@
   "Generate a new name for vterm buffer, according to PATH."
   (format "*vterm<%s%s>*"
           (if (file-remote-p path) "@" "")
-          (file-name-base
-           (directory-file-name path))))
+          (car (last
+                (file-name-split
+                 (expand-file-name (directory-file-name path)))))))
 
 (defun vterm--sync-buffer-name ()
   "Set the buffer name according to `default-directory'."
