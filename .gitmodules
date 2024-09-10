@@ -359,3 +359,6 @@
 [submodule "packages/consult-dir"]
 	path = packages/consult-dir
 	url = https://github.com/karthink/consult-dir.git
+[submodule "packages/lorem-ipsum"]
+	path = packages/lorem-ipsum
+	url = https://github.com/jschaf/emacs-lorem-ipsum
