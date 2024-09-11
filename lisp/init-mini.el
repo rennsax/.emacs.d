@@ -450,6 +450,12 @@ whitespace visualization, and auto-cleanup when writing files."
                                 trailing empty))
   )
 
+(use-package epg
+  :config
+  ;; Query passphrase through the minibuffer.
+  (setq epg-pinentry-mode 'loopback))
+
+
 
 (provide 'init-mini)
 ;;; init-mini.el ends here
