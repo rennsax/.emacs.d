@@ -368,3 +368,6 @@
 [submodule "packages/parsebib"]
 	path = packages/parsebib
 	url = https://github.com/joostkremers/parsebib
+[submodule "packages/auctex"]
+	path = packages/auctex
+	url = https://github.com/emacsmirror/auctex
