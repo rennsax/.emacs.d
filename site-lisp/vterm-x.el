@@ -81,7 +81,7 @@ If ARG is non-nil, force to open a new vterm buffer."
   (setq file (directory-file-name (expand-file-name file)))
   (let* ((default-directory file)
          (vterm-buf-name
-          (format "*vterm<%s>*" (file-name-base file)))
+          (vterm--generate-buffer-name default-directory))
          (buf (get-buffer vterm-buf-name)))
     (if (and (not arg)
              buf
