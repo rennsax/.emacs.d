@@ -63,6 +63,18 @@
     )
   (keymap-global-set "M-$" #'jinx-correct)
 
+  ;; If Emacs is installed via Nix, disable auto building.
+  (when (fboundp 'nix--profile-paths)
+    (define-advice jinx--load-module (:override () no-compile)
+      (unless (fboundp #'jinx--mod-dict)
+        (unless module-file-suffix
+          (error "Jinx: Dynamic modules are not supported"))
+        (let* ((mod-name (file-name-with-extension "jinx-mod" module-file-suffix))
+               (mod-file (locate-library mod-name t)))
+          (if mod-file
+              (module-load mod-file)
+            (error "Jinx: Cannot find \"jinx-mod\" module, and auto-building is disabled!"))))))
+
   :init
   (defcustom jinx-mode-dict-alist
     '((emacs-lisp-mode ("el"))

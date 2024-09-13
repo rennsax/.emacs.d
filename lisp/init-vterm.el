@@ -42,6 +42,11 @@
     (advice-add #'vterm-module-compile :override #'ignore)
     (provide 'vterm-module))
 
+  (when (fboundp 'nix--profile-paths)
+    (define-advice vterm-module-compile (:override () no-compile)
+      (progn
+        (warn "Compiling Vterm module is disabled!") nil)))
+
   ;; Kill the vterm immediately once vterm is dead.
   (setq vterm-kill-buffer-on-exit t)
 
