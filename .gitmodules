@@ -362,3 +362,9 @@
 [submodule "packages/lorem-ipsum"]
 	path = packages/lorem-ipsum
 	url = https://github.com/jschaf/emacs-lorem-ipsum
+[submodule "packages/citar"]
+	path = packages/citar
+	url = https://github.com/emacs-citar/citar
+[submodule "packages/parsebib"]
+	path = packages/parsebib
+	url = https://github.com/joostkremers/parsebib
