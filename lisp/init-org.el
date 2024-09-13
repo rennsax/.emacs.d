@@ -118,8 +118,7 @@
 
 (use-package org-agenda
   :init
-  (bind-keys ("C-c o A" . org-agenda)
-             ("C-c o a" . org-agenda-list))
+  (bind-keys ("C-c o A" . org-agenda))
   :config
   ;; "o" is mapped to `delete-other-windows' in `org-agenda-mode', but I think
   ;; it's unnecessary.
@@ -171,7 +170,8 @@
 
 (use-package org-refile
   :config
-  (setq org-refile-targets `((nil . (:maxlevel . 9))) ; consider *all* heading in the current buffer
+  (setq org-refile-targets '((nil . (:maxlevel . 9)) ; consider *all* heading in the current buffer
+                             (org-agenda-files . (:level . 1))) ; allow agenda files
         org-outline-path-complete-in-steps nil        ; select completion at one time
         org-refile-use-outline-path t)                ; select target like paths
   )
