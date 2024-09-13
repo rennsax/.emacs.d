@@ -213,7 +213,7 @@ or file path may exist now."
   ;; lines. In some major modes, such as `makefile-mode', it's important to
   ;; insert literal tab character, so these modes usually set `indent-tabs-mode'
   ;; to t.
-  (setq-default tab-always-indent nil
+  (setq-default tab-always-indent 'complete
                 indent-tabs-mode nil
                 ;; Distance between each tab stop. This option is useful when
                 ;; `tab-stop-list' is set to nil (the default value).
