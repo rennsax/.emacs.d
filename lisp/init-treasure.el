@@ -219,6 +219,22 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref))
 
+;; Quickly jump to recent directories!
+(use-package consult-dir
+  :init (celeste/prepare-package consult-dir)
+  :bind (("C-x C-d" . consult-dir)
+         :map minibuffer-local-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file))
+
+  :config
+  (setq consult-dir-default-command
+        (lambda ()
+          (interactive)
+          (call-interactively (if (project-current nil) #'project-find-file #'find-file))))
+  )
+
+
 
 ;;; Really interesting and practical completion style.
 
