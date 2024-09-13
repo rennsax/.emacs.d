@@ -88,6 +88,28 @@
 
   )
 
+;; Add Embark integration powered by `ace-window'.
+(defmacro embark--ace-window-call (fun)
+  "Select a window with `aw-select', then call FUN."
+  `(lambda (arg) (interactive "P")
+     (with-demoted-errors "%S"
+       (let ((aw-dispatch-always t)
+             (win-list (aw-window-list)))
+         ;; If there is less than 2 windows, split a window first.
+         (when (length< win-list 2)
+           (if arg (split-window-below) (split-window-right)))
+         (aw-select " Ace - Embark Select" #'aw-switch-to-window)
+         (call-interactively #',fun)))))
+
+(with-eval-after-load 'embark
+  ;; Alternatives for `*-other-window'.
+  (keymap-set embark-file-map "o" (embark--ace-window-call find-file))
+  (keymap-set embark-buffer-map "o" (embark--ace-window-call switch-to-buffer))
+  (keymap-set embark-bookmark-map "o" (embark--ace-window-call bookmark-jump))
+  (keymap-set embark-symbol-map "o" (embark--ace-window-call embark-find-definition))
+  )
+
+
 (defun display-buffer-base-action--empty-wrapper-a (fun &rest args)
   "Set `display-buffer-base-action' to (nil) before calling FUN."
   (let ((display-buffer-base-action (list nil)))
