@@ -85,8 +85,6 @@
 
 (require 'init-temp nil t)
 
-(require 'init-private nil t)
-
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; no-byte-compile: t
