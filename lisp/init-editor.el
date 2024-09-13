@@ -143,6 +143,21 @@
   (sudo-edit-indicator-mode +1))
 
 
+(use-package lorem-ipsum
+  :init (celeste/prepare-package lorem-ipsum)
+  :commands (lorem-ipsum-insert-list
+             lorem-ipsum-insert-sentences
+             lorem-ipsum-insert-paragraphs)
+  :config
+  (setq-default lorem-ipsum-list-bullet "- "
+                lorem-ipsum-sentence-separator (if sentence-end-double-space "  " " "))
+
+  (with-eval-after-load 'latex
+    (add-to-list 'LaTeX-mode-hook
+                 (lambda ()
+                   (setq lorem-ipsum-list-bullet "\\item "))))
+  )
+
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
