@@ -59,6 +59,13 @@ default value."
   :group 'celeste
   :type 'string)
 
+(defcustom celeste-reading-font-name "Arial"
+  "Font for reading.
+
+A proportional font is recommended."
+  :group 'celeste
+  :type 'string)
+
 (defcustom celeste-font-size 14
   "Font size of Celeste Emacs."
   :group 'celeste
@@ -154,6 +161,17 @@ non-nil."
         (buffer-face-mode +1)
         (unless no-cjk-setup
           (celeste--fontset-setup-cjk))))))
+
+(define-minor-mode celeste/reading-mode
+  "Mode for reading."
+  :global nil
+  :init-value nil
+  (if celeste/reading-mode
+      (progn
+        (celeste/buffer-set-other-font celeste-reading-font-name)
+        (setq line-spacing 0.5))
+    (celeste/buffer-set-other-font celeste-default-font-name)
+    (setq line-spacing nil)))
 
 (use-package nerd-icons
   :init
