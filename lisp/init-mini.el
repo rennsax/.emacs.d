@@ -409,6 +409,13 @@ or file path may exist now."
 
 (use-package whitespace
   :init
+  (defcustom whitespace-display-style '(face tabs tab-mark trailing empty)
+    "Determine the kinds of whitespace are visualized.
+
+This variable does not affect `whitespace-cleanup' like `whitespace-style' does."
+    :type '(repeat symbol)
+    :group 'whitespace)
+
   (defun whitespace-display-mode--on ()
     "Turn on whitespace visualization, buffer-locally."
     (interactive)
@@ -417,9 +424,7 @@ or file path may exist now."
                    whitespace-display-table-was-local
                    whitespace-active-style))
       (make-variable-buffer-local var))
-    (setq whitespace-active-style (if (listp whitespace-style)
-                                      whitespace-style
-                                    (list whitespace-style)))
+    (setq whitespace-active-style whitespace-display-style)
     (when whitespace-active-style
       (whitespace-color-on)
       (whitespace-display-char-on)))
@@ -442,12 +447,16 @@ whitespace visualization, and auto-cleanup when writing files."
         (whitespace-display-mode--on)
       (whitespace-display-mode--off)))
 
-  :hook ((text-mode prog-mode) . whitespace-display-mode)
   :config
   ;; (Only) Show tab characters with font face and a special glyph.
-  (setq whitespace-style '(face tabs tab-mark
-                                ;; These two styles affect how `whitespace-cleanup' functions.
-                                trailing empty))
+  (setq whitespace-style '(face tabs tab-mark trailing empty))
+  (setq whitespace-display-style '(face tabs tab-mark trailing empty))
+
+  (add-hook 'prog-mode-hook #'whitespace-display-mode)
+  (add-hook 'text-mode-hook
+            (defun +whitespace-text-mode-setup ()
+              (setq-local whitespace-display-style '(face tabs tab-mark trailing))
+              (whitespace-display-mode +1)))
   )
 
 (use-package epg
