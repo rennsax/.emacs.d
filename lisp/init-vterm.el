@@ -34,13 +34,6 @@
                         (vterm-at "~"))))
 
   :config
-  ;; HACK Because vterm clusmily forces vterm-module.so's compilation on us when
-  ;;      the package is loaded, this is necessary to prevent it when
-  ;;      byte-compiling this file (`use-package' blocks eagerly loads packages
-  ;;      when compiled).
-  (when noninteractive
-    (advice-add #'vterm-module-compile :override #'ignore)
-    (provide 'vterm-module))
 
   (when (fboundp 'nix--profile-paths)
     (define-advice vterm-module-compile (:override () no-compile)
