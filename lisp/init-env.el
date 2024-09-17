@@ -11,13 +11,6 @@
 (celeste/require 'exec-path-from-shell)
 
 (with-eval-after-load 'exec-path-from-shell
-  (setq exec-path-from-shell-variables
-        '("PATH"
-          "XDG_CONFIG_HOME" "XDG_CACHE_HOME" "XDG_DATA_HOME" "XDG_STATE_HOME"
-          "https_proxy" "http_proxy"
-          "GOPATH"
-          "NIX_PROFILES"
-          "ASDF_DATA_DIR"))
 
   (defun +getenv-shell (variable &optional frame always)
     "Get the environment variable VARIABLE from shell.
