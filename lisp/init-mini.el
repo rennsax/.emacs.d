@@ -36,14 +36,6 @@
     (put cmd 'disabled t))
   )
 
-;; Bootstrap custom file.
-;; NOTE: Should be as early as possible
-(use-package cus-edit
-  :init
-  (setq custom-file (locate-user-emacs-file "custom.el"))
-  ;; `load' is more primitive than `load-file'.
-  (load custom-file t t t))
-
 ;; Editor setups.
 (use-package emacs
   :init

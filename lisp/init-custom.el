@@ -3,6 +3,12 @@
 ;;; Code:
 
 
+;; Bootstrap custom file.
+;; NOTE: Should be as early as possible
+(setq custom-file (locate-user-emacs-file "custom.el"))
+;; `load' is more primitive than `load-file'.
+(load custom-file t t t)
+
 (defgroup celeste nil
   "Celeste Emacs customization."
   :group 'emacs)
