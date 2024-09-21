@@ -371,3 +371,6 @@
 [submodule "packages/auctex"]
 	path = packages/auctex
 	url = https://github.com/emacsmirror/auctex
+[submodule "packages/citar-org-roam"]
+	path = packages/citar-org-roam
+	url = https://github.com/emacs-citar/citar-org-roam
