@@ -136,9 +136,6 @@
 [submodule "packages/lua-mode"]
 	path = packages/lua-mode
 	url = https://github.com/immerrr/lua-mode.git
-[submodule "packages/treesit-auto"]
-	path = packages/treesit-auto
-	url = https://github.com/renzmann/treesit-auto.git
 [submodule "packages/jinx"]
 	path = packages/jinx
 	url = https://github.com/minad/jinx.git
