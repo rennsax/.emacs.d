@@ -13,6 +13,7 @@
 (require 'init-snippet)
 (require 'init-treesit)
 (require 'init-docs)
+(require 'init-ctags)
 
 (eval-when-compile
   (celeste/prepare-package ide-zero)
