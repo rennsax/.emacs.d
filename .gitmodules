@@ -253,7 +253,7 @@
 	url = https://github.com/protesilaos/pulsar
 [submodule "packages/flycheck-eglot"]
 	path = packages/flycheck-eglot
-	url = https://github.com/rennsax/flycheck-eglot
+	url = https://github.com/flycheck/flycheck-eglot
 [submodule "packages/nerd-icons-corfu"]
 	path = packages/nerd-icons-corfu
 	url = https://github.com/LuigiPiucco/nerd-icons-corfu
