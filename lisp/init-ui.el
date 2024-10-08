@@ -167,10 +167,6 @@ This should be called each time after the function definition is modified."
           (bg (doom-color 'bg)))
       (+custom-doom-themes
 
-       ;; `whitespace-mode'
-       `(whitespace-tab :background ,(doom-darken bg 0.1)
-                        :foreground ,(doom-lighten bg 0.1))
-
        ;; `magit-mode'
        `(magit-branch-remote :box (:line-width (-1 . -1)) :weight bold)
        `(magit-section-heading :foreground ,(doom-color 'yellow))
@@ -181,14 +177,8 @@ This should be called each time after the function definition is modified."
        `(avy-background-face :foreground ,dark-cyan)
        `(avy-lead-face :background ,red)
 
-       ;; `(olivetti-fringe :background ,(doom-darken bg 0.1))
-
        ;; vertico-posframe
        `(vertico-posframe-border :background ,yellow)
-
-       ;; tab-bar
-       `(tab-bar :background ,(doom-color 'base3) :height 1.1)
-       `(tab-bar-tab-inactive :background ,(doom-color 'base3))
 
        ;; `org-mode'
        `(org-block :family ,code-font)
@@ -224,9 +214,6 @@ This should be called each time after the function definition is modified."
        ;; `show-paren-mode' TODO: if configured here, the box color is strange.
        ;; use `(-1 . -1)' to avoid any increase in the character height or width
        ;; `(show-paren-match :box (:line-width (-1 . -1)) :weight ultra-bold)
-
-       ;; `evil-goggles'
-       `(evil-goggles-default-face :background ,(doom-color 'yellow))
 
        ;; `diredfl-mode'
        `(diredfl-dir-name :foreground ,(doom-color 'cyan) :weight bold)
