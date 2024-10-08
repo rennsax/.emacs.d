@@ -2,8 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Dockerfile
-(celeste/package-autoload 'dockerfile-mode)
+(use-package dockerfile-ts-mode
+  :init
+  ;; Put the regex in the end, in case of mismatching a filename like "Dockerfile.org".
+  (add-to-list 'auto-mode-alist
+               '("\\(?:Dockerfile\\(?:\\..*\\)?\\|\\.[Dd]ockerfile\\)\\'" . dockerfile-ts-mode) t)
+  )
 
 ;; CMake (`cmake-mode.el' is provided by the cmake package)
 (use-package cmake-mode
