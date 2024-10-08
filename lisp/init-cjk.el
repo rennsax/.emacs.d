@@ -167,11 +167,6 @@
 (with-eval-after-load 'ox-md
   (advice-add #'org-md-paragraph :filter-args #'ox--paragraph-join-lines-a))
 
-(with-eval-after-load 'ox-latex
-  ;; Include xeCJK package so Chinese can be correctly exported.
-  (add-to-list 'org-latex-packages-alist '("" "xeCJK")))
-
-
 
 (provide 'init-cjk)
 ;;; init-cjk.el ends here
