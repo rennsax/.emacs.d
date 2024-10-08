@@ -2,8 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Dockerfile
-(celeste/package-autoload 'dockerfile-mode)
+(use-package dockerfile-ts-mode
+  :mode (("\\(?:Dockerfile\\(?:\\..*\\)?\\|\\.[Dd]ockerfile\\)\\'"
+          . dockerfile-ts-mode)))
 
 ;; CMake (`cmake-mode.el' is provided by the cmake package)
 (use-package cmake-mode
