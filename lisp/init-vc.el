@@ -157,6 +157,8 @@
   (celeste/prepare-package-2
       (emacsql closql yaml treepy
                (ghub "lisp" :info "docs") (forge "lisp" :info "docs")))
+  (unless (load "forge-autoloads" t t)
+    (warn "Cannot load `forge-autoloads'. Maybe you forget to run ‘make lisp’ for forge?"))
 
   (setq forge-database-file (celeste/make-path "forge-db.sqlite" 'state))
 
