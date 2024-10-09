@@ -6,8 +6,6 @@
 
 ;;; Code:
 
-(make-obsolete-variable 'celeste-inherit-shell-env-list "Do not use it." "2024-06-04")
-
 (celeste/require 'exec-path-from-shell)
 
 (with-eval-after-load 'exec-path-from-shell
