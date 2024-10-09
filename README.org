@@ -96,42 +96,6 @@ Here lists the fonts that I personally use.
 - [[https://github.com/tonsky/FiraCode][FiraCode]]: Free monospaced font with programming ligatures.
 - [[https://github.com/laishulu/Sarasa-Term-SC-Nerd][更纱黑体]]: 极少数中英文宽度严格 2:1 的字体，适用于解决 org-table 对齐问题。
 
-** Python Environment
-
-If you want to use other brilliant plugins like [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]] and [[https://github.com/emacs-eaf/emacs-application-framework.git][EAF]] that are
-based on a Python environment, some Python packages are also necessary. I
-recommend manage the dedicated Python environment with venv. You can also choose
-your favorite way, such as with conda, or even barely. Here is my way:
-
-#+begin_src shell
-# Make sure you have venv package is installed.
-# sudo apt install python3-venv -y
-
-python3 -m venv .venv
-source .venv/bin/activate
-# Use `deactivate` to deactivate the venv
-#+end_src
-
-Run ~which python3~ to see where the Python3 executable is located. You may need
-to change corresponding Emacs variables to make the virtual environment take
-effects. For example:
-
-#+begin_src emacs-lisp
-(setq lsp-bridge-python-command "Your Python executable path")
-#+end_src
-
-Or you can leverage the customizable variable =celeste-python-command=:
-
-#+begin_src emacs-lisp
-(setopt celeste-python-command "Your Python executable path")
-#+end_src
-
-*** lsp-bridge
-
-#+begin_src shell
-pip3 install epc orjson sexpdata six setuptools paramiko rapidfuzz
-#+end_src
-
 ** Optional
 
 [[https://orgmode.org/org.html#Installation][Install org-mode manually]], for those who are interested in the newest features.
