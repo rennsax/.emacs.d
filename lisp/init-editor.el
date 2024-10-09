@@ -127,8 +127,8 @@
 
   (setq wim-auto-save-disable-predicates
         ;; If the current buffer is captured (`org-capture')
-        `(,(lambda ()
-             (get-buffer (concat "CAPTURE-" (buffer-name))))))
+        (list (lambda () (get-buffer (concat "CAPTURE-" (buffer-name))))
+              (lambda () (bound-and-true-p tempel--active))))
   )
 
 ;; Undo keyboard macros in a single step
