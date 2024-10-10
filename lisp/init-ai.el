@@ -17,6 +17,10 @@
       "s" #'gptel-send)
     (fset 'embark-gptel-map embark-gptel-map)
     (keymap-set embark-region-map "g" #'embark-gptel-map))
+  :bind (:map gptel-mode-map
+              ("C-c C-n" . gptel-end-of-response)
+              ("C-c C-p" . gptel-beginning-of-response)
+              ("C-c C-k" . gptel-abort))
   :config
   (setq gptel-display-buffer-action nil)
   (setq gptel-default-mode 'org-mode)
