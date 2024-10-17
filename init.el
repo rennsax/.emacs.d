@@ -9,11 +9,11 @@
 (require 'init-const)
 (require 'init-lib)
 
-;;; Customization 🌷
-(require 'init-custom)
-
 ;; Bootstrap `use-package'.
 (require 'init-package)
+
+;;; Customization 🌷
+(require 'init-custom)
 
 ;; Minimal but reasonable configurations.
 (require 'init-mini)
