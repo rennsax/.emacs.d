@@ -7,8 +7,7 @@
   :init
   (ide-zero-define python
       :mode (python-mode python-ts-mode)
-      ;; pyright
-      :lsp ("pyright-langserver" "--stdio") ;; Use basedpyright?
+      :lsp ("basedpyright-langserver" "--stdio")
       :linter lsp)
   :config
   (setq python-indent-offset 4)
