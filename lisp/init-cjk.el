@@ -30,49 +30,6 @@
         (insert ?\s)))))
 
 
-;; Smart input source.
-(use-package sis
-  :bind (("s-I" . sis-switch))          ; switch IME faster than macOS
-  :commands (sis-global-context-mode
-             sis-global-respect-mode
-             sis-global-cursor-color-mode
-             sis-set-english)
-  :init
-  (celeste/prepare-package sis)
-
-  (defun celeste/sis--on ()
-    "Turn on sis, smart source input."
-    ;; Auto-switch IME according to the characters in the context.
-    (sis-global-context-mode +1)
-    ;; Use different cursor colors for different IME.
-    (sis-global-cursor-color-mode +1)
-    ;; Respect C-x, C-h, C-c, and so on.
-    (sis-global-respect-mode +1))
-
-  (defun celeste/sis--off ()
-    "Turn off sis, smart source input."
-    (sis-global-context-mode -1)
-    (sis-global-cursor-color-mode -1)
-    (sis-global-respect-mode -1))
-
-  (define-minor-mode celeste/sis-mode
-    "Toggle sis mode."
-    :init-value nil
-    :lighter " SIS"
-    :global t
-    (if celeste/sis-mode
-        (celeste/sis--on)
-      (celeste/sis--off)))
-
-  :config
-  (add-to-list 'sis-prefix-override-keys "M-g")
-  ;; Make sure your input sources are these two (hint: use macism)
-  (when sys/mac
-    (setq sis-english-source "com.apple.keylayout.US"
-          sis-other-source "com.sogou.inputmethod.sogou.pinyin"))
-  )
-
-
 ;;; A series of routines to improve CJK editing experience in org-mode.
 
 ;; ZWSP is recommended to be used, see (info "(org) Escape Character").

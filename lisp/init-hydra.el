@@ -172,7 +172,6 @@ auto-[_f_]ill-mode:    %`auto-fill-function
 [_t_]runcate-lines:    %`truncate-lines
 [_w_]hitespace-mode:   %`whitespace-mode
 [_o_]verwrite-mode:    %`overwrite-mode
-celeste/[_s_]is-mode:  %`celeste/sis-mode
 
 "
   ("a" abbrev-mode)
@@ -181,7 +180,6 @@ celeste/[_s_]is-mode:  %`celeste/sis-mode
   ("t" toggle-truncate-lines)
   ("w" whitespace-mode)
   ("o" overwrite-mode)
-  ("s" celeste/sis-mode)
   ("r" redraw-display :color blue)
   ("q" nil "quit"))
 

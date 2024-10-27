@@ -76,9 +76,6 @@
 [submodule "packages/org-rich-yank"]
 	path = packages/org-rich-yank
 	url = https://github.com/unhammer/org-rich-yank.git
-[submodule "packages/sis"]
-	path = packages/sis
-	url = https://github.com/laishulu/emacs-smart-input-source.git
 [submodule "packages/ns-auto-titlebar"]
 	path = packages/ns-auto-titlebar
 	url = https://github.com/purcell/ns-auto-titlebar.git
