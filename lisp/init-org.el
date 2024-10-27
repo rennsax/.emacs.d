@@ -226,7 +226,26 @@
   ;; Hugo uses Goldmark to render Markdown to HTML, which treats `_' and `*'
   ;; differently. `a_bb_c' does not make `bb' italic, but `a*bb*c' makes it italic.
   (define-advice org-blackfriday-italic (:override (_italic contents _info) asterisk)
-    (format "*%s*" contents)))
+    (format "*%s*" contents))
+
+  ;; Add blackfriday format to `org-export-dispatch'.
+  (eval
+   '(let ((backend (org-export-get-backend 'blackfriday)))
+      (setf (org-export-backend-menu backend)
+            '(?b "Export to Blackfriday Markdown"
+                 ((?B "To a temporary Md buffer"
+                      (lambda (a s v _b)
+                        (org-blackfriday-export-as-markdown a s v)))
+                  (?b "To Md file"
+                      (lambda (a s v _b)
+                        (org-blackfriday-export-to-markdown a s v)))
+                  (?o "To file and open"
+                      (lambda (a s v _b)
+                        (if a
+                            (org-blackfriday-export-to-markdown :async s v)
+                          (org-open-file (org-blackfriday-export-to-markdown nil s v)))))
+                  )))))
+  )
 
 (use-package org-hugo-auto-export-mode
   :init
