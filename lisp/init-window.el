@@ -133,6 +133,7 @@ that returns the symbol."
 (display-buffer-base-empty-wrap consult consult-buffer-other-window)
 (display-buffer-base-empty-wrap magit (lambda () magit-display-buffer-function))
 (display-buffer-base-empty-wrap org-capture org-capture)
+(display-buffer-base-empty-wrap embark embark-act)
 
 
 
@@ -169,6 +170,8 @@ that returns the symbol."
         ((or . ((derived-mode . Custom-mode)
                 (derived-mode . Buffer-menu-mode)
                 (derived-mode . deadgrep-mode)
+                (derived-mode . epa-key-mode)
+                (derived-mode . epa-key-list-mode)
                 (derived-mode . forge-post-mode)))
          (display-buffer-reuse-mode-window
           display-buffer-same-window))
@@ -198,6 +201,7 @@ that returns the symbol."
          (side . bottom))
 
         ((or . (,(rx bos "*envrc*" eos)
+                ,(rx bos "*tex-shell*" eos)
                 ,(rx bos "*compilation*" eos)))
          (display-buffer-in-side-window)
          (side . bottom)
@@ -291,12 +295,11 @@ that returns the symbol."
 (with-eval-after-load 'consult
   (setq consult-buffer-filter
         `("\\` " "\\`\\*Completions\\*\\'" "\\`\\*Flymake log\\*\\'" "\\`\\*Semantic SymRef\\*\\'" "\\`\\*tramp/.*\\*\\'" ; original
-          "Output\\*\\'"
+          "[Oo]utput\\*\\'"
           "\\`\\*\\(?:Async Shell Command\\|Messages\\|Warnings\\|Compile-Log\\|Compilation\\)\\*\\'"
           "\\*helpful.*\\*" "\\*Help\\*"
           "\\*lsp-bridge-doc\\*" "\\*Flycheck checkers\\*"
           "\\*osx-dictionary\\*"
-          "\\`\\*devdocs\\*\\'"
           "\\`\\*Backtrace\\*\\'"
           "\\`\\*Disabled Command\\*\\'"
           "\\`\\*Flycheck checker\\*\\'"
@@ -305,6 +308,7 @@ that returns the symbol."
           ,(rx bos "*elfeed-" (| "search" "entry") "*" eos)
           ,(rx bos "*compilation*" eos)
           ,(rx bos "*envrc*" eos)
+          ,(rx bos "*tex-shell*" eos)
           ))
   )
 
