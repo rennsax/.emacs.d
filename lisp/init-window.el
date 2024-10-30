@@ -18,6 +18,14 @@
 ;; Cursor type in non-selected window
 (setq-default cursor-in-non-selected-windows 'hollow)
 
+(define-advice window-toggle-side-windows (:before (&optional frame) select-mru)
+  "Before toggling down the current window is side window, move to the MRU window.
+
+This avoid the cursor from moving to a random buffer when the side window is
+toggled down."
+  (let ((frame (window-normalize-frame frame)))
+    (when (window-parameter (get-buffer-window) 'window-side)
+      (select-window (get-mru-window nil nil t)))))
 
 
 ;;; Packages.
