@@ -164,6 +164,8 @@
 
   :commands forge-pull
   :config
+  ;; Do not `turn-on-flyspell'.
+  (setq forge-post-mode-hook nil)
   (defalias 'forge-issue-close 'forge-issue-state-set-completed "Close the issue.")
 
   ;; A network error after submitting post makes me lose the post. So I add an
