@@ -57,7 +57,6 @@ optional for the package(s).
 | [[https://www.gimp.org/][gimp]]*             | org-download      | Used by ~org-download-edit~.                |
 | [[https://github.com/AbiWord/enchant][libenchant]]        | jinx              | Spell checker.                              |
 | [[https://www.leonerd.org.uk/code/libvterm/][libvterm]]          | vterm             | Terminal emulator in Emacs.                 |
-| [[https://github.com/laishulu/macism][macism]]            | sis               | macOS.                                      |
 | [[https://www.libreoffice.org/discover/libreoffice/][LibreOffice]]*      | doc-view[fn:1]    | For previewing documents.                   |
 | [[https://gitlab.com/matsievskiysv/math-preview][math-preview]]      | math-preview      | Preview math formulas inline.               |
 | [[https://www.ghostscript.com/][ghostscript]]       | doc-view          | PDF -> PNG                                  |
