@@ -368,3 +368,6 @@
 [submodule "packages/citre"]
 	path = packages/citre
 	url = https://github.com/universal-ctags/citre
+[submodule "packages/swift-mode"]
+	path = packages/swift-mode
+	url = https://github.com/swift-emacs/swift-mode.git
