@@ -124,6 +124,10 @@
 (with-eval-after-load 'ox-md
   (advice-add #'org-md-paragraph :filter-args #'ox--paragraph-join-lines-a))
 
+;; This is independent with `ox-md'.
+(with-eval-after-load 'ox-gfm
+  (advice-add #'org-gfm-paragraph :filter-args #'ox--paragraph-join-lines-a))
+
 
 (provide 'init-cjk)
 ;;; init-cjk.el ends here
