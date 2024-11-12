@@ -5,9 +5,10 @@
 (use-package nix-mode
   :init
   (celeste/package-autoload 'nix-mode)
-  (ide-zero-define nix
-      :mode nix-mode
-      :lsp ("nil"))
+  (celeste/setup-lang nix
+    :modes (nix-mode)
+    :eglot-server ("nil")
+    :project-identify "flake.nix")
   )
 
 (provide 'init-nix)

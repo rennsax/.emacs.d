@@ -8,17 +8,14 @@
 
 (use-package cc-mode
   :init
-  (ide-zero-define c
-      :mode (c-mode c-ts-mode)
-      :lsp ("ccls")
-      :linter lsp)
-  (ide-zero-define c++
-      :mode (c++-mode c++-ts-mode)
-      :lsp ("ccls")
-      :linter lsp)
   :config
   (setq c-default-style "k&r"
         c-basic-offset 4)
+
+  (celeste/setup-lang cc
+    :modes (c-mode c-ts-mode c++-mode c++-ts-mode)
+    :eglot-server ("ccls")
+    :flycheck eglot)
   )
 
 (provide 'init-cc)

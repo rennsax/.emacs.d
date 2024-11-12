@@ -7,10 +7,6 @@
   :init
   (celeste/prepare-package markdown-mode)
 
-  (ide-zero-define markdown
-      :mode markdown-mode
-      :lsp ("marksman"))
-
   :mode (("\\.md\\'" . markdown-mode)
          ;; Github Flavoured Markdown files
          ("README\\.md\\'" . gfm-mode))
@@ -38,6 +34,10 @@
         )
 
   (setq-default markdown-hide-urls t)
+
+  (celeste/setup-lang markdown
+    :modes (markdown-mode)
+    :eglot-server ("marksman"))
 
   ;; Dependency for editing code blocks in markdown-mode.
   (celeste/prepare-package edit-indirect)

@@ -6,11 +6,6 @@
 (use-package go-mode
   :init
   (celeste/package-autoload 'go-mode)
-  (ide-zero-define go
-      :mode (go-mode go-ts-mode)
-      :lsp ("gopls")
-      :linter lsp)
-
   :config
   (setenv "GO111MODULE" "on")
   (setq go-mode-go-path (getenv "GOPATH"))
@@ -23,6 +18,10 @@
   (celeste/require 'flycheck-golangci-lint)
   (flycheck-golangci-lint-setup)        ; Add `golangci-lint' to `flycheck-checkers'.
 
+  (celeste/setup-lang go
+    :modes (go-mode go-ts-mode)
+    :eglot-server ("gopls")
+    :flycheck eglot)
   )
 
 (provide 'init-go)

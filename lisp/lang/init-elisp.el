@@ -4,12 +4,6 @@
 
 
 (use-package elisp-mode
-  :init
-  (ide-zero-define elisp
-      :linter default
-      :mode emacs-lisp-mode)
-  (add-hook 'after-init-hook #'elisp-ide-zero-mode)
-
   :config
   ;; use the same value as `fill-column'
   (setq emacs-lisp-docstring-fill-column nil)
@@ -18,6 +12,11 @@
     "Remove all advices from symbol SYM."
     (interactive "aFunction symbol: ")
     (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
+  (celeste/setup-lang emacs-lisp
+    :flycheck t
+    :modes (emacs-lisp-mode)
+    :add-hook t)
   )
 
 
