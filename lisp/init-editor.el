@@ -94,7 +94,11 @@
   (celeste/prepare-package whitespace-cleanup-mode)
   :hook (after-init . global-whitespace-cleanup-mode)
   :config
-  (setq whitespace-cleanup-mode-preserve-point t))
+  (setq whitespace-cleanup-mode-preserve-point t)
+  ;; Prohibit `editorconfig' from adding `delete-trailing-whitespace' to
+  ;; `write-file-functions'.
+  (with-eval-after-load 'editorconfig
+    (advice-add #'editorconfig-set-trailing-ws :override #'ignore)))
 
 ;; EditorConfig integration.
 (use-package editorconfig
