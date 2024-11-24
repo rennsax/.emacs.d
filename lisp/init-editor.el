@@ -143,6 +143,13 @@
                                 (rx-to-string `(seq "*Org Src " ,(buffer-name) "[ " (* nonl) " ]") t)
                                 (buffer-name buf)))
                       (buffer-list))))
+              (lambda () (and
+                     (derived-mode-p 'markdown-mode)
+                     (seq-some
+                      (lambda (buf) (string-match-p
+                                (rx-to-string `(seq "*edit-indirect " ,(buffer-name) "*") t)
+                                (buffer-name buf)))
+                      (buffer-list))))
               (lambda () (bound-and-true-p tempel--active))))
   )
 
