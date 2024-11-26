@@ -374,3 +374,6 @@
 [submodule "packages/haskell-mode"]
 	path = packages/haskell-mode
 	url = https://github.com/haskell/haskell-mode.git
+[submodule "packages/sideline"]
+	path = packages/sideline
+	url = https://github.com/emacs-sideline/sideline
