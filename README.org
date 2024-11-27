@@ -9,13 +9,13 @@
 
 --------------
 
-* Installation
+** Installation
 
-** Emacs
+*** Emacs
 
 You can get the source code for Emacs [[http://ftpmirror.gnu.org/emacs][here]]. Either use ~curl -sSLO~ or ~wget~.
 
-*** macOS
+**** macOS
 
 Directly installed from Homebrew's default formulae is OK, but you may get an
 Emacs without some essential new features, such as native compilation. I
@@ -31,11 +31,11 @@ brew install emacs-plus@29 \
 
 You can also pick your favorite icon [[https://github.com/d12frosted/homebrew-emacs-plus#icons][here]].
 
-*** NixOS
+**** NixOS
 
 [[https://search.nixos.org/packages?channel=unstable&query=emacs][Emacs is available on Nixpkgs.]]
 
-** Hard Dependencies
+*** Hard Dependencies
 
 Hard dependencies are external tools that are required by some Emacs packages.
 To use these packages, you need first install the corresponding tools with your
@@ -65,7 +65,7 @@ optional for the package(s).
 
 [fn:1] For more dependencies of doc-view package, use ~M-x find-library doc-view~.
 
-*** macOS
+**** macOS
 
 A rough tutorial (not maintained since 2024-06-20).
 
@@ -82,12 +82,12 @@ brew tap laishulu/macism && brew install macism
 brew install --cask libreoffice
 #+end_src
 
-*** NixOS
+**** NixOS
 
 Check my personal dotfiles to see how I install external dependencies for Emacs:
 [[https://github.com/rennsax/dotfiles/blob/main/modules/emacs/emacs-deps.nix][rennsax/dotfiles:modules/emacs/emacs-deps.nix]].
 
-** Fonts
+*** Fonts
 
 Here lists the fonts that I personally use.
 
@@ -95,7 +95,7 @@ Here lists the fonts that I personally use.
 - [[https://github.com/tonsky/FiraCode][FiraCode]]: Free monospaced font with programming ligatures.
 - [[https://github.com/laishulu/Sarasa-Term-SC-Nerd][更纱黑体]]: 极少数中英文宽度严格 2:1 的字体，适用于解决 org-table 对齐问题。
 
-** Optional
+*** Optional
 
 [[https://orgmode.org/org.html#Installation][Install org-mode manually]], for those who are interested in the newest features.
 
@@ -107,9 +107,9 @@ make autoloads # This is mandatory.
 make compile # Highly recommended, since org-mode contains a lot of functions.
 #+end_src
 
-* Misc.
+** Misc.
 
-** Map CapsLock to Ctrl
+*** Map CapsLock to Ctrl
 
 It's known that Emacs users (who respect vanilla key bindings) usually suffer
 from [[https://en.wikipedia.org/wiki/Repetitive_strain_injury][RIP]] after enjoying their Emacs journey for many years. The core leader of
@@ -134,12 +134,12 @@ On Linux, the routines vary from distros.
 - Ubuntu: Gnome Tweaks (~gnome-tweaks~ from the cmd) -> Additional Layout
   Options -> Ctrl position -> Caps Lock as Ctrl.
 
-** Choose LSP Servers
+*** Choose LSP Servers
 
 I need to manually choose and install the LSP server for each programming
 language.
 
-*** Python
+**** Python
 
 Choices:
 - Popular [[https://github.com/microsoft/pyright][microsoft/pyright]], a good LSP. But it has been discussed [[https://github.com/zed-industries/zed/issues/7296]["isn't good"]].
@@ -158,12 +158,12 @@ pipx inject python-lsp-server python-lsp-ruff
 pipx inject python-lsp-server python-lsp-isort
 #+end_src
 
-*** Markdown
+**** Markdown
 
 LSP: [[https://github.com/artempyanykh/marksman][artempyanykh/marksman]]. Basic usage: create toc by code actions, rename
 headings, ...
 
-* Copyright Notice
+** Copyright Notice
 
 The banner under the project name is a work from Celeste game asset, borrowed
 from [[https://github.com/laishulu/emacs-smart-input-source][Celeste Wiki]], and licensed under [[https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en][CC BY-NC-SA 4.0 License]]. You may not use
