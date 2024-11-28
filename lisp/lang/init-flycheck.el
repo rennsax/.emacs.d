@@ -63,6 +63,42 @@
   (celeste/prepare-package consult-flycheck)
   :bind (("C-c s d" . consult-flycheck)))
 
+
+;; Use `sideline' to show flycheck errors, just like VS Code's ErrorLen
+;; extension.
+
+(use-package sideline
+  :init (celeste/prepare-package (ht sideline))
+  :commands sideline-mode
+  :diminish
+  :config
+  (setq sideline-backends-left-skip-current-line t
+        ;; Allow right sideline at the current line
+        sideline-backends-right-skip-current-line nil
+        sideline-order-right 'down
+        sideline-order-left 'down
+        sideline-priority 100 ; overlays' priority
+        sideline-delay 1.0 ; longer delay
+        sideline-force-display-if-exceeds t
+        )
+  (setq sideline-backends-left '(sideline-flycheck)
+        sideline-backends-right nil)
+  ;; More eye-catching annotation.
+  (setq sideline-format-left "%s   "
+        sideline-format-right "   %s"
+        sideline-display-backend-name t
+        sideline-display-backend-format "[%s]"))
+
+(use-package sideline-flycheck
+  :init (celeste/prepare-package sideline-flycheck)
+  :hook ((flycheck-mode . sideline-mode)
+         (flycheck-mode . sideline-flycheck-setup))
+  :config
+  (setq flycheck-display-errors-function
+        (defun flycheck-display-error-messages-unless-error-list-and-no-sideline (errors)
+          "If `sideline-mode' is on, do not show errors."
+          (unless (bound-and-true-p sideline-mode)
+            (flycheck-display-error-messages-unless-error-list errors)))))
 
 
 (provide 'init-flycheck)
