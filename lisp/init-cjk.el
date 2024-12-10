@@ -1,5 +1,34 @@
 ;;; init-cjk.el -- Better CJK supports. -*- lexical-binding: t; -*-
+
+;; Package-Requires: ((emacs "29.3") (dash "2.13") (unfill))
+
 ;;; Commentary:
+
+;; This configuration offers better CJK editing experiences with some opinioned
+;; tweaks.
+
+;; Known limitations:
+
+;;   - `fill-paragraph' is not tweaked. `fixup-whitespace' is hacked, but
+;;     `join-line' is still problematic in some case. Specifically, when joining
+;;     two lines like this:
+;;
+;;                                    |你好。|    <- Ended with a CJK symbol.
+;;        Begin with an ASCII char -> |Hello.|
+;;
+;;     With `fill-paragraph' or `join-line', you probably will get
+;;
+;;                                    |你好。 Hello.|
+;;                                          ^___ wrong space
+;;
+;;     The problem is that an extra space is inserted. This is incorrect. No
+;;     space should be inserted between a CJK symbol (technically speaking,
+;;     U+3000..U+303F && U+FF00..U+FFEF, namely, CJK Symbols and Punctuation &&
+;;     Fullwidth ASCII variants) and an ASCII character.
+;;
+;;     `unfill' can deal with this case correctly, but I do not apply this kind
+;;     of hack because this narrow use case.
+
 ;;; Code:
 
 
