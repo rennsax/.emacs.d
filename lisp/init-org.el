@@ -227,6 +227,19 @@
   ;; differently. `a_bb_c' does not make `bb' italic, but `a*bb*c' makes it italic.
   (define-advice org-blackfriday-italic (:override (_italic contents _info) asterisk)
     (format "*%s*" contents))
+  )
+
+;; `ox-blackfriday' is included in `ox-hugo'.
+(use-package ox-blackfriday
+  :init (celeste/prepare-package ox-hugo)
+  :after ox
+  :demand t
+  :config
+  ;; Handle treesit major modes.
+  (setq org-blackfriday-syntax-highlighting-langs
+        (append org-blackfriday-syntax-highlighting-langs
+                '(("dockerfile-ts" . "dockerfile")
+                  ("cmake-ts" . "cmake"))))
 
   ;; Add blackfriday format to `org-export-dispatch'.
   (eval
