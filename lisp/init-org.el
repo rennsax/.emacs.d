@@ -210,7 +210,19 @@
 (use-package ox-gfm
   :after ox-md
   :init (celeste/prepare-package ox-gfm)
-  :demand t)
+  :demand t
+  :config
+  (define-advice org-gfm-src-block (:override (src-block _contents info) transform-lang)
+    "Transcode SRC-BLOCK element into Github Flavored Markdown format.
+
+Also respect `org-blackfriday-syntax-highlighting-langs'."
+    (let* ((lang (org-element-property :language src-block))
+           ;; This line is added.
+           (lang (or (cdr (assoc lang org-blackfriday-syntax-highlighting-langs)) lang))
+           (code (org-export-format-code-default src-block info))
+           (prefix (concat "```" lang "\n"))
+           (suffix "```"))
+      (concat prefix code suffix))))
 
 
 
