@@ -231,6 +231,7 @@ Also respect `org-blackfriday-syntax-highlighting-langs'."
 (use-package ox-hugo
   :after ox
   :demand t
+  :disabled t
   :init
   (celeste/prepare-package (tomelr ox-hugo))
   :config
@@ -273,6 +274,7 @@ Also respect `org-blackfriday-syntax-highlighting-langs'."
   )
 
 (use-package org-hugo-auto-export-mode
+  :disabled t
   :init
   (use-package ox-hugo
     :commands org-hugo-export-wim-to-md)
