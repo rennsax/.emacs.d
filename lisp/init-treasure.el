@@ -384,6 +384,26 @@
         (setq embark--target-mode-timer
               (run-with-idle-timer 0.1 t #'embark--target-mode-update))))
     )
+
+  ;; Embark file finders tremendously slow down remote buffer performance, so I
+  ;; manually remove these finders if a remote file is opened.
+  (progn
+    (defun +embark-remove-file-finder ()
+      "Remove embark file finders buffer-locally."
+      (make-local-variable 'embark-target-finders)
+      (setq embark-target-finders
+            (let ((removed-finders
+                   ;; Removed finders here.
+                   '(embark-target-guess-file-at-point
+                     embark-target-file-at-point)))
+              (cl-remove-if (lambda (fun) (member fun removed-finders)) embark-target-finders))))
+
+    (add-hook 'find-file-hook
+              (defun +embark-remove-file-finders-if-remote ()
+                (when-let ((filename (buffer-file-name)))
+                  (when (file-remote-p filename)
+                    (+embark-remove-file-finder)))))
+    )
   )
 
 ;; This feature is auto-loaded after org and embark is loaded.
