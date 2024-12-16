@@ -19,7 +19,7 @@
 (setq-default cursor-in-non-selected-windows 'hollow)
 
 (define-advice window-toggle-side-windows (:before (&optional frame) select-mru)
-  "Before toggling down the current window is side window, move to the MRU window.
+  "Move to the MRU window if the current window is the side window.
 
 This avoid the cursor from moving to a random buffer when the side window is
 toggled down."
