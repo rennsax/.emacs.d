@@ -32,16 +32,18 @@
 (when sys/mac
   (setq mac-right-command-modifier 'control))
 
-;; C-z is mapped to `suspend-frame'. In macOS, it hides the frame (with the
-;; native Cocoa API) instead, which is useless.
 ;; "s-t" - `menu-set-font'
 ;; "s-p" - `ns-print-buffer'
 ;; "s-m" - `iconify-frame', in macOS, just minimize the frame.
-(dolist (key '("C-z" "s-t" "s-p" "s-m" "s-n" "s-h"))
+(dolist (key '("s-t" "s-p" "s-m" "s-n" "s-h"))
   (keymap-global-unset key))
 
 (keymap-global-set "C-<wheel-up>" #'ignore)
 (keymap-global-set "C-<wheel-down>" #'ignore)
+
+;; On macOS, `suspend-frame' minimize the frame (with the native Cocoa API)
+;; instead, which is useless.
+(advice-add #'suspend-frame :override #'ignore)
 
 ;; Forbid using mouse wheel to select tab bars. My magical mouse is too
 ;; sensitive.
