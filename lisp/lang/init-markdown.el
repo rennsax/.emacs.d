@@ -7,8 +7,7 @@
   :init
   (celeste/prepare-package markdown-mode)
 
-  :mode (("\\.md\\'" . markdown-mode)
-         ;; Github Flavoured Markdown files
+  :mode (("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode)
          ("README\\.md\\'" . gfm-mode))
   ;; Customized manually in UI.
   ; :custom
