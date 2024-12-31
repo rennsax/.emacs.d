@@ -21,6 +21,7 @@
   (remove-hook 'eglot-managed-mode-hook
                'flycheck-eglot--enable-and-remove-self-h))
 
+(autoload 'eglot-managed-p "eglot")
 (cl-defmacro celeste/setup-lang (lang &key modes eglot-server eglot flycheck add-hook project-identify)
   "Setup development environment for a specified language.
 
