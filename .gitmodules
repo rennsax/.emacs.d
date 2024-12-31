@@ -380,3 +380,6 @@
 [submodule "packages/sideline-flycheck"]
 	path = packages/sideline-flycheck
 	url = https://github.com/emacs-sideline/sideline-flycheck.git
+[submodule "packages/nasm-mode"]
+	path = packages/nasm-mode
+	url = https://github.com/skeeto/nasm-mode
