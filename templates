@@ -2,6 +2,9 @@ fundamental-mode ;; Available everywhere
 
 (today (format-time-string "%Y-%m-%d"))
 
+prog-mode
+
+(shebang "#!/usr/bin/env " (p "bash"))
 
 emacs-lisp-mode
 
@@ -61,6 +64,55 @@ org-mode
 (elisp "#+begin_src emacs-lisp" n r n "#+end_src" :post (org-edit-src-code))
 (inlsrc "src_" p "{" q "}")
 (title "#+title: " p n "#+author: Daniel Mendler" n "#+language: en")
+
+nix-mode
+
+(flake-template "{
+  description = \"" p "\";
+  inputs.nixpkgs.url = \"" p "\";
+  inputs.flake-utils.url = \"" p "\";
+  outputs = { self, nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+        with pkgs;
+        {
+          packages.default = " q ";
+        }
+    );
+}
+")
+
+(nix-shell "{ pkgs ? import <nixpkgs> { } }:" n "with pkgs; mkShell {"
+           n> "packages = [ " p " ];" n> q n "}")
+
+beancount-mode
+
+(transaction (p (format-time-string "%Y-%m-%d")) " * \"" p "\" \"" p "\"" n> p n> p)
+
+(balance (p (format-time-string "%Y-%m-%d")) " balance " p p)
+
+c++-mode
+(doxygen-function-header "/**\n * " q "\n */")
+
+(doxygen-file-header "/**
+ * @file " (when-let ((filename (buffer-file-name)))
+             (car (last (file-name-split (expand-file-name filename)))))
+ "\n * @author " user-full-name " (" user-mail-address ")
+ * @brief " p "
+ * @version 0.1
+ * @date " (format-time-string "%Y-%m-%d") "
+ *
+ * @copyright Copyright (c) " (format-time-string "%Y") "
+ *
+ */")
+
+(include-protector "#ifndef " (p (when-let ((filename (buffer-file-name))
+                                            (include-name (car (last (file-name-split (expand-file-name filename))))))
+                                   (upcase (replace-regexp-in-string "[-.]" "_" include-name)))
+                                 name)
+                   "\n#define " (s name) "\n\n" q "\n\n#endif")
 
 ;; Local Variables:
 ;; mode: lisp-data
