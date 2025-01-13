@@ -251,9 +251,6 @@
 [submodule "packages/nerd-icons-corfu"]
 	path = packages/nerd-icons-corfu
 	url = https://github.com/LuigiPiucco/nerd-icons-corfu
-[submodule "packages/ide-zero"]
-	path = packages/ide-zero
-	url = https://github.com/rennsax/ide-zero
 [submodule "packages/project-x"]
 	path = packages/project-x
 	url = https://github.com/karthink/project-x
