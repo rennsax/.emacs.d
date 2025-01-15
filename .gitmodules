@@ -102,7 +102,7 @@
 	url = https://github.com/flycheck/flycheck.git
 [submodule "packages/consult-flycheck"]
 	path = packages/consult-flycheck
-	url = https://github.com/minad/consult-flycheck.git
+	url = https://github.com/rennsax/consult-flycheck.git
 [submodule "packages/tempel"]
 	path = packages/tempel
 	url = https://github.com/minad/tempel.git
