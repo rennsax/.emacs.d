@@ -79,11 +79,6 @@
   ;; Also apply dir-local variables to remote files.
   (setq enable-remote-dir-locals t)
 
-  ;; https://emacs.stackexchange.com/questions/72462/failed-to-trash-remote-directories-over-tramp
-  (define-advice system-move-file-to-trash (:override (filename) use-trash-cli)
-    (process-file-shell-command
-     (format "trash %S" (file-local-name filename))))
-
   ;; Do not consider bidirectional text.
   (setq-default bidi-display-reordering nil)
   (setq bidi-inhibit-bpa t)
@@ -92,6 +87,16 @@
         large-hscroll-threshold 1000
         syntax-wholeline-max 1000)
   )
+
+  ;; https://emacs.stackexchange.com/questions/72462/failed-to-trash-remote-directories-over-tramp
+(defun system-move-file-to-trash (filename)
+  "Trash FILENAME with trash-cli.
+
+OS X: https://github.com/sindresorhus/macos-trash
+GNU/Linux: https://github.com/andreafrancia/trash-cli"
+  (process-file-shell-command
+   (format "trash %s" (shell-quote-argument
+                       (file-local-name filename)))))
 
 ;; Backup and auto-save.
 (use-package emacs
