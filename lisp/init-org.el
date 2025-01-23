@@ -421,9 +421,9 @@ Like `org-id-open', but additionally uses the Org-roam database."
 
   ;; `marginalia' should be loaded.
   (setq org-roam-node-display-template
-        (concat (propertize "${tags:20}" 'face 'org-tag)
+        (concat (propertize "${tags:16}" 'face 'org-tag)
                 (propertize "${directories:12}" 'face 'org-priority)
-                " ${title:*} ${backlinkscount:6}")
+                " ${title}       ")
         org-roam-node-annotation-function
         (lambda (node) (marginalia--time (org-roam-node-file-mtime node))))
 
