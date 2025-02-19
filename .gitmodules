@@ -380,3 +380,6 @@
 [submodule "packages/nasm-mode"]
 	path = packages/nasm-mode
 	url = https://github.com/skeeto/nasm-mode
+[submodule "packages/po-mode"]
+	path = packages/po-mode
+	url = https://github.com/emacsmirror/po-mode.git
