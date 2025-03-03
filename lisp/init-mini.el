@@ -461,6 +461,12 @@ whitespace visualization, and auto-cleanup when writing files."
   ;; Query passphrase through the minibuffer.
   (setq epg-pinentry-mode 'loopback))
 
+;; EditorConfig integration.
+(use-package editorconfig
+  :if (>= emacs-major-version 30)
+  :diminish
+  :hook (after-init . editorconfig-mode))
+
 
 
 (provide 'init-mini)
