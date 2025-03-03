@@ -20,9 +20,6 @@
       mouse-wheel-scroll-amount '(2 ((shift) . hscroll))
       mouse-wheel-scroll-amount-horizontal 2)
 
-;; New feature in Emacs 29.1! Smooth scrolling!
-(pixel-scroll-precision-mode +1)
-
 
 ;;; General UI.
 
