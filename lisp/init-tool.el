@@ -44,7 +44,6 @@
 ;; Enchanted spell checker.
 (use-package jinx
   :init
-  (celeste/prepare-package compat)
   (celeste/prepare-package jinx)
 
   :diminish

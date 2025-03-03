@@ -8,7 +8,6 @@
 (use-package eglot
   :init
   ;; Use newer Eglot. It depends on newer jsonrpc.
-  (celeste/prepare-package compat)
   (celeste/prepare-package track-changes)
   (celeste/prepare-package-2 eglot :load-path "" :info "")
   :commands eglot eglot-ensure

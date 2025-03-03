@@ -5,8 +5,6 @@
 
 ;;; Magit
 
-(celeste/prepare-package compat)
-
 ;; Magit, forge, transient, etc., are developed by the same author (@tarsius,
 ;; Jonas Bernoulli). His packages are common to startup. Assume that we are at
 ;; the root directory of Magit, then typically we need to:
