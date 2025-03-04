@@ -8,7 +8,10 @@
   (celeste/setup-lang nix
     :modes (nix-mode)
     :eglot-server ("nil")
-    :project-identify "flake.nix")
+    :project-identify "flake.nix"
+    :eglot t
+    :flycheck eglot
+    :add-hook t)
   )
 
 (provide 'init-nix)
