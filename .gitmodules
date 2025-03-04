@@ -13,9 +13,6 @@
 [submodule "packages/orderless"]
 	path = packages/orderless
 	url = https://github.com/oantolin/orderless.git
-[submodule "packages/compat"]
-	path = packages/compat
-	url = https://github.com/emacs-compat/compat.git
 [submodule "packages/marginalia"]
 	path = packages/marginalia
 	url = https://github.com/minad/marginalia
@@ -329,9 +326,6 @@
 [submodule "packages/rust-mode"]
 	path = packages/rust-mode
 	url = https://github.com/rust-lang/rust-mode.git
-[submodule "packages/editorconfig"]
-	path = packages/editorconfig
-	url = https://github.com/editorconfig/editorconfig-emacs
 [submodule "packages/ox-gfm"]
 	path = packages/ox-gfm
 	url = https://github.com/larstvei/ox-gfm

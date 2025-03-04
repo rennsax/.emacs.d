@@ -26,7 +26,6 @@
 ;; In fact, tempel does not conflict with `yas-minor-mode'.
 (use-package tempel
   :init
-  (celeste/prepare-package compat)
   (celeste/prepare-package tempel)
 
   (add-hook 'completion-at-point-functions #'tempel-complete)

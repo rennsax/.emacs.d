@@ -6,7 +6,7 @@
 ;;; gptel
 (use-package gptel
   :init
-  (celeste/prepare-package (transient compat markdown-mode))
+  (celeste/prepare-package (transient markdown-mode))
   (celeste/package-autoload 'gptel)
   (with-eval-after-load 'embark
     (defvar-keymap embark-gptel-map

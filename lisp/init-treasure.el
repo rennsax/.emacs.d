@@ -24,7 +24,6 @@
 
 
 
-(celeste/prepare-package compat)
 (celeste/prepare-package vertico "" "extensions")
 (celeste/prepare-package marginalia)
 (celeste/prepare-package consult)
