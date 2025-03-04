@@ -121,7 +121,7 @@
 
 (use-package indent-bars
   :init (celeste/prepare-package indent-bars)
-  :hook ((python-mode yaml-mode) . indent-bars-mode)
+  :hook ((python-mode yaml-mode python-ts-mode) . indent-bars-mode)
   :config
   ;; The most compatible option.
   (setq indent-bars-prefer-character t))
