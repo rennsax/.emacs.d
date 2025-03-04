@@ -21,7 +21,8 @@
   (celeste/setup-lang go
     :modes (go-mode go-ts-mode)
     :eglot-server ("gopls")
-    :flycheck eglot)
+    :flycheck eglot
+    :project-identify "go.mod")
   )
 
 (provide 'init-go)
