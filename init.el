@@ -58,6 +58,9 @@
 ;;; `org-mode' support 🦄
 (require 'init-org)
 
+;;; {,La,Bib}TeX 🔖
+(require 'init-tex)
+
 ;;; Better CJK support 🀄
 (require 'init-cjk)
 
