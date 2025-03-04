@@ -2,7 +2,7 @@ name: Pack Emacs configurations with submodule downloaded
 on:
   push:
     branches:
-      - _main
+      - main
 
 permissions:
   contents: write
@@ -16,11 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Update submodules
-        run: |
-          sed -i '/shallow = true/d' .gitmodules
-          git submodule update --init --recursive
+        with:
+          submodules: recursive
+          filter: blob:none
+          show-progress: true
 
       - name: Create tarball
         run: |
