@@ -48,6 +48,9 @@
 
   )
 
+(use-package gptel-rewrite
+  :autoload gptel-rewrite)
+
 
 
 (provide 'init-ai)
