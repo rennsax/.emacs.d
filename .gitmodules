@@ -213,8 +213,7 @@
 	url = https://github.com/emacsmirror/gcmh.git
 [submodule "packages/org-mode"]
 	path = packages/org-mode
-	url = https://git.savannah.gnu.org/git/emacs/org-mode.git
-	shallow = true
+	url = https://github.com/emacsmirror/org.git
 [submodule "packages/org-pandoc-import"]
 	path = packages/org-pandoc-import
 	url = https://github.com/tecosaur/org-pandoc-import.git
