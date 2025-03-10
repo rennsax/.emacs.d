@@ -196,7 +196,12 @@
   :config
   (setq org-latex-src-block-backend 'listings)
   (setq org-latex-packages-alist
-        '(("" "listings"))))
+        '(("" "listings")))
+  ;; Remove "capt-of" from the default package list since its use case is too
+  ;; narrow.
+  (setq org-latex-default-packages-alist
+        (cl-remove-if (lambda (cell) (string= (cadr cell) "capt-of"))
+                      org-latex-default-packages-alist)))
 
 (use-package ox-html
   :config
