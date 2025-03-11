@@ -124,9 +124,8 @@
   :commands vundo)
 
 ;; Persistent undo history across Emacs sessions.
-(celeste/prepare-package undo-fu-session)
 (use-package undo-fu-session
-  :hook (after-init . undo-fu-session-global-mode)
+  :hook ((prog-mode text-mode) . undo-fu-session-mode)
   :init
   (celeste/prepare-package undo-fu-session)
 
