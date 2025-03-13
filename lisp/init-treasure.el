@@ -327,14 +327,11 @@
     (embark-kill-buffer-and-window (current-buffer)))
   :init
 
-  (setq help-char "?")
-
   ;; When a prefix is typed, type `help-char' ("C-h").
   (setq prefix-help-command #'embark-prefix-help-command)
 
   :config
-
-  (setq embark-help-key help-char)
+  (setq embark-help-key "?")
   (setq embark-indicators
         '(embark-minimal-indicator  ; default is embark-mixed-indicator
           embark-highlight-indicator
