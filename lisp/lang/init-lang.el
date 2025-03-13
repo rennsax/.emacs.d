@@ -29,11 +29,11 @@ LANG: the language name.
 
 MODES: the target major mode.
 
+EGLOT: whether to enable eglot immediately.
+
 EGLOT-SERVER: add to `eglot-server-programs'.
 
 Buffer-local options:
-
-EGLOT: whether to enable eglot immediately.
 
 FLYCHECK: the checker to be set to `flycheck-checker', should return t on
 predicate `flycheck-valid-checker-p'. If `eglot' is given, use the
