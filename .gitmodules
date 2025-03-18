@@ -376,3 +376,6 @@
 [submodule "packages/po-mode"]
 	path = packages/po-mode
 	url = https://github.com/emacsmirror/po-mode.git
+[submodule "packages/llama"]
+	path = packages/llama
+	url = https://github.com/tarsius/llama
