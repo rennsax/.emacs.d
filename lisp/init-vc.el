@@ -49,7 +49,7 @@
 (use-package magit
   :init
   (celeste/prepare-package-2
-      (dash (magit "lisp" :info "docs")))
+      (llama (magit "lisp" :info "docs")))
 
   :commands magit-mode-quit-window
   :bind (("C-c g g" . magit)
