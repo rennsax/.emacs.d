@@ -20,7 +20,6 @@
   (setq dired-listing-switches "-alh --group-directories-first")
 
   ;; On macOS, try to use GNU ls. If not found, use the builtin `ls-lisp',
-  ;; TODO: MS Windows?
   (when sys/mac
     (if (executable-find "gls")
         (progn

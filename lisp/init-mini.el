@@ -21,7 +21,6 @@
 
   ;; Increasing or decreasing the default font size in all GUI Emacs
   ;; frames. (new feature in Emacs 29.1)
-  ;; TODO: reset with "s-0"
   (bind-keys ("s-+" . (lambda () (interactive) (global-text-scale-adjust 1)))
              ("s-_" . (lambda () (interactive) (global-text-scale-adjust -1))))
 

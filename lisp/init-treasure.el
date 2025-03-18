@@ -337,11 +337,6 @@
           embark-highlight-indicator
           embark-isearch-highlight-indicator))
 
-  ;; TODO: what does `embark--vertico-indicator' actually does? It's auto-added
-  ;; to `embark-indicators' after vertico is loaded. Related issue:
-  ;; https://github.com/oantolin/embark/issues/427
-  ; (setcar embark-indicators #'embark-minimal-indicator)
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
