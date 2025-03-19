@@ -66,6 +66,8 @@ the name of PACKAGE."
   (require package (or path (let ((s-p (symbol-name package)))
                               (file-name-concat celeste-package-dir s-p s-p)))))
 
+(make-obsolete 'celeste/require nil "2025-03-19")
+
 (defmacro celeste/use-package (package &rest plist)
   "Declare an Emacs package.
 

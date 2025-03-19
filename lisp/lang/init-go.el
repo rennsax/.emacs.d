@@ -15,7 +15,8 @@
   ;; golangci-lint: Fast linters Runner for Go. It's an integrated linter suite
   ;; for GoLang. It's recommended to install it as a single binary (not by go
   ;; install).
-  (celeste/require 'flycheck-golangci-lint)
+  (celeste/prepare-package flycheck-golangci-lint)
+  (require 'flycheck-golangci-lint)
   (flycheck-golangci-lint-setup)        ; Add `golangci-lint' to `flycheck-checkers'.
 
   (celeste/setup-lang go

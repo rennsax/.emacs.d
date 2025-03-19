@@ -23,7 +23,9 @@
 
 ;;; diminish - change or conceal the mode-line indicator for minor modes.
 
-(celeste/require 'diminish)
+(use-package diminish
+  :init (celeste/prepare-package diminish)
+  :commands (diminish diminished-modes diminish-undo))
 
 
 ;;; GNU elpa

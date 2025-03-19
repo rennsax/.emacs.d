@@ -6,7 +6,8 @@
 
 ;;; Code:
 
-(celeste/require 'exec-path-from-shell)
+(celeste/prepare-package exec-path-from-shell)
+(require 'exec-path-from-shell)
 
 (with-eval-after-load 'exec-path-from-shell
 
