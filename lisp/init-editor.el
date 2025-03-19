@@ -80,9 +80,6 @@
 
 ;;; Misc.
 
-;; rotate.el: provide convenient window layout management functions.
-(celeste/package-autoload 'rotate)
-
 ;; Smartly cleanup whitespaces on saving buffers. The package's idea is simple
 ;; but practical: if the file's whitespaces is *initially* clean (when visited),
 ;; then it will set `whitespace-cleanup-mode-only-if-initially-clean' to t, and

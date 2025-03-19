@@ -53,6 +53,11 @@ toggled down."
               ("C-?" . winner-redo)))
 
 
+;; rotate.el: provide convenient window layout management functions.
+(use-package rotate
+  :init (celeste/prepare-package rotate)
+  :commands rotate-layout)
+
 ;; Window management routines from abo-abo.
 (use-package ace-window
   :commands (ace-window
