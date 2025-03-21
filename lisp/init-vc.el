@@ -153,7 +153,7 @@
   :init
   ;; All these sort of things are dependencies of forge (incredible!)
   (celeste/prepare-package-2
-      (emacsql closql yaml treepy
+      (emacsql closql yaml treepy llama
                (ghub "lisp" :info "docs") (forge "lisp" :info "docs")))
   (unless (load "forge-autoloads" t t)
     (warn "Cannot load `forge-autoloads'. Maybe you forget to run ‘make lisp’ for forge?"))
