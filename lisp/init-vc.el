@@ -46,6 +46,10 @@
          (lambda (force) (or force (y-or-n-p "Cancel with-editor?")))))
   )
 
+(use-package vc
+  :config
+  (setq vc-git-diff-switches '("--histogram")))
+
 (use-package magit
   :init
   (celeste/prepare-package-2
@@ -201,8 +205,6 @@
     (kill-buffer diff-hl-show-hunk-buffer-name))
   )
 
-(use-package diff-hl-flydiff
-  :hook (diff-hl-mode . diff-hl-flydiff-mode))
 (use-package diff-hl-show-hunk
   :commands diff-hl-show-hunk)
 (use-package diff-hl-dired
