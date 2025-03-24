@@ -22,6 +22,12 @@
               ("C-c C-p" . gptel-beginning-of-response)
               ("C-c C-k" . gptel-abort))
   :config
+  (use-package transient
+    :config
+    ;; FIXME: find out how to fix this problem in ace-window. Transient 3b28a2f
+    ;; change the default value of `transient-hide-during-minibuffer-read',
+    ;; which then has been obsoleted by this option.
+    (setq transient-show-during-minibuffer-read t))
   (setq gptel-display-buffer-action nil)
   (setq gptel-default-mode 'org-mode)
   (add-hook 'gptel-mode-hook
@@ -41,6 +47,9 @@
         '((markdown-mode . "**Response**:\n")
           (org-mode . "*Response*:\n")
           (text-mode . "")))
+
+  (setq gptel--num-messages-to-send 0)
+  (setq gptel-expert-commands t)
 
   ;; This is necessary for using `gptel-menu' in Vterm buffer.
   (with-eval-after-load 'vterm
