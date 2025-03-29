@@ -32,6 +32,21 @@
   )
 
 
+(defun project-kill-buffer-file-relative-path ()
+  "Kill the relative path of current file."
+  (interactive)
+  (unless buffer-file-name
+    (user-error "Current buffer is not bound to any file!"))
+  (if-let* ((proj (project-current))
+            (relative-path (file-relative-name buffer-file-name (project-root proj))))
+      (progn
+        (kill-new relative-path)
+        (message relative-path))
+    (user-error "Cannot get the current project!")))
+
+(keymap-set project-prefix-map "C-w" #'project-kill-buffer-file-relative-path)
+
+
 
 (provide 'init-project)
 ;;; init-project.el ends here
