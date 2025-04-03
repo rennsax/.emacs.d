@@ -35,11 +35,6 @@
   ;; file will also ask for its master file. Just use C-g to skip.
   (setq-default TeX-master nil)
 
-  ;; Set to nil so always ask to set.
-  (setq-default TeX-engine nil)
-  (define-advice TeX-command-master (:before (&rest _) set-tex-engine)
-    (unless TeX-engine (call-interactively #'TeX-engine-set)))
-
   ;; After set, persist in local variables.
   (define-advice TeX-engine-set (:after (type) set-file-local-var)
     (if (stringp type) (setq type (intern type)))
