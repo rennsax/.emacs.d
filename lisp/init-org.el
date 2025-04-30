@@ -335,8 +335,8 @@ Also respect `org-blackfriday-syntax-highlighting-langs'."
 
   ;; Ignore DOING entries.
   (setq org-alert-match-string
-        (format "SCHEDULED>=%S+SCHEDULED<%S-todo=%S|DEADLINE>=%S+DEADLINE<%S-todo=%S"
-                "<today>" "<tomorrow>" "DOING" "<today>" "<tomorrow>" "DOING"))
+        (format "SCHEDULED>=%S+SCHEDULED<%S+todo=%S|DEADLINE>=%S+DEADLINE<%S+todo="
+                "<today>" "<tomorrow>" "TODO" "<today>" "<tomorrow>" "TODO"))
   )
 
 
