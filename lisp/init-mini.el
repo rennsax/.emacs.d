@@ -466,6 +466,10 @@ whitespace visualization, and auto-cleanup when writing files."
   :diminish
   :hook (after-init . editorconfig-mode))
 
+(use-package ediff
+  :config
+  ;; Always split windows in one frame.
+  (setq ediff-window-setup-function #'ediff-setup-windows-plain))
 
 
 (provide 'init-mini)
