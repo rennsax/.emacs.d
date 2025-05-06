@@ -65,7 +65,7 @@
 (use-package hl-todo
   :init
   (celeste/prepare-package hl-todo)
-  :hook ((prog-mode yaml-mode) . hl-todo-mode)
+  :hook ((prog-mode yaml-mode tex-mode) . hl-todo-mode)
   :defines (hl-todo-highlight-punctuation
             hl-todo-keyword-faces)
   :config
