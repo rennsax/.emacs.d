@@ -8,6 +8,10 @@
   :config
   (setq js-indent-level 2))
 
+(use-package css-mode
+  :config
+  (setq css-indent-offset 2))
+
 (use-package web-mode
   :init (celeste/prepare-package web-mode)
   :mode (("\\.html\\'" . web-mode)
