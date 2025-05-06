@@ -96,7 +96,7 @@ variables are changed."
             (setq load-path (cons default-directory load-path))
             (normal-top-level-add-subdirs-to-load-path)))
         (let ((native-lisp-dir (expand-file-name "share/emacs/native-lisp" profile)))
-          (when (file-exists-p native-lisp-dir)
+          (when (and byte-native-compiling (file-exists-p native-lisp-dir))
             (add-to-list 'native-comp-eln-load-path native-lisp-dir)))
         (let ((info-dir (expand-file-name "share/info" profile)))
           (when (file-directory-p info-dir)
