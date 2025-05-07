@@ -157,6 +157,10 @@
   )
 
 (use-package citar-capf
+  :init
+  (define-advice citar-capf-setup (:override () buffer-locally)
+    "Only add `citar-capf' buffer-locally."
+    (add-hook 'completion-at-point-functions 'citar-capf nil t))
   :hook (((org-mode LaTeX-mode) . citar-capf-setup)))
 
 (use-package citar-embark
