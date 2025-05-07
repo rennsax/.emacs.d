@@ -247,6 +247,10 @@ This should be called each time after the function definition is modified."
   (setq pulsar-pulse t
         pulsar-iterations 10)
 
+  ;; Pulse the current line after visiting a file with emacsclient.
+  ;; Extremely useful with SyncTeX.
+  (add-hook 'server-visit-hook #'pulsar-pulse-line)
+
   (setq pulsar-pulse-functions
         (append pulsar-pulse-functions
                 `(scroll-up-half scroll-down-half other-window-or-switch-buffer)
