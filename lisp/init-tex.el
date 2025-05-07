@@ -16,20 +16,50 @@
         TeX-parse-self t)
   (setq TeX-indent-open-delimiters "["
         TeX-indent-close-delimiters "]")
+  (setq TeX-save-query nil)
+
+  ;; On macOS, turn on `TeX-source-correlate-mode' (global minor mode). This is
+  ;; powered by SyncTeX and Skim PDF reader. AUCTeX will compile the document
+  ;; with `--synctex=1' option. `displayline' is a script embedded in the
+  ;; Skim.app bundle, you need to put it in `exec-path'.
+  (when sys/mac
+    (let ((v (assoc 'output-pdf TeX-view-program-selection)))
+      (setcdr v '("displayline")))
+    (TeX-source-correlate-mode +1)
+    (keymap-set TeX-source-correlate-map "s-<mouse-1>" #'TeX-view-mouse))
+
+  ;; Remove some prettify rules in case the editing is too confusing.
+  (require 'tex-mode)
+  (setq tex--prettify-symbols-alist
+        (cl-remove-if (lambda (cell) (string-match-p (rx bos (| "--" "---" "\\newline" "\\qed") eos)
+                                                (car-safe cell)))
+                      tex--prettify-symbols-alist))
   (add-hook 'LaTeX-mode-hook
             (defun +LaTeX-mode-setup ()
               ;; `$' inserts "\(\)" instead.
-              (setq-local TeX-electric-math '("\\(" . "\\)"))
-              ;; Use AUCTeX's electric feature.
-              ;; (electric-pair-local-mode -1)
-              ;; Symbols in math environment are prettified.
-              (prettify-symbols-mode +1)
+              (setq-local TeX-electric-math '("\\( " . " \\)"))
+              ;; Symbols in math environment are prettified. Disabled in style files.
+              (when (string= (file-name-extension (buffer-file-name)) "tex")
+                (prettify-symbols-mode +1))
               (auto-fill-mode +1)
+              ;; This will be used by `TeX-command-run-all', bound to "C-c C-a"
+              (setq TeX-command-default "LaTeXMk")
               (when (fboundp 'flycheck-mode)
                 (flycheck-mode +1))))
 
   (setq LaTeX-electric-left-right-brace t   ; {} () \left(\right) ...
         TeX-electric-sub-and-superscript t) ; ^{} _{}
+
+  (setq LaTeX-begin-regexp
+        (rx (| (seq (| "begin" "While" "For" "ForAll" "Loop" "Repeat" "If" "Procedure" "Function") word-boundary) ?\[))
+        LaTeX-end-regexp
+        (rx (| (seq (| "end" "EndWhile" "EndFor" "EndForAll" "EndLoop" "Until" "EndIf" "EndProcedure" "EndFunction") word-boundary) ?\]))
+        LaTeX-paragraph-commands '("State"))
+
+  ;; Let AUCTeX parse the file to extract customized macros, and make it look
+  ;; for as many macros as it can.
+  (setq TeX-parse-self t
+        TeX-auto-regexp-list TeX-auto-full-regexp-list)
 
   ;; Always ask for the master file for multi-file document structure. A new TeX
   ;; file will also ask for its master file. Just use C-g to skip.
