@@ -32,11 +32,12 @@
 
          (cjk-charset-regexp (rx-to-string cjk-charset))
          (cjk-symbol-punctuation-charset-regexp (rx-to-string cjk-symbol-punctuation-charset))
+         (all-cjk-regexp (rx-to-string `(| ,cjk-charset ,cjk-symbol-punctuation-charset)))
          ;; (others-regexp (rx-to-string others))
          )
 
     (-> contents
-        (unfill--do-join cjk-charset-regexp cjk-charset-regexp)
+        (unfill--do-join all-cjk-regexp all-cjk-regexp)
         (unfill--do-join cjk-charset-regexp "." t)
         (unfill--do-join cjk-symbol-punctuation-charset-regexp ".")
         (unfill--do-join "." "." t))))
