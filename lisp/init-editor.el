@@ -95,7 +95,7 @@
   ;; Prohibit `editorconfig' from adding `delete-trailing-whitespace' to
   ;; `write-file-functions'.
   (with-eval-after-load 'editorconfig
-    (advice-add #'editorconfig-set-trailing-ws :override #'ignore)))
+    (advice-add #'editorconfig--get-trailing-ws :override #'ignore)))
 
 ;; Simpler auto-save: just what you mean auto-save!
 (use-package wim-auto-save
