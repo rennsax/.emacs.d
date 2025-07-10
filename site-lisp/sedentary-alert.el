@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2024  Bojun Ren
 
-;; Author: Bojun Ren <bj.ren.coding@outlook.com>
-;; Maintainer: Bojun Ren <bj.ren.coding@outlook.com>
+;; Author: Bojun Ren <me.rennsax@gmail.com>
+;; Maintainer: Bojun Ren <me.rennsax@gmail.com>
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "29.1") (alert "1.2"))
 ;; Keywords: notify, notifications, health

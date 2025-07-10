@@ -17,8 +17,8 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-;; Author: Bojun Ren <bj.ren.coding@outlook.com>
-;; Maintainer: Bojun Ren <bj.ren.coding@outlook.com>
+;; Author: Bojun Ren <me.rennsax@gmail.com>
+;; Maintainer: Bojun Ren <me.rennsax@gmail.com>
 
 ;;; Commentary:
 

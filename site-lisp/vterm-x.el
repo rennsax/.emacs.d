@@ -1,6 +1,6 @@
 ;;; vterm-x.el -- Vterm extensions and tweaks -*- lexical-binding: t -*-
 
-;; Author: Bojun Ren <bj.ren.coding@outlook.com>
+;; Author: Bojun Ren <me.rennsax@gmail.com>
 ;; Package-Requires: ((emacs "29.3") (vterm "0.02"))
 ;; Version: 0.01
 
