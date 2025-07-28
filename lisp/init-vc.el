@@ -27,9 +27,6 @@
         transient-values-file  (celeste/make-path "transient/values.el" 'state)
         transient-history-file (celeste/make-path "transient/history.el" 'state))
 
-  (setq transient-default-level 5
-        ;; Always display the transient popup buffer below.
-        transient-display-buffer-action '(display-buffer-below-selected))
   (keymap-set transient-map "<escape>" #'transient-quit-one))
 
 (use-package with-editor
