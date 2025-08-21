@@ -35,6 +35,8 @@
   (setq-default markdown-hide-urls t)
   (setq-default markdown-enable-math t)
 
+  (setq markdown-gfm-additional-languages '("console"))
+
   (celeste/setup-lang markdown
     :modes (markdown-mode)
     :eglot-server ("marksman"))
