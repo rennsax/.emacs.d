@@ -19,7 +19,7 @@
   "This hook should be added to `eglot-managed-mode-hook'."
   (flycheck-eglot-mode +1)
   (remove-hook 'eglot-managed-mode-hook
-               'flycheck-eglot--enable-and-remove-self-h))
+               'flycheck-eglot--enable-and-remove-self-h 'local))
 
 (autoload 'eglot-managed-p "eglot")
 (cl-defmacro celeste/setup-lang (lang &key modes eglot-server eglot flycheck add-hook project-identify)
@@ -71,10 +71,7 @@ PROJECT-IDENTIFY: add to `project-x-local-identifier'."
                (if (eglot-managed-p)
                    (flycheck-eglot-mode +1)
                  (add-hook 'eglot-managed-mode-hook
-                           (defun flycheck-eglot--enable-and-remove-self-h ()
-                             (flycheck-eglot-mode +1)
-                             (remove-hook 'eglot-managed-mode-hook
-                                          'flycheck-eglot--enable-and-remove-self-h 'local))
+                           #'flycheck-eglot--enable-and-remove-self-h
                            nil 'local)))
               setup-sexp))
             ((or (eq flycheck 'default)
@@ -98,7 +95,7 @@ PROJECT-IDENTIFY: add to `project-x-local-identifier'."
                                    ',project-identify)))
                   result))
     (unless (seq-empty-p setup-sexp)
-      (cl-pushnew `(defun ,setup-fun ()
+      (cl-pushnew `(defun ,setup-fun () (interactive)
                      ,(format "Setup for %s." lang)
                      ,@setup-sexp)
                   result))
