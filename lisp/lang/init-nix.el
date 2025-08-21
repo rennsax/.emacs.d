@@ -9,9 +9,8 @@
     :modes (nix-mode)
     :eglot-server ("nil")
     :project-identify "flake.nix"
-    :eglot t
-    :flycheck eglot
-    :add-hook t)
+    :add-hook t
+    :flycheck eglot)
   )
 
 (provide 'init-nix)

@@ -15,6 +15,7 @@
   (celeste/setup-lang cc
     :modes (c-mode c-ts-mode c++-mode c++-ts-mode)
     :eglot-server ("ccls")
+    :add-hook t
     :flycheck eglot)
   )
 
